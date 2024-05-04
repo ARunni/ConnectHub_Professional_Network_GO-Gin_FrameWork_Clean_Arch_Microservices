@@ -6,14 +6,24 @@ import (
 )
 
 type Config struct {
-	Port          string `mapstructure:"PORT"`
-	ConnetHubAuth string `mapstructure:"Connect_Hub_Auth"`
-	ConnetHubPost string `mapstructure:"Connect_Hub_Post"`
-	ConnetHubChat string `mapstructure:"Connect_Hub_Chat"`
+	Port                string `mapstructure:"PORT"`
+	ConnetHubAuth       string `mapstructure:"Connect_Hub_Auth"`
+	ConnetHubPost       string `mapstructure:"Connect_Hub_Post"`
+	ConnetHubChat       string `mapstructure:"Connect_Hub_Chat"`
+	JobSeekerAccessKey  string `mapstructure:"Job_Seeker_AccessKey"`
+	AdminAccessKey      string `mapstructure:"Admin_AccessKey"`
+	RecruiterAccessKey  string `mapstructure:"Recruiter_AccessKey"`
+	JobSeekerRefreshKey string `mapstructure:"Job_Seeker_RefreshKey"`
+	AdminRefreshKey     string `mapstructure:"Admin_RefreshKey"`
+	RecruiterRefreshKey string `mapstructure:"Recruiter_RefreshKey"`
 }
 
 var envs = []string{
-	"PORT", "Connect_Hub_Auth", "Connect_Hub_Post", "Connect_Hub_Chat",
+	"PORT", "Connect_Hub_Auth", "Connect_Hub_Post",
+	"Connect_Hub_Chat", "Job_Seeker_AccessKey",
+	"Admin_AccessKey", "Recruiter_AccessKey",
+	"Job_Seeker_RefreshKey", "Admin_RefreshKey",
+	"Recruiter_RefreshKey",
 }
 
 func LoadConfig() (Config, error) {
