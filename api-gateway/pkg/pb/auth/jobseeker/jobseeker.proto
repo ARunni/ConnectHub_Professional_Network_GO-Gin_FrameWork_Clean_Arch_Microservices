@@ -1,6 +1,6 @@
-syntaxsyntax = "proto3";
+syntax = "proto3";
 
-package admin;
+package jobseekerauth;
 
 option go_package = "./pkg/pb/auth/jobseeker";
 

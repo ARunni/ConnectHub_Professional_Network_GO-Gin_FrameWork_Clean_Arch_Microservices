@@ -1,6 +1,6 @@
-syntaxsyntax = "proto3";
+syntax = "proto3";
 
-package Recruiter;
+package recruiterauth;
 
 option go_package = "./pkg/pb/auth/recruiter";
 
