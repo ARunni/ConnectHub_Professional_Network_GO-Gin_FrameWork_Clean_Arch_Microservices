@@ -3,6 +3,7 @@ module ConnetHub_auth
 go 1.21.5
 
 require (
+	github.com/fatih/color v1.16.0
 	github.com/go-playground/validator v9.31.0+incompatible
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/jinzhu/copier v0.4.0
@@ -15,7 +16,6 @@ require (
 )
 
 require (
-	github.com/fatih/color v1.16.0 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
