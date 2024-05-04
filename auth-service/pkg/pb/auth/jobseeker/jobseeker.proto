@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package jobseekerauth;
+
+
+option go_package = "./pkg/pb/auth/jobseeker";
+
+service JobSeeker {
+    rpc JobSeekerSignup(JobSeekerSignupRequest) returns (JobSeekerSignupResponse) {};
+    rpc JobSeekerLogin(JobSeekerLoginRequest) returns (JobSeekerLoginResponse) {};
+}
+
+message JobSeekerSignupRequest {
+    string email = 1;
+    string password = 2;
+    string first_name = 3;
+    string last_name = 4;
+    string phone_number = 5;
+    string date_of_birth = 6;
+    string gender = 7;
+}
+
+message JobSeekerSignupResponse {
+    int64 status = 1;
+    JobSeekerDetails job_seeker_details = 2;
+    string token = 3;
+}
+
+message JobSeekerDetails {
+    uint64 id = 1;
+    string email = 2;
+    string first_name = 3;
+    string last_name = 4;
+    string phone_number = 5;
+    string date_of_birth = 6;
+    string gender = 7;
+}
+
+message JobSeekerLoginRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message JobSeekerLoginResponse {
+    int64 status = 1;
+    JobSeekerDetails job_seeker_details = 2;
+    string token = 3;
+}

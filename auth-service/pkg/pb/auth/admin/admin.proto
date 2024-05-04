@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package adminauth;
+
+
+option go_package = "./pkg/pb/auth/admin";
+
+service Admin {
+    rpc AdminSignup(AdminSignupRequest) returns (AdminSignupResponse) {};
+    rpc AdminLogin(AdminLoginInRequest) returns (AdminLoginResponse) {};
+}
+
+message AdminSignupRequest {
+    string firstname = 1;
+    string lastname = 2;
+    string email = 3;
+    string password = 4;
+}
+
+message AdminSignupResponse {
+    int64 status = 1;
+    AdminDetails admin_details = 2;
+    string token = 3;
+    string error = 4;
+}
+
+message AdminDetails {
+    uint64 id = 1;
+    string firstname = 2;
+    string lastname = 3;
+    string email = 4;
+}
+
+message AdminLoginInRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message AdminLoginResponse {
+    int64 status = 1;
+    AdminDetails admin_details = 2;
+    string token = 3;
+    string error = 4;
+}
