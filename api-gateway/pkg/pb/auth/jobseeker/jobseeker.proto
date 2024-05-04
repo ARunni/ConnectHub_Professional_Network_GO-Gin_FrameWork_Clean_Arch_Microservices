@@ -1,0 +1,73 @@
+syntaxsyntax = "proto3";
+
+package admin;
+
+option go_package = "./pkg/pb/auth/jobseeker";
+
+service Jobseeker{
+    rpc JobseekerSignup(JobseekerSignupRequest) returns(JobseekerSignupResponse){};
+    rpc JobseekerLogin(JobseekerLoginInRequest) returns (JobseekerLoginResponse){};
+}
+message JobseekerSignupRequest{
+    string firstname=1;
+    string lastname=2;
+    string email=3;
+    string password=4;
+}
+
+message JobseekerSignupResponse{
+    int64 status=1;
+    AdminDetails adminDetails=2;
+    string token=3;
+    string error=4;
+}
+
+message JobseekerDetails{
+    uint64 id=1;
+    string firstname=2;
+    string lastname=3;
+    string email=4;
+}
+message JobseekerLoginInRequest{
+    string email=1;
+    string password=2;
+}
+message JobseekerLoginResponse{
+    int64 status=1;
+    AdminDetails adminDetails=2;
+    string token=3;
+    string error=4;
+}
+
+message GetUsersRequest {
+    int32 page = 1;
+}
+
+message GetUsersResponse {
+    repeated UserDetailsAtAdmin users = 1;
+}
+
+message UserDetailsAtAdmin {
+    int32 id = 1;
+    string name = 2;
+    string email = 3;
+    string phone = 4;
+    bool block_status = 5;
+}
+
+message BlockUserRequest {
+    uint64 user_id = 1;
+}
+
+message BlockUserResponse {
+    bool success = 1;
+    string error_message = 2;
+}
+message UnBlockUserRequest {
+    uint64 user_id = 1;
+}
+
+message UnBlockUserResponse {
+    bool success = 1;
+    string error_message = 2;
+}

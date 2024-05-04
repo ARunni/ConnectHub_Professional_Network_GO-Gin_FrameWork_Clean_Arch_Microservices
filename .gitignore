@@ -1,2 +1,4 @@
 # env
 api-gateway/.env
+auth-service/.env
+
