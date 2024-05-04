@@ -31,6 +31,7 @@ func (ad *AdminServer) AdminLogin(ctx context.Context, Req *pb.AdminLoginInReque
 	adminDetails := &pb.AdminDetails{
 		Id:        uint64(admin.Admin.ID),
 		Firstname: admin.Admin.Firstname,
+		Lastname:  admin.Admin.Lastname,
 		Email:     admin.Admin.Email,
 	}
 	return &pb.AdminLoginResponse{

@@ -5,6 +5,7 @@ import (
 	interfaces "ConnetHub_auth/pkg/repository/interface"
 	usecase "ConnetHub_auth/pkg/usecase/interface"
 	req "ConnetHub_auth/pkg/utils/reqAndResponse"
+	"errors"
 
 	"github.com/jinzhu/copier"
 	"golang.org/x/crypto/bcrypt"
@@ -20,9 +21,16 @@ func NewAdminUseCase(repo interfaces.AdminRepository) usecase.AdminUseCase {
 	}
 }
 
-func (ad *adminUseCase) LoginHandler(adminDetails req.AdminLogin) (req.TokenAdmin, error) {
+func (au *adminUseCase) LoginHandler(adminDetails req.AdminLogin) (req.TokenAdmin, error) {
+	ok, err := au.adminRepository.CheckAdminExistsByEmail(adminDetails.Email)
+	if err != nil {
+		return req.TokenAdmin{}, err
+	}
+	if !ok {
+		return req.TokenAdmin{}, errors.New("no admin found")
+	}
 
-	adminCompareDetails, err := ad.adminRepository.AdminLogin(adminDetails)
+	adminCompareDetails, err := au.adminRepository.AdminLogin(adminDetails)
 	if err != nil {
 		return req.TokenAdmin{}, err
 	}

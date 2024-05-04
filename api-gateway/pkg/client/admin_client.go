@@ -40,8 +40,8 @@ func (ac *adminClient) AdminLogin(admindata models.AdminLogin) (models.TokenAdmi
 		Admin: models.AdminDetailsResponse{
 			ID:        uint(admin.AdminDetails.Id),
 			Email:     admin.AdminDetails.Email,
-			Firstname: admin.AdminDetails.Firstname,
 			Lastname:  admin.AdminDetails.Lastname,
+			Firstname: admin.AdminDetails.Firstname,
 		},
 		Token: admin.Token,
 	}, nil

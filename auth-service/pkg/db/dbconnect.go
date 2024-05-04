@@ -5,6 +5,7 @@ import (
 	"ConnetHub_auth/pkg/utils/models"
 	"fmt"
 
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -30,6 +31,27 @@ func ConnectDatabase(cfg config.Config) (*gorm.DB, error) {
 	if err := db.AutoMigrate(&models.JobSeeker{}); err != nil {
 		return nil, err
 	}
-
+	CheckAndCreateAdmin(db)
 	return db, nil
+}
+
+func CheckAndCreateAdmin(db *gorm.DB) {
+	var count int64
+	db.Model(&models.Admin{}).Count(&count)
+	if count == 0 {
+		password := "admin@123"
+		hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+		if err != nil {
+			return
+		}
+		admin := models.Admin{
+			ID:        1,
+			Firstname: "ConnectHub",
+			Lastname:  "Admin",
+			Email:     "admin@connecthub.com",
+			Password:  string(hashedPassword),
+		}
+		db.Create(&admin)
+		fmt.Println("Admin Created")
+	}
 }

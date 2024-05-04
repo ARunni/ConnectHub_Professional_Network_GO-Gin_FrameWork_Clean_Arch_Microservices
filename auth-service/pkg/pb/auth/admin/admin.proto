@@ -14,7 +14,8 @@ service Admin{
 message AdminDetails{
     uint64 id=1;
     string firstname=2;
-    string email=3;
+    string lastname=3;
+    string email=4;
 }
 message AdminLoginInRequest{
     string email=1;
