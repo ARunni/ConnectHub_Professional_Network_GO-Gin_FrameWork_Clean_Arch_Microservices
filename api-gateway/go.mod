@@ -3,7 +3,7 @@ module connectHub_gateway
 go 1.21.5
 
 require (
-	github.com/ARunni/Error_Message v0.0.0-20240504072316-376d04a2799e
+	github.com/ARunni/Error_Message v0.0.0-20240507125221-61001a1fbf1f
 	github.com/gin-gonic/gin v1.9.1
 	github.com/go-playground/validator v9.31.0+incompatible
 	github.com/golang-jwt/jwt v3.2.2+incompatible

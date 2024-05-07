@@ -1,5 +1,5 @@
-github.com/ARunni/Error_Message v0.0.0-20240504072316-376d04a2799e h1:VmR/R5NaRtllyqxQnPW48fLL1FfNnQ8NAN+RmM155cU=
-github.com/ARunni/Error_Message v0.0.0-20240504072316-376d04a2799e/go.mod h1:i7I5DoJK+UEX3Qt8L48reG6DNuPdoC+FUNqGT3f+qa4=
+github.com/ARunni/Error_Message v0.0.0-20240507125221-61001a1fbf1f h1:CaxqI7iyRZgO5hDabyMY/QxNb7cVMF6Voawau1084RM=
+github.com/ARunni/Error_Message v0.0.0-20240507125221-61001a1fbf1f/go.mod h1:i7I5DoJK+UEX3Qt8L48reG6DNuPdoC+FUNqGT3f+qa4=
 github.com/bytedance/sonic v1.5.0/go.mod h1:ED5hyg4y6t3/9Ku1R6dU/4KyJ48DZ4jPhfY1O2AihPM=
 github.com/bytedance/sonic v1.9.1 h1:6iJ6NqdoxCDr6mbY8h18oSO+cShGSMRGCEo7F2h0x8s=
 github.com/bytedance/sonic v1.9.1/go.mod h1:i736AoUSYt75HyZLoJW9ERYxcy6eaN6h4BZXU064P/U=
