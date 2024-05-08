@@ -13,12 +13,13 @@ message RecruiterSignupRequest{
     string companyName=1;
     string email=2;
     string password=3;
-    string AboutCompany =4;
-    string Industry=5;
-    int64 Company_size=6;
-    string Website=7;
-    int64 phone_number=8;
-    string headquarters_address=9;
+    string confirmPassword=4;
+    string AboutCompany =5;
+    string Industry=6;
+    int64 Company_size=7;
+    string Website=8;
+    int64 phone_number=9;
+    string headquarters_address=10;
 
 }
 

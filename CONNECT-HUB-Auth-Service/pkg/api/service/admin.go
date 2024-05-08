@@ -24,7 +24,7 @@ func (ad *AdminServer) AdminLogin(ctx context.Context, Req *pb.AdminLoginInReque
 		Email:    Req.Email,
 		Password: Req.Password,
 	}
-	admin, err := ad.adminUseCase.LoginHandler(adminLogin)
+	admin, err := ad.adminUseCase.AdminLogin(adminLogin)
 	if err != nil {
 		return &pb.AdminLoginResponse{}, err
 	}

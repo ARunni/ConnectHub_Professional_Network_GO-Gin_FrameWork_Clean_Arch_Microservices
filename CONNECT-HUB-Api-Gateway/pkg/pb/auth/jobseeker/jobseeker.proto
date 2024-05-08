@@ -18,10 +18,12 @@ service Jobseeker{
 message JobSeekerSignupRequest {
     string email = 1;
     string password = 2;
-    string firstname = 3;
-    string lastname = 4;
-    string phone_number = 5;
-    string date_of_birth = 6;
+    string confirmPassword=3;
+    string firstname = 4;
+    string lastname = 5;
+    string phone_number = 6;
+    string date_of_birth = 7;
+    string gender=8;
     
 }
 
@@ -39,6 +41,7 @@ message JobSeekerDetails {
     string lastname = 4;
     string phone_number = 5;
     string date_of_birth = 6;
+    string gender=7;
    
 }
 

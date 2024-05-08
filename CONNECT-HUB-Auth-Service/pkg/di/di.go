@@ -19,7 +19,19 @@ func InitializeAPI(cfg config.Config) (*server.Server, error) {
 	adminUseCase := usecase.NewAdminUseCase(adminRepository)
 	adminServiceServer := service.NewAdminServer(adminUseCase)
 
-	grpcServer, err := server.NewGRPCServer(cfg, adminServiceServer)
+	jobseekerRepository := repository.NewJobseekerRepository(gormDB)
+	jobseekerUseCase := usecase.NewJobseekerUseCase(jobseekerRepository)
+	jobseekerServiceServer := service.NewJobSeekerServer(jobseekerUseCase)
+
+	recruiterRepository := repository.NewRecruiterRepository(gormDB)
+	recruiterUseCase := usecase.NewRecruiterUseCase(recruiterRepository)
+	recruiterServiceServer := service.NewRecruiterServer(recruiterUseCase)
+
+	grpcServer, err := server.NewGRPCServer(
+		cfg,
+		adminServiceServer,
+		recruiterServiceServer,
+		jobseekerServiceServer)
 
 	if err != nil {
 		return &server.Server{}, err
