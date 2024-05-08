@@ -16,6 +16,7 @@ type adminClient struct {
 }
 
 func NewAdminClient(cfg config.Config) interfaces.AdminClient {
+	fmt.Println("admin client")
 	grpcConnection, err := grpc.Dial(cfg.ConnetHubAuth, grpc.WithInsecure())
 
 	if err != nil {

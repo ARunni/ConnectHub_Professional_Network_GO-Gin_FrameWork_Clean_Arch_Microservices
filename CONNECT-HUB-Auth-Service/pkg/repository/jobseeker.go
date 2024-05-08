@@ -17,7 +17,7 @@ func NewJobseekerRepository(DB *gorm.DB) interfaces.JobseekerRepository {
 	}
 }
 
-func (jr *jobseekerRepository) JobseekerSignup(data req.JobSeekerSignUp) (req.JobSeekerDetailsResponse, error) {
+func (jr *jobseekerRepository) JobSeekerSignup(data req.JobSeekerSignUp) (req.JobSeekerDetailsResponse, error) {
 
 	var res req.JobSeekerDetailsResponse
 

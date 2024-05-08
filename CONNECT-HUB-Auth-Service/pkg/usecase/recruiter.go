@@ -24,16 +24,16 @@ func NewRecruiterUseCase(repo repo.RecruiterRepository) usecase.RecruiterUseCase
 func (ju *recruiterUseCase) RecruiterSignup(recruiterdata req.RecruiterSignUp) (req.TokenRecruiter, error) {
 	// Validations
 	if recruiterdata.Company_name == "" {
-		return req.TokenRecruiter{}, errors.New(msg.ErrFieldEmpty)
+		return req.TokenRecruiter{}, errors.New("company_name " + msg.ErrFieldEmpty)
 	}
 	if recruiterdata.About_company == "" {
-		return req.TokenRecruiter{}, errors.New(msg.ErrFieldEmpty)
+		return req.TokenRecruiter{}, errors.New("about_company " + msg.ErrFieldEmpty)
 	}
 	if recruiterdata.Company_size < 0 {
-		return req.TokenRecruiter{}, errors.New(msg.ErrFieldEmpty)
+		return req.TokenRecruiter{}, errors.New("company_size " + msg.ErrFieldEmpty)
 	}
 	if recruiterdata.Contact_email == "" {
-		return req.TokenRecruiter{}, errors.New(msg.ErrFieldEmpty)
+		return req.TokenRecruiter{}, errors.New("contact_email " + msg.ErrFieldEmpty)
 	}
 
 	phoneStr := strconv.Itoa(int(recruiterdata.Contact_phone_number))
@@ -43,7 +43,7 @@ func (ju *recruiterUseCase) RecruiterSignup(recruiterdata req.RecruiterSignUp) (
 	}
 
 	if recruiterdata.Password == "" {
-		return req.TokenRecruiter{}, errors.New(msg.ErrFieldEmpty)
+		return req.TokenRecruiter{}, errors.New("password " + msg.ErrFieldEmpty)
 	}
 	if recruiterdata.Password != recruiterdata.ConfirmPassword {
 		return req.TokenRecruiter{}, errors.New(msg.ErrPasswordMatch)
@@ -75,10 +75,10 @@ func (ju *recruiterUseCase) RecruiterSignup(recruiterdata req.RecruiterSignUp) (
 func (ju *recruiterUseCase) RecruiterLogin(recruiterDetails req.RecruiterLogin) (req.TokenRecruiter, error) {
 	// validation
 	if recruiterDetails.Email == "" {
-		return req.TokenRecruiter{}, errors.New(msg.ErrFieldEmpty)
+		return req.TokenRecruiter{}, errors.New("email " + msg.ErrFieldEmpty)
 	}
 	if recruiterDetails.Password == "" {
-		return req.TokenRecruiter{}, errors.New(msg.ErrFieldEmpty)
+		return req.TokenRecruiter{}, errors.New("password " + msg.ErrFieldEmpty)
 	}
 	ok, err := ju.recruiterRepository.CheckRecruiterExistsByEmail(recruiterDetails.Email)
 	if err != nil {

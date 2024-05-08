@@ -32,12 +32,12 @@ func (jh *RecruiterHandler) RecruiterSignup(c *gin.Context) {
 	recruiter, err := jh.GRPC_Client.RecruiterSignup(recruiterData)
 
 	if err != nil {
-		errResp := response.ClientResponse(http.StatusInternalServerError, "Cannot authenticate Admin", nil, err.Error())
+		errResp := response.ClientResponse(http.StatusInternalServerError, "Signup failed Recruiter", nil, err.Error())
 		c.JSON(http.StatusInternalServerError, errResp)
 		return
 	}
 
-	successResp := response.ClientResponse(http.StatusOK, "Admin Authenticated Successfully", recruiter, nil)
+	successResp := response.ClientResponse(http.StatusOK, "Recruiter Signup Successfully", recruiter, nil)
 	c.JSON(http.StatusOK, successResp)
 
 }
@@ -54,12 +54,12 @@ func (jh *RecruiterHandler) RecruiterLogin(c *gin.Context) {
 	recruiter, err := jh.GRPC_Client.RecruiterLogin(recruiterData)
 
 	if err != nil {
-		errResp := response.ClientResponse(http.StatusInternalServerError, "Cannot authenticate Admin", nil, err.Error())
+		errResp := response.ClientResponse(http.StatusInternalServerError, "Cannot authenticate Recruiter", nil, err.Error())
 		c.JSON(http.StatusInternalServerError, errResp)
 		return
 	}
 
-	successResp := response.ClientResponse(http.StatusOK, "Admin Authenticated Successfully", recruiter, nil)
+	successResp := response.ClientResponse(http.StatusOK, "Recruiter Authenticated Successfully", recruiter, nil)
 	c.JSON(http.StatusOK, successResp)
 
 }

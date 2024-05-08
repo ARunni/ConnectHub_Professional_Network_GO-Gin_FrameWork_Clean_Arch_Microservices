@@ -16,6 +16,7 @@ type jobseekerClient struct {
 }
 
 func NewJobSeekerClient(cfg config.Config) interfaces.JobSeekerClient {
+	fmt.Println("jobseeker client")
 	grpcConnection, err := grpc.Dial(cfg.ConnetHubAuth, grpc.WithInsecure())
 
 	if err != nil {
@@ -30,13 +31,14 @@ func NewJobSeekerClient(cfg config.Config) interfaces.JobSeekerClient {
 }
 
 func (jc *jobseekerClient) JobSeekerSignup(jobseekerData models.JobSeekerSignUp) (models.TokenJobSeeker, error) {
-	jobseeker, err := jc.Client.JobSeekerSignUp(context.Background(), &pb.JobSeekerSignupRequest{
+	jobseeker, err := jc.Client.JobSeekerSignup(context.Background(), &pb.JobSeekerSignupRequest{
 		Firstname:   jobseekerData.FirstName,
 		Lastname:    jobseekerData.LastName,
 		Password:    jobseekerData.Password,
 		Email:       jobseekerData.Email,
 		PhoneNumber: jobseekerData.PhoneNumber,
 		DateOfBirth: jobseekerData.DateOfBirth,
+		Gender:      jobseekerData.Gender,
 	})
 	if err != nil {
 		return models.TokenJobSeeker{}, err

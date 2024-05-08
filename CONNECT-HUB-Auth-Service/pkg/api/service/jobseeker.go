@@ -19,7 +19,7 @@ func NewJobSeekerServer(useCase interfaces.JobSeekerUseCase) pb.JobseekerServer 
 	}
 }
 
-func (js *JobSeekerServer) JobseekerSignup(ctx context.Context, Req *pb.JobSeekerSignupRequest) (*pb.JobSeekerSignupResponse, error) {
+func (js *JobSeekerServer) JobSeekerSignup(ctx context.Context, Req *pb.JobSeekerSignupRequest) (*pb.JobSeekerSignupResponse, error) {
 	jobseekerSignup := req.JobSeekerSignUp{
 		Email:           Req.Email,
 		Password:        Req.Password,
@@ -31,7 +31,7 @@ func (js *JobSeekerServer) JobseekerSignup(ctx context.Context, Req *pb.JobSeeke
 		Gender:          Req.Gender,
 	}
 
-	jobseekerData, err := js.jobseekerUsecase.JobseekerSignup(jobseekerSignup)
+	jobseekerData, err := js.jobseekerUsecase.JobSeekerSignup(jobseekerSignup)
 	if err != nil {
 		return nil, err
 	}

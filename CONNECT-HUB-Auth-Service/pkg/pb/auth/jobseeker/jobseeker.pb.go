@@ -1520,7 +1520,7 @@ var file_pkg_pb_auth_jobseeker_jobseeker_proto_rawDesc = []byte{
 	0x65, 0x72, 0x72, 0x6f, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x65, 0x72, 0x72,
 	0x6f, 0x72, 0x32, 0xf5, 0x05, 0x0a, 0x09, 0x4a, 0x6f, 0x62, 0x73, 0x65, 0x65, 0x6b, 0x65, 0x72,
 	0x12, 0x62, 0x0a, 0x0f, 0x4a, 0x6f, 0x62, 0x53, 0x65, 0x65, 0x6b, 0x65, 0x72, 0x53, 0x69, 0x67,
-	0x6e, 0x55, 0x70, 0x12, 0x25, 0x2e, 0x6a, 0x6f, 0x62, 0x73, 0x65, 0x65, 0x6b, 0x65, 0x72, 0x61,
+	0x6e, 0x75, 0x70, 0x12, 0x25, 0x2e, 0x6a, 0x6f, 0x62, 0x73, 0x65, 0x65, 0x6b, 0x65, 0x72, 0x61,
 	0x75, 0x74, 0x68, 0x2e, 0x4a, 0x6f, 0x62, 0x53, 0x65, 0x65, 0x6b, 0x65, 0x72, 0x53, 0x69, 0x67,
 	0x6e, 0x75, 0x70, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x26, 0x2e, 0x6a, 0x6f, 0x62,
 	0x73, 0x65, 0x65, 0x6b, 0x65, 0x72, 0x61, 0x75, 0x74, 0x68, 0x2e, 0x4a, 0x6f, 0x62, 0x53, 0x65,
@@ -1607,7 +1607,7 @@ var file_pkg_pb_auth_jobseeker_jobseeker_proto_depIdxs = []int32{
 	2,  // 0: jobseekerauth.JobSeekerSignupResponse.JobSeekerDetails:type_name -> jobseekerauth.JobSeekerDetails
 	2,  // 1: jobseekerauth.JobSeekerLoginResponse.JobSeekerDetails:type_name -> jobseekerauth.JobSeekerDetails
 	9,  // 2: jobseekerauth.GetProfileResponse.profile:type_name -> jobseekerauth.JobSeekerProfile
-	0,  // 3: jobseekerauth.Jobseeker.JobSeekerSignUp:input_type -> jobseekerauth.JobSeekerSignupRequest
+	0,  // 3: jobseekerauth.Jobseeker.JobSeekerSignup:input_type -> jobseekerauth.JobSeekerSignupRequest
 	3,  // 4: jobseekerauth.Jobseeker.JobSeekerLogin:input_type -> jobseekerauth.JobSeekerLoginRequest
 	5,  // 5: jobseekerauth.Jobseeker.AddProfile:input_type -> jobseekerauth.AddProfileRequest
 	7,  // 6: jobseekerauth.Jobseeker.GetProfile:input_type -> jobseekerauth.GetProfileRequest
@@ -1615,7 +1615,7 @@ var file_pkg_pb_auth_jobseeker_jobseeker_proto_depIdxs = []int32{
 	12, // 8: jobseekerauth.Jobseeker.JobSeekerOTPLogin:input_type -> jobseekerauth.JobSeekerOTPLoginRequest
 	14, // 9: jobseekerauth.Jobseeker.OtpVerification:input_type -> jobseekerauth.OtpVerificationRequest
 	16, // 10: jobseekerauth.Jobseeker.ChangePassword:input_type -> jobseekerauth.ChangePasswordRequest
-	1,  // 11: jobseekerauth.Jobseeker.JobSeekerSignUp:output_type -> jobseekerauth.JobSeekerSignupResponse
+	1,  // 11: jobseekerauth.Jobseeker.JobSeekerSignup:output_type -> jobseekerauth.JobSeekerSignupResponse
 	4,  // 12: jobseekerauth.Jobseeker.JobSeekerLogin:output_type -> jobseekerauth.JobSeekerLoginResponse
 	6,  // 13: jobseekerauth.Jobseeker.AddProfile:output_type -> jobseekerauth.AddProfileResponse
 	8,  // 14: jobseekerauth.Jobseeker.GetProfile:output_type -> jobseekerauth.GetProfileResponse

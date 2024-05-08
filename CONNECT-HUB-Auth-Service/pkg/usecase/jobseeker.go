@@ -20,26 +20,26 @@ func NewJobseekerUseCase(repo repo.JobseekerRepository) usecase.JobSeekerUseCase
 	}
 }
 
-func (ju *jobseekerUseCase) JobseekerSignup(jobseekerdata req.JobSeekerSignUp) (req.TokenJobSeeker, error) {
+func (ju *jobseekerUseCase) JobSeekerSignup(jobseekerdata req.JobSeekerSignUp) (req.TokenJobSeeker, error) {
 
 	// Validations
 	if jobseekerdata.Email == "" {
-		return req.TokenJobSeeker{}, errors.New(msg.ErrFieldEmpty)
+		return req.TokenJobSeeker{}, errors.New("email " + msg.ErrFieldEmpty)
 	}
 	if jobseekerdata.Password == "" {
-		return req.TokenJobSeeker{}, errors.New(msg.ErrFieldEmpty)
+		return req.TokenJobSeeker{}, errors.New("password " + msg.ErrFieldEmpty)
 	}
 	if jobseekerdata.FirstName == "" {
-		return req.TokenJobSeeker{}, errors.New(msg.ErrFieldEmpty)
+		return req.TokenJobSeeker{}, errors.New("first_name " + msg.ErrFieldEmpty)
 	}
 	if jobseekerdata.Gender == "" {
-		return req.TokenJobSeeker{}, errors.New(msg.ErrFieldEmpty)
+		return req.TokenJobSeeker{}, errors.New("gender " + msg.ErrFieldEmpty)
 	}
 	if jobseekerdata.PhoneNumber == "" {
-		return req.TokenJobSeeker{}, errors.New(msg.ErrFieldEmpty)
+		return req.TokenJobSeeker{}, errors.New("phone_number " + msg.ErrFieldEmpty)
 	}
 	if jobseekerdata.DateOfBirth == "" {
-		return req.TokenJobSeeker{}, errors.New(msg.ErrFieldEmpty)
+		return req.TokenJobSeeker{}, errors.New("date_of_birth " + msg.ErrFieldEmpty)
 	}
 
 	ok, err := ju.jobseekerRepository.CheckJobseekerExistsByEmail(jobseekerdata.Email)
@@ -61,7 +61,7 @@ func (ju *jobseekerUseCase) JobseekerSignup(jobseekerdata req.JobSeekerSignUp) (
 	jobseekerdata.Password = hashedPassword
 
 	// Inserting Data
-	tokenResp, err := ju.jobseekerRepository.JobseekerSignup(jobseekerdata)
+	tokenResp, err := ju.jobseekerRepository.JobSeekerSignup(jobseekerdata)
 	if err != nil {
 		return req.TokenJobSeeker{}, err
 	}
@@ -80,10 +80,10 @@ func (ju *jobseekerUseCase) JobseekerSignup(jobseekerdata req.JobSeekerSignUp) (
 func (ju *jobseekerUseCase) JobSeekerLogin(jobseekerDetails req.JobSeekerLogin) (req.TokenJobSeeker, error) {
 	//  Validation
 	if jobseekerDetails.Email == "" {
-		return req.TokenJobSeeker{}, errors.New(msg.ErrFieldEmpty)
+		return req.TokenJobSeeker{}, errors.New("email " + msg.ErrFieldEmpty)
 	}
 	if jobseekerDetails.Password == "" {
-		return req.TokenJobSeeker{}, errors.New(msg.ErrFieldEmpty)
+		return req.TokenJobSeeker{}, errors.New("password " + msg.ErrFieldEmpty)
 	}
 
 	jobseekerCompare, err := ju.jobseekerRepository.JobseekerLogin(jobseekerDetails)

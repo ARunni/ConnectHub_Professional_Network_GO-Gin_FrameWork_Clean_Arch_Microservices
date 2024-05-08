@@ -19,7 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Jobseeker_JobSeekerSignUp_FullMethodName   = "/jobseekerauth.Jobseeker/JobSeekerSignUp"
+	Jobseeker_JobSeekerSignup_FullMethodName   = "/jobseekerauth.Jobseeker/JobSeekerSignup"
 	Jobseeker_JobSeekerLogin_FullMethodName    = "/jobseekerauth.Jobseeker/JobSeekerLogin"
 	Jobseeker_AddProfile_FullMethodName        = "/jobseekerauth.Jobseeker/AddProfile"
 	Jobseeker_GetProfile_FullMethodName        = "/jobseekerauth.Jobseeker/GetProfile"
@@ -33,7 +33,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type JobseekerClient interface {
-	JobSeekerSignUp(ctx context.Context, in *JobSeekerSignupRequest, opts ...grpc.CallOption) (*JobSeekerSignupResponse, error)
+	JobSeekerSignup(ctx context.Context, in *JobSeekerSignupRequest, opts ...grpc.CallOption) (*JobSeekerSignupResponse, error)
 	JobSeekerLogin(ctx context.Context, in *JobSeekerLoginRequest, opts ...grpc.CallOption) (*JobSeekerLoginResponse, error)
 	AddProfile(ctx context.Context, in *AddProfileRequest, opts ...grpc.CallOption) (*AddProfileResponse, error)
 	GetProfile(ctx context.Context, in *GetProfileRequest, opts ...grpc.CallOption) (*GetProfileResponse, error)
@@ -51,9 +51,9 @@ func NewJobseekerClient(cc grpc.ClientConnInterface) JobseekerClient {
 	return &jobseekerClient{cc}
 }
 
-func (c *jobseekerClient) JobSeekerSignUp(ctx context.Context, in *JobSeekerSignupRequest, opts ...grpc.CallOption) (*JobSeekerSignupResponse, error) {
+func (c *jobseekerClient) JobSeekerSignup(ctx context.Context, in *JobSeekerSignupRequest, opts ...grpc.CallOption) (*JobSeekerSignupResponse, error) {
 	out := new(JobSeekerSignupResponse)
-	err := c.cc.Invoke(ctx, Jobseeker_JobSeekerSignUp_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, Jobseeker_JobSeekerSignup_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -127,7 +127,7 @@ func (c *jobseekerClient) ChangePassword(ctx context.Context, in *ChangePassword
 // All implementations must embed UnimplementedJobseekerServer
 // for forward compatibility
 type JobseekerServer interface {
-	JobSeekerSignUp(context.Context, *JobSeekerSignupRequest) (*JobSeekerSignupResponse, error)
+	JobSeekerSignup(context.Context, *JobSeekerSignupRequest) (*JobSeekerSignupResponse, error)
 	JobSeekerLogin(context.Context, *JobSeekerLoginRequest) (*JobSeekerLoginResponse, error)
 	AddProfile(context.Context, *AddProfileRequest) (*AddProfileResponse, error)
 	GetProfile(context.Context, *GetProfileRequest) (*GetProfileResponse, error)
@@ -142,8 +142,8 @@ type JobseekerServer interface {
 type UnimplementedJobseekerServer struct {
 }
 
-func (UnimplementedJobseekerServer) JobSeekerSignUp(context.Context, *JobSeekerSignupRequest) (*JobSeekerSignupResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method JobSeekerSignUp not implemented")
+func (UnimplementedJobseekerServer) JobSeekerSignup(context.Context, *JobSeekerSignupRequest) (*JobSeekerSignupResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method JobSeekerSignup not implemented")
 }
 func (UnimplementedJobseekerServer) JobSeekerLogin(context.Context, *JobSeekerLoginRequest) (*JobSeekerLoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method JobSeekerLogin not implemented")
@@ -179,20 +179,20 @@ func RegisterJobseekerServer(s grpc.ServiceRegistrar, srv JobseekerServer) {
 	s.RegisterService(&Jobseeker_ServiceDesc, srv)
 }
 
-func _Jobseeker_JobSeekerSignUp_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Jobseeker_JobSeekerSignup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(JobSeekerSignupRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(JobseekerServer).JobSeekerSignUp(ctx, in)
+		return srv.(JobseekerServer).JobSeekerSignup(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Jobseeker_JobSeekerSignUp_FullMethodName,
+		FullMethod: Jobseeker_JobSeekerSignup_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JobseekerServer).JobSeekerSignUp(ctx, req.(*JobSeekerSignupRequest))
+		return srv.(JobseekerServer).JobSeekerSignup(ctx, req.(*JobSeekerSignupRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -331,8 +331,8 @@ var Jobseeker_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*JobseekerServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "JobSeekerSignUp",
-			Handler:    _Jobseeker_JobSeekerSignUp_Handler,
+			MethodName: "JobSeekerSignup",
+			Handler:    _Jobseeker_JobSeekerSignup_Handler,
 		},
 		{
 			MethodName: "JobSeekerLogin",

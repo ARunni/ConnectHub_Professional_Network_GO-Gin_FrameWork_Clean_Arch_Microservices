@@ -5,7 +5,7 @@ package jobseekerauth;
 option go_package = "./pkg/pb/auth/jobseeker";
 
 service Jobseeker{
-    rpc JobSeekerSignUp(JobSeekerSignupRequest) returns (JobSeekerSignupResponse) {};
+    rpc JobSeekerSignup(JobSeekerSignupRequest) returns (JobSeekerSignupResponse) {};
     rpc JobSeekerLogin(JobSeekerLoginRequest) returns (JobSeekerLoginResponse) {};
     rpc AddProfile(AddProfileRequest) returns (AddProfileResponse); 
     rpc GetProfile(GetProfileRequest) returns (GetProfileResponse); 

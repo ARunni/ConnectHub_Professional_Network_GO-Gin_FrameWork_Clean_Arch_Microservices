@@ -32,12 +32,12 @@ func (jh *JobSeekerHandler) JobSeekerSignup(c *gin.Context) {
 	jobseeker, err := jh.GRPC_Client.JobSeekerSignup(jobseekerData)
 
 	if err != nil {
-		errResp := response.ClientResponse(http.StatusInternalServerError, "Cannot authenticate Admin", nil, err.Error())
+		errResp := response.ClientResponse(http.StatusInternalServerError, "Signup failed Jobseeker", nil, err.Error())
 		c.JSON(http.StatusInternalServerError, errResp)
 		return
 	}
 
-	successResp := response.ClientResponse(http.StatusOK, "Admin Authenticated Successfully", jobseeker, nil)
+	successResp := response.ClientResponse(http.StatusOK, "Jobseeker Signup Successfully", jobseeker, nil)
 	c.JSON(http.StatusOK, successResp)
 
 }
@@ -55,12 +55,12 @@ func (jh *JobSeekerHandler) JobSeekerLogin(c *gin.Context) {
 	jobseeker, err := jh.GRPC_Client.JobSeekerLogin(jobseekerData)
 
 	if err != nil {
-		errResp := response.ClientResponse(http.StatusInternalServerError, "Cannot authenticate Admin", nil, err.Error())
+		errResp := response.ClientResponse(http.StatusInternalServerError, "Cannot authenticate Jobseeker", nil, err.Error())
 		c.JSON(http.StatusInternalServerError, errResp)
 		return
 	}
 
-	successResp := response.ClientResponse(http.StatusOK, "Admin Authenticated Successfully", jobseeker, nil)
+	successResp := response.ClientResponse(http.StatusOK, "Jobseeker Authenticated Successfully", jobseeker, nil)
 	c.JSON(http.StatusOK, successResp)
 
 }
