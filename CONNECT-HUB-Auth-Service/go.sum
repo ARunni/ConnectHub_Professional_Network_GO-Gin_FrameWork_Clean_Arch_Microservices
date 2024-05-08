@@ -1,3 +1,5 @@
+github.com/ARunni/Error_Message v0.0.0-20240507125221-61001a1fbf1f h1:CaxqI7iyRZgO5hDabyMY/QxNb7cVMF6Voawau1084RM=
+github.com/ARunni/Error_Message v0.0.0-20240507125221-61001a1fbf1f/go.mod h1:i7I5DoJK+UEX3Qt8L48reG6DNuPdoC+FUNqGT3f+qa4=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc h1:U9qPSI2PIWSS1VwoXQT9A3Wy9MM3WgvqSxFWenqJduM=

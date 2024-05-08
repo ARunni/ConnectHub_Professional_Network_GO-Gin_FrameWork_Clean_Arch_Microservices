@@ -21,7 +21,7 @@ func NewAdminUseCase(repo interfaces.AdminRepository) usecase.AdminUseCase {
 	}
 }
 
-func (au *adminUseCase) LoginHandler(adminDetails req.AdminLogin) (req.TokenAdmin, error) {
+func (au *adminUseCase) AdminLogin(adminDetails req.AdminLogin) (req.TokenAdmin, error) {
 	ok, err := au.adminRepository.CheckAdminExistsByEmail(adminDetails.Email)
 	if err != nil {
 		return req.TokenAdmin{}, err

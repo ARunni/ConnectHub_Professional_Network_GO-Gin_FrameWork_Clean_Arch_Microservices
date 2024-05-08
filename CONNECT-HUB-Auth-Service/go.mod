@@ -3,6 +3,7 @@ module ConnetHub_auth
 go 1.21.5
 
 require (
+	github.com/ARunni/Error_Message v0.0.0-20240507125221-61001a1fbf1f
 	github.com/fatih/color v1.16.0
 	github.com/go-playground/validator v9.31.0+incompatible
 	github.com/golang-jwt/jwt v3.2.2+incompatible
