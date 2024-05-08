@@ -1,0 +1,85 @@
+syntax = "proto3";
+
+package recruiterauth;
+
+option go_package = "./pkg/pb/auth/recruiter";
+
+service Recruiter{
+    rpc RecruiterSignup(RecruiterSignupRequest) returns(RecruiterSignupResponse){};
+    rpc RecruiterLogin(RecruiterLoginInRequest) returns (RecruiterLoginResponse){};
+    rpc GetUsers(GetUsersRequest) returns (GetUsersResponse) {};
+}
+message RecruiterSignupRequest{
+    string companyName=1;
+    string email=2;
+    string password=3;
+    string AboutCompany =4;
+    string Industry=5;
+    int64 Company_size=6;
+    string Website=7;
+    int64 phone_number=8;
+    string headquarters_address=9;
+
+}
+
+message RecruiterSignupResponse{
+    int64 status=1;
+    RecruiterDetails RecruiterDetails=2;
+    string token=3;
+    string error=4;  
+}
+
+message RecruiterDetails{
+    uint64 id=1;
+    string companyName=2;
+    string email=3;
+    string AboutCompany =4;
+    string Industry=5;
+    int64 Company_size=6;
+    string Website=7;
+    int64 phone_number=8;
+    string headquarters_address=9;
+}
+message RecruiterLoginInRequest{
+    string email=1;
+    string password=2;
+}
+message RecruiterLoginResponse{
+    int64 status=1;
+    RecruiterDetails RecruiterDetails=2;
+    string token=3;
+    string error=4;
+}
+
+message GetUsersRequest {
+    int32 page = 1;
+}
+
+message GetUsersResponse {
+    repeated UserDetailsAtRecruiter users = 1;
+}
+
+message UserDetailsAtRecruiter {
+    int32 id = 1;
+    string name = 2;
+    string email = 3;
+    string phone = 4;
+    bool block_status = 5;
+}
+
+message BlockUserRequest {
+    uint64 user_id = 1;
+}
+
+message BlockUserResponse {
+    bool success = 1;
+    string error_message = 2;
+}
+message UnBlockUserRequest {
+    uint64 user_id = 1;
+}
+
+message UnBlockUserResponse {
+    bool success = 1;
+    string error_message = 2;
+}
