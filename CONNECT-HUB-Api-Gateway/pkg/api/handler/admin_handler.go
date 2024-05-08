@@ -18,7 +18,7 @@ func NewAdminHandler(grpc_client interfaces.AdminClient) *AdminHandler {
 		GRPC_Client: grpc_client,
 	}
 }
-func (ah *AdminHandler) LoginHandler(c *gin.Context) {
+func (ah *AdminHandler) AdminLogin(c *gin.Context) {
 	var adminData models.AdminLogin
 
 	if err := c.ShouldBindJSON(&adminData); err != nil {

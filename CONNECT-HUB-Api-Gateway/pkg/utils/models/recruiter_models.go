@@ -15,6 +15,7 @@ type RecruiterSignUp struct {
 	Contact_email        string `json:"contact_email"`
 	Contact_phone_number uint   `json:"contact_phone_number"`
 	Password             string `json:"password"`
+	ConfirmPassword      string `json:"confirm_password"`
 }
 
 type RecruiterDetailsResponse struct {
@@ -27,9 +28,10 @@ type RecruiterDetailsResponse struct {
 	About_company        string `json:"about_company"`
 	Contact_email        string `json:"contact_email"`
 	Contact_phone_number uint   `json:"contact_phone_number"`
+	Password             string `json:"password"`
 }
 
 type TokenRecruiter struct {
 	Recruiter RecruiterDetailsResponse
-	Token    string
+	Token     string
 }

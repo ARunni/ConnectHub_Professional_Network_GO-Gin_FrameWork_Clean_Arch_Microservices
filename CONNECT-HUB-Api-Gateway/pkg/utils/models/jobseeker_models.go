@@ -6,12 +6,14 @@ type JobSeekerLogin struct {
 }
 
 type JobSeekerSignUp struct {
-	Email       string `json:"email" binding:"required" validate:"required,email"`
-	Password    string `json:"password" binding:"required" validate:"min=6,max=20"`
-	FirstName   string `json:"first_name"`
-	LastName    string `json:"last_name"`
-	PhoneNumber string `json:"phone_number"`
-	DateOfBirth string `json:"date_of_birth"`
+	Email           string `json:"email" binding:"required" validate:"required,email"`
+	Password        string `json:"password" binding:"required" validate:"min=6,max=20"`
+	ConfirmPassword string `json:"confirm_password" binding:"required" validate:"min=6,max=20"`
+	FirstName       string `json:"first_name"`
+	LastName        string `json:"last_name"`
+	PhoneNumber     string `json:"phone_number"`
+	DateOfBirth     string `json:"date_of_birth"`
+	Gender          string `json:"gender"`
 }
 
 type JobSeekerDetailsResponse struct {
@@ -21,6 +23,8 @@ type JobSeekerDetailsResponse struct {
 	LastName    string `json:"last_name"`
 	PhoneNumber string `json:"phone_number"`
 	DateOfBirth string `json:"date_of_birth"`
+	Password    string `json:"password"`
+	Gender      string `json:"gender"`
 }
 
 type TokenJobSeeker struct {
