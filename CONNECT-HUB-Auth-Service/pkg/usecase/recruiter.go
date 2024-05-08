@@ -72,7 +72,37 @@ func (ju *recruiterUseCase) RecruiterSignup(recruiterdata req.RecruiterSignUp) (
 
 }
 
+func (ju *recruiterUseCase) RecruiterLogin(recruiterDetails req.RecruiterLogin) (req.TokenRecruiter, error) {
+	// validation
+	if recruiterDetails.Email == "" {
+		return req.TokenRecruiter{}, errors.New(msg.ErrFieldEmpty)
+	}
+	if recruiterDetails.Password == "" {
+		return req.TokenRecruiter{}, errors.New(msg.ErrFieldEmpty)
+	}
+	ok, err := ju.recruiterRepository.CheckRecruiterExistsByEmail(recruiterDetails.Email)
+	if err != nil {
+		return req.TokenRecruiter{}, err
+	}
+	if !ok {
+		return req.TokenRecruiter{}, errors.New(msg.ErrUserExistFalse)
+	}
+	recruiterCompare, err := ju.recruiterRepository.RecruiterLogin(recruiterDetails)
+	if err != nil {
+		return req.TokenRecruiter{}, err
+	}
 
-func (ju *recruiterUseCase) RecruiterLogin(recruiterDetails req.RecruiterLogin) (req.TokenRecruiter, error){
-	
+	// Comparing Password
+	err = helper.CompareHashAndPassword(recruiterDetails.Password, recruiterCompare.Password)
+	if err != nil {
+		return req.TokenRecruiter{}, errors.New(msg.ErrPasswordMatch)
+	}
+	access, err := helper.GenerateTokenRecruiter(recruiterCompare)
+	if err != nil {
+		return req.TokenRecruiter{}, err
+	}
+	return req.TokenRecruiter{
+		Recruiter: recruiterCompare,
+		Token:     access,
+	}, nil
 }
