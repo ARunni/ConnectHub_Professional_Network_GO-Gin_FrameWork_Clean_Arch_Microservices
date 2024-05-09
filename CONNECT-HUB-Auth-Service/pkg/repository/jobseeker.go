@@ -21,7 +21,7 @@ func (jr *jobseekerRepository) JobSeekerSignup(data req.JobSeekerSignUp) (req.Jo
 
 	var res req.JobSeekerDetailsResponse
 
-	querry := `insert into jobseekers 
+	querry := `insert into job_seekers 
 	(email,password,first_name,last_name,phone_number,date_of_birth,gender,created_at)
 	 values(?,?,?,?,?,?,?,NOW()) RETURNING id`
 	result := jr.DB.Raw(querry, data.Email, data.FirstName, data.LastName, data.PhoneNumber, data.DateOfBirth, data.Gender).Scan(&res)
@@ -34,7 +34,7 @@ func (jr *jobseekerRepository) JobSeekerSignup(data req.JobSeekerSignUp) (req.Jo
 
 func (jr *jobseekerRepository) JobseekerLogin(data req.JobSeekerLogin) (req.JobSeekerDetailsResponse, error) {
 	var res req.JobSeekerDetailsResponse
-	querry := ` select * from jobseekers where email = ?`
+	querry := ` select * from job_seekers where email = ?`
 	result := jr.DB.Raw(querry, data.Email).Scan(&res)
 	if result.Error != nil {
 		return req.JobSeekerDetailsResponse{}, result.Error
