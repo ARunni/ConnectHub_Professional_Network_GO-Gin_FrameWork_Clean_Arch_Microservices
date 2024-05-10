@@ -1,4 +1,9 @@
 # env
-api-gateway/.env
-auth-service/.env
+CONNECT-HUB-Api-Gateway/.env
+CONNECT-HUB-Auth-Service/.env
+CONNECT-HUB-Chat-Service/.env
+CONNECT-HUB-Job-Service/.env
+CONNECT-HUB-Post-Service/.env
+CONNECT-HUB-Video-Service/.env
+
 
