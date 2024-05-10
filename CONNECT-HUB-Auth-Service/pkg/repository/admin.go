@@ -35,3 +35,101 @@ func (ar *adminRepository) AdminLogin(admin req.AdminLogin) (req.AdminDetailsRes
 	}
 	return adminDetails, nil
 }
+
+func (ar *adminRepository) GetRecruiters(page int) ([]req.RecruiterDetailsAtAdmin, error) {
+
+	var recruiters []req.RecruiterDetailsAtAdmin
+
+	// pagination purpose -
+	if page == 0 {
+		page = 1
+	}
+
+	offset := (page - 1) * 2
+
+	qurry := `select * from recruiters limit ? offset ?`
+	err := ar.DB.Raw(qurry, 5, offset).Scan(&recruiters).Error
+	if err != nil {
+		return nil, err
+	}
+	return recruiters, nil
+}
+
+func (ar *adminRepository) GetJobseekers(page int) ([]req.JobseekerDetailsAtAdmin, error) {
+
+	var jobseekers []req.JobseekerDetailsAtAdmin
+
+	// pagination purpose -
+	if page == 0 {
+		page = 1
+	}
+
+	offset := (page - 1) * 2
+
+	qurry := `select * from jobseekers limit ? offset ?`
+	err := ar.DB.Raw(qurry, 5, offset).Scan(&jobseekers).Error
+	if err != nil {
+		return nil, err
+	}
+	return jobseekers, nil
+}
+
+func (ar *adminRepository) BlockRecruiter(id int) error {
+
+	qurry := `update recruiters set is_blocked = true where id = ?`
+	err := ar.DB.Raw(qurry, id).Error
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (ar *adminRepository) BlockJobseeker(id int) error {
+
+	qurry := `update jobseekers set is_blocked = true where id = ?`
+	err := ar.DB.Raw(qurry, id).Error
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (ar *adminRepository) UnBlockJobseeker(id int) error {
+
+	qurry := `update jobseekers set is_blocked = false where id = ?`
+	err := ar.DB.Raw(qurry, id).Error
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (ar *adminRepository) UnBlockRecruiter(id int) error {
+
+	qurry := `update recruiters set is_blocked = false where id = ?`
+	err := ar.DB.Raw(qurry, id).Error
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (ar *adminRepository) CheckJobseekerById(id int) (bool, error) {
+	var count int
+	qurry := `select count(*) from jobseekers where id = ?`
+	err := ar.DB.Raw(qurry, id).Scan(count).Error
+	if err != nil {
+		return false, err
+	}
+	return count > 0, nil
+}
+
+func (ar *adminRepository) CheckRecruiterById(id int) (bool, error) {
+	var count int
+	qurry := `select count(*) from recruiters where id = ?`
+	err := ar.DB.Raw(qurry, id).Scan(count).Error
+	if err != nil {
+		return false, err
+	}
+	return count > 0, nil
+}

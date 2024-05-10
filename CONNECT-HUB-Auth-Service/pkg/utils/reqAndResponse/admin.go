@@ -29,3 +29,22 @@ type AdminLoginRes struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
+
+type JobseekerDetailsAtAdmin struct {
+	Id      int    `json:"id"`
+	Name    string `json:"name"`
+	Email   string `json:"email" validate:"email"`
+	Phone   string `json:"phone"`
+	Blocked bool   `json:"blocked"`
+}
+type RecruiterDetailsAtAdmin struct {
+	Id          int    `json:"id"`
+	CompanyName string `json:"company_name"`
+	Email       string `json:"contact_mail" validate:"email"`
+	Phone       string `json:"phone"`
+	Blocked     bool   `json:"blocked"`
+}
+
+type BlockRes struct {
+	Status string `json:"status"`
+}

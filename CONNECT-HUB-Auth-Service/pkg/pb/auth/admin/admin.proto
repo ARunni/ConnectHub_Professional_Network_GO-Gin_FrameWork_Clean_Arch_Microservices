@@ -6,9 +6,12 @@ option go_package = "./pkg/pb/auth/admin";
 
 service Admin{
     rpc AdminLogin(AdminLoginInRequest) returns (AdminLoginResponse){};
-    rpc GetUsers(GetUsersRequest) returns (GetUsersResponse) {};
-    rpc BlockUser(BlockUserRequest) returns (BlockUserResponse) {};
-    rpc UnBlockUser(UnBlockUserRequest) returns (UnBlockUserResponse) {};
+    rpc GetJobseekers(GetJobseekerRequest) returns (GetJobseekerResponse) {};
+    rpc BlockJobseeker(BlockJobseekerRequest) returns (BlockJobseekerResponse) {};
+    rpc UnBlockJobseeker(UnBlockJobseekerRequest) returns (UnBlockJobseekerResponse) {};
+    rpc GetRecruiters(GetRecruiterRequest) returns (GetRecruitersResponse) {};
+    rpc BlockRecruiter(BlockRecruiterRequest) returns (BlockRecruiterResponse) {};
+    rpc UnBlockRecruiter(UnBlockRecruiterRequest) returns (UnBlockRecruiterResponse) {};
 }
 
 message AdminDetails{
@@ -28,21 +31,13 @@ message AdminLoginResponse{
     string error=4;
 }
 
-message GetUsersRequest {
+message GetJobseekerRequest {
+    int32 page = 1;
+}
+message GetRecruiterRequest {
     int32 page = 1;
 }
 
-message GetUsersResponse {
-    repeated UserDetailsAtAdmin users = 1;
-}
-
-message UserDetailsAtAdmin {
-    int32 id = 1;
-    string name = 2;
-    string email = 3;
-    string phone = 4;
-    bool block_status = 5;
-}
 
 message BlockUserRequest {
     uint64 user_id = 1;
@@ -59,4 +54,61 @@ message UnBlockUserRequest {
 message UnBlockUserResponse {
     bool success = 1;
     string error_message = 2;
+}
+
+message JobSeekerDetails {
+    uint64 id = 1;
+    string email = 2;
+    string firstname = 3;
+    string phone_number = 4;
+    bool blocked=5;
+   
+}
+
+message GetJobseekerResponse {
+   repeated JobSeekerDetails Jobseeker=1;
+}
+
+message BlockJobseekerRequest {
+    int64 jobseeker_id=1;
+}
+
+message BlockJobseekerResponse {
+    string status=1;
+}
+
+message UnBlockJobseekerRequest {
+     int64 jobseeker_id=1;
+}
+
+message UnBlockJobseekerResponse {
+    string status=1;
+}
+
+message GetRecruitersResponse {
+    repeated RecruiterDetails recruiter=1;
+}
+
+message RecruiterDetails {
+    uint64 id = 1;
+    string email = 2;
+    string company_name = 3;
+    string phone_number = 4;
+    bool blocked=5;
+}
+
+message BlockRecruiterRequest {
+    int64 GetRecruiter_id=1;
+}
+
+message BlockRecruiterResponse {
+    string status=1;
+}
+
+message UnBlockRecruiterRequest {
+    int64 GetRecruiter_id=1;
+}
+
+message UnBlockRecruiterResponse {
+     string status=1;
 }

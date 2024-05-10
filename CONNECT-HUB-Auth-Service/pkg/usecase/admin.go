@@ -7,6 +7,7 @@ import (
 	req "ConnetHub_auth/pkg/utils/reqAndResponse"
 	"errors"
 
+	msg "github.com/ARunni/Error_Message"
 	"github.com/jinzhu/copier"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -50,4 +51,108 @@ func (au *adminUseCase) AdminLogin(adminDetails req.AdminLogin) (req.TokenAdmin,
 	return req.TokenAdmin{
 		Admin: adminCompareDetails, Token: access,
 	}, nil
+}
+
+func (au *adminUseCase) GetRecruiters(page int) ([]req.RecruiterDetailsAtAdmin, error) {
+	if page == 0 {
+		return nil, errors.New(msg.ErrDataZero)
+	}
+	recruiters, err := au.adminRepository.GetRecruiters(page)
+	if err != nil {
+		return nil, err
+	}
+	return recruiters, nil
+
+}
+func (au *adminUseCase) GetJobseekers(page int) ([]req.JobseekerDetailsAtAdmin, error) {
+	if page <= 0 {
+		return nil, errors.New(msg.ErrDataZero)
+	}
+	jobseeker, err := au.adminRepository.GetJobseekers(page)
+	if err != nil {
+		return nil, err
+	}
+	return jobseeker, nil
+
+}
+
+func (au *adminUseCase) BlockRecruiter(id int) (req.BlockRes, error) {
+	if id <= 0 {
+		return req.BlockRes{}, errors.New(msg.ErrDataZero)
+	}
+	ok, err := au.adminRepository.CheckRecruiterById(id)
+	if err != nil {
+		return req.BlockRes{}, err
+	}
+	if !ok {
+		return req.BlockRes{}, errors.New(msg.ErrIdExist)
+	}
+
+	err = au.adminRepository.BlockRecruiter(id)
+
+	if err != nil {
+		return req.BlockRes{}, err
+	}
+	return req.BlockRes{Status: "Success"}, nil
+
+}
+
+func (au *adminUseCase) BlockJobseeker(id int) (req.BlockRes, error) {
+	if id <= 0 {
+		return req.BlockRes{}, errors.New(msg.ErrDataZero)
+	}
+	ok, err := au.adminRepository.CheckJobseekerById(id)
+	if err != nil {
+		return req.BlockRes{}, err
+	}
+	if !ok {
+		return req.BlockRes{}, errors.New(msg.ErrIdExist)
+	}
+
+	err = au.adminRepository.BlockJobseeker(id)
+	if err != nil {
+		return req.BlockRes{}, err
+	}
+	return req.BlockRes{Status: "Success"}, nil
+
+}
+
+func (au *adminUseCase) UnBlockRecruiter(id int) (req.BlockRes, error) {
+	if id <= 0 {
+		return req.BlockRes{}, errors.New(msg.ErrDataZero)
+	}
+	ok, err := au.adminRepository.CheckRecruiterById(id)
+	if err != nil {
+		return req.BlockRes{}, err
+	}
+	if !ok {
+		return req.BlockRes{}, errors.New(msg.ErrIdExist)
+	}
+
+	err = au.adminRepository.UnBlockRecruiter(id)
+	if err != nil {
+		return req.BlockRes{}, err
+	}
+	return req.BlockRes{Status: "Success"}, nil
+
+}
+
+func (au *adminUseCase) UnBlockJobseeker(id int) (req.BlockRes, error) {
+	if id <= 0 {
+		return req.BlockRes{}, errors.New(msg.ErrDataZero)
+	}
+	ok, err := au.adminRepository.CheckJobseekerById(id)
+	if err != nil {
+		return req.BlockRes{}, err
+	}
+	if !ok {
+		return req.BlockRes{}, errors.New(msg.ErrIdExist)
+	}
+
+	err = au.adminRepository.UnBlockJobseeker(id)
+	if err != nil {
+		return req.BlockRes{}, err
+	}
+	return req.BlockRes{Status: "Success"}, nil
+
 }

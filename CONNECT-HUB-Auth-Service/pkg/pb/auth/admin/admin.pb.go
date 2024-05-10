@@ -217,7 +217,7 @@ func (x *AdminLoginResponse) GetError() string {
 	return ""
 }
 
-type GetUsersRequest struct {
+type GetJobseekerRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -225,8 +225,8 @@ type GetUsersRequest struct {
 	Page int32 `protobuf:"varint,1,opt,name=page,proto3" json:"page,omitempty"`
 }
 
-func (x *GetUsersRequest) Reset() {
-	*x = GetUsersRequest{}
+func (x *GetJobseekerRequest) Reset() {
+	*x = GetJobseekerRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -234,13 +234,13 @@ func (x *GetUsersRequest) Reset() {
 	}
 }
 
-func (x *GetUsersRequest) String() string {
+func (x *GetJobseekerRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetUsersRequest) ProtoMessage() {}
+func (*GetJobseekerRequest) ProtoMessage() {}
 
-func (x *GetUsersRequest) ProtoReflect() protoreflect.Message {
+func (x *GetJobseekerRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -252,28 +252,28 @@ func (x *GetUsersRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetUsersRequest.ProtoReflect.Descriptor instead.
-func (*GetUsersRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetJobseekerRequest.ProtoReflect.Descriptor instead.
+func (*GetJobseekerRequest) Descriptor() ([]byte, []int) {
 	return file_pkg_pb_auth_admin_admin_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *GetUsersRequest) GetPage() int32 {
+func (x *GetJobseekerRequest) GetPage() int32 {
 	if x != nil {
 		return x.Page
 	}
 	return 0
 }
 
-type GetUsersResponse struct {
+type GetRecruiterRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Users []*UserDetailsAtAdmin `protobuf:"bytes,1,rep,name=users,proto3" json:"users,omitempty"`
+	Page int32 `protobuf:"varint,1,opt,name=page,proto3" json:"page,omitempty"`
 }
 
-func (x *GetUsersResponse) Reset() {
-	*x = GetUsersResponse{}
+func (x *GetRecruiterRequest) Reset() {
+	*x = GetRecruiterRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -281,13 +281,13 @@ func (x *GetUsersResponse) Reset() {
 	}
 }
 
-func (x *GetUsersResponse) String() string {
+func (x *GetRecruiterRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetUsersResponse) ProtoMessage() {}
+func (*GetRecruiterRequest) ProtoMessage() {}
 
-func (x *GetUsersResponse) ProtoReflect() protoreflect.Message {
+func (x *GetRecruiterRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -299,95 +299,16 @@ func (x *GetUsersResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetUsersResponse.ProtoReflect.Descriptor instead.
-func (*GetUsersResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetRecruiterRequest.ProtoReflect.Descriptor instead.
+func (*GetRecruiterRequest) Descriptor() ([]byte, []int) {
 	return file_pkg_pb_auth_admin_admin_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *GetUsersResponse) GetUsers() []*UserDetailsAtAdmin {
+func (x *GetRecruiterRequest) GetPage() int32 {
 	if x != nil {
-		return x.Users
-	}
-	return nil
-}
-
-type UserDetailsAtAdmin struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Id          int32  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name        string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Email       string `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
-	Phone       string `protobuf:"bytes,4,opt,name=phone,proto3" json:"phone,omitempty"`
-	BlockStatus bool   `protobuf:"varint,5,opt,name=block_status,json=blockStatus,proto3" json:"block_status,omitempty"`
-}
-
-func (x *UserDetailsAtAdmin) Reset() {
-	*x = UserDetailsAtAdmin{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[5]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *UserDetailsAtAdmin) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UserDetailsAtAdmin) ProtoMessage() {}
-
-func (x *UserDetailsAtAdmin) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[5]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UserDetailsAtAdmin.ProtoReflect.Descriptor instead.
-func (*UserDetailsAtAdmin) Descriptor() ([]byte, []int) {
-	return file_pkg_pb_auth_admin_admin_proto_rawDescGZIP(), []int{5}
-}
-
-func (x *UserDetailsAtAdmin) GetId() int32 {
-	if x != nil {
-		return x.Id
+		return x.Page
 	}
 	return 0
-}
-
-func (x *UserDetailsAtAdmin) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *UserDetailsAtAdmin) GetEmail() string {
-	if x != nil {
-		return x.Email
-	}
-	return ""
-}
-
-func (x *UserDetailsAtAdmin) GetPhone() string {
-	if x != nil {
-		return x.Phone
-	}
-	return ""
-}
-
-func (x *UserDetailsAtAdmin) GetBlockStatus() bool {
-	if x != nil {
-		return x.BlockStatus
-	}
-	return false
 }
 
 type BlockUserRequest struct {
@@ -401,7 +322,7 @@ type BlockUserRequest struct {
 func (x *BlockUserRequest) Reset() {
 	*x = BlockUserRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[6]
+		mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -414,7 +335,7 @@ func (x *BlockUserRequest) String() string {
 func (*BlockUserRequest) ProtoMessage() {}
 
 func (x *BlockUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[6]
+	mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -427,7 +348,7 @@ func (x *BlockUserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BlockUserRequest.ProtoReflect.Descriptor instead.
 func (*BlockUserRequest) Descriptor() ([]byte, []int) {
-	return file_pkg_pb_auth_admin_admin_proto_rawDescGZIP(), []int{6}
+	return file_pkg_pb_auth_admin_admin_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *BlockUserRequest) GetUserId() uint64 {
@@ -449,7 +370,7 @@ type BlockUserResponse struct {
 func (x *BlockUserResponse) Reset() {
 	*x = BlockUserResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[7]
+		mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -462,7 +383,7 @@ func (x *BlockUserResponse) String() string {
 func (*BlockUserResponse) ProtoMessage() {}
 
 func (x *BlockUserResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[7]
+	mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -475,7 +396,7 @@ func (x *BlockUserResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BlockUserResponse.ProtoReflect.Descriptor instead.
 func (*BlockUserResponse) Descriptor() ([]byte, []int) {
-	return file_pkg_pb_auth_admin_admin_proto_rawDescGZIP(), []int{7}
+	return file_pkg_pb_auth_admin_admin_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *BlockUserResponse) GetSuccess() bool {
@@ -503,7 +424,7 @@ type UnBlockUserRequest struct {
 func (x *UnBlockUserRequest) Reset() {
 	*x = UnBlockUserRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[8]
+		mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -516,7 +437,7 @@ func (x *UnBlockUserRequest) String() string {
 func (*UnBlockUserRequest) ProtoMessage() {}
 
 func (x *UnBlockUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[8]
+	mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -529,7 +450,7 @@ func (x *UnBlockUserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UnBlockUserRequest.ProtoReflect.Descriptor instead.
 func (*UnBlockUserRequest) Descriptor() ([]byte, []int) {
-	return file_pkg_pb_auth_admin_admin_proto_rawDescGZIP(), []int{8}
+	return file_pkg_pb_auth_admin_admin_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *UnBlockUserRequest) GetUserId() uint64 {
@@ -551,7 +472,7 @@ type UnBlockUserResponse struct {
 func (x *UnBlockUserResponse) Reset() {
 	*x = UnBlockUserResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[9]
+		mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -564,7 +485,7 @@ func (x *UnBlockUserResponse) String() string {
 func (*UnBlockUserResponse) ProtoMessage() {}
 
 func (x *UnBlockUserResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[9]
+	mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -577,7 +498,7 @@ func (x *UnBlockUserResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UnBlockUserResponse.ProtoReflect.Descriptor instead.
 func (*UnBlockUserResponse) Descriptor() ([]byte, []int) {
-	return file_pkg_pb_auth_admin_admin_proto_rawDescGZIP(), []int{9}
+	return file_pkg_pb_auth_admin_admin_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *UnBlockUserResponse) GetSuccess() bool {
@@ -590,6 +511,634 @@ func (x *UnBlockUserResponse) GetSuccess() bool {
 func (x *UnBlockUserResponse) GetErrorMessage() string {
 	if x != nil {
 		return x.ErrorMessage
+	}
+	return ""
+}
+
+type JobSeekerDetails struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id          uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Email       string `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
+	Firstname   string `protobuf:"bytes,3,opt,name=firstname,proto3" json:"firstname,omitempty"`
+	PhoneNumber string `protobuf:"bytes,4,opt,name=phone_number,json=phoneNumber,proto3" json:"phone_number,omitempty"`
+	Blocked     bool   `protobuf:"varint,5,opt,name=blocked,proto3" json:"blocked,omitempty"`
+}
+
+func (x *JobSeekerDetails) Reset() {
+	*x = JobSeekerDetails{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *JobSeekerDetails) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*JobSeekerDetails) ProtoMessage() {}
+
+func (x *JobSeekerDetails) ProtoReflect() protoreflect.Message {
+	mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use JobSeekerDetails.ProtoReflect.Descriptor instead.
+func (*JobSeekerDetails) Descriptor() ([]byte, []int) {
+	return file_pkg_pb_auth_admin_admin_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *JobSeekerDetails) GetId() uint64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *JobSeekerDetails) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *JobSeekerDetails) GetFirstname() string {
+	if x != nil {
+		return x.Firstname
+	}
+	return ""
+}
+
+func (x *JobSeekerDetails) GetPhoneNumber() string {
+	if x != nil {
+		return x.PhoneNumber
+	}
+	return ""
+}
+
+func (x *JobSeekerDetails) GetBlocked() bool {
+	if x != nil {
+		return x.Blocked
+	}
+	return false
+}
+
+type GetJobseekerResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Jobseeker []*JobSeekerDetails `protobuf:"bytes,1,rep,name=Jobseeker,proto3" json:"Jobseeker,omitempty"`
+}
+
+func (x *GetJobseekerResponse) Reset() {
+	*x = GetJobseekerResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetJobseekerResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetJobseekerResponse) ProtoMessage() {}
+
+func (x *GetJobseekerResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[10]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetJobseekerResponse.ProtoReflect.Descriptor instead.
+func (*GetJobseekerResponse) Descriptor() ([]byte, []int) {
+	return file_pkg_pb_auth_admin_admin_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *GetJobseekerResponse) GetJobseeker() []*JobSeekerDetails {
+	if x != nil {
+		return x.Jobseeker
+	}
+	return nil
+}
+
+type BlockJobseekerRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	JobseekerId int64 `protobuf:"varint,1,opt,name=jobseeker_id,json=jobseekerId,proto3" json:"jobseeker_id,omitempty"`
+}
+
+func (x *BlockJobseekerRequest) Reset() {
+	*x = BlockJobseekerRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *BlockJobseekerRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BlockJobseekerRequest) ProtoMessage() {}
+
+func (x *BlockJobseekerRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[11]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BlockJobseekerRequest.ProtoReflect.Descriptor instead.
+func (*BlockJobseekerRequest) Descriptor() ([]byte, []int) {
+	return file_pkg_pb_auth_admin_admin_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *BlockJobseekerRequest) GetJobseekerId() int64 {
+	if x != nil {
+		return x.JobseekerId
+	}
+	return 0
+}
+
+type BlockJobseekerResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Status string `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
+}
+
+func (x *BlockJobseekerResponse) Reset() {
+	*x = BlockJobseekerResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *BlockJobseekerResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BlockJobseekerResponse) ProtoMessage() {}
+
+func (x *BlockJobseekerResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[12]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BlockJobseekerResponse.ProtoReflect.Descriptor instead.
+func (*BlockJobseekerResponse) Descriptor() ([]byte, []int) {
+	return file_pkg_pb_auth_admin_admin_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *BlockJobseekerResponse) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+type UnBlockJobseekerRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	JobseekerId int64 `protobuf:"varint,1,opt,name=jobseeker_id,json=jobseekerId,proto3" json:"jobseeker_id,omitempty"`
+}
+
+func (x *UnBlockJobseekerRequest) Reset() {
+	*x = UnBlockJobseekerRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UnBlockJobseekerRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UnBlockJobseekerRequest) ProtoMessage() {}
+
+func (x *UnBlockJobseekerRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UnBlockJobseekerRequest.ProtoReflect.Descriptor instead.
+func (*UnBlockJobseekerRequest) Descriptor() ([]byte, []int) {
+	return file_pkg_pb_auth_admin_admin_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *UnBlockJobseekerRequest) GetJobseekerId() int64 {
+	if x != nil {
+		return x.JobseekerId
+	}
+	return 0
+}
+
+type UnBlockJobseekerResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Status string `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
+}
+
+func (x *UnBlockJobseekerResponse) Reset() {
+	*x = UnBlockJobseekerResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UnBlockJobseekerResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UnBlockJobseekerResponse) ProtoMessage() {}
+
+func (x *UnBlockJobseekerResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[14]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UnBlockJobseekerResponse.ProtoReflect.Descriptor instead.
+func (*UnBlockJobseekerResponse) Descriptor() ([]byte, []int) {
+	return file_pkg_pb_auth_admin_admin_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *UnBlockJobseekerResponse) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+type GetRecruitersResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Recruiter []*RecruiterDetails `protobuf:"bytes,1,rep,name=recruiter,proto3" json:"recruiter,omitempty"`
+}
+
+func (x *GetRecruitersResponse) Reset() {
+	*x = GetRecruitersResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[15]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetRecruitersResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetRecruitersResponse) ProtoMessage() {}
+
+func (x *GetRecruitersResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[15]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetRecruitersResponse.ProtoReflect.Descriptor instead.
+func (*GetRecruitersResponse) Descriptor() ([]byte, []int) {
+	return file_pkg_pb_auth_admin_admin_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *GetRecruitersResponse) GetRecruiter() []*RecruiterDetails {
+	if x != nil {
+		return x.Recruiter
+	}
+	return nil
+}
+
+type RecruiterDetails struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id          uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Email       string `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
+	CompanyName string `protobuf:"bytes,3,opt,name=company_name,json=companyName,proto3" json:"company_name,omitempty"`
+	PhoneNumber string `protobuf:"bytes,4,opt,name=phone_number,json=phoneNumber,proto3" json:"phone_number,omitempty"`
+	Blocked     bool   `protobuf:"varint,5,opt,name=blocked,proto3" json:"blocked,omitempty"`
+}
+
+func (x *RecruiterDetails) Reset() {
+	*x = RecruiterDetails{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[16]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RecruiterDetails) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RecruiterDetails) ProtoMessage() {}
+
+func (x *RecruiterDetails) ProtoReflect() protoreflect.Message {
+	mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[16]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RecruiterDetails.ProtoReflect.Descriptor instead.
+func (*RecruiterDetails) Descriptor() ([]byte, []int) {
+	return file_pkg_pb_auth_admin_admin_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *RecruiterDetails) GetId() uint64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *RecruiterDetails) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *RecruiterDetails) GetCompanyName() string {
+	if x != nil {
+		return x.CompanyName
+	}
+	return ""
+}
+
+func (x *RecruiterDetails) GetPhoneNumber() string {
+	if x != nil {
+		return x.PhoneNumber
+	}
+	return ""
+}
+
+func (x *RecruiterDetails) GetBlocked() bool {
+	if x != nil {
+		return x.Blocked
+	}
+	return false
+}
+
+type BlockRecruiterRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	GetRecruiterId int64 `protobuf:"varint,1,opt,name=GetRecruiter_id,json=GetRecruiterId,proto3" json:"GetRecruiter_id,omitempty"`
+}
+
+func (x *BlockRecruiterRequest) Reset() {
+	*x = BlockRecruiterRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[17]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *BlockRecruiterRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BlockRecruiterRequest) ProtoMessage() {}
+
+func (x *BlockRecruiterRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[17]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BlockRecruiterRequest.ProtoReflect.Descriptor instead.
+func (*BlockRecruiterRequest) Descriptor() ([]byte, []int) {
+	return file_pkg_pb_auth_admin_admin_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *BlockRecruiterRequest) GetGetRecruiterId() int64 {
+	if x != nil {
+		return x.GetRecruiterId
+	}
+	return 0
+}
+
+type BlockRecruiterResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Status string `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
+}
+
+func (x *BlockRecruiterResponse) Reset() {
+	*x = BlockRecruiterResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[18]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *BlockRecruiterResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BlockRecruiterResponse) ProtoMessage() {}
+
+func (x *BlockRecruiterResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[18]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BlockRecruiterResponse.ProtoReflect.Descriptor instead.
+func (*BlockRecruiterResponse) Descriptor() ([]byte, []int) {
+	return file_pkg_pb_auth_admin_admin_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *BlockRecruiterResponse) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+type UnBlockRecruiterRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	GetRecruiterId int64 `protobuf:"varint,1,opt,name=GetRecruiter_id,json=GetRecruiterId,proto3" json:"GetRecruiter_id,omitempty"`
+}
+
+func (x *UnBlockRecruiterRequest) Reset() {
+	*x = UnBlockRecruiterRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[19]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UnBlockRecruiterRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UnBlockRecruiterRequest) ProtoMessage() {}
+
+func (x *UnBlockRecruiterRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[19]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UnBlockRecruiterRequest.ProtoReflect.Descriptor instead.
+func (*UnBlockRecruiterRequest) Descriptor() ([]byte, []int) {
+	return file_pkg_pb_auth_admin_admin_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *UnBlockRecruiterRequest) GetGetRecruiterId() int64 {
+	if x != nil {
+		return x.GetRecruiterId
+	}
+	return 0
+}
+
+type UnBlockRecruiterResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Status string `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
+}
+
+func (x *UnBlockRecruiterResponse) Reset() {
+	*x = UnBlockRecruiterResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[20]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UnBlockRecruiterResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UnBlockRecruiterResponse) ProtoMessage() {}
+
+func (x *UnBlockRecruiterResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_pkg_pb_auth_admin_admin_proto_msgTypes[20]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UnBlockRecruiterResponse.ProtoReflect.Descriptor instead.
+func (*UnBlockRecruiterResponse) Descriptor() ([]byte, []int) {
+	return file_pkg_pb_auth_admin_admin_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *UnBlockRecruiterResponse) GetStatus() string {
+	if x != nil {
+		return x.Status
 	}
 	return ""
 }
@@ -620,61 +1169,128 @@ var file_pkg_pb_auth_admin_admin_proto_rawDesc = []byte{
 	0x73, 0x52, 0x0c, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x12,
 	0x14, 0x0a, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05,
 	0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x14, 0x0a, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x18, 0x04,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x22, 0x25, 0x0a, 0x0f, 0x47,
-	0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x12,
-	0x0a, 0x04, 0x70, 0x61, 0x67, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x70, 0x61,
-	0x67, 0x65, 0x22, 0x47, 0x0a, 0x10, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x73, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x33, 0x0a, 0x05, 0x75, 0x73, 0x65, 0x72, 0x73, 0x18,
-	0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1d, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x61, 0x75, 0x74,
-	0x68, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x41, 0x74, 0x41,
-	0x64, 0x6d, 0x69, 0x6e, 0x52, 0x05, 0x75, 0x73, 0x65, 0x72, 0x73, 0x22, 0x87, 0x01, 0x0a, 0x12,
-	0x55, 0x73, 0x65, 0x72, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x41, 0x74, 0x41, 0x64, 0x6d,
-	0x69, 0x6e, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x02,
-	0x69, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x18,
-	0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x12, 0x14, 0x0a, 0x05,
-	0x70, 0x68, 0x6f, 0x6e, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x70, 0x68, 0x6f,
-	0x6e, 0x65, 0x12, 0x21, 0x0a, 0x0c, 0x62, 0x6c, 0x6f, 0x63, 0x6b, 0x5f, 0x73, 0x74, 0x61, 0x74,
-	0x75, 0x73, 0x18, 0x05, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0b, 0x62, 0x6c, 0x6f, 0x63, 0x6b, 0x53,
-	0x74, 0x61, 0x74, 0x75, 0x73, 0x22, 0x2b, 0x0a, 0x10, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x55, 0x73,
-	0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x17, 0x0a, 0x07, 0x75, 0x73, 0x65,
-	0x72, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x06, 0x75, 0x73, 0x65, 0x72,
-	0x49, 0x64, 0x22, 0x52, 0x0a, 0x11, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x55, 0x73, 0x65, 0x72, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65,
-	0x73, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73,
-	0x73, 0x12, 0x23, 0x0a, 0x0d, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x5f, 0x6d, 0x65, 0x73, 0x73, 0x61,
-	0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0c, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x4d,
-	0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x22, 0x2d, 0x0a, 0x12, 0x55, 0x6e, 0x42, 0x6c, 0x6f, 0x63,
-	0x6b, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x17, 0x0a, 0x07,
-	0x75, 0x73, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x06, 0x75,
-	0x73, 0x65, 0x72, 0x49, 0x64, 0x22, 0x54, 0x0a, 0x13, 0x55, 0x6e, 0x42, 0x6c, 0x6f, 0x63, 0x6b,
-	0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x18, 0x0a, 0x07,
-	0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x07, 0x73,
-	0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x12, 0x23, 0x0a, 0x0d, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x5f,
-	0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0c, 0x65,
-	0x72, 0x72, 0x6f, 0x72, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x32, 0xb7, 0x02, 0x0a, 0x05,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x22, 0x29, 0x0a, 0x13, 0x47,
+	0x65, 0x74, 0x4a, 0x6f, 0x62, 0x73, 0x65, 0x65, 0x6b, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x70, 0x61, 0x67, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05,
+	0x52, 0x04, 0x70, 0x61, 0x67, 0x65, 0x22, 0x29, 0x0a, 0x13, 0x47, 0x65, 0x74, 0x52, 0x65, 0x63,
+	0x72, 0x75, 0x69, 0x74, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x12, 0x0a,
+	0x04, 0x70, 0x61, 0x67, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x70, 0x61, 0x67,
+	0x65, 0x22, 0x2b, 0x0a, 0x10, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x17, 0x0a, 0x07, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x69, 0x64,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x22, 0x52,
+	0x0a, 0x11, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x08, 0x52, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x12, 0x23, 0x0a,
+	0x0d, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x5f, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x0c, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x4d, 0x65, 0x73, 0x73, 0x61,
+	0x67, 0x65, 0x22, 0x2d, 0x0a, 0x12, 0x55, 0x6e, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x55, 0x73, 0x65,
+	0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x17, 0x0a, 0x07, 0x75, 0x73, 0x65, 0x72,
+	0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49,
+	0x64, 0x22, 0x54, 0x0a, 0x13, 0x55, 0x6e, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x55, 0x73, 0x65, 0x72,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x75, 0x63, 0x63,
+	0x65, 0x73, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65,
+	0x73, 0x73, 0x12, 0x23, 0x0a, 0x0d, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x5f, 0x6d, 0x65, 0x73, 0x73,
+	0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0c, 0x65, 0x72, 0x72, 0x6f, 0x72,
+	0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x22, 0x93, 0x01, 0x0a, 0x10, 0x4a, 0x6f, 0x62, 0x53,
+	0x65, 0x65, 0x6b, 0x65, 0x72, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x12, 0x0e, 0x0a, 0x02,
+	0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x02, 0x69, 0x64, 0x12, 0x14, 0x0a, 0x05,
+	0x65, 0x6d, 0x61, 0x69, 0x6c, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x65, 0x6d, 0x61,
+	0x69, 0x6c, 0x12, 0x1c, 0x0a, 0x09, 0x66, 0x69, 0x72, 0x73, 0x74, 0x6e, 0x61, 0x6d, 0x65, 0x18,
+	0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x66, 0x69, 0x72, 0x73, 0x74, 0x6e, 0x61, 0x6d, 0x65,
+	0x12, 0x21, 0x0a, 0x0c, 0x70, 0x68, 0x6f, 0x6e, 0x65, 0x5f, 0x6e, 0x75, 0x6d, 0x62, 0x65, 0x72,
+	0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x70, 0x68, 0x6f, 0x6e, 0x65, 0x4e, 0x75, 0x6d,
+	0x62, 0x65, 0x72, 0x12, 0x18, 0x0a, 0x07, 0x62, 0x6c, 0x6f, 0x63, 0x6b, 0x65, 0x64, 0x18, 0x05,
+	0x20, 0x01, 0x28, 0x08, 0x52, 0x07, 0x62, 0x6c, 0x6f, 0x63, 0x6b, 0x65, 0x64, 0x22, 0x51, 0x0a,
+	0x14, 0x47, 0x65, 0x74, 0x4a, 0x6f, 0x62, 0x73, 0x65, 0x65, 0x6b, 0x65, 0x72, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x39, 0x0a, 0x09, 0x4a, 0x6f, 0x62, 0x73, 0x65, 0x65, 0x6b,
+	0x65, 0x72, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1b, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e,
+	0x61, 0x75, 0x74, 0x68, 0x2e, 0x4a, 0x6f, 0x62, 0x53, 0x65, 0x65, 0x6b, 0x65, 0x72, 0x44, 0x65,
+	0x74, 0x61, 0x69, 0x6c, 0x73, 0x52, 0x09, 0x4a, 0x6f, 0x62, 0x73, 0x65, 0x65, 0x6b, 0x65, 0x72,
+	0x22, 0x3a, 0x0a, 0x15, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x4a, 0x6f, 0x62, 0x73, 0x65, 0x65, 0x6b,
+	0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x21, 0x0a, 0x0c, 0x6a, 0x6f, 0x62,
+	0x73, 0x65, 0x65, 0x6b, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52,
+	0x0b, 0x6a, 0x6f, 0x62, 0x73, 0x65, 0x65, 0x6b, 0x65, 0x72, 0x49, 0x64, 0x22, 0x30, 0x0a, 0x16,
+	0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x4a, 0x6f, 0x62, 0x73, 0x65, 0x65, 0x6b, 0x65, 0x72, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x22, 0x3c,
+	0x0a, 0x17, 0x55, 0x6e, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x4a, 0x6f, 0x62, 0x73, 0x65, 0x65, 0x6b,
+	0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x21, 0x0a, 0x0c, 0x6a, 0x6f, 0x62,
+	0x73, 0x65, 0x65, 0x6b, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52,
+	0x0b, 0x6a, 0x6f, 0x62, 0x73, 0x65, 0x65, 0x6b, 0x65, 0x72, 0x49, 0x64, 0x22, 0x32, 0x0a, 0x18,
+	0x55, 0x6e, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x4a, 0x6f, 0x62, 0x73, 0x65, 0x65, 0x6b, 0x65, 0x72,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74,
+	0x75, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73,
+	0x22, 0x52, 0x0a, 0x15, 0x47, 0x65, 0x74, 0x52, 0x65, 0x63, 0x72, 0x75, 0x69, 0x74, 0x65, 0x72,
+	0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x39, 0x0a, 0x09, 0x72, 0x65, 0x63,
+	0x72, 0x75, 0x69, 0x74, 0x65, 0x72, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1b, 0x2e, 0x61,
+	0x64, 0x6d, 0x69, 0x6e, 0x61, 0x75, 0x74, 0x68, 0x2e, 0x52, 0x65, 0x63, 0x72, 0x75, 0x69, 0x74,
+	0x65, 0x72, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x52, 0x09, 0x72, 0x65, 0x63, 0x72, 0x75,
+	0x69, 0x74, 0x65, 0x72, 0x22, 0x98, 0x01, 0x0a, 0x10, 0x52, 0x65, 0x63, 0x72, 0x75, 0x69, 0x74,
+	0x65, 0x72, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x02, 0x69, 0x64, 0x12, 0x14, 0x0a, 0x05, 0x65, 0x6d, 0x61,
+	0x69, 0x6c, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x12,
+	0x21, 0x0a, 0x0c, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18,
+	0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x4e, 0x61,
+	0x6d, 0x65, 0x12, 0x21, 0x0a, 0x0c, 0x70, 0x68, 0x6f, 0x6e, 0x65, 0x5f, 0x6e, 0x75, 0x6d, 0x62,
+	0x65, 0x72, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x70, 0x68, 0x6f, 0x6e, 0x65, 0x4e,
+	0x75, 0x6d, 0x62, 0x65, 0x72, 0x12, 0x18, 0x0a, 0x07, 0x62, 0x6c, 0x6f, 0x63, 0x6b, 0x65, 0x64,
+	0x18, 0x05, 0x20, 0x01, 0x28, 0x08, 0x52, 0x07, 0x62, 0x6c, 0x6f, 0x63, 0x6b, 0x65, 0x64, 0x22,
+	0x40, 0x0a, 0x15, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x52, 0x65, 0x63, 0x72, 0x75, 0x69, 0x74, 0x65,
+	0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x27, 0x0a, 0x0f, 0x47, 0x65, 0x74, 0x52,
+	0x65, 0x63, 0x72, 0x75, 0x69, 0x74, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x03, 0x52, 0x0e, 0x47, 0x65, 0x74, 0x52, 0x65, 0x63, 0x72, 0x75, 0x69, 0x74, 0x65, 0x72, 0x49,
+	0x64, 0x22, 0x30, 0x0a, 0x16, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x52, 0x65, 0x63, 0x72, 0x75, 0x69,
+	0x74, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x73,
+	0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x73, 0x74, 0x61,
+	0x74, 0x75, 0x73, 0x22, 0x42, 0x0a, 0x17, 0x55, 0x6e, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x52, 0x65,
+	0x63, 0x72, 0x75, 0x69, 0x74, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x27,
+	0x0a, 0x0f, 0x47, 0x65, 0x74, 0x52, 0x65, 0x63, 0x72, 0x75, 0x69, 0x74, 0x65, 0x72, 0x5f, 0x69,
+	0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x0e, 0x47, 0x65, 0x74, 0x52, 0x65, 0x63, 0x72,
+	0x75, 0x69, 0x74, 0x65, 0x72, 0x49, 0x64, 0x22, 0x32, 0x0a, 0x18, 0x55, 0x6e, 0x42, 0x6c, 0x6f,
+	0x63, 0x6b, 0x52, 0x65, 0x63, 0x72, 0x75, 0x69, 0x74, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x32, 0xef, 0x04, 0x0a, 0x05,
 	0x41, 0x64, 0x6d, 0x69, 0x6e, 0x12, 0x4d, 0x0a, 0x0a, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4c, 0x6f,
 	0x67, 0x69, 0x6e, 0x12, 0x1e, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x61, 0x75, 0x74, 0x68, 0x2e,
 	0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4c, 0x6f, 0x67, 0x69, 0x6e, 0x49, 0x6e, 0x52, 0x65, 0x71, 0x75,
 	0x65, 0x73, 0x74, 0x1a, 0x1d, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x61, 0x75, 0x74, 0x68, 0x2e,
 	0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4c, 0x6f, 0x67, 0x69, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
-	0x73, 0x65, 0x22, 0x00, 0x12, 0x45, 0x0a, 0x08, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x73,
-	0x12, 0x1a, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x61, 0x75, 0x74, 0x68, 0x2e, 0x47, 0x65, 0x74,
-	0x55, 0x73, 0x65, 0x72, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1b, 0x2e, 0x61,
-	0x64, 0x6d, 0x69, 0x6e, 0x61, 0x75, 0x74, 0x68, 0x2e, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72,
-	0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x48, 0x0a, 0x09, 0x42,
-	0x6c, 0x6f, 0x63, 0x6b, 0x55, 0x73, 0x65, 0x72, 0x12, 0x1b, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e,
-	0x61, 0x75, 0x74, 0x68, 0x2e, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1c, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x61, 0x75, 0x74,
-	0x68, 0x2e, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x4e, 0x0a, 0x0b, 0x55, 0x6e, 0x42, 0x6c, 0x6f, 0x63, 0x6b,
-	0x55, 0x73, 0x65, 0x72, 0x12, 0x1d, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x61, 0x75, 0x74, 0x68,
-	0x2e, 0x55, 0x6e, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75,
-	0x65, 0x73, 0x74, 0x1a, 0x1e, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x61, 0x75, 0x74, 0x68, 0x2e,
-	0x55, 0x6e, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x15, 0x5a, 0x13, 0x2e, 0x2f, 0x70, 0x6b, 0x67, 0x2f, 0x70,
-	0x62, 0x2f, 0x61, 0x75, 0x74, 0x68, 0x2f, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x62, 0x06, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x33,
+	0x73, 0x65, 0x22, 0x00, 0x12, 0x52, 0x0a, 0x0d, 0x47, 0x65, 0x74, 0x4a, 0x6f, 0x62, 0x73, 0x65,
+	0x65, 0x6b, 0x65, 0x72, 0x73, 0x12, 0x1e, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x61, 0x75, 0x74,
+	0x68, 0x2e, 0x47, 0x65, 0x74, 0x4a, 0x6f, 0x62, 0x73, 0x65, 0x65, 0x6b, 0x65, 0x72, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1f, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x61, 0x75, 0x74,
+	0x68, 0x2e, 0x47, 0x65, 0x74, 0x4a, 0x6f, 0x62, 0x73, 0x65, 0x65, 0x6b, 0x65, 0x72, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x57, 0x0a, 0x0e, 0x42, 0x6c, 0x6f, 0x63,
+	0x6b, 0x4a, 0x6f, 0x62, 0x73, 0x65, 0x65, 0x6b, 0x65, 0x72, 0x12, 0x20, 0x2e, 0x61, 0x64, 0x6d,
+	0x69, 0x6e, 0x61, 0x75, 0x74, 0x68, 0x2e, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x4a, 0x6f, 0x62, 0x73,
+	0x65, 0x65, 0x6b, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x21, 0x2e, 0x61,
+	0x64, 0x6d, 0x69, 0x6e, 0x61, 0x75, 0x74, 0x68, 0x2e, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x4a, 0x6f,
+	0x62, 0x73, 0x65, 0x65, 0x6b, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
+	0x00, 0x12, 0x5d, 0x0a, 0x10, 0x55, 0x6e, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x4a, 0x6f, 0x62, 0x73,
+	0x65, 0x65, 0x6b, 0x65, 0x72, 0x12, 0x22, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x61, 0x75, 0x74,
+	0x68, 0x2e, 0x55, 0x6e, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x4a, 0x6f, 0x62, 0x73, 0x65, 0x65, 0x6b,
+	0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x23, 0x2e, 0x61, 0x64, 0x6d, 0x69,
+	0x6e, 0x61, 0x75, 0x74, 0x68, 0x2e, 0x55, 0x6e, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x4a, 0x6f, 0x62,
+	0x73, 0x65, 0x65, 0x6b, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00,
+	0x12, 0x53, 0x0a, 0x0d, 0x47, 0x65, 0x74, 0x52, 0x65, 0x63, 0x72, 0x75, 0x69, 0x74, 0x65, 0x72,
+	0x73, 0x12, 0x1e, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x61, 0x75, 0x74, 0x68, 0x2e, 0x47, 0x65,
+	0x74, 0x52, 0x65, 0x63, 0x72, 0x75, 0x69, 0x74, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x1a, 0x20, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x61, 0x75, 0x74, 0x68, 0x2e, 0x47, 0x65,
+	0x74, 0x52, 0x65, 0x63, 0x72, 0x75, 0x69, 0x74, 0x65, 0x72, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x57, 0x0a, 0x0e, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x52, 0x65,
+	0x63, 0x72, 0x75, 0x69, 0x74, 0x65, 0x72, 0x12, 0x20, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x61,
+	0x75, 0x74, 0x68, 0x2e, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x52, 0x65, 0x63, 0x72, 0x75, 0x69, 0x74,
+	0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x21, 0x2e, 0x61, 0x64, 0x6d, 0x69,
+	0x6e, 0x61, 0x75, 0x74, 0x68, 0x2e, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x52, 0x65, 0x63, 0x72, 0x75,
+	0x69, 0x74, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x5d,
+	0x0a, 0x10, 0x55, 0x6e, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x52, 0x65, 0x63, 0x72, 0x75, 0x69, 0x74,
+	0x65, 0x72, 0x12, 0x22, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x61, 0x75, 0x74, 0x68, 0x2e, 0x55,
+	0x6e, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x52, 0x65, 0x63, 0x72, 0x75, 0x69, 0x74, 0x65, 0x72, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x23, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x61, 0x75,
+	0x74, 0x68, 0x2e, 0x55, 0x6e, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x52, 0x65, 0x63, 0x72, 0x75, 0x69,
+	0x74, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x15, 0x5a,
+	0x13, 0x2e, 0x2f, 0x70, 0x6b, 0x67, 0x2f, 0x70, 0x62, 0x2f, 0x61, 0x75, 0x74, 0x68, 0x2f, 0x61,
+	0x64, 0x6d, 0x69, 0x6e, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -689,35 +1305,53 @@ func file_pkg_pb_auth_admin_admin_proto_rawDescGZIP() []byte {
 	return file_pkg_pb_auth_admin_admin_proto_rawDescData
 }
 
-var file_pkg_pb_auth_admin_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_pkg_pb_auth_admin_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
 var file_pkg_pb_auth_admin_admin_proto_goTypes = []interface{}{
-	(*AdminDetails)(nil),        // 0: adminauth.AdminDetails
-	(*AdminLoginInRequest)(nil), // 1: adminauth.AdminLoginInRequest
-	(*AdminLoginResponse)(nil),  // 2: adminauth.AdminLoginResponse
-	(*GetUsersRequest)(nil),     // 3: adminauth.GetUsersRequest
-	(*GetUsersResponse)(nil),    // 4: adminauth.GetUsersResponse
-	(*UserDetailsAtAdmin)(nil),  // 5: adminauth.UserDetailsAtAdmin
-	(*BlockUserRequest)(nil),    // 6: adminauth.BlockUserRequest
-	(*BlockUserResponse)(nil),   // 7: adminauth.BlockUserResponse
-	(*UnBlockUserRequest)(nil),  // 8: adminauth.UnBlockUserRequest
-	(*UnBlockUserResponse)(nil), // 9: adminauth.UnBlockUserResponse
+	(*AdminDetails)(nil),             // 0: adminauth.AdminDetails
+	(*AdminLoginInRequest)(nil),      // 1: adminauth.AdminLoginInRequest
+	(*AdminLoginResponse)(nil),       // 2: adminauth.AdminLoginResponse
+	(*GetJobseekerRequest)(nil),      // 3: adminauth.GetJobseekerRequest
+	(*GetRecruiterRequest)(nil),      // 4: adminauth.GetRecruiterRequest
+	(*BlockUserRequest)(nil),         // 5: adminauth.BlockUserRequest
+	(*BlockUserResponse)(nil),        // 6: adminauth.BlockUserResponse
+	(*UnBlockUserRequest)(nil),       // 7: adminauth.UnBlockUserRequest
+	(*UnBlockUserResponse)(nil),      // 8: adminauth.UnBlockUserResponse
+	(*JobSeekerDetails)(nil),         // 9: adminauth.JobSeekerDetails
+	(*GetJobseekerResponse)(nil),     // 10: adminauth.GetJobseekerResponse
+	(*BlockJobseekerRequest)(nil),    // 11: adminauth.BlockJobseekerRequest
+	(*BlockJobseekerResponse)(nil),   // 12: adminauth.BlockJobseekerResponse
+	(*UnBlockJobseekerRequest)(nil),  // 13: adminauth.UnBlockJobseekerRequest
+	(*UnBlockJobseekerResponse)(nil), // 14: adminauth.UnBlockJobseekerResponse
+	(*GetRecruitersResponse)(nil),    // 15: adminauth.GetRecruitersResponse
+	(*RecruiterDetails)(nil),         // 16: adminauth.RecruiterDetails
+	(*BlockRecruiterRequest)(nil),    // 17: adminauth.BlockRecruiterRequest
+	(*BlockRecruiterResponse)(nil),   // 18: adminauth.BlockRecruiterResponse
+	(*UnBlockRecruiterRequest)(nil),  // 19: adminauth.UnBlockRecruiterRequest
+	(*UnBlockRecruiterResponse)(nil), // 20: adminauth.UnBlockRecruiterResponse
 }
 var file_pkg_pb_auth_admin_admin_proto_depIdxs = []int32{
-	0, // 0: adminauth.AdminLoginResponse.adminDetails:type_name -> adminauth.AdminDetails
-	5, // 1: adminauth.GetUsersResponse.users:type_name -> adminauth.UserDetailsAtAdmin
-	1, // 2: adminauth.Admin.AdminLogin:input_type -> adminauth.AdminLoginInRequest
-	3, // 3: adminauth.Admin.GetUsers:input_type -> adminauth.GetUsersRequest
-	6, // 4: adminauth.Admin.BlockUser:input_type -> adminauth.BlockUserRequest
-	8, // 5: adminauth.Admin.UnBlockUser:input_type -> adminauth.UnBlockUserRequest
-	2, // 6: adminauth.Admin.AdminLogin:output_type -> adminauth.AdminLoginResponse
-	4, // 7: adminauth.Admin.GetUsers:output_type -> adminauth.GetUsersResponse
-	7, // 8: adminauth.Admin.BlockUser:output_type -> adminauth.BlockUserResponse
-	9, // 9: adminauth.Admin.UnBlockUser:output_type -> adminauth.UnBlockUserResponse
-	6, // [6:10] is the sub-list for method output_type
-	2, // [2:6] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	0,  // 0: adminauth.AdminLoginResponse.adminDetails:type_name -> adminauth.AdminDetails
+	9,  // 1: adminauth.GetJobseekerResponse.Jobseeker:type_name -> adminauth.JobSeekerDetails
+	16, // 2: adminauth.GetRecruitersResponse.recruiter:type_name -> adminauth.RecruiterDetails
+	1,  // 3: adminauth.Admin.AdminLogin:input_type -> adminauth.AdminLoginInRequest
+	3,  // 4: adminauth.Admin.GetJobseekers:input_type -> adminauth.GetJobseekerRequest
+	11, // 5: adminauth.Admin.BlockJobseeker:input_type -> adminauth.BlockJobseekerRequest
+	13, // 6: adminauth.Admin.UnBlockJobseeker:input_type -> adminauth.UnBlockJobseekerRequest
+	4,  // 7: adminauth.Admin.GetRecruiters:input_type -> adminauth.GetRecruiterRequest
+	17, // 8: adminauth.Admin.BlockRecruiter:input_type -> adminauth.BlockRecruiterRequest
+	19, // 9: adminauth.Admin.UnBlockRecruiter:input_type -> adminauth.UnBlockRecruiterRequest
+	2,  // 10: adminauth.Admin.AdminLogin:output_type -> adminauth.AdminLoginResponse
+	10, // 11: adminauth.Admin.GetJobseekers:output_type -> adminauth.GetJobseekerResponse
+	12, // 12: adminauth.Admin.BlockJobseeker:output_type -> adminauth.BlockJobseekerResponse
+	14, // 13: adminauth.Admin.UnBlockJobseeker:output_type -> adminauth.UnBlockJobseekerResponse
+	15, // 14: adminauth.Admin.GetRecruiters:output_type -> adminauth.GetRecruitersResponse
+	18, // 15: adminauth.Admin.BlockRecruiter:output_type -> adminauth.BlockRecruiterResponse
+	20, // 16: adminauth.Admin.UnBlockRecruiter:output_type -> adminauth.UnBlockRecruiterResponse
+	10, // [10:17] is the sub-list for method output_type
+	3,  // [3:10] is the sub-list for method input_type
+	3,  // [3:3] is the sub-list for extension type_name
+	3,  // [3:3] is the sub-list for extension extendee
+	0,  // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_pkg_pb_auth_admin_admin_proto_init() }
@@ -763,7 +1397,7 @@ func file_pkg_pb_auth_admin_admin_proto_init() {
 			}
 		}
 		file_pkg_pb_auth_admin_admin_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetUsersRequest); i {
+			switch v := v.(*GetJobseekerRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -775,7 +1409,7 @@ func file_pkg_pb_auth_admin_admin_proto_init() {
 			}
 		}
 		file_pkg_pb_auth_admin_admin_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetUsersResponse); i {
+			switch v := v.(*GetRecruiterRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -787,18 +1421,6 @@ func file_pkg_pb_auth_admin_admin_proto_init() {
 			}
 		}
 		file_pkg_pb_auth_admin_admin_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UserDetailsAtAdmin); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_pkg_pb_auth_admin_admin_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*BlockUserRequest); i {
 			case 0:
 				return &v.state
@@ -810,7 +1432,7 @@ func file_pkg_pb_auth_admin_admin_proto_init() {
 				return nil
 			}
 		}
-		file_pkg_pb_auth_admin_admin_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+		file_pkg_pb_auth_admin_admin_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*BlockUserResponse); i {
 			case 0:
 				return &v.state
@@ -822,7 +1444,7 @@ func file_pkg_pb_auth_admin_admin_proto_init() {
 				return nil
 			}
 		}
-		file_pkg_pb_auth_admin_admin_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+		file_pkg_pb_auth_admin_admin_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*UnBlockUserRequest); i {
 			case 0:
 				return &v.state
@@ -834,8 +1456,152 @@ func file_pkg_pb_auth_admin_admin_proto_init() {
 				return nil
 			}
 		}
-		file_pkg_pb_auth_admin_admin_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+		file_pkg_pb_auth_admin_admin_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*UnBlockUserResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_pkg_pb_auth_admin_admin_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*JobSeekerDetails); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_pkg_pb_auth_admin_admin_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetJobseekerResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_pkg_pb_auth_admin_admin_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*BlockJobseekerRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_pkg_pb_auth_admin_admin_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*BlockJobseekerResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_pkg_pb_auth_admin_admin_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UnBlockJobseekerRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_pkg_pb_auth_admin_admin_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UnBlockJobseekerResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_pkg_pb_auth_admin_admin_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetRecruitersResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_pkg_pb_auth_admin_admin_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RecruiterDetails); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_pkg_pb_auth_admin_admin_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*BlockRecruiterRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_pkg_pb_auth_admin_admin_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*BlockRecruiterResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_pkg_pb_auth_admin_admin_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UnBlockRecruiterRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_pkg_pb_auth_admin_admin_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UnBlockRecruiterResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -853,7 +1619,7 @@ func file_pkg_pb_auth_admin_admin_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_pkg_pb_auth_admin_admin_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   21,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

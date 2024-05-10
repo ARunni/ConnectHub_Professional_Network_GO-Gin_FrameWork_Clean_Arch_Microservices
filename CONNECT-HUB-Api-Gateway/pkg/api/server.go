@@ -3,6 +3,7 @@ package server
 import (
 	"connectHub_gateway/pkg/api/handler"
 	"connectHub_gateway/pkg/config"
+	"connectHub_gateway/pkg/middleware"
 	"log"
 
 	"github.com/gin-gonic/gin"
@@ -27,6 +28,9 @@ func NewServerHTTP(
 	jobseekerRoute := router.Group("/jobseeker")
 	recruiterRoute := router.Group("/recruiter")
 
+	adminJobseeker := adminRoute.Group("/jobseeker")
+	adminRecruiter := adminRoute.Group("/recruiter")
+
 	// Admin Routes
 	adminRoute.POST("/login", AdminHandler.AdminLogin)
 
@@ -37,6 +41,21 @@ func NewServerHTTP(
 	// Recruiter Routes
 	recruiterRoute.POST("/signup", RecruiterHandler.RecruiterSignup)
 	recruiterRoute.POST("/login", RecruiterHandler.RecruiterLogin)
+
+	router.Use(middleware.AuthMiddleware)
+	{
+		// Admin Routes
+		adminJobseeker.GET("", AdminHandler.GetJobseekers)
+		adminRecruiter.GET("", AdminHandler.GetRecruiters)
+		adminJobseeker.PATCH("/block", AdminHandler.BlockJobseeker)
+		adminJobseeker.PATCH("/unblock", AdminHandler.UnBlockJobseeker)
+		adminRecruiter.PATCH("/block", AdminHandler.BlockRecruiter)
+		adminRecruiter.PATCH("/unblock", AdminHandler.UnBlockRecruiter)
+
+		// Jobseeker Routes
+
+		// Recruiter Routes
+	}
 
 	return &ServerHTTP{engine: router}
 }

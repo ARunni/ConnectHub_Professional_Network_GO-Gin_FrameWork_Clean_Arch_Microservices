@@ -40,3 +40,100 @@ func (ad *AdminServer) AdminLogin(ctx context.Context, Req *pb.AdminLoginInReque
 		Token:        admin.Token,
 	}, nil
 }
+
+func (as *AdminServer) GetJobseekers(ctx context.Context, Req *pb.GetJobseekerRequest) (*pb.GetJobseekerResponse, error) {
+	page := Req.Page
+	GetJobseeker, err := as.adminUseCase.GetJobseekers(int(page))
+	if err != nil {
+		return &pb.GetJobseekerResponse{}, err
+	}
+	var jobseekerDetails []*pb.JobSeekerDetails
+	for _, data := range GetJobseeker {
+		jobseekerDetails = append(jobseekerDetails, &pb.JobSeekerDetails{
+			Id:          uint64(data.Id),
+			Email:       data.Email,
+			Firstname:   data.Name,
+			PhoneNumber: data.Phone,
+			Blocked:     data.Blocked,
+		})
+	}
+	return &pb.GetJobseekerResponse{
+		Jobseeker: jobseekerDetails,
+	}, nil
+
+}
+
+func (as *AdminServer) GetRecruiters(ctx context.Context, Req *pb.GetRecruiterRequest) (*pb.GetRecruitersResponse, error) {
+
+	page := Req.Page
+
+	GetRecruiters, err := as.adminUseCase.GetRecruiters(int(page))
+
+	if err != nil {
+		return &pb.GetRecruitersResponse{}, err
+	}
+
+	var recruitersDetails []*pb.RecruiterDetails
+	for _, data := range GetRecruiters {
+		recruitersDetails = append(recruitersDetails, &pb.RecruiterDetails{
+			Id:          uint64(data.Id),
+			Email:       data.Email,
+			CompanyName: data.CompanyName,
+			PhoneNumber: data.Phone,
+			Blocked:     data.Blocked,
+		})
+	}
+	return &pb.GetRecruitersResponse{
+		Recruiter: recruitersDetails,
+	}, nil
+
+}
+
+func (as *AdminServer) BlockRecruiter(ctx context.Context, Req *pb.BlockRecruiterRequest) (*pb.BlockRecruiterResponse, error) {
+
+	recruiterId := Req.GetRecruiterId
+
+	result, err := as.adminUseCase.BlockRecruiter(int(recruiterId))
+	if err != nil {
+		return &pb.BlockRecruiterResponse{}, err
+	}
+	return &pb.BlockRecruiterResponse{
+		Status: result.Status,
+	}, nil
+}
+
+func (as *AdminServer) UnBlockRecruiter(ctx context.Context, Req *pb.UnBlockRecruiterRequest) (*pb.UnBlockRecruiterResponse, error) {
+	recruiterId := Req.GetRecruiterId
+
+	result, err := as.adminUseCase.UnBlockRecruiter(int(recruiterId))
+	if err != nil {
+		return &pb.UnBlockRecruiterResponse{}, err
+	}
+	return &pb.UnBlockRecruiterResponse{
+		Status: result.Status,
+	}, nil
+}
+
+func (as *AdminServer) UnBlockJobseeker(ctx context.Context, Req *pb.UnBlockJobseekerRequest) (*pb.UnBlockJobseekerResponse, error) {
+	jobseekerId := Req.JobseekerId
+
+	result, err := as.adminUseCase.UnBlockJobseeker(int(jobseekerId))
+	if err != nil {
+		return &pb.UnBlockJobseekerResponse{}, err
+	}
+	return &pb.UnBlockJobseekerResponse{
+		Status: result.Status,
+	}, nil
+}
+
+func (as *AdminServer) BlockJobseeker(ctx context.Context, Req *pb.BlockJobseekerRequest) (*pb.BlockJobseekerResponse, error) {
+	jobseekerId := Req.JobseekerId
+
+	result, err := as.adminUseCase.BlockJobseeker(int(jobseekerId))
+	if err != nil {
+		return &pb.BlockJobseekerResponse{}, err
+	}
+	return &pb.BlockJobseekerResponse{
+		Status: result.Status,
+	}, nil
+}
