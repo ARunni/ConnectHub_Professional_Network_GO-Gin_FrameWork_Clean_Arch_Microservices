@@ -99,7 +99,7 @@ func (ah *AdminHandler) BlockRecruiter(c *gin.Context) {
 		return
 	}
 
-	successRes := response.ClientResponse(http.StatusOK, msg.MsgGetSucces, blockRecruiter, nil)
+	successRes := response.ClientResponse(http.StatusOK, msg.ErrUserBlockTrue, blockRecruiter, nil)
 	c.JSON(http.StatusOK, successRes)
 }
 
@@ -120,7 +120,7 @@ func (ah *AdminHandler) BlockJobseeker(c *gin.Context) {
 		return
 	}
 
-	successRes := response.ClientResponse(http.StatusOK, msg.MsgGetSucces, blockJobseeker, nil)
+	successRes := response.ClientResponse(http.StatusOK, msg.ErrUserBlockTrue, blockJobseeker, nil)
 	c.JSON(http.StatusOK, successRes)
 }
 
@@ -135,6 +135,7 @@ func (ah *AdminHandler) UnBlockJobseeker(c *gin.Context) {
 	}
 
 	unBlockjobseeker, err := ah.GRPC_Client.UnBlockJobseeker(id)
+	
 	if err != nil {
 		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgGettingDataErr, nil, err.Error())
 		c.JSON(http.StatusBadRequest, errorRes)

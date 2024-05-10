@@ -11,6 +11,7 @@ type JobSeeker struct {
 	Phone_number  string    `json:"phone_number" gorm:"validate:required"`
 	Date_of_birth string    `json:"date_of_birth" gorm:"validate:required"`
 	Gender        string    `json:"gender" gorm:"validate:required"`
+	IsBlocked     bool      `json:"is_blocked" gorm:"default:false"`
 	Created_at    time.Time `json:"created_at"`
 	Updated_at    time.Time `json:"updated_at"`
 	Deleted_at    time.Time `json:"deleted_at"`

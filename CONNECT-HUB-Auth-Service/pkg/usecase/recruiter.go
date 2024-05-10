@@ -92,6 +92,16 @@ func (ju *recruiterUseCase) RecruiterLogin(recruiterDetails req.RecruiterLogin) 
 	if !ok {
 		return req.TokenRecruiter{}, errors.New(msg.ErrUserExistFalse)
 	}
+
+	okk, err := ju.recruiterRepository.CheckRecruiterBlockByEmail(recruiterDetails.Email)
+
+	if err != nil {
+		return req.TokenRecruiter{}, err
+	}
+	if okk {
+		return req.TokenRecruiter{}, errors.New(msg.ErrUserBlockTrue)
+	}
+
 	recruiterCompare, err := ju.recruiterRepository.RecruiterLogin(recruiterDetails)
 	if err != nil {
 		return req.TokenRecruiter{}, err

@@ -6,6 +6,7 @@ import (
 	usecase "ConnetHub_auth/pkg/usecase/interface"
 	req "ConnetHub_auth/pkg/utils/reqAndResponse"
 	"errors"
+	"fmt"
 
 	msg "github.com/ARunni/Error_Message"
 	"github.com/jinzhu/copier"
@@ -88,6 +89,14 @@ func (au *adminUseCase) BlockRecruiter(id int) (req.BlockRes, error) {
 		return req.BlockRes{}, errors.New(msg.ErrIdExist)
 	}
 
+	ok, err = au.adminRepository.IsRecruiterBlocked(id)
+	if err != nil {
+		return req.BlockRes{}, err
+	}
+	if ok {
+		return req.BlockRes{}, errors.New(msg.ErrBlockAlready)
+	}
+
 	err = au.adminRepository.BlockRecruiter(id)
 
 	if err != nil {
@@ -105,8 +114,19 @@ func (au *adminUseCase) BlockJobseeker(id int) (req.BlockRes, error) {
 	if err != nil {
 		return req.BlockRes{}, err
 	}
+
 	if !ok {
 		return req.BlockRes{}, errors.New(msg.ErrIdExist)
+	}
+	okk, err := au.adminRepository.IsJobseekerBlocked(id)
+	if err != nil {
+
+		return req.BlockRes{}, err
+	}
+	fmt.Println("jahgkj", okk)
+	if okk {
+
+		return req.BlockRes{}, errors.New(msg.ErrBlockAlready)
 	}
 
 	err = au.adminRepository.BlockJobseeker(id)
@@ -121,6 +141,7 @@ func (au *adminUseCase) UnBlockRecruiter(id int) (req.BlockRes, error) {
 	if id <= 0 {
 		return req.BlockRes{}, errors.New(msg.ErrDataZero)
 	}
+
 	ok, err := au.adminRepository.CheckRecruiterById(id)
 	if err != nil {
 		return req.BlockRes{}, err
@@ -128,7 +149,13 @@ func (au *adminUseCase) UnBlockRecruiter(id int) (req.BlockRes, error) {
 	if !ok {
 		return req.BlockRes{}, errors.New(msg.ErrIdExist)
 	}
-
+	okk, err := au.adminRepository.IsRecruiterBlocked(id)
+	if err != nil {
+		return req.BlockRes{}, err
+	}
+	if !okk {
+		return req.BlockRes{}, errors.New(msg.ErrUnBlockAlready)
+	}
 	err = au.adminRepository.UnBlockRecruiter(id)
 	if err != nil {
 		return req.BlockRes{}, err
@@ -145,8 +172,17 @@ func (au *adminUseCase) UnBlockJobseeker(id int) (req.BlockRes, error) {
 	if err != nil {
 		return req.BlockRes{}, err
 	}
+
 	if !ok {
 		return req.BlockRes{}, errors.New(msg.ErrIdExist)
+	}
+	okk, err := au.adminRepository.IsJobseekerBlocked(id)
+	if err != nil {
+		return req.BlockRes{}, err
+	}
+
+	if !okk {
+		return req.BlockRes{}, errors.New(msg.ErrUnBlockAlready)
 	}
 
 	err = au.adminRepository.UnBlockJobseeker(id)

@@ -16,12 +16,12 @@ func NewRecruiterRepository(DB *gorm.DB) interfaces.RecruiterRepository {
 		DB: DB,
 	}
 }
-func (ar *recruiterRepository) RecruiterSignup(data req.RecruiterSignUp) (req.RecruiterDetailsResponse, error) {
+func (rr *recruiterRepository) RecruiterSignup(data req.RecruiterSignUp) (req.RecruiterDetailsResponse, error) {
 	var recruiter req.RecruiterDetailsResponse
 	querry := `insert into recruiters 
 	(company_name,industry,company_size,website,headquarters_address,about_company,contact_email,contact_phone_number,password)
 	 values(?,?,?,?,?,?,?,?,?)`
-	result := ar.DB.Raw(querry, data.Company_name,
+	result := rr.DB.Raw(querry, data.Company_name,
 		data.Industry, data.Company_size, data.Website,
 		data.Headquarters_address, data.About_company,
 		data.Contact_email, data.Contact_phone_number,
@@ -33,22 +33,31 @@ func (ar *recruiterRepository) RecruiterSignup(data req.RecruiterSignUp) (req.Re
 
 }
 
-func (ar *recruiterRepository) CheckRecruiterExistsByEmail(email string) (bool, error) {
+func (rr *recruiterRepository) CheckRecruiterExistsByEmail(email string) (bool, error) {
 	var count int
 	querry := `select count(*) from recruiters where contact_email = ?`
-	result := ar.DB.Raw(querry, email).Scan(&count)
+	result := rr.DB.Raw(querry, email).Scan(&count)
 	if result.Error != nil {
 		return false, result.Error
 	}
 	return count > 0, nil
 }
 
-func (ar *recruiterRepository) RecruiterLogin(data req.RecruiterLogin) (req.RecruiterDetailsResponse, error) {
+func (rr *recruiterRepository) RecruiterLogin(data req.RecruiterLogin) (req.RecruiterDetailsResponse, error) {
 	var recruiter req.RecruiterDetailsResponse
 	querry := ` select * from recruiters where contact_email = ?`
-	result := ar.DB.Raw(querry, data.Email).Scan(&recruiter)
+	result := rr.DB.Raw(querry, data.Email).Scan(&recruiter)
 	if result.Error != nil {
 		return req.RecruiterDetailsResponse{}, result.Error
 	}
 	return recruiter, nil
+}
+
+func (rr *recruiterRepository) CheckRecruiterBlockByEmail(email string) (bool, error) {
+	var ok bool
+	err := rr.DB.Raw("select is_blocked from recruiters where contact_email = ?", email).Scan(&ok).Error
+	if err != nil {
+		return false, err
+	}
+	return ok, nil
 }

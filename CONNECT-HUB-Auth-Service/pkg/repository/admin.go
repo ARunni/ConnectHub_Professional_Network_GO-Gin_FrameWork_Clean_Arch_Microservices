@@ -66,7 +66,7 @@ func (ar *adminRepository) GetJobseekers(page int) ([]req.JobseekerDetailsAtAdmi
 
 	offset := (page - 1) * 2
 
-	qurry := `select * from jobseekers limit ? offset ?`
+	qurry := `select * from job_seekers limit ? offset ?`
 	err := ar.DB.Raw(qurry, 5, offset).Scan(&jobseekers).Error
 	if err != nil {
 		return nil, err
@@ -77,7 +77,7 @@ func (ar *adminRepository) GetJobseekers(page int) ([]req.JobseekerDetailsAtAdmi
 func (ar *adminRepository) BlockRecruiter(id int) error {
 
 	qurry := `update recruiters set is_blocked = true where id = ?`
-	err := ar.DB.Raw(qurry, id).Error
+	err := ar.DB.Exec(qurry, id).Error
 	if err != nil {
 		return err
 	}
@@ -86,8 +86,8 @@ func (ar *adminRepository) BlockRecruiter(id int) error {
 
 func (ar *adminRepository) BlockJobseeker(id int) error {
 
-	qurry := `update jobseekers set is_blocked = true where id = ?`
-	err := ar.DB.Raw(qurry, id).Error
+	qurry := `update job_seekers set is_blocked = true where id = ?`
+	err := ar.DB.Exec(qurry, id).Error
 	if err != nil {
 		return err
 	}
@@ -96,8 +96,8 @@ func (ar *adminRepository) BlockJobseeker(id int) error {
 
 func (ar *adminRepository) UnBlockJobseeker(id int) error {
 
-	qurry := `update jobseekers set is_blocked = false where id = ?`
-	err := ar.DB.Raw(qurry, id).Error
+	qurry := `update job_seekers set is_blocked = false where id = ?`
+	err := ar.DB.Exec(qurry, id).Error
 	if err != nil {
 		return err
 	}
@@ -107,7 +107,7 @@ func (ar *adminRepository) UnBlockJobseeker(id int) error {
 func (ar *adminRepository) UnBlockRecruiter(id int) error {
 
 	qurry := `update recruiters set is_blocked = false where id = ?`
-	err := ar.DB.Raw(qurry, id).Error
+	err := ar.DB.Exec(qurry, id).Error
 	if err != nil {
 		return err
 	}
@@ -116,8 +116,8 @@ func (ar *adminRepository) UnBlockRecruiter(id int) error {
 
 func (ar *adminRepository) CheckJobseekerById(id int) (bool, error) {
 	var count int
-	qurry := `select count(*) from jobseekers where id = ?`
-	err := ar.DB.Raw(qurry, id).Scan(count).Error
+	qurry := `select count(*) from job_seekers where id = ?`
+	err := ar.DB.Raw(qurry, id).Scan(&count).Error
 	if err != nil {
 		return false, err
 	}
@@ -127,9 +127,29 @@ func (ar *adminRepository) CheckJobseekerById(id int) (bool, error) {
 func (ar *adminRepository) CheckRecruiterById(id int) (bool, error) {
 	var count int
 	qurry := `select count(*) from recruiters where id = ?`
-	err := ar.DB.Raw(qurry, id).Scan(count).Error
+	err := ar.DB.Raw(qurry, id).Scan(&count).Error
 	if err != nil {
 		return false, err
 	}
 	return count > 0, nil
+}
+
+func (ar *adminRepository) IsJobseekerBlocked(id int) (bool, error) {
+	var ok bool
+	qurry := `select is_blocked from job_seekers where id = ?`
+	err := ar.DB.Raw(qurry, id).Scan(&ok).Error
+	if err != nil {
+		return false, err
+	}
+	return ok, nil
+}
+
+func (ar *adminRepository) IsRecruiterBlocked(id int) (bool, error) {
+	var ok bool
+	qurry := `select is_blocked from recruiters where id = ?`
+	err := ar.DB.Raw(qurry, id).Scan(&ok).Error
+	if err != nil {
+		return false, err
+	}
+	return ok, nil
 }

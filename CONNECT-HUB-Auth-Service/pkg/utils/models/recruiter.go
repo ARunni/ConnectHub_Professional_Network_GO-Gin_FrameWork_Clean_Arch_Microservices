@@ -6,6 +6,7 @@ type Recruiter struct {
 	Industry             string `json:"industry" gorm:"validate:required"`
 	Company_size         int    `json:"company_size" gorm:"validate:required"`
 	Website              string `json:"website"`
+	IsBlocked            bool   `json:"is_blocked" gorm:"default:false"`
 	Headquarters_address string `json:"headquarters_address"`
 	About_company        string `json:"about_company" gorm:"type:text"`
 	Contact_email        string `json:"contact_email" gorm:"validate:required"`

@@ -13,4 +13,6 @@ type AdminRepository interface {
 	UnBlockJobseeker(id int) error
 	CheckJobseekerById(id int) (bool, error)
 	CheckRecruiterById(id int) (bool, error)
+	IsJobseekerBlocked(id int) (bool, error)
+	IsRecruiterBlocked(id int) (bool, error)
 }

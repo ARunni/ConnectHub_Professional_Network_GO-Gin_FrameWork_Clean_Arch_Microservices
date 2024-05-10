@@ -85,6 +85,21 @@ func (ju *jobseekerUseCase) JobSeekerLogin(jobseekerDetails req.JobSeekerLogin) 
 	if jobseekerDetails.Password == "" {
 		return req.TokenJobSeeker{}, errors.New("password " + msg.ErrFieldEmpty)
 	}
+	ok, err := ju.jobseekerRepository.CheckJobseekerExistsByEmail(jobseekerDetails.Email)
+	if err != nil {
+		return req.TokenJobSeeker{}, err
+	}
+	if !ok {
+		return req.TokenJobSeeker{}, errors.New(msg.ErrUserExistFalse)
+	}
+	okk, err := ju.jobseekerRepository.CheckJobseekerBlockByEmail(jobseekerDetails.Email)
+
+	if err != nil {
+		return req.TokenJobSeeker{}, err
+	}
+	if okk {
+		return req.TokenJobSeeker{}, errors.New(msg.ErrUserBlockTrue)
+	}
 
 	jobseekerCompare, err := ju.jobseekerRepository.JobseekerLogin(jobseekerDetails)
 	if err != nil {

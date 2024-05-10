@@ -23,7 +23,8 @@ func AuthMiddleware(c *gin.Context) {
 	}
 
 	splited := strings.Split(tokenString, " ")
-	if len(splited) != 2 {
+
+	if len(splited) != 3 {
 		err := errors.New("format not satisfied")
 		response := response.ClientResponse(http.StatusUnauthorized, "error in splitting", nil, err.Error())
 		c.JSON(http.StatusUnauthorized, response)
@@ -31,8 +32,8 @@ func AuthMiddleware(c *gin.Context) {
 		return
 	}
 
-	tokenPart1 := splited[0]
-	tokenPart2 := splited[1]
+	tokenPart1 := splited[1]
+	tokenPart2 := splited[2]
 
 	switch tokenPart1 {
 	case "Admin":

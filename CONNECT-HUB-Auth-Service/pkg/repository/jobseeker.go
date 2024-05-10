@@ -60,3 +60,11 @@ func (jr *jobseekerRepository) CheckJobseekerExistsByEmail(email string) (bool, 
 	}
 	return count > 0, nil
 }
+func (jr *jobseekerRepository) CheckJobseekerBlockByEmail(email string) (bool, error) {
+	var ok bool
+	err := jr.DB.Raw("select is_blocked from job_seekers where email = ?", email).Scan(&ok).Error
+	if err != nil {
+		return false, err
+	}
+	return ok, nil
+}
