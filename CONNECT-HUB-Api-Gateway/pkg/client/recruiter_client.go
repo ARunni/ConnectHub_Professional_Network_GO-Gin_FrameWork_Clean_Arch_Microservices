@@ -39,6 +39,7 @@ func (rc *recruiterClient) RecruiterSignup(recruiterData models.RecruiterSignUp)
 		Website:             recruiterData.Website,
 		PhoneNumber:         int64(recruiterData.Contact_phone_number),
 		HeadquartersAddress: recruiterData.Headquarters_address,
+		ConfirmPassword:     recruiterData.ConfirmPassword,
 	})
 	if err != nil {
 		return models.TokenRecruiter{}, err

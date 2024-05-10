@@ -92,7 +92,7 @@ func (ju *jobseekerUseCase) JobSeekerLogin(jobseekerDetails req.JobSeekerLogin) 
 	}
 
 	// Comparing Password
-	err = helper.CompareHashAndPassword(jobseekerDetails.Password, jobseekerCompare.Password)
+	err = helper.CompareHashAndPassword(jobseekerCompare.Password, jobseekerDetails.Password)
 	if err != nil {
 		return req.TokenJobSeeker{}, errors.New(msg.ErrPasswordMatch)
 	}

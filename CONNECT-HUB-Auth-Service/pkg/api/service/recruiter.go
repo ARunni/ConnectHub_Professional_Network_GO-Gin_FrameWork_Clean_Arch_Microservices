@@ -5,6 +5,7 @@ import (
 	interfaces "ConnetHub_auth/pkg/usecase/interface"
 	req "ConnetHub_auth/pkg/utils/reqAndResponse"
 	"context"
+	
 )
 
 type RecruiterServer struct {
@@ -32,6 +33,7 @@ func (rs *RecruiterServer) RecruiterSignup(ctx context.Context, Req *pb.Recruite
 		Password:             Req.Password,
 		ConfirmPassword:      Req.ConfirmPassword,
 	}
+	
 	recruiter, err := rs.recruiterUseCase.RecruiterSignup(recruiterSignup)
 	if err != nil {
 		return nil, err

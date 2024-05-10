@@ -2,7 +2,9 @@ package repository
 
 import (
 	interfaces "ConnetHub_auth/pkg/repository/interface"
+	"ConnetHub_auth/pkg/utils/models"
 	req "ConnetHub_auth/pkg/utils/reqAndResponse"
+	"time"
 
 	"gorm.io/gorm"
 )
@@ -20,11 +22,18 @@ func NewJobseekerRepository(DB *gorm.DB) interfaces.JobseekerRepository {
 func (jr *jobseekerRepository) JobSeekerSignup(data req.JobSeekerSignUp) (req.JobSeekerDetailsResponse, error) {
 
 	var res req.JobSeekerDetailsResponse
-
-	querry := `insert into job_seekers 
-	(email,password,first_name,last_name,phone_number,date_of_birth,gender,created_at)
-	 values(?,?,?,?,?,?,?,NOW()) RETURNING id`
-	result := jr.DB.Raw(querry, data.Email, data.FirstName, data.LastName, data.PhoneNumber, data.DateOfBirth, data.Gender).Scan(&res)
+	time := time.Now()
+	input := models.JobSeeker{
+		Email:         data.Email,
+		Password:      data.Password,
+		First_name:    data.FirstName,
+		Last_name:     data.LastName,
+		Phone_number:  data.PhoneNumber,
+		Date_of_birth: data.DateOfBirth,
+		Gender:        data.Gender,
+		Created_at:    time,
+	}
+	result := jr.DB.Create(&input).Scan(&res)
 
 	if result.Error != nil {
 		return req.JobSeekerDetailsResponse{}, result.Error
@@ -44,7 +53,7 @@ func (jr *jobseekerRepository) JobseekerLogin(data req.JobSeekerLogin) (req.JobS
 
 func (jr *jobseekerRepository) CheckJobseekerExistsByEmail(email string) (bool, error) {
 	var count int
-	querry := `select count(*) from jobseekers where email = ?`
+	querry := `select count(*) from job_seekers where email = ?`
 	result := jr.DB.Raw(querry, email).Scan(&count)
 	if result.Error != nil {
 		return false, result.Error
