@@ -19,13 +19,15 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Admin_AdminLogin_FullMethodName       = "/adminauth.Admin/AdminLogin"
-	Admin_GetJobseekers_FullMethodName    = "/adminauth.Admin/GetJobseekers"
-	Admin_BlockJobseeker_FullMethodName   = "/adminauth.Admin/BlockJobseeker"
-	Admin_UnBlockJobseeker_FullMethodName = "/adminauth.Admin/UnBlockJobseeker"
-	Admin_GetRecruiters_FullMethodName    = "/adminauth.Admin/GetRecruiters"
-	Admin_BlockRecruiter_FullMethodName   = "/adminauth.Admin/BlockRecruiter"
-	Admin_UnBlockRecruiter_FullMethodName = "/adminauth.Admin/UnBlockRecruiter"
+	Admin_AdminLogin_FullMethodName          = "/adminauth.Admin/AdminLogin"
+	Admin_GetJobseekers_FullMethodName       = "/adminauth.Admin/GetJobseekers"
+	Admin_BlockJobseeker_FullMethodName      = "/adminauth.Admin/BlockJobseeker"
+	Admin_UnBlockJobseeker_FullMethodName    = "/adminauth.Admin/UnBlockJobseeker"
+	Admin_GetRecruiters_FullMethodName       = "/adminauth.Admin/GetRecruiters"
+	Admin_BlockRecruiter_FullMethodName      = "/adminauth.Admin/BlockRecruiter"
+	Admin_UnBlockRecruiter_FullMethodName    = "/adminauth.Admin/UnBlockRecruiter"
+	Admin_GetJobseekerDetails_FullMethodName = "/adminauth.Admin/GetJobseekerDetails"
+	Admin_GetRecruiterDetails_FullMethodName = "/adminauth.Admin/GetRecruiterDetails"
 )
 
 // AdminClient is the client API for Admin service.
@@ -39,6 +41,8 @@ type AdminClient interface {
 	GetRecruiters(ctx context.Context, in *GetRecruiterRequest, opts ...grpc.CallOption) (*GetRecruitersResponse, error)
 	BlockRecruiter(ctx context.Context, in *BlockRecruiterRequest, opts ...grpc.CallOption) (*BlockRecruiterResponse, error)
 	UnBlockRecruiter(ctx context.Context, in *UnBlockRecruiterRequest, opts ...grpc.CallOption) (*UnBlockRecruiterResponse, error)
+	GetJobseekerDetails(ctx context.Context, in *GetJobseekerDetailsRequest, opts ...grpc.CallOption) (*GetJobseekerDetailsResponse, error)
+	GetRecruiterDetails(ctx context.Context, in *GetRecruiterDetailsRequest, opts ...grpc.CallOption) (*GetRecruiterDetailsResponse, error)
 }
 
 type adminClient struct {
@@ -112,6 +116,24 @@ func (c *adminClient) UnBlockRecruiter(ctx context.Context, in *UnBlockRecruiter
 	return out, nil
 }
 
+func (c *adminClient) GetJobseekerDetails(ctx context.Context, in *GetJobseekerDetailsRequest, opts ...grpc.CallOption) (*GetJobseekerDetailsResponse, error) {
+	out := new(GetJobseekerDetailsResponse)
+	err := c.cc.Invoke(ctx, Admin_GetJobseekerDetails_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminClient) GetRecruiterDetails(ctx context.Context, in *GetRecruiterDetailsRequest, opts ...grpc.CallOption) (*GetRecruiterDetailsResponse, error) {
+	out := new(GetRecruiterDetailsResponse)
+	err := c.cc.Invoke(ctx, Admin_GetRecruiterDetails_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AdminServer is the server API for Admin service.
 // All implementations must embed UnimplementedAdminServer
 // for forward compatibility
@@ -123,6 +145,8 @@ type AdminServer interface {
 	GetRecruiters(context.Context, *GetRecruiterRequest) (*GetRecruitersResponse, error)
 	BlockRecruiter(context.Context, *BlockRecruiterRequest) (*BlockRecruiterResponse, error)
 	UnBlockRecruiter(context.Context, *UnBlockRecruiterRequest) (*UnBlockRecruiterResponse, error)
+	GetJobseekerDetails(context.Context, *GetJobseekerDetailsRequest) (*GetJobseekerDetailsResponse, error)
+	GetRecruiterDetails(context.Context, *GetRecruiterDetailsRequest) (*GetRecruiterDetailsResponse, error)
 	mustEmbedUnimplementedAdminServer()
 }
 
@@ -150,6 +174,12 @@ func (UnimplementedAdminServer) BlockRecruiter(context.Context, *BlockRecruiterR
 }
 func (UnimplementedAdminServer) UnBlockRecruiter(context.Context, *UnBlockRecruiterRequest) (*UnBlockRecruiterResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UnBlockRecruiter not implemented")
+}
+func (UnimplementedAdminServer) GetJobseekerDetails(context.Context, *GetJobseekerDetailsRequest) (*GetJobseekerDetailsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetJobseekerDetails not implemented")
+}
+func (UnimplementedAdminServer) GetRecruiterDetails(context.Context, *GetRecruiterDetailsRequest) (*GetRecruiterDetailsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRecruiterDetails not implemented")
 }
 func (UnimplementedAdminServer) mustEmbedUnimplementedAdminServer() {}
 
@@ -290,6 +320,42 @@ func _Admin_UnBlockRecruiter_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Admin_GetJobseekerDetails_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetJobseekerDetailsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServer).GetJobseekerDetails(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Admin_GetJobseekerDetails_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServer).GetJobseekerDetails(ctx, req.(*GetJobseekerDetailsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Admin_GetRecruiterDetails_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRecruiterDetailsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServer).GetRecruiterDetails(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Admin_GetRecruiterDetails_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServer).GetRecruiterDetails(ctx, req.(*GetRecruiterDetailsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Admin_ServiceDesc is the grpc.ServiceDesc for Admin service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -324,6 +390,14 @@ var Admin_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UnBlockRecruiter",
 			Handler:    _Admin_UnBlockRecruiter_Handler,
+		},
+		{
+			MethodName: "GetJobseekerDetails",
+			Handler:    _Admin_GetJobseekerDetails_Handler,
+		},
+		{
+			MethodName: "GetRecruiterDetails",
+			Handler:    _Admin_GetRecruiterDetails_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

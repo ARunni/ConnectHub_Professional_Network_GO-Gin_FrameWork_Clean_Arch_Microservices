@@ -146,3 +146,37 @@ func (ac *adminClient) UnBlockJobseeker(id int) (models.BlockRes, error) {
 		Status: jobseekerUnBlock.Status,
 	}, nil
 }
+
+func (ac *adminClient) GetJobseekerDetails(id int) (models.JobseekerDetailsAtAdmin, error) {
+
+	jobseekerData, err := ac.Client.GetJobseekerDetails(context.Background(), &pb.GetJobseekerDetailsRequest{
+		JobseekerId: int64(id),
+	})
+	if err != nil {
+		return models.JobseekerDetailsAtAdmin{}, err
+	}
+	return models.JobseekerDetailsAtAdmin{
+		Id:      int(jobseekerData.Id),
+		Name:    jobseekerData.Firstname,
+		Email:   jobseekerData.Email,
+		Phone:   jobseekerData.PhoneNumber,
+		Blocked: jobseekerData.Blocked,
+	}, nil
+}
+
+func (ac *adminClient) GetRecruiterDetails(id int) (models.RecruiterDetailsAtAdmin, error) {
+
+	recruiterdata, err := ac.Client.GetRecruiterDetails(context.Background(), &pb.GetRecruiterDetailsRequest{
+		RecruiterId: int64(id),
+	})
+	if err != nil {
+		return models.RecruiterDetailsAtAdmin{}, err
+	}
+	return models.RecruiterDetailsAtAdmin{
+		Id:          int(recruiterdata.Id),
+		CompanyName: recruiterdata.CompanyName,
+		Email:       recruiterdata.Email,
+		Phone:       recruiterdata.PhoneNumber,
+		Blocked:     recruiterdata.Blocked,
+	}, nil
+}

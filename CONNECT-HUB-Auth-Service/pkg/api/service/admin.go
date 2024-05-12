@@ -137,3 +137,35 @@ func (as *AdminServer) BlockJobseeker(ctx context.Context, Req *pb.BlockJobseeke
 		Status: result.Status,
 	}, nil
 }
+
+func (as *AdminServer) GetJobseekerDetails(ctx context.Context, Req *pb.GetJobseekerDetailsRequest) (*pb.GetJobseekerDetailsResponse, error) {
+	jobseekerId := Req.JobseekerId
+
+	result, err := as.adminUseCase.GetJobseekerDetails(int(jobseekerId))
+	if err != nil {
+		return &pb.GetJobseekerDetailsResponse{}, err
+	}
+	return &pb.GetJobseekerDetailsResponse{
+		Id:          uint64(result.Id),
+		Email:       result.Email,
+		Firstname:   result.Name,
+		PhoneNumber: result.Phone,
+		Blocked:     result.Blocked,
+	}, nil
+}
+
+func (as *AdminServer) GetRecruiterDetails(ctx context.Context, Req *pb.GetRecruiterDetailsRequest) (*pb.GetRecruiterDetailsResponse, error) {
+	recruiterId := Req.RecruiterId
+
+	result, err := as.adminUseCase.GetRecruiterDetails(int(recruiterId))
+	if err != nil {
+		return &pb.GetRecruiterDetailsResponse{}, err
+	}
+	return &pb.GetRecruiterDetailsResponse{
+		Id:          uint64(result.Id),
+		Email:       result.Email,
+		CompanyName: result.CompanyName,
+		PhoneNumber: result.Phone,
+		Blocked:     result.Blocked,
+	}, nil
+}

@@ -15,4 +15,6 @@ type AdminRepository interface {
 	CheckRecruiterById(id int) (bool, error)
 	IsJobseekerBlocked(id int) (bool, error)
 	IsRecruiterBlocked(id int) (bool, error)
+	GetJobseekerDetails(id int) (req.JobseekerDetailsAtAdmin, error)
+	GetRecruiterDetails(id int) (req.RecruiterDetailsAtAdmin, error)
 }

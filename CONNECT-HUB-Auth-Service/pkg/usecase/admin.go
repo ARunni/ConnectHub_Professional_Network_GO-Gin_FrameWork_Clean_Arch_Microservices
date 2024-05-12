@@ -192,3 +192,50 @@ func (au *adminUseCase) UnBlockJobseeker(id int) (req.BlockRes, error) {
 	return req.BlockRes{Status: "Success"}, nil
 
 }
+
+func (au *adminUseCase) GetJobseekerDetails(id int) (req.JobseekerDetailsAtAdmin, error) {
+
+	if id <= 0 {
+		return req.JobseekerDetailsAtAdmin{}, errors.New(msg.ErrDataZero)
+	}
+
+	ok, err := au.adminRepository.CheckJobseekerById(id)
+
+	if err != nil {
+		return req.JobseekerDetailsAtAdmin{}, err
+	}
+
+	if !ok {
+		return req.JobseekerDetailsAtAdmin{}, errors.New(msg.ErrIdExist)
+	}
+
+	data, err := au.adminRepository.GetJobseekerDetails(id)
+	if err != nil {
+		return req.JobseekerDetailsAtAdmin{}, err
+	}
+	return data, nil
+}
+
+func (au *adminUseCase) GetRecruiterDetails(id int) (req.RecruiterDetailsAtAdmin, error) {
+
+	if id <= 0 {
+		return req.RecruiterDetailsAtAdmin{}, errors.New(msg.ErrDataZero)
+	}
+
+	ok, err := au.adminRepository.CheckRecruiterById(id)
+
+	if err != nil {
+		return req.RecruiterDetailsAtAdmin{}, err
+	}
+
+	if !ok {
+		return req.RecruiterDetailsAtAdmin{}, errors.New(msg.ErrIdExist)
+	}
+
+	data, err := au.adminRepository.GetRecruiterDetails(id)
+
+	if err != nil {
+		return req.RecruiterDetailsAtAdmin{}, err
+	}
+	return data, nil
+}

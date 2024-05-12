@@ -135,7 +135,7 @@ func (ah *AdminHandler) UnBlockJobseeker(c *gin.Context) {
 	}
 
 	unBlockjobseeker, err := ah.GRPC_Client.UnBlockJobseeker(id)
-	
+
 	if err != nil {
 		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgGettingDataErr, nil, err.Error())
 		c.JSON(http.StatusBadRequest, errorRes)
@@ -157,6 +157,48 @@ func (ah *AdminHandler) UnBlockRecruiter(c *gin.Context) {
 	}
 
 	unBlockRecruiter, err := ah.GRPC_Client.UnBlockRecruiter(id)
+	if err != nil {
+		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgGettingDataErr, nil, err.Error())
+		c.JSON(http.StatusBadRequest, errorRes)
+		return
+	}
+
+	successRes := response.ClientResponse(http.StatusOK, msg.MsgGetSucces, unBlockRecruiter, nil)
+	c.JSON(http.StatusOK, successRes)
+}
+
+func (ah *AdminHandler) GetJobseekerDetails(c *gin.Context) {
+	idStr := c.Query("id")
+	id, err := strconv.Atoi(idStr)
+
+	if err != nil {
+		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgPageNumFormatErr, nil, err.Error())
+		c.JSON(http.StatusBadRequest, errorRes)
+		return
+	}
+
+	unBlockRecruiter, err := ah.GRPC_Client.GetJobseekerDetails(id)
+	if err != nil {
+		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgGettingDataErr, nil, err.Error())
+		c.JSON(http.StatusBadRequest, errorRes)
+		return
+	}
+
+	successRes := response.ClientResponse(http.StatusOK, msg.MsgGetSucces, unBlockRecruiter, nil)
+	c.JSON(http.StatusOK, successRes)
+}
+
+func (ah *AdminHandler) GetRecruiterDetails(c *gin.Context) {
+	idStr := c.Query("id")
+	id, err := strconv.Atoi(idStr)
+
+	if err != nil {
+		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgPageNumFormatErr, nil, err.Error())
+		c.JSON(http.StatusBadRequest, errorRes)
+		return
+	}
+
+	unBlockRecruiter, err := ah.GRPC_Client.GetRecruiterDetails(id)
 	if err != nil {
 		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgGettingDataErr, nil, err.Error())
 		c.JSON(http.StatusBadRequest, errorRes)

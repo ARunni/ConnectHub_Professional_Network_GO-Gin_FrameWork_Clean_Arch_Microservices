@@ -153,3 +153,23 @@ func (ar *adminRepository) IsRecruiterBlocked(id int) (bool, error) {
 	}
 	return ok, nil
 }
+
+func (ar *adminRepository) GetJobseekerDetails(id int) (req.JobseekerDetailsAtAdmin, error) {
+	var data req.JobseekerDetailsAtAdmin
+	qurry := `select * from job_seekers where id = ?`
+	err := ar.DB.Raw(qurry, id).Scan(&data).Error
+	if err != nil {
+		return req.JobseekerDetailsAtAdmin{}, err
+	}
+	return data, nil
+}
+
+func (ar *adminRepository) GetRecruiterDetails(id int) (req.RecruiterDetailsAtAdmin, error) {
+	var data req.RecruiterDetailsAtAdmin
+	qurry := `select * from recruiters where id = ?`
+	err := ar.DB.Raw(qurry, id).Scan(&data).Error
+	if err != nil {
+		return req.RecruiterDetailsAtAdmin{}, err
+	}
+	return data, nil
+}

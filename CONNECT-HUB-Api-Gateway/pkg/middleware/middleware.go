@@ -4,6 +4,7 @@ import (
 	"connectHub_gateway/pkg/helper"
 	"connectHub_gateway/pkg/utils/response"
 	"errors"
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -12,6 +13,7 @@ import (
 )
 
 func AuthMiddleware(c *gin.Context) {
+	fmt.Println("herer middleware")
 	tokenString := c.GetHeader("Authorization")
 	if tokenString == "" {
 		err := errors.New("field empty")

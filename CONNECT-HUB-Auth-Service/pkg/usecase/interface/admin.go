@@ -10,4 +10,6 @@ type AdminUseCase interface {
 	BlockJobseeker(id int) (req.BlockRes, error)
 	UnBlockRecruiter(id int) (req.BlockRes, error)
 	UnBlockJobseeker(id int) (req.BlockRes, error)
+	GetJobseekerDetails(id int) (req.JobseekerDetailsAtAdmin, error)
+	GetRecruiterDetails(id int) (req.RecruiterDetailsAtAdmin, error)
 }

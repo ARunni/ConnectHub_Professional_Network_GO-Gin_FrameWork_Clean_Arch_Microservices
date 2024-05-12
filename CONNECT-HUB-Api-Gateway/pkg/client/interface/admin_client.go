@@ -10,4 +10,6 @@ type AdminClient interface {
 	BlockJobseeker(id int) (models.BlockRes, error)
 	UnBlockRecruiter(id int) (models.BlockRes, error)
 	UnBlockJobseeker(id int) (models.BlockRes, error)
+	GetJobseekerDetails(id int) (models.JobseekerDetailsAtAdmin, error)
+	GetRecruiterDetails(id int) (models.RecruiterDetailsAtAdmin, error)
 }
