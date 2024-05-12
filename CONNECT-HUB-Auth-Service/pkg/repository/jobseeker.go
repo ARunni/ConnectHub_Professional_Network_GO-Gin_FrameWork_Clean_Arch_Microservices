@@ -68,3 +68,17 @@ func (jr *jobseekerRepository) CheckJobseekerBlockByEmail(email string) (bool, e
 	}
 	return ok, nil
 }
+
+func (jr *jobseekerRepository) JobSeekerGetProfile(id int) (req.JobSeekerProfile, error) {
+	var data req.JobSeekerProfile
+
+	querry := `select id,first_name,last_name,
+	email,phone_number,date_of_birth,gender
+	 from job_seekers where id = ?`
+
+	err := jr.DB.Raw(querry, id).Scan(&data).Error
+	if err != nil {
+		return req.JobSeekerProfile{}, err
+	}
+	return data, nil
+}

@@ -46,6 +46,12 @@ func NewServerHTTP(
 		adminJobseeker := router.Group("/admin/jobseeker")
 		adminRecruiter := router.Group("/admin/recruiter")
 
+		// Jobseeker Router Group
+		jobseekerAuthRoute := router.Group("/jobseeker")
+
+		// Jobseeker Router Group
+		recruiterAuthRoute := router.Group("/recruiter")
+
 		// Admin Routes
 		adminJobseeker.GET("/all", AdminHandler.GetJobseekers)
 		adminJobseeker.PATCH("/block", AdminHandler.BlockJobseeker)
@@ -58,8 +64,10 @@ func NewServerHTTP(
 		adminRecruiter.GET("", AdminHandler.GetRecruiterDetails)
 
 		// Jobseeker Routes
+		jobseekerAuthRoute.GET("/profile", JobseekerHandler.JobSeekerGetProfile)
 
 		// Recruiter Routes
+		recruiterAuthRoute.GET("/profile", RecruiterHandler.RecruiterGetProfile)
 	}
 
 	return &ServerHTTP{engine: router}

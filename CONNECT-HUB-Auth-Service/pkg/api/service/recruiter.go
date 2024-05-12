@@ -5,7 +5,6 @@ import (
 	interfaces "ConnetHub_auth/pkg/usecase/interface"
 	req "ConnetHub_auth/pkg/utils/reqAndResponse"
 	"context"
-	
 )
 
 type RecruiterServer struct {
@@ -33,7 +32,7 @@ func (rs *RecruiterServer) RecruiterSignup(ctx context.Context, Req *pb.Recruite
 		Password:             Req.Password,
 		ConfirmPassword:      Req.ConfirmPassword,
 	}
-	
+
 	recruiter, err := rs.recruiterUseCase.RecruiterSignup(recruiterSignup)
 	if err != nil {
 		return nil, err
@@ -78,6 +77,26 @@ func (rs *RecruiterServer) RecruiterLogin(ctx context.Context, Req *pb.Recruiter
 			HeadquartersAddress: recruiterdata.Recruiter.Headquarters_address,
 		},
 		Token: recruiterdata.Token,
+	}, nil
+
+}
+
+func (rs *RecruiterServer) RecruiterGetProfile(ctx context.Context, Req *pb.GetProfileRequest) (*pb.RecruiterDetailsResponse, error) {
+	recruiterId := Req.RecruiterId
+	recruiterdata, err := rs.recruiterUseCase.RecruiterGetProfile(int(recruiterId))
+	if err != nil {
+		return nil, err
+	}
+	return &pb.RecruiterDetailsResponse{
+		Id:                  uint64(recruiterdata.ID),
+		CompanyName:         recruiterdata.Company_name,
+		Email:               recruiterdata.Contact_email,
+		AboutCompany:        recruiterdata.About_company,
+		Industry:            recruiterdata.Industry,
+		CompanySize:         int64(recruiterdata.Company_size),
+		Website:             recruiterdata.Website,
+		PhoneNumber:         int64(recruiterdata.Contact_phone_number),
+		HeadquartersAddress: recruiterdata.Headquarters_address,
 	}, nil
 
 }

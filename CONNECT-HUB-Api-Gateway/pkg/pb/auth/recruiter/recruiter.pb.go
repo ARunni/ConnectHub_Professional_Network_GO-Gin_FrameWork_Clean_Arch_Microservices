@@ -20,6 +20,53 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type GetProfileRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	RecruiterId int32 `protobuf:"varint,1,opt,name=recruiter_id,json=recruiterId,proto3" json:"recruiter_id,omitempty"`
+}
+
+func (x *GetProfileRequest) Reset() {
+	*x = GetProfileRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetProfileRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetProfileRequest) ProtoMessage() {}
+
+func (x *GetProfileRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[0]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetProfileRequest.ProtoReflect.Descriptor instead.
+func (*GetProfileRequest) Descriptor() ([]byte, []int) {
+	return file_pkg_pb_auth_recruiter_recruiter_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *GetProfileRequest) GetRecruiterId() int32 {
+	if x != nil {
+		return x.RecruiterId
+	}
+	return 0
+}
+
 type RecruiterSignupRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -40,7 +87,7 @@ type RecruiterSignupRequest struct {
 func (x *RecruiterSignupRequest) Reset() {
 	*x = RecruiterSignupRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[0]
+		mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -53,7 +100,7 @@ func (x *RecruiterSignupRequest) String() string {
 func (*RecruiterSignupRequest) ProtoMessage() {}
 
 func (x *RecruiterSignupRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[0]
+	mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -66,7 +113,7 @@ func (x *RecruiterSignupRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RecruiterSignupRequest.ProtoReflect.Descriptor instead.
 func (*RecruiterSignupRequest) Descriptor() ([]byte, []int) {
-	return file_pkg_pb_auth_recruiter_recruiter_proto_rawDescGZIP(), []int{0}
+	return file_pkg_pb_auth_recruiter_recruiter_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *RecruiterSignupRequest) GetCompanyName() string {
@@ -153,7 +200,7 @@ type RecruiterSignupResponse struct {
 func (x *RecruiterSignupResponse) Reset() {
 	*x = RecruiterSignupResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[1]
+		mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -166,7 +213,7 @@ func (x *RecruiterSignupResponse) String() string {
 func (*RecruiterSignupResponse) ProtoMessage() {}
 
 func (x *RecruiterSignupResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[1]
+	mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -179,7 +226,7 @@ func (x *RecruiterSignupResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RecruiterSignupResponse.ProtoReflect.Descriptor instead.
 func (*RecruiterSignupResponse) Descriptor() ([]byte, []int) {
-	return file_pkg_pb_auth_recruiter_recruiter_proto_rawDescGZIP(), []int{1}
+	return file_pkg_pb_auth_recruiter_recruiter_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *RecruiterSignupResponse) GetStatus() int64 {
@@ -229,7 +276,7 @@ type RecruiterDetails struct {
 func (x *RecruiterDetails) Reset() {
 	*x = RecruiterDetails{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[2]
+		mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -242,7 +289,7 @@ func (x *RecruiterDetails) String() string {
 func (*RecruiterDetails) ProtoMessage() {}
 
 func (x *RecruiterDetails) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[2]
+	mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -255,7 +302,7 @@ func (x *RecruiterDetails) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RecruiterDetails.ProtoReflect.Descriptor instead.
 func (*RecruiterDetails) Descriptor() ([]byte, []int) {
-	return file_pkg_pb_auth_recruiter_recruiter_proto_rawDescGZIP(), []int{2}
+	return file_pkg_pb_auth_recruiter_recruiter_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *RecruiterDetails) GetId() uint64 {
@@ -321,6 +368,117 @@ func (x *RecruiterDetails) GetHeadquartersAddress() string {
 	return ""
 }
 
+type RecruiterDetailsResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id                  uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	CompanyName         string `protobuf:"bytes,2,opt,name=companyName,proto3" json:"companyName,omitempty"`
+	Email               string `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
+	AboutCompany        string `protobuf:"bytes,4,opt,name=AboutCompany,proto3" json:"AboutCompany,omitempty"`
+	Industry            string `protobuf:"bytes,5,opt,name=Industry,proto3" json:"Industry,omitempty"`
+	CompanySize         int64  `protobuf:"varint,6,opt,name=Company_size,json=CompanySize,proto3" json:"Company_size,omitempty"`
+	Website             string `protobuf:"bytes,7,opt,name=Website,proto3" json:"Website,omitempty"`
+	PhoneNumber         int64  `protobuf:"varint,8,opt,name=phone_number,json=phoneNumber,proto3" json:"phone_number,omitempty"`
+	HeadquartersAddress string `protobuf:"bytes,9,opt,name=headquarters_address,json=headquartersAddress,proto3" json:"headquarters_address,omitempty"`
+}
+
+func (x *RecruiterDetailsResponse) Reset() {
+	*x = RecruiterDetailsResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RecruiterDetailsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RecruiterDetailsResponse) ProtoMessage() {}
+
+func (x *RecruiterDetailsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RecruiterDetailsResponse.ProtoReflect.Descriptor instead.
+func (*RecruiterDetailsResponse) Descriptor() ([]byte, []int) {
+	return file_pkg_pb_auth_recruiter_recruiter_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *RecruiterDetailsResponse) GetId() uint64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *RecruiterDetailsResponse) GetCompanyName() string {
+	if x != nil {
+		return x.CompanyName
+	}
+	return ""
+}
+
+func (x *RecruiterDetailsResponse) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *RecruiterDetailsResponse) GetAboutCompany() string {
+	if x != nil {
+		return x.AboutCompany
+	}
+	return ""
+}
+
+func (x *RecruiterDetailsResponse) GetIndustry() string {
+	if x != nil {
+		return x.Industry
+	}
+	return ""
+}
+
+func (x *RecruiterDetailsResponse) GetCompanySize() int64 {
+	if x != nil {
+		return x.CompanySize
+	}
+	return 0
+}
+
+func (x *RecruiterDetailsResponse) GetWebsite() string {
+	if x != nil {
+		return x.Website
+	}
+	return ""
+}
+
+func (x *RecruiterDetailsResponse) GetPhoneNumber() int64 {
+	if x != nil {
+		return x.PhoneNumber
+	}
+	return 0
+}
+
+func (x *RecruiterDetailsResponse) GetHeadquartersAddress() string {
+	if x != nil {
+		return x.HeadquartersAddress
+	}
+	return ""
+}
+
 type RecruiterLoginInRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -333,7 +491,7 @@ type RecruiterLoginInRequest struct {
 func (x *RecruiterLoginInRequest) Reset() {
 	*x = RecruiterLoginInRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[3]
+		mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -346,7 +504,7 @@ func (x *RecruiterLoginInRequest) String() string {
 func (*RecruiterLoginInRequest) ProtoMessage() {}
 
 func (x *RecruiterLoginInRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[3]
+	mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -359,7 +517,7 @@ func (x *RecruiterLoginInRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RecruiterLoginInRequest.ProtoReflect.Descriptor instead.
 func (*RecruiterLoginInRequest) Descriptor() ([]byte, []int) {
-	return file_pkg_pb_auth_recruiter_recruiter_proto_rawDescGZIP(), []int{3}
+	return file_pkg_pb_auth_recruiter_recruiter_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *RecruiterLoginInRequest) GetEmail() string {
@@ -390,7 +548,7 @@ type RecruiterLoginResponse struct {
 func (x *RecruiterLoginResponse) Reset() {
 	*x = RecruiterLoginResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[4]
+		mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -403,7 +561,7 @@ func (x *RecruiterLoginResponse) String() string {
 func (*RecruiterLoginResponse) ProtoMessage() {}
 
 func (x *RecruiterLoginResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[4]
+	mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -416,7 +574,7 @@ func (x *RecruiterLoginResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RecruiterLoginResponse.ProtoReflect.Descriptor instead.
 func (*RecruiterLoginResponse) Descriptor() ([]byte, []int) {
-	return file_pkg_pb_auth_recruiter_recruiter_proto_rawDescGZIP(), []int{4}
+	return file_pkg_pb_auth_recruiter_recruiter_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *RecruiterLoginResponse) GetStatus() int64 {
@@ -458,7 +616,7 @@ type GetUsersRequest struct {
 func (x *GetUsersRequest) Reset() {
 	*x = GetUsersRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[5]
+		mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -471,7 +629,7 @@ func (x *GetUsersRequest) String() string {
 func (*GetUsersRequest) ProtoMessage() {}
 
 func (x *GetUsersRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[5]
+	mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -484,7 +642,7 @@ func (x *GetUsersRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUsersRequest.ProtoReflect.Descriptor instead.
 func (*GetUsersRequest) Descriptor() ([]byte, []int) {
-	return file_pkg_pb_auth_recruiter_recruiter_proto_rawDescGZIP(), []int{5}
+	return file_pkg_pb_auth_recruiter_recruiter_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *GetUsersRequest) GetPage() int32 {
@@ -505,7 +663,7 @@ type GetUsersResponse struct {
 func (x *GetUsersResponse) Reset() {
 	*x = GetUsersResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[6]
+		mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -518,7 +676,7 @@ func (x *GetUsersResponse) String() string {
 func (*GetUsersResponse) ProtoMessage() {}
 
 func (x *GetUsersResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[6]
+	mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -531,7 +689,7 @@ func (x *GetUsersResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUsersResponse.ProtoReflect.Descriptor instead.
 func (*GetUsersResponse) Descriptor() ([]byte, []int) {
-	return file_pkg_pb_auth_recruiter_recruiter_proto_rawDescGZIP(), []int{6}
+	return file_pkg_pb_auth_recruiter_recruiter_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *GetUsersResponse) GetUsers() []*UserDetailsAtRecruiter {
@@ -556,7 +714,7 @@ type UserDetailsAtRecruiter struct {
 func (x *UserDetailsAtRecruiter) Reset() {
 	*x = UserDetailsAtRecruiter{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[7]
+		mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -569,7 +727,7 @@ func (x *UserDetailsAtRecruiter) String() string {
 func (*UserDetailsAtRecruiter) ProtoMessage() {}
 
 func (x *UserDetailsAtRecruiter) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[7]
+	mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -582,7 +740,7 @@ func (x *UserDetailsAtRecruiter) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserDetailsAtRecruiter.ProtoReflect.Descriptor instead.
 func (*UserDetailsAtRecruiter) Descriptor() ([]byte, []int) {
-	return file_pkg_pb_auth_recruiter_recruiter_proto_rawDescGZIP(), []int{7}
+	return file_pkg_pb_auth_recruiter_recruiter_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *UserDetailsAtRecruiter) GetId() int32 {
@@ -631,7 +789,7 @@ type BlockUserRequest struct {
 func (x *BlockUserRequest) Reset() {
 	*x = BlockUserRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[8]
+		mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -644,7 +802,7 @@ func (x *BlockUserRequest) String() string {
 func (*BlockUserRequest) ProtoMessage() {}
 
 func (x *BlockUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[8]
+	mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -657,7 +815,7 @@ func (x *BlockUserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BlockUserRequest.ProtoReflect.Descriptor instead.
 func (*BlockUserRequest) Descriptor() ([]byte, []int) {
-	return file_pkg_pb_auth_recruiter_recruiter_proto_rawDescGZIP(), []int{8}
+	return file_pkg_pb_auth_recruiter_recruiter_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *BlockUserRequest) GetUserId() uint64 {
@@ -679,7 +837,7 @@ type BlockUserResponse struct {
 func (x *BlockUserResponse) Reset() {
 	*x = BlockUserResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[9]
+		mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[11]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -692,7 +850,7 @@ func (x *BlockUserResponse) String() string {
 func (*BlockUserResponse) ProtoMessage() {}
 
 func (x *BlockUserResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[9]
+	mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[11]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -705,7 +863,7 @@ func (x *BlockUserResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BlockUserResponse.ProtoReflect.Descriptor instead.
 func (*BlockUserResponse) Descriptor() ([]byte, []int) {
-	return file_pkg_pb_auth_recruiter_recruiter_proto_rawDescGZIP(), []int{9}
+	return file_pkg_pb_auth_recruiter_recruiter_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *BlockUserResponse) GetSuccess() bool {
@@ -733,7 +891,7 @@ type UnBlockUserRequest struct {
 func (x *UnBlockUserRequest) Reset() {
 	*x = UnBlockUserRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[10]
+		mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[12]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -746,7 +904,7 @@ func (x *UnBlockUserRequest) String() string {
 func (*UnBlockUserRequest) ProtoMessage() {}
 
 func (x *UnBlockUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[10]
+	mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[12]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -759,7 +917,7 @@ func (x *UnBlockUserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UnBlockUserRequest.ProtoReflect.Descriptor instead.
 func (*UnBlockUserRequest) Descriptor() ([]byte, []int) {
-	return file_pkg_pb_auth_recruiter_recruiter_proto_rawDescGZIP(), []int{10}
+	return file_pkg_pb_auth_recruiter_recruiter_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *UnBlockUserRequest) GetUserId() uint64 {
@@ -781,7 +939,7 @@ type UnBlockUserResponse struct {
 func (x *UnBlockUserResponse) Reset() {
 	*x = UnBlockUserResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[11]
+		mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[13]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -794,7 +952,7 @@ func (x *UnBlockUserResponse) String() string {
 func (*UnBlockUserResponse) ProtoMessage() {}
 
 func (x *UnBlockUserResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[11]
+	mi := &file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[13]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -807,7 +965,7 @@ func (x *UnBlockUserResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UnBlockUserResponse.ProtoReflect.Descriptor instead.
 func (*UnBlockUserResponse) Descriptor() ([]byte, []int) {
-	return file_pkg_pb_auth_recruiter_recruiter_proto_rawDescGZIP(), []int{11}
+	return file_pkg_pb_auth_recruiter_recruiter_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *UnBlockUserResponse) GetSuccess() bool {
@@ -830,42 +988,65 @@ var file_pkg_pb_auth_recruiter_recruiter_proto_rawDesc = []byte{
 	0x0a, 0x25, 0x70, 0x6b, 0x67, 0x2f, 0x70, 0x62, 0x2f, 0x61, 0x75, 0x74, 0x68, 0x2f, 0x72, 0x65,
 	0x63, 0x72, 0x75, 0x69, 0x74, 0x65, 0x72, 0x2f, 0x72, 0x65, 0x63, 0x72, 0x75, 0x69, 0x74, 0x65,
 	0x72, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x0d, 0x72, 0x65, 0x63, 0x72, 0x75, 0x69, 0x74,
-	0x65, 0x72, 0x61, 0x75, 0x74, 0x68, 0x22, 0xe9, 0x02, 0x0a, 0x16, 0x52, 0x65, 0x63, 0x72, 0x75,
-	0x69, 0x74, 0x65, 0x72, 0x53, 0x69, 0x67, 0x6e, 0x75, 0x70, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x12, 0x20, 0x0a, 0x0b, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x4e, 0x61, 0x6d, 0x65,
-	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x4e,
-	0x61, 0x6d, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x18, 0x02, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x05, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x12, 0x1a, 0x0a, 0x08, 0x70, 0x61, 0x73,
-	0x73, 0x77, 0x6f, 0x72, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x70, 0x61, 0x73,
-	0x73, 0x77, 0x6f, 0x72, 0x64, 0x12, 0x28, 0x0a, 0x0f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x72, 0x6d,
-	0x50, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0f,
-	0x63, 0x6f, 0x6e, 0x66, 0x69, 0x72, 0x6d, 0x50, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x12,
-	0x22, 0x0a, 0x0c, 0x41, 0x62, 0x6f, 0x75, 0x74, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x18,
-	0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0c, 0x41, 0x62, 0x6f, 0x75, 0x74, 0x43, 0x6f, 0x6d, 0x70,
-	0x61, 0x6e, 0x79, 0x12, 0x1a, 0x0a, 0x08, 0x49, 0x6e, 0x64, 0x75, 0x73, 0x74, 0x72, 0x79, 0x18,
-	0x06, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x49, 0x6e, 0x64, 0x75, 0x73, 0x74, 0x72, 0x79, 0x12,
-	0x21, 0x0a, 0x0c, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x5f, 0x73, 0x69, 0x7a, 0x65, 0x18,
-	0x07, 0x20, 0x01, 0x28, 0x03, 0x52, 0x0b, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x53, 0x69,
-	0x7a, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x57, 0x65, 0x62, 0x73, 0x69, 0x74, 0x65, 0x18, 0x08, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x07, 0x57, 0x65, 0x62, 0x73, 0x69, 0x74, 0x65, 0x12, 0x21, 0x0a, 0x0c,
-	0x70, 0x68, 0x6f, 0x6e, 0x65, 0x5f, 0x6e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x18, 0x09, 0x20, 0x01,
-	0x28, 0x03, 0x52, 0x0b, 0x70, 0x68, 0x6f, 0x6e, 0x65, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x12,
-	0x31, 0x0a, 0x14, 0x68, 0x65, 0x61, 0x64, 0x71, 0x75, 0x61, 0x72, 0x74, 0x65, 0x72, 0x73, 0x5f,
-	0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x0a, 0x20, 0x01, 0x28, 0x09, 0x52, 0x13, 0x68,
-	0x65, 0x61, 0x64, 0x71, 0x75, 0x61, 0x72, 0x74, 0x65, 0x72, 0x73, 0x41, 0x64, 0x64, 0x72, 0x65,
-	0x73, 0x73, 0x22, 0xaa, 0x01, 0x0a, 0x17, 0x52, 0x65, 0x63, 0x72, 0x75, 0x69, 0x74, 0x65, 0x72,
-	0x53, 0x69, 0x67, 0x6e, 0x75, 0x70, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x16,
-	0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x06,
-	0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x4b, 0x0a, 0x10, 0x52, 0x65, 0x63, 0x72, 0x75, 0x69,
-	0x74, 0x65, 0x72, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b,
-	0x32, 0x1f, 0x2e, 0x72, 0x65, 0x63, 0x72, 0x75, 0x69, 0x74, 0x65, 0x72, 0x61, 0x75, 0x74, 0x68,
-	0x2e, 0x52, 0x65, 0x63, 0x72, 0x75, 0x69, 0x74, 0x65, 0x72, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c,
-	0x73, 0x52, 0x10, 0x52, 0x65, 0x63, 0x72, 0x75, 0x69, 0x74, 0x65, 0x72, 0x44, 0x65, 0x74, 0x61,
-	0x69, 0x6c, 0x73, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x03, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x14, 0x0a, 0x05, 0x65, 0x72, 0x72,
-	0x6f, 0x72, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x22,
-	0xad, 0x02, 0x0a, 0x10, 0x52, 0x65, 0x63, 0x72, 0x75, 0x69, 0x74, 0x65, 0x72, 0x44, 0x65, 0x74,
-	0x61, 0x69, 0x6c, 0x73, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04,
+	0x65, 0x72, 0x61, 0x75, 0x74, 0x68, 0x22, 0x36, 0x0a, 0x11, 0x47, 0x65, 0x74, 0x50, 0x72, 0x6f,
+	0x66, 0x69, 0x6c, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x21, 0x0a, 0x0c, 0x72,
+	0x65, 0x63, 0x72, 0x75, 0x69, 0x74, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x05, 0x52, 0x0b, 0x72, 0x65, 0x63, 0x72, 0x75, 0x69, 0x74, 0x65, 0x72, 0x49, 0x64, 0x22, 0xe9,
+	0x02, 0x0a, 0x16, 0x52, 0x65, 0x63, 0x72, 0x75, 0x69, 0x74, 0x65, 0x72, 0x53, 0x69, 0x67, 0x6e,
+	0x75, 0x70, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x20, 0x0a, 0x0b, 0x63, 0x6f, 0x6d,
+	0x70, 0x61, 0x6e, 0x79, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b,
+	0x63, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x65,
+	0x6d, 0x61, 0x69, 0x6c, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x65, 0x6d, 0x61, 0x69,
+	0x6c, 0x12, 0x1a, 0x0a, 0x08, 0x70, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x18, 0x03, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x08, 0x70, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x12, 0x28, 0x0a,
+	0x0f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x72, 0x6d, 0x50, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64,
+	0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x72, 0x6d, 0x50,
+	0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x12, 0x22, 0x0a, 0x0c, 0x41, 0x62, 0x6f, 0x75, 0x74,
+	0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0c, 0x41,
+	0x62, 0x6f, 0x75, 0x74, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x12, 0x1a, 0x0a, 0x08, 0x49,
+	0x6e, 0x64, 0x75, 0x73, 0x74, 0x72, 0x79, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x49,
+	0x6e, 0x64, 0x75, 0x73, 0x74, 0x72, 0x79, 0x12, 0x21, 0x0a, 0x0c, 0x43, 0x6f, 0x6d, 0x70, 0x61,
+	0x6e, 0x79, 0x5f, 0x73, 0x69, 0x7a, 0x65, 0x18, 0x07, 0x20, 0x01, 0x28, 0x03, 0x52, 0x0b, 0x43,
+	0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x53, 0x69, 0x7a, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x57, 0x65,
+	0x62, 0x73, 0x69, 0x74, 0x65, 0x18, 0x08, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x57, 0x65, 0x62,
+	0x73, 0x69, 0x74, 0x65, 0x12, 0x21, 0x0a, 0x0c, 0x70, 0x68, 0x6f, 0x6e, 0x65, 0x5f, 0x6e, 0x75,
+	0x6d, 0x62, 0x65, 0x72, 0x18, 0x09, 0x20, 0x01, 0x28, 0x03, 0x52, 0x0b, 0x70, 0x68, 0x6f, 0x6e,
+	0x65, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x12, 0x31, 0x0a, 0x14, 0x68, 0x65, 0x61, 0x64, 0x71,
+	0x75, 0x61, 0x72, 0x74, 0x65, 0x72, 0x73, 0x5f, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18,
+	0x0a, 0x20, 0x01, 0x28, 0x09, 0x52, 0x13, 0x68, 0x65, 0x61, 0x64, 0x71, 0x75, 0x61, 0x72, 0x74,
+	0x65, 0x72, 0x73, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x22, 0xaa, 0x01, 0x0a, 0x17, 0x52,
+	0x65, 0x63, 0x72, 0x75, 0x69, 0x74, 0x65, 0x72, 0x53, 0x69, 0x67, 0x6e, 0x75, 0x70, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x4b,
+	0x0a, 0x10, 0x52, 0x65, 0x63, 0x72, 0x75, 0x69, 0x74, 0x65, 0x72, 0x44, 0x65, 0x74, 0x61, 0x69,
+	0x6c, 0x73, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1f, 0x2e, 0x72, 0x65, 0x63, 0x72, 0x75,
+	0x69, 0x74, 0x65, 0x72, 0x61, 0x75, 0x74, 0x68, 0x2e, 0x52, 0x65, 0x63, 0x72, 0x75, 0x69, 0x74,
+	0x65, 0x72, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x52, 0x10, 0x52, 0x65, 0x63, 0x72, 0x75,
+	0x69, 0x74, 0x65, 0x72, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x12, 0x14, 0x0a, 0x05, 0x74,
+	0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x74, 0x6f, 0x6b, 0x65,
+	0x6e, 0x12, 0x14, 0x0a, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x22, 0xad, 0x02, 0x0a, 0x10, 0x52, 0x65, 0x63, 0x72,
+	0x75, 0x69, 0x74, 0x65, 0x72, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x12, 0x0e, 0x0a, 0x02,
+	0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x02, 0x69, 0x64, 0x12, 0x20, 0x0a, 0x0b,
+	0x63, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x0b, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x14,
+	0x0a, 0x05, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x65,
+	0x6d, 0x61, 0x69, 0x6c, 0x12, 0x22, 0x0a, 0x0c, 0x41, 0x62, 0x6f, 0x75, 0x74, 0x43, 0x6f, 0x6d,
+	0x70, 0x61, 0x6e, 0x79, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0c, 0x41, 0x62, 0x6f, 0x75,
+	0x74, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x12, 0x1a, 0x0a, 0x08, 0x49, 0x6e, 0x64, 0x75,
+	0x73, 0x74, 0x72, 0x79, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x49, 0x6e, 0x64, 0x75,
+	0x73, 0x74, 0x72, 0x79, 0x12, 0x21, 0x0a, 0x0c, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x5f,
+	0x73, 0x69, 0x7a, 0x65, 0x18, 0x06, 0x20, 0x01, 0x28, 0x03, 0x52, 0x0b, 0x43, 0x6f, 0x6d, 0x70,
+	0x61, 0x6e, 0x79, 0x53, 0x69, 0x7a, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x57, 0x65, 0x62, 0x73, 0x69,
+	0x74, 0x65, 0x18, 0x07, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x57, 0x65, 0x62, 0x73, 0x69, 0x74,
+	0x65, 0x12, 0x21, 0x0a, 0x0c, 0x70, 0x68, 0x6f, 0x6e, 0x65, 0x5f, 0x6e, 0x75, 0x6d, 0x62, 0x65,
+	0x72, 0x18, 0x08, 0x20, 0x01, 0x28, 0x03, 0x52, 0x0b, 0x70, 0x68, 0x6f, 0x6e, 0x65, 0x4e, 0x75,
+	0x6d, 0x62, 0x65, 0x72, 0x12, 0x31, 0x0a, 0x14, 0x68, 0x65, 0x61, 0x64, 0x71, 0x75, 0x61, 0x72,
+	0x74, 0x65, 0x72, 0x73, 0x5f, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x09, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x13, 0x68, 0x65, 0x61, 0x64, 0x71, 0x75, 0x61, 0x72, 0x74, 0x65, 0x72, 0x73,
+	0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x22, 0xb5, 0x02, 0x0a, 0x18, 0x52, 0x65, 0x63, 0x72,
+	0x75, 0x69, 0x74, 0x65, 0x72, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04,
 	0x52, 0x02, 0x69, 0x64, 0x12, 0x20, 0x0a, 0x0b, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x4e,
 	0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x63, 0x6f, 0x6d, 0x70, 0x61,
 	0x6e, 0x79, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x18,
@@ -931,7 +1112,7 @@ var file_pkg_pb_auth_recruiter_recruiter_proto_rawDesc = []byte{
 	0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x12,
 	0x23, 0x0a, 0x0d, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x5f, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65,
 	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0c, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x4d, 0x65, 0x73,
-	0x73, 0x61, 0x67, 0x65, 0x32, 0xa1, 0x02, 0x0a, 0x09, 0x52, 0x65, 0x63, 0x72, 0x75, 0x69, 0x74,
+	0x73, 0x61, 0x67, 0x65, 0x32, 0x83, 0x03, 0x0a, 0x09, 0x52, 0x65, 0x63, 0x72, 0x75, 0x69, 0x74,
 	0x65, 0x72, 0x12, 0x62, 0x0a, 0x0f, 0x52, 0x65, 0x63, 0x72, 0x75, 0x69, 0x74, 0x65, 0x72, 0x53,
 	0x69, 0x67, 0x6e, 0x75, 0x70, 0x12, 0x25, 0x2e, 0x72, 0x65, 0x63, 0x72, 0x75, 0x69, 0x74, 0x65,
 	0x72, 0x61, 0x75, 0x74, 0x68, 0x2e, 0x52, 0x65, 0x63, 0x72, 0x75, 0x69, 0x74, 0x65, 0x72, 0x53,
@@ -949,9 +1130,15 @@ var file_pkg_pb_auth_recruiter_recruiter_proto_rawDesc = []byte{
 	0x72, 0x61, 0x75, 0x74, 0x68, 0x2e, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x73, 0x52, 0x65,
 	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1f, 0x2e, 0x72, 0x65, 0x63, 0x72, 0x75, 0x69, 0x74, 0x65,
 	0x72, 0x61, 0x75, 0x74, 0x68, 0x2e, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x73, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x19, 0x5a, 0x17, 0x2e, 0x2f, 0x70, 0x6b,
-	0x67, 0x2f, 0x70, 0x62, 0x2f, 0x61, 0x75, 0x74, 0x68, 0x2f, 0x72, 0x65, 0x63, 0x72, 0x75, 0x69,
-	0x74, 0x65, 0x72, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x60, 0x0a, 0x13, 0x52, 0x65, 0x63, 0x72,
+	0x75, 0x69, 0x74, 0x65, 0x72, 0x47, 0x65, 0x74, 0x50, 0x72, 0x6f, 0x66, 0x69, 0x6c, 0x65, 0x12,
+	0x20, 0x2e, 0x72, 0x65, 0x63, 0x72, 0x75, 0x69, 0x74, 0x65, 0x72, 0x61, 0x75, 0x74, 0x68, 0x2e,
+	0x47, 0x65, 0x74, 0x50, 0x72, 0x6f, 0x66, 0x69, 0x6c, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x1a, 0x27, 0x2e, 0x72, 0x65, 0x63, 0x72, 0x75, 0x69, 0x74, 0x65, 0x72, 0x61, 0x75, 0x74,
+	0x68, 0x2e, 0x52, 0x65, 0x63, 0x72, 0x75, 0x69, 0x74, 0x65, 0x72, 0x44, 0x65, 0x74, 0x61, 0x69,
+	0x6c, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x19, 0x5a, 0x17, 0x2e, 0x2f,
+	0x70, 0x6b, 0x67, 0x2f, 0x70, 0x62, 0x2f, 0x61, 0x75, 0x74, 0x68, 0x2f, 0x72, 0x65, 0x63, 0x72,
+	0x75, 0x69, 0x74, 0x65, 0x72, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -966,33 +1153,37 @@ func file_pkg_pb_auth_recruiter_recruiter_proto_rawDescGZIP() []byte {
 	return file_pkg_pb_auth_recruiter_recruiter_proto_rawDescData
 }
 
-var file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_pkg_pb_auth_recruiter_recruiter_proto_goTypes = []interface{}{
-	(*RecruiterSignupRequest)(nil),  // 0: recruiterauth.RecruiterSignupRequest
-	(*RecruiterSignupResponse)(nil), // 1: recruiterauth.RecruiterSignupResponse
-	(*RecruiterDetails)(nil),        // 2: recruiterauth.RecruiterDetails
-	(*RecruiterLoginInRequest)(nil), // 3: recruiterauth.RecruiterLoginInRequest
-	(*RecruiterLoginResponse)(nil),  // 4: recruiterauth.RecruiterLoginResponse
-	(*GetUsersRequest)(nil),         // 5: recruiterauth.GetUsersRequest
-	(*GetUsersResponse)(nil),        // 6: recruiterauth.GetUsersResponse
-	(*UserDetailsAtRecruiter)(nil),  // 7: recruiterauth.UserDetailsAtRecruiter
-	(*BlockUserRequest)(nil),        // 8: recruiterauth.BlockUserRequest
-	(*BlockUserResponse)(nil),       // 9: recruiterauth.BlockUserResponse
-	(*UnBlockUserRequest)(nil),      // 10: recruiterauth.UnBlockUserRequest
-	(*UnBlockUserResponse)(nil),     // 11: recruiterauth.UnBlockUserResponse
+	(*GetProfileRequest)(nil),        // 0: recruiterauth.GetProfileRequest
+	(*RecruiterSignupRequest)(nil),   // 1: recruiterauth.RecruiterSignupRequest
+	(*RecruiterSignupResponse)(nil),  // 2: recruiterauth.RecruiterSignupResponse
+	(*RecruiterDetails)(nil),         // 3: recruiterauth.RecruiterDetails
+	(*RecruiterDetailsResponse)(nil), // 4: recruiterauth.RecruiterDetailsResponse
+	(*RecruiterLoginInRequest)(nil),  // 5: recruiterauth.RecruiterLoginInRequest
+	(*RecruiterLoginResponse)(nil),   // 6: recruiterauth.RecruiterLoginResponse
+	(*GetUsersRequest)(nil),          // 7: recruiterauth.GetUsersRequest
+	(*GetUsersResponse)(nil),         // 8: recruiterauth.GetUsersResponse
+	(*UserDetailsAtRecruiter)(nil),   // 9: recruiterauth.UserDetailsAtRecruiter
+	(*BlockUserRequest)(nil),         // 10: recruiterauth.BlockUserRequest
+	(*BlockUserResponse)(nil),        // 11: recruiterauth.BlockUserResponse
+	(*UnBlockUserRequest)(nil),       // 12: recruiterauth.UnBlockUserRequest
+	(*UnBlockUserResponse)(nil),      // 13: recruiterauth.UnBlockUserResponse
 }
 var file_pkg_pb_auth_recruiter_recruiter_proto_depIdxs = []int32{
-	2, // 0: recruiterauth.RecruiterSignupResponse.RecruiterDetails:type_name -> recruiterauth.RecruiterDetails
-	2, // 1: recruiterauth.RecruiterLoginResponse.RecruiterDetails:type_name -> recruiterauth.RecruiterDetails
-	7, // 2: recruiterauth.GetUsersResponse.users:type_name -> recruiterauth.UserDetailsAtRecruiter
-	0, // 3: recruiterauth.Recruiter.RecruiterSignup:input_type -> recruiterauth.RecruiterSignupRequest
-	3, // 4: recruiterauth.Recruiter.RecruiterLogin:input_type -> recruiterauth.RecruiterLoginInRequest
-	5, // 5: recruiterauth.Recruiter.GetUsers:input_type -> recruiterauth.GetUsersRequest
-	1, // 6: recruiterauth.Recruiter.RecruiterSignup:output_type -> recruiterauth.RecruiterSignupResponse
-	4, // 7: recruiterauth.Recruiter.RecruiterLogin:output_type -> recruiterauth.RecruiterLoginResponse
-	6, // 8: recruiterauth.Recruiter.GetUsers:output_type -> recruiterauth.GetUsersResponse
-	6, // [6:9] is the sub-list for method output_type
-	3, // [3:6] is the sub-list for method input_type
+	3, // 0: recruiterauth.RecruiterSignupResponse.RecruiterDetails:type_name -> recruiterauth.RecruiterDetails
+	3, // 1: recruiterauth.RecruiterLoginResponse.RecruiterDetails:type_name -> recruiterauth.RecruiterDetails
+	9, // 2: recruiterauth.GetUsersResponse.users:type_name -> recruiterauth.UserDetailsAtRecruiter
+	1, // 3: recruiterauth.Recruiter.RecruiterSignup:input_type -> recruiterauth.RecruiterSignupRequest
+	5, // 4: recruiterauth.Recruiter.RecruiterLogin:input_type -> recruiterauth.RecruiterLoginInRequest
+	7, // 5: recruiterauth.Recruiter.GetUsers:input_type -> recruiterauth.GetUsersRequest
+	0, // 6: recruiterauth.Recruiter.RecruiterGetProfile:input_type -> recruiterauth.GetProfileRequest
+	2, // 7: recruiterauth.Recruiter.RecruiterSignup:output_type -> recruiterauth.RecruiterSignupResponse
+	6, // 8: recruiterauth.Recruiter.RecruiterLogin:output_type -> recruiterauth.RecruiterLoginResponse
+	8, // 9: recruiterauth.Recruiter.GetUsers:output_type -> recruiterauth.GetUsersResponse
+	4, // 10: recruiterauth.Recruiter.RecruiterGetProfile:output_type -> recruiterauth.RecruiterDetailsResponse
+	7, // [7:11] is the sub-list for method output_type
+	3, // [3:7] is the sub-list for method input_type
 	3, // [3:3] is the sub-list for extension type_name
 	3, // [3:3] is the sub-list for extension extendee
 	0, // [0:3] is the sub-list for field type_name
@@ -1005,7 +1196,7 @@ func file_pkg_pb_auth_recruiter_recruiter_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RecruiterSignupRequest); i {
+			switch v := v.(*GetProfileRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1017,7 +1208,7 @@ func file_pkg_pb_auth_recruiter_recruiter_proto_init() {
 			}
 		}
 		file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RecruiterSignupResponse); i {
+			switch v := v.(*RecruiterSignupRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1029,7 +1220,7 @@ func file_pkg_pb_auth_recruiter_recruiter_proto_init() {
 			}
 		}
 		file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RecruiterDetails); i {
+			switch v := v.(*RecruiterSignupResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1041,7 +1232,7 @@ func file_pkg_pb_auth_recruiter_recruiter_proto_init() {
 			}
 		}
 		file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RecruiterLoginInRequest); i {
+			switch v := v.(*RecruiterDetails); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1053,7 +1244,7 @@ func file_pkg_pb_auth_recruiter_recruiter_proto_init() {
 			}
 		}
 		file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RecruiterLoginResponse); i {
+			switch v := v.(*RecruiterDetailsResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1065,7 +1256,7 @@ func file_pkg_pb_auth_recruiter_recruiter_proto_init() {
 			}
 		}
 		file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetUsersRequest); i {
+			switch v := v.(*RecruiterLoginInRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1077,7 +1268,7 @@ func file_pkg_pb_auth_recruiter_recruiter_proto_init() {
 			}
 		}
 		file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetUsersResponse); i {
+			switch v := v.(*RecruiterLoginResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1089,7 +1280,7 @@ func file_pkg_pb_auth_recruiter_recruiter_proto_init() {
 			}
 		}
 		file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UserDetailsAtRecruiter); i {
+			switch v := v.(*GetUsersRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1101,7 +1292,7 @@ func file_pkg_pb_auth_recruiter_recruiter_proto_init() {
 			}
 		}
 		file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*BlockUserRequest); i {
+			switch v := v.(*GetUsersResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1113,7 +1304,7 @@ func file_pkg_pb_auth_recruiter_recruiter_proto_init() {
 			}
 		}
 		file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*BlockUserResponse); i {
+			switch v := v.(*UserDetailsAtRecruiter); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1125,7 +1316,7 @@ func file_pkg_pb_auth_recruiter_recruiter_proto_init() {
 			}
 		}
 		file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UnBlockUserRequest); i {
+			switch v := v.(*BlockUserRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1137,6 +1328,30 @@ func file_pkg_pb_auth_recruiter_recruiter_proto_init() {
 			}
 		}
 		file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*BlockUserResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UnBlockUserRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_pkg_pb_auth_recruiter_recruiter_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*UnBlockUserResponse); i {
 			case 0:
 				return &v.state
@@ -1155,7 +1370,7 @@ func file_pkg_pb_auth_recruiter_recruiter_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_pkg_pb_auth_recruiter_recruiter_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   12,
+			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

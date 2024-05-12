@@ -8,8 +8,8 @@ service Jobseeker{
     rpc JobSeekerSignup(JobSeekerSignupRequest) returns (JobSeekerSignupResponse) {};
     rpc JobSeekerLogin(JobSeekerLoginRequest) returns (JobSeekerLoginResponse) {};
     rpc AddProfile(AddProfileRequest) returns (AddProfileResponse); 
-    rpc GetProfile(GetProfileRequest) returns (GetProfileResponse); 
-    rpc EditProfile(EditProfileRequest) returns (EditProfileResponse); 
+    rpc JobSeekerGetProfile(GetProfileRequest) returns (GetProfileResponse); 
+    rpc JobSeekerEditProfile(EditProfileRequest) returns (EditProfileResponse); 
     rpc JobSeekerOTPLogin(JobSeekerOTPLoginRequest) returns (JobSeekerOTPLoginResponse); 
     rpc OtpVerification(OtpVerificationRequest) returns (OtpVerificationResponse);
     rpc ChangePassword(ChangePasswordRequest) returns (ChangePasswordResponse);
@@ -84,13 +84,12 @@ message GetProfileResponse {
 
 message JobSeekerProfile {
     uint64 id = 1;
-    string name = 2;
+    string first_name = 2;
     string gender = 3;
     string email = 4;
-    string website = 5;
-    string location = 6;
-    string phone = 7;
-    string bio = 8;
+    string date_of_birth =5;
+    string phone = 6;
+    string last_name = 7;
 }
 message EditProfileRequest {
     int32 id = 1;

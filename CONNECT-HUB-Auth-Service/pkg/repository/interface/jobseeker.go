@@ -7,4 +7,5 @@ type JobseekerRepository interface {
 	JobseekerLogin(data req.JobSeekerLogin) (req.JobSeekerDetailsResponse, error)
 	CheckJobseekerExistsByEmail(email string) (bool, error)
 	CheckJobseekerBlockByEmail(email string) (bool, error)
+	JobSeekerGetProfile(id int)(req.JobSeekerProfile,error)
 }

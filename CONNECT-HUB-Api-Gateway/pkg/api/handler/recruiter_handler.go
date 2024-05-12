@@ -6,6 +6,7 @@ import (
 	"connectHub_gateway/pkg/utils/response"
 	"net/http"
 
+	msg "github.com/ARunni/Error_Message"
 	"github.com/gin-gonic/gin"
 )
 
@@ -60,6 +61,26 @@ func (jh *RecruiterHandler) RecruiterLogin(c *gin.Context) {
 	}
 
 	successResp := response.ClientResponse(http.StatusOK, "Recruiter Authenticated Successfully", recruiter, nil)
+	c.JSON(http.StatusOK, successResp)
+
+}
+
+func (jh *RecruiterHandler) RecruiterGetProfile(c *gin.Context) {
+
+	userIdstring, _ := c.Get("id")
+	userId, strErr := userIdstring.(int)
+	if !strErr {
+		errResp := response.ClientResponse(http.StatusBadRequest, msg.MsgFormatErr, nil, strErr)
+		c.JSON(http.StatusBadRequest, errResp)
+		return
+	}
+	recruiter, err := jh.GRPC_Client.RecruiterGetProfile(userId)
+	if err != nil {
+		errREsp := response.ClientResponse(http.StatusBadRequest, msg.MsgGettingDataErr, nil, err.Error())
+		c.JSON(http.StatusBadRequest, errREsp)
+		return
+	}
+	successResp := response.ClientResponse(http.StatusOK, msg.MsgGetSucces, recruiter, nil)
 	c.JSON(http.StatusOK, successResp)
 
 }

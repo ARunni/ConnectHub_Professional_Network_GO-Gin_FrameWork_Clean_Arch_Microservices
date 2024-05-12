@@ -8,7 +8,13 @@ service Recruiter{
     rpc RecruiterSignup(RecruiterSignupRequest) returns(RecruiterSignupResponse){};
     rpc RecruiterLogin(RecruiterLoginInRequest) returns (RecruiterLoginResponse){};
     rpc GetUsers(GetUsersRequest) returns (GetUsersResponse) {};
+    rpc RecruiterGetProfile(GetProfileRequest) returns (RecruiterDetailsResponse); 
 }
+
+message GetProfileRequest {
+    int32 recruiter_id = 1;
+}
+
 message RecruiterSignupRequest{
     string companyName=1;
     string email=2;
@@ -41,6 +47,18 @@ message RecruiterDetails{
     int64 phone_number=8;
     string headquarters_address=9;
 }
+message RecruiterDetailsResponse {
+    uint64 id=1;
+    string companyName=2;
+    string email=3;
+    string AboutCompany =4;
+    string Industry=5;
+    int64 Company_size=6;
+    string Website=7;
+    int64 phone_number=8;
+    string headquarters_address=9;
+}
+
 message RecruiterLoginInRequest{
     string email=1;
     string password=2;

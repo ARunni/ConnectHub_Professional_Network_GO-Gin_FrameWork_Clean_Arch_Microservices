@@ -31,3 +31,13 @@ type TokenJobSeeker struct {
 	JobSeeker JobSeekerDetailsResponse
 	Token     string
 }
+
+type JobSeekerProfile struct {
+	ID          uint   `json:"id"`
+	Email       string `json:"email"`
+	FirstName   string `json:"first_name"`
+	LastName    string `json:"last_name"`
+	PhoneNumber string `json:"phone_number"`
+	DateOfBirth string `json:"date_of_birth"`
+	Gender      string `json:"gender"`
+}

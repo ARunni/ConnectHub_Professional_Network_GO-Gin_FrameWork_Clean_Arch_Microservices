@@ -83,3 +83,23 @@ func (rc *recruiterClient) RecruiterLogin(recruiterData models.RecruiterLogin) (
 		Token: recruiter.Token,
 	}, nil
 }
+
+func (rc *recruiterClient) RecruiterGetProfile(id int) (models.RecruiterProfile, error) {
+	data, err := rc.Client.RecruiterGetProfile(context.Background(), &pb.GetProfileRequest{
+		RecruiterId: int32(id),
+	})
+	if err != nil {
+		return models.RecruiterProfile{}, err
+	}
+	return models.RecruiterProfile{
+		ID:                   uint(data.Id),
+		Company_name:         data.CompanyName,
+		Industry:             data.Industry,
+		Company_size:         int(data.CompanySize),
+		Website:              data.Website,
+		Headquarters_address: data.HeadquartersAddress,
+		About_company:        data.AboutCompany,
+		Contact_email:        data.Email,
+		Contact_phone_number: uint(data.PhoneNumber),
+	}, nil
+}

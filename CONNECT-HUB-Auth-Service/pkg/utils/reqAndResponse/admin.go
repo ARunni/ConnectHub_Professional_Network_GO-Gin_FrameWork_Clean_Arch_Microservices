@@ -38,11 +38,11 @@ type JobseekerDetailsAtAdmin struct {
 	Blocked bool   `json:"blocked"`
 }
 type RecruiterDetailsAtAdmin struct {
-	Id          int    `json:"id"`
-	CompanyName string `json:"company_name"`
-	Email       string `json:"contact_mail" validate:"email"`
-	Phone       string `json:"phone"`
-	Blocked     bool   `json:"blocked"`
+	Id           int    `json:"id"`
+	CompanyName  string `json:"company_name"`
+	Contact_mail string `json:"contact_mail" validate:"email"`
+	Phone        string `json:"phone"`
+	Blocked      bool   `json:"blocked"`
 }
 
 type BlockRes struct {

@@ -19,9 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Recruiter_RecruiterSignup_FullMethodName = "/recruiterauth.Recruiter/RecruiterSignup"
-	Recruiter_RecruiterLogin_FullMethodName  = "/recruiterauth.Recruiter/RecruiterLogin"
-	Recruiter_GetUsers_FullMethodName        = "/recruiterauth.Recruiter/GetUsers"
+	Recruiter_RecruiterSignup_FullMethodName     = "/recruiterauth.Recruiter/RecruiterSignup"
+	Recruiter_RecruiterLogin_FullMethodName      = "/recruiterauth.Recruiter/RecruiterLogin"
+	Recruiter_GetUsers_FullMethodName            = "/recruiterauth.Recruiter/GetUsers"
+	Recruiter_RecruiterGetProfile_FullMethodName = "/recruiterauth.Recruiter/RecruiterGetProfile"
 )
 
 // RecruiterClient is the client API for Recruiter service.
@@ -31,6 +32,7 @@ type RecruiterClient interface {
 	RecruiterSignup(ctx context.Context, in *RecruiterSignupRequest, opts ...grpc.CallOption) (*RecruiterSignupResponse, error)
 	RecruiterLogin(ctx context.Context, in *RecruiterLoginInRequest, opts ...grpc.CallOption) (*RecruiterLoginResponse, error)
 	GetUsers(ctx context.Context, in *GetUsersRequest, opts ...grpc.CallOption) (*GetUsersResponse, error)
+	RecruiterGetProfile(ctx context.Context, in *GetProfileRequest, opts ...grpc.CallOption) (*RecruiterDetailsResponse, error)
 }
 
 type recruiterClient struct {
@@ -68,6 +70,15 @@ func (c *recruiterClient) GetUsers(ctx context.Context, in *GetUsersRequest, opt
 	return out, nil
 }
 
+func (c *recruiterClient) RecruiterGetProfile(ctx context.Context, in *GetProfileRequest, opts ...grpc.CallOption) (*RecruiterDetailsResponse, error) {
+	out := new(RecruiterDetailsResponse)
+	err := c.cc.Invoke(ctx, Recruiter_RecruiterGetProfile_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // RecruiterServer is the server API for Recruiter service.
 // All implementations must embed UnimplementedRecruiterServer
 // for forward compatibility
@@ -75,6 +86,7 @@ type RecruiterServer interface {
 	RecruiterSignup(context.Context, *RecruiterSignupRequest) (*RecruiterSignupResponse, error)
 	RecruiterLogin(context.Context, *RecruiterLoginInRequest) (*RecruiterLoginResponse, error)
 	GetUsers(context.Context, *GetUsersRequest) (*GetUsersResponse, error)
+	RecruiterGetProfile(context.Context, *GetProfileRequest) (*RecruiterDetailsResponse, error)
 	mustEmbedUnimplementedRecruiterServer()
 }
 
@@ -90,6 +102,9 @@ func (UnimplementedRecruiterServer) RecruiterLogin(context.Context, *RecruiterLo
 }
 func (UnimplementedRecruiterServer) GetUsers(context.Context, *GetUsersRequest) (*GetUsersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUsers not implemented")
+}
+func (UnimplementedRecruiterServer) RecruiterGetProfile(context.Context, *GetProfileRequest) (*RecruiterDetailsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RecruiterGetProfile not implemented")
 }
 func (UnimplementedRecruiterServer) mustEmbedUnimplementedRecruiterServer() {}
 
@@ -158,6 +173,24 @@ func _Recruiter_GetUsers_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Recruiter_RecruiterGetProfile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetProfileRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RecruiterServer).RecruiterGetProfile(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Recruiter_RecruiterGetProfile_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RecruiterServer).RecruiterGetProfile(ctx, req.(*GetProfileRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Recruiter_ServiceDesc is the grpc.ServiceDesc for Recruiter service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -176,6 +209,10 @@ var Recruiter_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUsers",
 			Handler:    _Recruiter_GetUsers_Handler,
+		},
+		{
+			MethodName: "RecruiterGetProfile",
+			Handler:    _Recruiter_RecruiterGetProfile_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

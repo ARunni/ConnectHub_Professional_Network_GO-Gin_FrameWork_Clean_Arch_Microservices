@@ -77,7 +77,7 @@ func (as *AdminServer) GetRecruiters(ctx context.Context, Req *pb.GetRecruiterRe
 	for _, data := range GetRecruiters {
 		recruitersDetails = append(recruitersDetails, &pb.RecruiterDetails{
 			Id:          uint64(data.Id),
-			Email:       data.Email,
+			Email:       data.Contact_mail,
 			CompanyName: data.CompanyName,
 			PhoneNumber: data.Phone,
 			Blocked:     data.Blocked,
@@ -163,7 +163,7 @@ func (as *AdminServer) GetRecruiterDetails(ctx context.Context, Req *pb.GetRecru
 	}
 	return &pb.GetRecruiterDetailsResponse{
 		Id:          uint64(result.Id),
-		Email:       result.Email,
+		Email:       result.Contact_mail,
 		CompanyName: result.CompanyName,
 		PhoneNumber: result.Phone,
 		Blocked:     result.Blocked,

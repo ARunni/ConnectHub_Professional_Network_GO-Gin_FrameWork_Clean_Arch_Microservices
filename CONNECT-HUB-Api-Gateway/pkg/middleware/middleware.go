@@ -13,7 +13,6 @@ import (
 )
 
 func AuthMiddleware(c *gin.Context) {
-	fmt.Println("herer middleware")
 	tokenString := c.GetHeader("Authorization")
 	if tokenString == "" {
 		err := errors.New("field empty")
@@ -27,6 +26,7 @@ func AuthMiddleware(c *gin.Context) {
 	splited := strings.Split(tokenString, " ")
 
 	if len(splited) != 3 {
+		fmt.Println("")
 		err := errors.New("format not satisfied")
 		response := response.ClientResponse(http.StatusUnauthorized, "error in splitting", nil, err.Error())
 		c.JSON(http.StatusUnauthorized, response)

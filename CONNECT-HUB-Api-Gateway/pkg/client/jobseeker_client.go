@@ -77,3 +77,23 @@ func (jc *jobseekerClient) JobSeekerLogin(jobseekerData models.JobSeekerLogin) (
 	}, nil
 
 }
+
+func (jc *jobseekerClient) JobSeekerGetProfile(id int) (models.JobSeekerProfile, error) {
+	profile, err := jc.Client.JobSeekerGetProfile(context.Background(), &pb.GetProfileRequest{
+		Id: int32(id),
+	})
+	if err != nil {
+		return models.JobSeekerProfile{}, err
+	}
+
+	return models.JobSeekerProfile{
+		ID:          uint(profile.Profile.Id),
+		Email:       profile.Profile.Email,
+		FirstName:   profile.Profile.FirstName,
+		LastName:    profile.Profile.LastName,
+		PhoneNumber: profile.Profile.Phone,
+		DateOfBirth: profile.Profile.DateOfBirth,
+		Gender:      profile.Profile.Gender,
+	}, nil
+
+}

@@ -73,3 +73,23 @@ func (js *JobSeekerServer) JobSeekerLogin(ctx context.Context, Req *pb.JobSeeker
 		Token: jobseekerData.Token,
 	}, nil
 }
+
+func (js *JobSeekerServer) JobSeekerGetProfile(ctx context.Context, Req *pb.GetProfileRequest) (*pb.GetProfileResponse, error) {
+	jobseekerId := Req.Id
+	jobseekerData, err := js.jobseekerUsecase.JobSeekerGetProfile(int(jobseekerId))
+	if err != nil {
+		return nil, err
+	}
+	return &pb.GetProfileResponse{
+		Status: 200,
+		Profile: &pb.JobSeekerProfile{
+			Id:          uint64(jobseekerData.ID),
+			FirstName:   jobseekerData.FirstName,
+			Gender:      jobseekerData.Gender,
+			Email:       jobseekerData.Email,
+			DateOfBirth: jobseekerData.DateOfBirth,
+			Phone:       jobseekerData.PhoneNumber,
+			LastName:    jobseekerData.LastName,
+		},
+	}, nil
+}

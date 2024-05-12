@@ -7,4 +7,5 @@ type RecruiterRepository interface {
 	RecruiterLogin(data req.RecruiterLogin) (req.RecruiterDetailsResponse, error)
 	CheckRecruiterExistsByEmail(email string) (bool, error)
 	CheckRecruiterBlockByEmail(email string) (bool, error)
+	RecruiterGetProfile(id int) (req.RecruiterProfile, error)
 }

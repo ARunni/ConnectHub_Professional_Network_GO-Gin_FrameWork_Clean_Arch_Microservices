@@ -122,3 +122,14 @@ func (ju *jobseekerUseCase) JobSeekerLogin(jobseekerDetails req.JobSeekerLogin) 
 	}, nil
 
 }
+
+func (ju *jobseekerUseCase) JobSeekerGetProfile(id int) (req.JobSeekerProfile, error) {
+	if id <= 0 {
+		return req.JobSeekerProfile{}, errors.New("id error")
+	}
+	data, err := ju.jobseekerRepository.JobSeekerGetProfile(id)
+	if err != nil {
+		return req.JobSeekerProfile{}, err
+	}
+	return data, nil
+}

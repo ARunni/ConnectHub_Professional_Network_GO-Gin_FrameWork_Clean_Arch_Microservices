@@ -47,7 +47,7 @@ func (ar *adminRepository) GetRecruiters(page int) ([]req.RecruiterDetailsAtAdmi
 
 	offset := (page - 1) * 2
 
-	qurry := `select * from recruiters limit ? offset ?`
+	qurry := `select id,company_name,contact_email as contact_mail,contact_phone_number as phone,is_blocked as blocked from recruiters limit ? offset ?`
 	err := ar.DB.Raw(qurry, 5, offset).Scan(&recruiters).Error
 	if err != nil {
 		return nil, err
@@ -66,7 +66,7 @@ func (ar *adminRepository) GetJobseekers(page int) ([]req.JobseekerDetailsAtAdmi
 
 	offset := (page - 1) * 2
 
-	qurry := `select * from job_seekers limit ? offset ?`
+	qurry := `select id,first_name as name,email,phone_number as phone,is_blocked as blocked  from job_seekers limit ? offset ?`
 	err := ar.DB.Raw(qurry, 5, offset).Scan(&jobseekers).Error
 	if err != nil {
 		return nil, err
@@ -156,7 +156,7 @@ func (ar *adminRepository) IsRecruiterBlocked(id int) (bool, error) {
 
 func (ar *adminRepository) GetJobseekerDetails(id int) (req.JobseekerDetailsAtAdmin, error) {
 	var data req.JobseekerDetailsAtAdmin
-	qurry := `select * from job_seekers where id = ?`
+	qurry := `select id,first_name as name,email,phone_number as phone,is_blocked as blocked  from job_seekers where id = ?`
 	err := ar.DB.Raw(qurry, id).Scan(&data).Error
 	if err != nil {
 		return req.JobseekerDetailsAtAdmin{}, err
@@ -166,7 +166,7 @@ func (ar *adminRepository) GetJobseekerDetails(id int) (req.JobseekerDetailsAtAd
 
 func (ar *adminRepository) GetRecruiterDetails(id int) (req.RecruiterDetailsAtAdmin, error) {
 	var data req.RecruiterDetailsAtAdmin
-	qurry := `select * from recruiters where id = ?`
+	qurry := `select id,company_name,contact_email as contact_mail,contact_phone_number as phone,is_blocked as blocked from recruiters where id = ?`
 	err := ar.DB.Raw(qurry, id).Scan(&data).Error
 	if err != nil {
 		return req.RecruiterDetailsAtAdmin{}, err

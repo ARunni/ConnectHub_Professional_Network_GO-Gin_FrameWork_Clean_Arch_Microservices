@@ -121,3 +121,14 @@ func (ju *recruiterUseCase) RecruiterLogin(recruiterDetails req.RecruiterLogin) 
 		Token:     access,
 	}, nil
 }
+
+func (ju *recruiterUseCase) RecruiterGetProfile(id int) (req.RecruiterProfile, error) {
+	if id <= 0 {
+		return req.RecruiterProfile{}, errors.New("id get error")
+	}
+	recruiter, err := ju.recruiterRepository.RecruiterGetProfile(id)
+	if err != nil {
+		return req.RecruiterProfile{}, err
+	}
+	return recruiter, nil
+}

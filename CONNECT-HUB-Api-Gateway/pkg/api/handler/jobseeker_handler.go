@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"net/http"
 
+	msg "github.com/ARunni/Error_Message"
 	"github.com/gin-gonic/gin"
 )
 
@@ -64,6 +65,26 @@ func (jh *JobSeekerHandler) JobSeekerLogin(c *gin.Context) {
 	}
 
 	successResp := response.ClientResponse(http.StatusOK, "Jobseeker Authenticated Successfully", jobseeker, nil)
+	c.JSON(http.StatusOK, successResp)
+
+}
+
+func (jh *JobSeekerHandler) JobSeekerGetProfile(c *gin.Context) {
+
+	userIdstring, _ := c.Get("id")
+	userId, strErr := userIdstring.(int)
+	if !strErr {
+		errResp := response.ClientResponse(http.StatusBadRequest, msg.MsgFormatErr, nil, strErr)
+		c.JSON(http.StatusBadRequest, errResp)
+		return
+	}
+	jobseeker, err := jh.GRPC_Client.JobSeekerGetProfile(userId)
+	if err != nil {
+		errREsp := response.ClientResponse(http.StatusBadRequest, msg.MsgGettingDataErr, nil, err.Error())
+		c.JSON(http.StatusBadRequest, errREsp)
+		return
+	}
+	successResp := response.ClientResponse(http.StatusOK, msg.MsgGetSucces, jobseeker, nil)
 	c.JSON(http.StatusOK, successResp)
 
 }
