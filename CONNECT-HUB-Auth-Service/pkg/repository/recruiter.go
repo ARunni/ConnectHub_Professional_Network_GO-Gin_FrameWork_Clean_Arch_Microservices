@@ -64,11 +64,7 @@ func (rr *recruiterRepository) CheckRecruiterBlockByEmail(email string) (bool, e
 
 func (rr *recruiterRepository) RecruiterGetProfile(id int) (req.RecruiterProfile, error) {
 	var recruiter req.RecruiterProfile
-	// qurry := `select id,company_name,contact_email,
-	// contact_phone_number, industry,
-	// company_size,website,headquarters_address,
-	// about_company,
-	// from recruiters where id = ?`
+
 	querry := `select * from recruiters where id = ?`
 
 	result := rr.DB.Raw(querry, id).Scan(&recruiter)
