@@ -133,3 +133,33 @@ func (ju *jobseekerUseCase) JobSeekerGetProfile(id int) (req.JobSeekerProfile, e
 	}
 	return data, nil
 }
+
+func (ju *jobseekerUseCase) JobSeekerEditProfile(data req.JobSeekerProfile) (req.JobSeekerProfile, error) {
+
+	if data.ID <= 0 {
+		return req.JobSeekerProfile{}, errors.New("id error")
+	}
+
+	if data.Email == "" {
+		return req.JobSeekerProfile{}, errors.New("email " + msg.ErrFieldEmpty)
+	}
+
+	if data.FirstName == "" {
+		return req.JobSeekerProfile{}, errors.New("first_name " + msg.ErrFieldEmpty)
+	}
+	if data.Gender == "" {
+		return req.JobSeekerProfile{}, errors.New("gender " + msg.ErrFieldEmpty)
+	}
+	if data.PhoneNumber == "" {
+		return req.JobSeekerProfile{}, errors.New("phone_number " + msg.ErrFieldEmpty)
+	}
+	if data.DateOfBirth == "" {
+		return req.JobSeekerProfile{}, errors.New("date_of_birth " + msg.ErrFieldEmpty)
+	}
+
+	data, err := ju.jobseekerRepository.JobSeekerEditProfile(data)
+	if err != nil {
+		return req.JobSeekerProfile{}, err
+	}
+	return data, nil
+}

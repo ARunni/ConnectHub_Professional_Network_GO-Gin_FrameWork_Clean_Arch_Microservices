@@ -93,3 +93,32 @@ func (js *JobSeekerServer) JobSeekerGetProfile(ctx context.Context, Req *pb.GetP
 		},
 	}, nil
 }
+
+func (js *JobSeekerServer) JobSeekerEditProfile(ctx context.Context, Req *pb.JobSeekerEditProfileRequest) (*pb.JobSeekerEditProfileResponse, error) {
+	jobseekerReq := req.JobSeekerProfile{
+		ID:          uint(Req.Profile.Id),
+		FirstName:   Req.Profile.FirstName,
+		Gender:      Req.Profile.Gender,
+		Email:       Req.Profile.Email,
+		LastName:    Req.Profile.LastName,
+		PhoneNumber: Req.Profile.Phone,
+		DateOfBirth: Req.Profile.DateOfBirth,
+	}
+
+	jobseekerData, err := js.jobseekerUsecase.JobSeekerEditProfile(jobseekerReq)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.JobSeekerEditProfileResponse{
+
+		Profile: &pb.JobSeekerProfile{
+			Id:          uint64(jobseekerData.ID),
+			FirstName:   jobseekerData.FirstName,
+			Gender:      jobseekerData.Gender,
+			Email:       jobseekerData.Email,
+			DateOfBirth: jobseekerData.DateOfBirth,
+			Phone:       jobseekerData.PhoneNumber,
+			LastName:    jobseekerData.LastName,
+		},
+	}, nil
+}

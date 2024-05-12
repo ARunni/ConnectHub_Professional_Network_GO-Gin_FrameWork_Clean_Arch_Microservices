@@ -103,3 +103,33 @@ func (rc *recruiterClient) RecruiterGetProfile(id int) (models.RecruiterProfile,
 		Contact_phone_number: uint(data.PhoneNumber),
 	}, nil
 }
+
+func (rc *recruiterClient) RecruiterEditProfile(data models.RecruiterProfile) (models.RecruiterProfile, error) {
+	profiledata, err := rc.Client.RecruiterEditProfile(context.Background(), &pb.RecruiterEditProfileRequest{
+		Profile: &pb.RecruiterDetails{
+			Id:                  uint64(data.ID),
+			CompanyName:         data.Company_name,
+			Email:               data.Contact_email,
+			AboutCompany:        data.About_company,
+			Industry:            data.Industry,
+			CompanySize:         int64(data.Company_size),
+			Website:             data.Website,
+			PhoneNumber:         int64(data.Contact_phone_number),
+			HeadquartersAddress: data.Headquarters_address,
+		},
+	})
+	if err != nil {
+		return models.RecruiterProfile{}, err
+	}
+	return models.RecruiterProfile{
+		ID:                   uint(profiledata.Profile.Id),
+		Company_name:         profiledata.Profile.CompanyName,
+		Industry:             profiledata.Profile.Industry,
+		Company_size:         int(profiledata.Profile.CompanySize),
+		Website:              profiledata.Profile.Website,
+		Headquarters_address: profiledata.Profile.HeadquartersAddress,
+		About_company:        profiledata.Profile.AboutCompany,
+		Contact_email:        profiledata.Profile.Email,
+		Contact_phone_number: uint(profiledata.Profile.PhoneNumber),
+	}, nil
+}

@@ -100,3 +100,35 @@ func (rs *RecruiterServer) RecruiterGetProfile(ctx context.Context, Req *pb.GetP
 	}, nil
 
 }
+
+func (rs *RecruiterServer) RecruiterEditProfile(ctx context.Context, Req *pb.RecruiterEditProfileRequest) (*pb.RecruiterEditProfileResponse, error) {
+	recruiterProfile := req.RecruiterProfile{
+		ID:                   uint(Req.Profile.Id),
+		Company_name:         Req.Profile.CompanyName,
+		Industry:             Req.Profile.Industry,
+		Website:              Req.Profile.Website,
+		Headquarters_address: Req.Profile.HeadquartersAddress,
+		About_company:        Req.Profile.AboutCompany,
+		Company_size:         int(Req.Profile.CompanySize),
+		Contact_email:        Req.Profile.Email,
+		Contact_phone_number: uint(Req.Profile.PhoneNumber),
+	}
+	recruiterdata, err := rs.recruiterUseCase.RecruiterEditProfile(recruiterProfile)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.RecruiterEditProfileResponse{
+		Profile: &pb.RecruiterDetails{
+			Id:                  uint64(recruiterdata.ID),
+			CompanyName:         recruiterdata.Company_name,
+			Email:               recruiterdata.Contact_email,
+			AboutCompany:        recruiterdata.About_company,
+			Industry:            recruiterdata.Industry,
+			CompanySize:         int64(recruiterdata.Company_size),
+			Website:             recruiterdata.Website,
+			PhoneNumber:         int64(recruiterdata.Contact_phone_number),
+			HeadquartersAddress: recruiterdata.Headquarters_address,
+		},
+	}, nil
+
+}

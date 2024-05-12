@@ -9,6 +9,7 @@ service Recruiter{
     rpc RecruiterLogin(RecruiterLoginInRequest) returns (RecruiterLoginResponse){};
     rpc GetUsers(GetUsersRequest) returns (GetUsersResponse) {};
     rpc RecruiterGetProfile(GetProfileRequest) returns (RecruiterDetailsResponse); 
+    rpc RecruiterEditProfile(RecruiterEditProfileRequest) returns (RecruiterEditProfileResponse); 
 }
 
 message GetProfileRequest {
@@ -46,6 +47,12 @@ message RecruiterDetails{
     string Website=7;
     int64 phone_number=8;
     string headquarters_address=9;
+}
+message RecruiterEditProfileRequest{
+    RecruiterDetails profile=1;
+}
+message RecruiterEditProfileResponse{
+    RecruiterDetails profile=1;
 }
 message RecruiterDetailsResponse {
     uint64 id=1;

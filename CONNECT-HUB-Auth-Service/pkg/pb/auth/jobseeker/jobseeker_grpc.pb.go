@@ -37,7 +37,7 @@ type JobseekerClient interface {
 	JobSeekerLogin(ctx context.Context, in *JobSeekerLoginRequest, opts ...grpc.CallOption) (*JobSeekerLoginResponse, error)
 	AddProfile(ctx context.Context, in *AddProfileRequest, opts ...grpc.CallOption) (*AddProfileResponse, error)
 	JobSeekerGetProfile(ctx context.Context, in *GetProfileRequest, opts ...grpc.CallOption) (*GetProfileResponse, error)
-	JobSeekerEditProfile(ctx context.Context, in *EditProfileRequest, opts ...grpc.CallOption) (*EditProfileResponse, error)
+	JobSeekerEditProfile(ctx context.Context, in *JobSeekerEditProfileRequest, opts ...grpc.CallOption) (*JobSeekerEditProfileResponse, error)
 	JobSeekerOTPLogin(ctx context.Context, in *JobSeekerOTPLoginRequest, opts ...grpc.CallOption) (*JobSeekerOTPLoginResponse, error)
 	OtpVerification(ctx context.Context, in *OtpVerificationRequest, opts ...grpc.CallOption) (*OtpVerificationResponse, error)
 	ChangePassword(ctx context.Context, in *ChangePasswordRequest, opts ...grpc.CallOption) (*ChangePasswordResponse, error)
@@ -87,8 +87,8 @@ func (c *jobseekerClient) JobSeekerGetProfile(ctx context.Context, in *GetProfil
 	return out, nil
 }
 
-func (c *jobseekerClient) JobSeekerEditProfile(ctx context.Context, in *EditProfileRequest, opts ...grpc.CallOption) (*EditProfileResponse, error) {
-	out := new(EditProfileResponse)
+func (c *jobseekerClient) JobSeekerEditProfile(ctx context.Context, in *JobSeekerEditProfileRequest, opts ...grpc.CallOption) (*JobSeekerEditProfileResponse, error) {
+	out := new(JobSeekerEditProfileResponse)
 	err := c.cc.Invoke(ctx, Jobseeker_JobSeekerEditProfile_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -131,7 +131,7 @@ type JobseekerServer interface {
 	JobSeekerLogin(context.Context, *JobSeekerLoginRequest) (*JobSeekerLoginResponse, error)
 	AddProfile(context.Context, *AddProfileRequest) (*AddProfileResponse, error)
 	JobSeekerGetProfile(context.Context, *GetProfileRequest) (*GetProfileResponse, error)
-	JobSeekerEditProfile(context.Context, *EditProfileRequest) (*EditProfileResponse, error)
+	JobSeekerEditProfile(context.Context, *JobSeekerEditProfileRequest) (*JobSeekerEditProfileResponse, error)
 	JobSeekerOTPLogin(context.Context, *JobSeekerOTPLoginRequest) (*JobSeekerOTPLoginResponse, error)
 	OtpVerification(context.Context, *OtpVerificationRequest) (*OtpVerificationResponse, error)
 	ChangePassword(context.Context, *ChangePasswordRequest) (*ChangePasswordResponse, error)
@@ -154,7 +154,7 @@ func (UnimplementedJobseekerServer) AddProfile(context.Context, *AddProfileReque
 func (UnimplementedJobseekerServer) JobSeekerGetProfile(context.Context, *GetProfileRequest) (*GetProfileResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method JobSeekerGetProfile not implemented")
 }
-func (UnimplementedJobseekerServer) JobSeekerEditProfile(context.Context, *EditProfileRequest) (*EditProfileResponse, error) {
+func (UnimplementedJobseekerServer) JobSeekerEditProfile(context.Context, *JobSeekerEditProfileRequest) (*JobSeekerEditProfileResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method JobSeekerEditProfile not implemented")
 }
 func (UnimplementedJobseekerServer) JobSeekerOTPLogin(context.Context, *JobSeekerOTPLoginRequest) (*JobSeekerOTPLoginResponse, error) {
@@ -252,7 +252,7 @@ func _Jobseeker_JobSeekerGetProfile_Handler(srv interface{}, ctx context.Context
 }
 
 func _Jobseeker_JobSeekerEditProfile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(EditProfileRequest)
+	in := new(JobSeekerEditProfileRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -264,7 +264,7 @@ func _Jobseeker_JobSeekerEditProfile_Handler(srv interface{}, ctx context.Contex
 		FullMethod: Jobseeker_JobSeekerEditProfile_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JobseekerServer).JobSeekerEditProfile(ctx, req.(*EditProfileRequest))
+		return srv.(JobseekerServer).JobSeekerEditProfile(ctx, req.(*JobSeekerEditProfileRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

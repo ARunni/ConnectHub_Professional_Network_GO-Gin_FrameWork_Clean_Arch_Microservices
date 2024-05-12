@@ -8,4 +8,6 @@ type RecruiterRepository interface {
 	CheckRecruiterExistsByEmail(email string) (bool, error)
 	CheckRecruiterBlockByEmail(email string) (bool, error)
 	RecruiterGetProfile(id int) (req.RecruiterProfile, error)
+	RecruiterEditProfile(profile req.RecruiterProfile) (req.RecruiterProfile, error)
+	
 }

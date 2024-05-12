@@ -132,3 +132,25 @@ func (ju *recruiterUseCase) RecruiterGetProfile(id int) (req.RecruiterProfile, e
 	}
 	return recruiter, nil
 }
+
+func (ju *recruiterUseCase) RecruiterEditProfile(profile req.RecruiterProfile) (req.RecruiterProfile, error) {
+
+	if profile.Company_name == "" {
+		return req.RecruiterProfile{}, errors.New("company_name " + msg.ErrFieldEmpty)
+	}
+	if profile.About_company == "" {
+		return req.RecruiterProfile{}, errors.New("about_company " + msg.ErrFieldEmpty)
+	}
+	if profile.Company_size < 0 {
+		return req.RecruiterProfile{}, errors.New("company_size " + msg.ErrFieldEmpty)
+	}
+	if profile.Contact_email == "" {
+		return req.RecruiterProfile{}, errors.New("contact_email " + msg.ErrFieldEmpty)
+	}
+
+	recruiter, err := ju.recruiterRepository.RecruiterEditProfile(profile)
+	if err != nil {
+		return req.RecruiterProfile{}, err
+	}
+	return recruiter, nil
+}

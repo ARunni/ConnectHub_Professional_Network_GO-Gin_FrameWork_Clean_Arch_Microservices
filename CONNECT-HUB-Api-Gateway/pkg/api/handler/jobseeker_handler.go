@@ -88,3 +88,33 @@ func (jh *JobSeekerHandler) JobSeekerGetProfile(c *gin.Context) {
 	c.JSON(http.StatusOK, successResp)
 
 }
+
+func (jh *JobSeekerHandler) JobSeekerEditProfile(c *gin.Context) {
+
+	userIdstring, _ := c.Get("id")
+	userId, strErr := userIdstring.(int)
+	if !strErr {
+		errResp := response.ClientResponse(http.StatusBadRequest, msg.MsgFormatErr, nil, strErr)
+		c.JSON(http.StatusBadRequest, errResp)
+		return
+	}
+
+	var jobseekerData models.JobSeekerProfile
+	jobseekerData.ID = uint(userId)
+
+	if err := c.ShouldBindJSON(&jobseekerData); err != nil {
+		errResp := response.ClientResponse(http.StatusBadRequest, "Incorrect Format", nil, err.Error())
+		c.JSON(http.StatusBadRequest, errResp)
+		return
+	}
+
+	jobseeker, err := jh.GRPC_Client.JobSeekerEditProfile(jobseekerData)
+	if err != nil {
+		errREsp := response.ClientResponse(http.StatusBadRequest, msg.MsgGettingDataErr, nil, err.Error())
+		c.JSON(http.StatusBadRequest, errREsp)
+		return
+	}
+	successResp := response.ClientResponse(http.StatusOK, msg.MsgGetSucces, jobseeker, nil)
+	c.JSON(http.StatusOK, successResp)
+
+}

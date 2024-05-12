@@ -6,4 +6,5 @@ type JobSeekerUseCase interface {
 	JobSeekerSignup(jobseekerdata req.JobSeekerSignUp) (req.TokenJobSeeker, error)
 	JobSeekerLogin(jobseekerDetails req.JobSeekerLogin) (req.TokenJobSeeker, error)
 	JobSeekerGetProfile(id int) (req.JobSeekerProfile, error)
+	JobSeekerEditProfile(data req.JobSeekerProfile) (req.JobSeekerProfile, error)
 }

@@ -65,9 +65,11 @@ func NewServerHTTP(
 
 		// Jobseeker Routes
 		jobseekerAuthRoute.GET("/profile", JobseekerHandler.JobSeekerGetProfile)
+		jobseekerAuthRoute.PATCH("/profile", JobseekerHandler.JobSeekerEditProfile)
 
 		// Recruiter Routes
 		recruiterAuthRoute.GET("/profile", RecruiterHandler.RecruiterGetProfile)
+		recruiterAuthRoute.PATCH("/profile", RecruiterHandler.RecruiterEditProfile)
 	}
 
 	return &ServerHTTP{engine: router}

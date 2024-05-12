@@ -82,3 +82,18 @@ func (jr *jobseekerRepository) JobSeekerGetProfile(id int) (req.JobSeekerProfile
 	}
 	return data, nil
 }
+
+func (jr *jobseekerRepository) JobSeekerEditProfile(data req.JobSeekerProfile) (req.JobSeekerProfile, error) {
+
+	querry := `UPDATE  job_seekers SET first_name = ?,last_name = ?,
+	email = ? ,phone_number =? ,date_of_birth = ?,gender =?
+	 where id = ?`
+
+	err := jr.DB.Exec(querry, data.FirstName, data.LastName,
+		data.Email, data.PhoneNumber,
+		data.DateOfBirth, data.Gender, data.ID).Error
+	if err != nil {
+		return req.JobSeekerProfile{}, err
+	}
+	return data, nil
+}

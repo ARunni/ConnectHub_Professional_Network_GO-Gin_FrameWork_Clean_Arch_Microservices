@@ -73,3 +73,19 @@ func (rr *recruiterRepository) RecruiterGetProfile(id int) (req.RecruiterProfile
 	}
 	return recruiter, nil
 }
+
+func (rr *recruiterRepository) RecruiterEditProfile(profile req.RecruiterProfile) (req.RecruiterProfile, error) {
+	p := profile
+
+	querry := `update recruiters set company_name =?,
+	industry =?,company_size =?,website=?,headquarters_address=?,
+	about_company=? ,contact_email =?,contact_phone_number = ?  where id = ?`
+
+	result := rr.DB.Raw(querry, p.Company_name, p.Industry,
+		p.Company_size, p.Website, p.Headquarters_address,
+		p.About_company, p.Contact_email, p.Contact_phone_number, p.ID)
+	if result.Error != nil {
+		return req.RecruiterProfile{}, result.Error
+	}
+	return profile, nil
+}
