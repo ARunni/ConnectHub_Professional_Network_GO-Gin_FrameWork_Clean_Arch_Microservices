@@ -20,17 +20,21 @@ func ConnectDatabase(cfg config.Config) (*gorm.DB, error) {
 		return nil, dbErr
 	}
 
-	if err := db.AutoMigrate(&models.Admin{}); err != nil {
-		return nil, err
+	var modelsToMigrate = []interface{}{
+		&models.Admin{},
+		&models.Recruiter{},
+		&models.JobSeeker{},
+		&models.Policy{},
+		&models.TermsAndConditions{},
 	}
 
-	if err := db.AutoMigrate(&models.Recruiter{}); err != nil {
-		return nil, err
+	for _, model := range modelsToMigrate {
+		if err := db.AutoMigrate(model); err != nil {
+			fmt.Println("Error migrating model:", err)
+			return nil, err
+		}
 	}
 
-	if err := db.AutoMigrate(&models.JobSeeker{}); err != nil {
-		return nil, err
-	}
 	CheckAndCreateAdmin(db)
 	return db, nil
 }
