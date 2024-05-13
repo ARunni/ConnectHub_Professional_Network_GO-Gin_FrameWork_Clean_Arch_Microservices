@@ -7,6 +7,7 @@ require (
 	github.com/gin-gonic/gin v1.9.1
 	github.com/go-playground/validator v9.31.0+incompatible
 	github.com/golang-jwt/jwt v3.2.2+incompatible
+	github.com/golang/protobuf v1.5.4
 	github.com/spf13/viper v1.18.2
 	google.golang.org/grpc v1.63.2
 	google.golang.org/protobuf v1.34.0

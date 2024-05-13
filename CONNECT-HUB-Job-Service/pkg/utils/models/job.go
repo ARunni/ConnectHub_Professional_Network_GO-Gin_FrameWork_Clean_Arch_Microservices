@@ -3,7 +3,7 @@ package models
 import "time"
 
 type JobOpening struct {
-	ID                  uint      `json:"id"`
+	EmployerID          int       `json:"employer_id"`
 	Title               string    `json:"title"`
 	Description         string    `json:"description"`
 	Requirements        string    `json:"requirements"`
@@ -25,7 +25,7 @@ type JobOpeningData struct {
 	EmployerID          int       `json:"employer_id"`
 	Location            string    `json:"location"`
 	EmploymentType      string    `json:"employment_type"`
-	Salary              string    `json:"salary"`
+	Salary              int    `json:"salary"`
 	SkillsRequired      string    `json:"skills_required"`
 	ExperienceLevel     string    `json:"experience_level"`
 	EducationLevel      string    `json:"education_level"`

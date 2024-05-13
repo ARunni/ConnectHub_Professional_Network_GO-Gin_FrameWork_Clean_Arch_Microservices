@@ -1,7 +1,7 @@
 package interfaces
 
-import "ConnetHub_job/pkg/utils/models"
+import "connectHub_gateway/pkg/utils/models"
 
-type JobUsecase interface {
+type JobClient interface {
 	PostJob(data models.JobOpening) (models.JobOpeningData, error)
 }

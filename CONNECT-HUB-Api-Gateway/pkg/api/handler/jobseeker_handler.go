@@ -4,7 +4,6 @@ import (
 	interfaces "connectHub_gateway/pkg/client/interface"
 	"connectHub_gateway/pkg/utils/models"
 	"connectHub_gateway/pkg/utils/response"
-	"fmt"
 	"net/http"
 
 	msg "github.com/ARunni/Error_Message"
@@ -30,8 +29,6 @@ func (jh *JobSeekerHandler) JobSeekerSignup(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, errResp)
 		return
 	}
-	fmt.Println("pass", jobseekerData.Password)
-	fmt.Println("confirmPass", jobseekerData.ConfirmPassword)
 
 	jobseeker, err := jh.GRPC_Client.JobSeekerSignup(jobseekerData)
 

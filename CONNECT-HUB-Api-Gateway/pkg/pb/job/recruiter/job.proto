@@ -1,0 +1,113 @@
+syntax = "proto3";
+
+package job;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+option go_package = "./pkg/pb/job/recruiter";
+
+// Service definition for Job service
+service Job {
+    rpc PostJob(JobOpeningRequest) returns (JobOpeningResponse) {};
+    rpc GetAllJobs(GetAllJobsRequest) returns (GetAllJobsResponse) {};
+    rpc GetAJob(GetAJobRequest) returns (JobOpeningResponse) {};
+    rpc DeleteAJob(DeleteAJobRequest) returns (google.protobuf.Empty);
+    rpc UpdateAJob(UpdateAJobRequest) returns (UpdateAJobResponse) {};
+    rpc JobSeekerGetAllJobs(JobSeekerGetAllJobsRequest) returns (JobSeekerGetAllJobsResponse) {};
+}
+
+message JobSeekerGetAllJobsRequest {
+    string title = 1;
+}
+
+message JobSeekerGetAllJobsResponse {
+    repeated JSGetAllJobsRespons jobs = 1;
+}
+
+message JSGetAllJobsRespons {
+    uint64 id = 1;
+    string title = 2;
+}
+
+// Request message for posting a job opening
+message JobOpeningRequest {
+    string title = 1;
+    string description = 2;
+    string requirements = 3;
+    int32 employer_id = 4;
+    string location = 5;
+    string employment_type = 6;
+    string salary = 7;
+    string skills_required = 8;
+    string experience_level = 9;
+    string education_level = 10;
+    google.protobuf.Timestamp application_deadline = 11;
+}
+
+// Response message for posting a job opening
+message JobOpeningResponse {
+    uint64 id = 1;
+    string title = 2;
+    string description = 3;
+    string requirements = 4;
+    google.protobuf.Timestamp posted_on = 5;
+    int32 employer_id = 6;
+    string location = 7;
+    string employment_type = 8;
+    string salary = 9;
+    string skills_required = 10;
+    string experience_level = 11;
+    string education_level = 12;
+    google.protobuf.Timestamp application_deadline = 13;
+}
+
+message GetAllJobsRequest {
+    int32 employerIDInt = 1;
+}
+
+message GetAllJobsResponse {
+    repeated JobOpeningResponse jobs = 1;
+}
+
+message GetAJobRequest {
+    int32 employerIDInt = 1;
+    int32 jobId = 2;
+}
+
+message DeleteAJobRequest {
+    int32 employerIDInt = 1;
+    int32 jobId = 2;
+}
+
+message UpdateAJobRequest {
+    int32 employerIDInt = 1;
+    int32 jobId = 2;
+    string title = 3;
+    string description = 4;
+    string requirements = 5;
+    int32 employer_id = 6;
+    string location = 7;
+    string employment_type = 8;
+    string salary = 9;
+    string skills_required = 10;
+    string experience_level = 11;
+    string education_level = 12;
+    google.protobuf.Timestamp application_deadline = 13;
+}
+
+message UpdateAJobResponse {
+    uint64 id = 1;
+    string title = 2;
+    string description = 3;
+    string requirements = 4;
+    google.protobuf.Timestamp posted_on = 5;
+    int32 employer_id = 6;
+    string location = 7;
+    string employment_type = 8;
+    string salary = 9;
+    string skills_required = 10;
+    string experience_level = 11;
+    string education_level = 12;
+    google.protobuf.Timestamp application_deadline = 13;
+}

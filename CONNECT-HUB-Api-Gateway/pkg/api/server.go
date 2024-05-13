@@ -17,6 +17,7 @@ func NewServerHTTP(
 	AdminHandler *handler.AdminHandler,
 	JobseekerHandler *handler.JobSeekerHandler,
 	RecruiterHandler *handler.RecruiterHandler,
+	JobHandler *handler.JobHandler,
 ) *ServerHTTP {
 
 	// Gin Engine
@@ -70,6 +71,7 @@ func NewServerHTTP(
 		// Recruiter Routes
 		recruiterAuthRoute.GET("/profile", RecruiterHandler.RecruiterGetProfile)
 		recruiterAuthRoute.PATCH("/profile", RecruiterHandler.RecruiterEditProfile)
+		recruiterAuthRoute.POST("/job", JobHandler.PostJob)
 	}
 
 	return &ServerHTTP{engine: router}

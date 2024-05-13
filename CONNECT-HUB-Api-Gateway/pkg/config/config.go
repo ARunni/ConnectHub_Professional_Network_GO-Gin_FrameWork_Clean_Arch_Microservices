@@ -10,6 +10,7 @@ type Config struct {
 	ConnetHubAuth       string `mapstructure:"Connect_Hub_Auth"`
 	ConnetHubPost       string `mapstructure:"Connect_Hub_Post"`
 	ConnetHubChat       string `mapstructure:"Connect_Hub_Chat"`
+	ConnetHubJob        string `mapstructure:"Connect_Hub_Job"`
 	JobSeekerAccessKey  string `mapstructure:"Job_Seeker_AccessKey"`
 	AdminAccessKey      string `mapstructure:"Admin_AccessKey"`
 	RecruiterAccessKey  string `mapstructure:"Recruiter_AccessKey"`
@@ -23,7 +24,7 @@ var envs = []string{
 	"Connect_Hub_Chat", "Job_Seeker_AccessKey",
 	"Admin_AccessKey", "Recruiter_AccessKey",
 	"Job_Seeker_RefreshKey", "Admin_RefreshKey",
-	"Recruiter_RefreshKey",
+	"Recruiter_RefreshKey", "Connect_Hub_Job",
 }
 
 func LoadConfig() (Config, error) {

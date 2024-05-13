@@ -18,6 +18,9 @@ func InitializeAPI(cfg config.Config) (*server.ServerHTTP, error) {
 	recruiterClient := client.NewRecruiterClient(cfg)
 	recruiterHandler := handler.NewRecruiterHandler(recruiterClient)
 
-	serverHTTP := server.NewServerHTTP(adminHandler, jobseekerHandler, recruiterHandler)
+	jobClient := client.NewJobClient(cfg)
+	jobHandler := handler.NewJobHandler(jobClient)
+
+	serverHTTP := server.NewServerHTTP(adminHandler, jobseekerHandler, recruiterHandler, jobHandler)
 	return serverHTTP, nil
 }
