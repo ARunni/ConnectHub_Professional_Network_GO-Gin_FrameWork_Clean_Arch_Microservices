@@ -1,7 +1,7 @@
 package handler
 
 import (
-	interfaces "connectHub_gateway/pkg/client/interface"
+	interfaces "connectHub_gateway/pkg/client/auth/interface"
 	"connectHub_gateway/pkg/utils/models"
 	"connectHub_gateway/pkg/utils/response"
 	"net/http"
@@ -11,10 +11,10 @@ import (
 )
 
 type RecruiterHandler struct {
-	GRPC_Client interfaces.RecruiterClient
+	GRPC_Client interfaces.RecruiterAuthClient
 }
 
-func NewRecruiterHandler(grpc_client interfaces.RecruiterClient) *RecruiterHandler {
+func NewRecruiterAuthHandler(grpc_client interfaces.RecruiterAuthClient) *RecruiterHandler {
 	return &RecruiterHandler{
 		GRPC_Client: grpc_client,
 	}

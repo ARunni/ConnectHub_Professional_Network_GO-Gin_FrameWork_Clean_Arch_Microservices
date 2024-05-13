@@ -2,7 +2,7 @@ package interfaces
 
 import "connectHub_gateway/pkg/utils/models"
 
-type JobSeekerClient interface {
+type JobSeekerAuthClient interface {
 	JobSeekerSignup(jobseekerData models.JobSeekerSignUp) (models.TokenJobSeeker, error)
 	JobSeekerLogin(jobseekerData models.JobSeekerLogin) (models.TokenJobSeeker, error)
 	JobSeekerGetProfile(id int) (models.JobSeekerProfile, error)

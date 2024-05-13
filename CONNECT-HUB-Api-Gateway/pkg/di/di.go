@@ -3,24 +3,25 @@ package di
 import (
 	server "connectHub_gateway/pkg/api"
 	"connectHub_gateway/pkg/api/handler"
-	"connectHub_gateway/pkg/client"
+	authClient "connectHub_gateway/pkg/client/auth"
+	jobClient "connectHub_gateway/pkg/client/job"
 	"connectHub_gateway/pkg/config"
 )
 
 func InitializeAPI(cfg config.Config) (*server.ServerHTTP, error) {
 
-	adminClient := client.NewAdminClient(cfg)
-	adminHandler := handler.NewAdminHandler(adminClient)
+	adminAuthClient := authClient.NewAdminAuthClient(cfg)
+	adminAuthHandler := handler.NewAdminAuthHandler(adminAuthClient)
 
-	jobseekerClient := client.NewJobSeekerClient(cfg)
-	jobseekerHandler := handler.NewJobSeekerHandler(jobseekerClient)
+	jobseekerAuthClient := authClient.NewJobSeekerAuthClient(cfg)
+	jobseekerAuthHandler := handler.NewJobSeekerAuthHandler(jobseekerAuthClient)
 
-	recruiterClient := client.NewRecruiterClient(cfg)
-	recruiterHandler := handler.NewRecruiterHandler(recruiterClient)
+	recruiterAuthClient := authClient.NewRecruiterAuthClient(cfg)
+	recruiterAuthHandler := handler.NewRecruiterAuthHandler(recruiterAuthClient)
 
-	jobClient := client.NewJobClient(cfg)
-	jobHandler := handler.NewJobHandler(jobClient)
+	recruiterJobClient := jobClient.NewRecruiterJobClient(cfg)
+	recruiterJobHandler := handler.NewRecruiterJobHandler(recruiterJobClient)
 
-	serverHTTP := server.NewServerHTTP(adminHandler, jobseekerHandler, recruiterHandler, jobHandler)
+	serverHTTP := server.NewServerHTTP(adminAuthHandler, jobseekerAuthHandler, recruiterAuthHandler, recruiterJobHandler)
 	return serverHTTP, nil
 }

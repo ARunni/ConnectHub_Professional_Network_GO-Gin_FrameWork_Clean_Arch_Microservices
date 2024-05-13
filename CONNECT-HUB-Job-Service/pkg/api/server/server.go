@@ -2,7 +2,7 @@ package server
 
 import (
 	"ConnetHub_job/pkg/config"
-	"ConnetHub_job/pkg/pb/job"
+	job "ConnetHub_job/pkg/pb/job/recruiter"
 	"context"
 	"fmt"
 	"log"
@@ -17,14 +17,14 @@ type Server struct {
 	listener net.Listener
 }
 
-func NewGRPCServer(cfg config.Config, jobServer job.JobServer) (*Server, error) {
+func NewGRPCServer(cfg config.Config, jobServer job.RecruiterJobServer) (*Server, error) {
 	lis, err := net.Listen("tcp", cfg.Port)
 	if err != nil {
 		return nil, err
 	}
 
 	newServer := grpc.NewServer(grpc.UnaryInterceptor(grpcInterceptor))
-	job.RegisterJobServer(newServer, jobServer)
+	job.RegisterRecruiterJobServer(newServer, jobServer)
 	// recruiterPb.RegisterRecruiterServer(newServer, recruiterServer)
 	// jobseekerPb.RegisterJobseekerServer(newServer, jobseekerServer)
 

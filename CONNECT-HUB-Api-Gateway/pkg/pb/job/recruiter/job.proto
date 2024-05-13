@@ -8,10 +8,10 @@ import "google/protobuf/empty.proto";
 option go_package = "./pkg/pb/job/recruiter";
 
 // Service definition for Job service
-service Job {
+service RecruiterJob {
     rpc PostJob(JobOpeningRequest) returns (JobOpeningResponse) {};
     rpc GetAllJobs(GetAllJobsRequest) returns (GetAllJobsResponse) {};
-    rpc GetAJob(GetAJobRequest) returns (JobOpeningResponse) {};
+    rpc GetOneJob(GetAJobRequest) returns (JobOpeningResponse) {};
     rpc DeleteAJob(DeleteAJobRequest) returns (google.protobuf.Empty);
     rpc UpdateAJob(UpdateAJobRequest) returns (UpdateAJobResponse) {};
     rpc JobSeekerGetAllJobs(JobSeekerGetAllJobsRequest) returns (JobSeekerGetAllJobsResponse) {};

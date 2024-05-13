@@ -1,7 +1,7 @@
 package handler
 
 import (
-	interfaces "connectHub_gateway/pkg/client/interface"
+	interfaces "connectHub_gateway/pkg/client/auth/interface"
 	"connectHub_gateway/pkg/utils/models"
 	"connectHub_gateway/pkg/utils/response"
 	"net/http"
@@ -11,10 +11,10 @@ import (
 )
 
 type JobSeekerHandler struct {
-	GRPC_Client interfaces.JobSeekerClient
+	GRPC_Client interfaces.JobSeekerAuthClient
 }
 
-func NewJobSeekerHandler(grpc_client interfaces.JobSeekerClient) *JobSeekerHandler {
+func NewJobSeekerAuthHandler(grpc_client interfaces.JobSeekerAuthClient) *JobSeekerHandler {
 	return &JobSeekerHandler{
 		GRPC_Client: grpc_client,
 	}

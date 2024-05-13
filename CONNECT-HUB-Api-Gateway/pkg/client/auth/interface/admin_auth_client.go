@@ -2,7 +2,7 @@ package interfaces
 
 import "connectHub_gateway/pkg/utils/models"
 
-type AdminClient interface {
+type AdminAuthClient interface {
 	AdminLogin(admindata models.AdminLogin) (models.TokenAdmin, error)
 	GetRecruiters(page int) ([]models.RecruiterDetailsAtAdmin, error)
 	GetJobseekers(page int) ([]models.JobseekerDetailsAtAdmin, error)

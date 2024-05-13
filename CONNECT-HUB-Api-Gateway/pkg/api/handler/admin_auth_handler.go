@@ -1,7 +1,7 @@
 package handler
 
 import (
-	interfaces "connectHub_gateway/pkg/client/interface"
+	interfaces "connectHub_gateway/pkg/client/auth/interface"
 	"connectHub_gateway/pkg/utils/models"
 	"connectHub_gateway/pkg/utils/response"
 	"net/http"
@@ -12,10 +12,10 @@ import (
 )
 
 type AdminHandler struct {
-	GRPC_Client interfaces.AdminClient
+	GRPC_Client interfaces.AdminAuthClient
 }
 
-func NewAdminHandler(grpc_client interfaces.AdminClient) *AdminHandler {
+func NewAdminAuthHandler(grpc_client interfaces.AdminAuthClient) *AdminHandler {
 	return &AdminHandler{
 		GRPC_Client: grpc_client,
 	}

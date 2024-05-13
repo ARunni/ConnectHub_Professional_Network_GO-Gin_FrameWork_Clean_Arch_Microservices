@@ -1,7 +1,7 @@
 package client
 
 import (
-	interfaces "connectHub_gateway/pkg/client/interface"
+	interfaces "connectHub_gateway/pkg/client/auth/interface"
 	"connectHub_gateway/pkg/config"
 	pb "connectHub_gateway/pkg/pb/auth/jobseeker"
 	"connectHub_gateway/pkg/utils/models"
@@ -15,7 +15,7 @@ type jobseekerClient struct {
 	Client pb.JobseekerClient
 }
 
-func NewJobSeekerClient(cfg config.Config) interfaces.JobSeekerClient {
+func NewJobSeekerAuthClient(cfg config.Config) interfaces.JobSeekerAuthClient {
 	grpcConnection, err := grpc.Dial(cfg.ConnetHubAuth, grpc.WithInsecure())
 
 	if err != nil {

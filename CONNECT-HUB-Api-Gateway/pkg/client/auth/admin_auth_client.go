@@ -1,7 +1,7 @@
 package client
 
 import (
-	interfaces "connectHub_gateway/pkg/client/interface"
+	interfaces "connectHub_gateway/pkg/client/auth/interface"
 	"connectHub_gateway/pkg/config"
 	pb "connectHub_gateway/pkg/pb/auth/admin"
 	"connectHub_gateway/pkg/utils/models"
@@ -15,7 +15,7 @@ type adminClient struct {
 	Client pb.AdminClient
 }
 
-func NewAdminClient(cfg config.Config) interfaces.AdminClient {
+func NewAdminAuthClient(cfg config.Config) interfaces.AdminAuthClient {
 
 	grpcConnection, err := grpc.Dial(cfg.ConnetHubAuth, grpc.WithInsecure())
 
