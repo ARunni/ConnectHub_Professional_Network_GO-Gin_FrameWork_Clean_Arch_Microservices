@@ -3,6 +3,7 @@ module ConnetHub_job
 go 1.21.5
 
 require (
+	github.com/ARunni/Error_Message v0.0.0-20240507125221-61001a1fbf1f
 	github.com/fatih/color v1.14.1
 	github.com/go-playground/validator v9.31.0+incompatible
 	github.com/golang/protobuf v1.5.3
@@ -14,7 +15,6 @@ require (
 )
 
 require (
-	github.com/ARunni/Error_Message v0.0.0-20240507125221-61001a1fbf1f // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
