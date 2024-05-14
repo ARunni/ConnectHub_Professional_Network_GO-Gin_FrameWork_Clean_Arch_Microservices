@@ -17,7 +17,7 @@ func NewServerHTTP(
 	AdminHandler *handler.AdminHandler,
 	JobseekerHandler *handler.JobSeekerHandler,
 	RecruiterHandler *handler.RecruiterHandler,
-	JobHandler *handler.JobHandler,
+	JobHandler *handler.RecruiterJobHandler,
 ) *ServerHTTP {
 
 	// Gin Engine
@@ -53,12 +53,13 @@ func NewServerHTTP(
 		// Jobseeker Router Group
 		recruiterAuthRoute := router.Group("/recruiter")
 
-		// Admin Routes
+		// Admin Routes jobseeker
 		adminJobseeker.GET("/all", AdminHandler.GetJobseekers)
 		adminJobseeker.PATCH("/block", AdminHandler.BlockJobseeker)
 		adminJobseeker.PATCH("/unblock", AdminHandler.UnBlockJobseeker)
 		adminJobseeker.GET("", AdminHandler.GetJobseekerDetails)
 
+		// Admin Routes recruiter
 		adminRecruiter.GET("/all", AdminHandler.GetRecruiters)
 		adminRecruiter.PATCH("/block", AdminHandler.BlockRecruiter)
 		adminRecruiter.PATCH("/unblock", AdminHandler.UnBlockRecruiter)
@@ -72,6 +73,10 @@ func NewServerHTTP(
 		recruiterAuthRoute.GET("/profile", RecruiterHandler.RecruiterGetProfile)
 		recruiterAuthRoute.PATCH("/profile", RecruiterHandler.RecruiterEditProfile)
 		recruiterAuthRoute.POST("/job", JobHandler.PostJob)
+		recruiterAuthRoute.GET("/jobs", JobHandler.GetAllJobs)
+		recruiterAuthRoute.GET("/job", JobHandler.GetOneJob)
+		recruiterAuthRoute.PATCH("/job", JobHandler.UpdateAJob)
+		recruiterAuthRoute.DELETE("/job", JobHandler.DeleteAJob)
 	}
 
 	return &ServerHTTP{engine: router}

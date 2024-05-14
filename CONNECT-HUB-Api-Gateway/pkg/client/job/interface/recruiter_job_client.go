@@ -7,4 +7,5 @@ type RecruiterJobClient interface {
 	GetAllJobs(recruiterID int32) ([]models.AllJob, error)
 	GetOneJob(recruiterID, jobId int32) (models.JobOpeningData, error)
 	DeleteAJob(recruiterID, jobId int32) error
+	UpdateAJob(employerIDInt int32, jobID int32, jobDetails models.JobOpening) (models.JobOpeningData, error)
 }

@@ -107,10 +107,10 @@ func (jc *jobClient) GetOneJob(recruiterID, jobId int32) (models.JobOpeningData,
 
 	postedOnTime := resp.PostedOn.AsTime()
 	applicationDeadlineTime := resp.ApplicationDeadline.AsTime()
-	salary, err := strconv.Atoi(resp.Salary)
-	if err != nil {
-		return models.JobOpeningData{}, fmt.Errorf("failed to convert salary to int: %v", err)
-	}
+	salary, _ := strconv.Atoi(resp.Salary)
+	// if err != nil {
+	// 	return models.JobOpeningData{}, fmt.Errorf("failed to convert salary to int: %v", err)
+	// }
 	return models.JobOpeningData{
 		ID:                  uint(resp.Id),
 		Title:               resp.Title,
@@ -134,4 +134,47 @@ func (jc *jobClient) DeleteAJob(employerIDInt, jobID int32) error {
 		return fmt.Errorf("failed to delete job: %v", err)
 	}
 	return nil
+}
+
+func (jc *jobClient) UpdateAJob(employerIDInt int32, jobID int32, jobDetails models.JobOpening) (models.JobOpeningData, error) {
+
+	applicationDeadline := timestamppb.New(jobDetails.ApplicationDeadline)
+
+	job, err := jc.Client.UpdateAJob(context.Background(), &recruiterPb.UpdateAJobRequest{
+		Title:               jobDetails.Title,
+		Description:         jobDetails.Description,
+		Requirements:        jobDetails.Requirements,
+		Location:            jobDetails.Location,
+		EmploymentType:      jobDetails.EmploymentType,
+		Salary:              jobDetails.Salary,
+		SkillsRequired:      jobDetails.SkillsRequired,
+		ExperienceLevel:     jobDetails.ExperienceLevel,
+		EducationLevel:      jobDetails.EducationLevel,
+		ApplicationDeadline: applicationDeadline,
+		EmployerId:          employerIDInt,
+		JobId:               jobID,
+	})
+	if err != nil {
+		return models.JobOpeningData{}, fmt.Errorf("failed to post job opening: %v", err)
+	}
+
+	postedOnTime := job.PostedOn.AsTime()
+	applicationDeadlineTime := job.ApplicationDeadline.AsTime()
+
+	return models.JobOpeningData{
+		ID:             uint(job.Id),
+		Title:          job.Title,
+		Description:    job.Description,
+		Requirements:   job.Requirements,
+		PostedOn:       postedOnTime,
+		Location:       job.Location,
+		EmploymentType: job.EmploymentType,
+		// Salary:              job.Salary,
+		SkillsRequired:      job.SkillsRequired,
+		ExperienceLevel:     job.ExperienceLevel,
+		EducationLevel:      job.EducationLevel,
+		ApplicationDeadline: applicationDeadlineTime,
+		EmployerID:          int(job.EmployerId),
+	}, nil
+
 }
