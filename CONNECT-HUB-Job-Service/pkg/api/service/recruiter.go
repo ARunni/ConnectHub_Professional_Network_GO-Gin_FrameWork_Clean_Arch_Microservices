@@ -14,19 +14,19 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
-type JobServer struct {
+type RecruiterJobServer struct {
 	jobUseCase interfaces.RecruiterJobUsecase
 	jobpb.UnimplementedRecruiterJobServer
 }
 
-func NewJobServer(useCase interfaces.RecruiterJobUsecase) jobpb.RecruiterJobServer {
+func NewRecruiterJobServer(useCase interfaces.RecruiterJobUsecase) jobpb.RecruiterJobServer {
 
-	return &JobServer{
+	return &RecruiterJobServer{
 		jobUseCase: useCase,
 	}
 }
 
-func (js *JobServer) PostJob(ctx context.Context, Req *jobpb.JobOpeningRequest) (*jobpb.JobOpeningResponse, error) {
+func (js *RecruiterJobServer) PostJob(ctx context.Context, Req *jobpb.JobOpeningRequest) (*jobpb.JobOpeningResponse, error) {
 	applicationDeadlineTime := Req.ApplicationDeadline.AsTime()
 
 	recruiterJob := models.JobOpening{
@@ -65,7 +65,7 @@ func (js *JobServer) PostJob(ctx context.Context, Req *jobpb.JobOpeningRequest) 
 	}, nil
 }
 
-func (js *JobServer) GetAllJobs(ctx context.Context, req *jobpb.GetAllJobsRequest) (*jobpb.GetAllJobsResponse, error) {
+func (js *RecruiterJobServer) GetAllJobs(ctx context.Context, req *jobpb.GetAllJobsRequest) (*jobpb.GetAllJobsResponse, error) {
 	employerID := int32(req.EmployerIDInt)
 
 	jobs, err := js.jobUseCase.GetAllJobs(employerID)
@@ -87,7 +87,7 @@ func (js *JobServer) GetAllJobs(ctx context.Context, req *jobpb.GetAllJobsReques
 	return &jobpb.GetAllJobsResponse{Jobs: jobResponses}, nil
 }
 
-func (js *JobServer) GetOneJob(ctx context.Context, req *jobpb.GetAJobRequest) (*jobpb.JobOpeningResponse, error) {
+func (js *RecruiterJobServer) GetOneJob(ctx context.Context, req *jobpb.GetAJobRequest) (*jobpb.JobOpeningResponse, error) {
 	employerID := req.EmployerIDInt
 	jobId := req.JobId
 
@@ -115,7 +115,7 @@ func (js *JobServer) GetOneJob(ctx context.Context, req *jobpb.GetAJobRequest) (
 	return jobOpening, nil
 }
 
-func (js *JobServer) DeleteAJob(ctx context.Context, req *jobpb.DeleteAJobRequest) (*emptypb.Empty, error) {
+func (js *RecruiterJobServer) DeleteAJob(ctx context.Context, req *jobpb.DeleteAJobRequest) (*emptypb.Empty, error) {
 	employerID := req.EmployerIDInt
 	jobID := req.JobId
 
@@ -127,7 +127,7 @@ func (js *JobServer) DeleteAJob(ctx context.Context, req *jobpb.DeleteAJobReques
 	return &emptypb.Empty{}, nil
 }
 
-func (js *JobServer) UpdateAJob(ctx context.Context, req *jobpb.UpdateAJobRequest) (*jobpb.UpdateAJobResponse, error) {
+func (js *RecruiterJobServer) UpdateAJob(ctx context.Context, req *jobpb.UpdateAJobRequest) (*jobpb.UpdateAJobResponse, error) {
 	employerID := req.EmployerIDInt
 	jobID := req.JobId
 

@@ -14,7 +14,7 @@ type recruiterJobRepository struct {
 	DB *gorm.DB
 }
 
-func NewJobRepository(DB *gorm.DB) interfaces.RecruiterJobRepository {
+func NewRecruiterJobRepository(DB *gorm.DB) interfaces.RecruiterJobRepository {
 	return &recruiterJobRepository{
 		DB: DB,
 	}

@@ -17,7 +17,9 @@ func NewServerHTTP(
 	AdminHandler *handler.AdminHandler,
 	JobseekerHandler *handler.JobSeekerHandler,
 	RecruiterHandler *handler.RecruiterHandler,
-	JobHandler *handler.RecruiterJobHandler,
+	RecruiterJobHandler *handler.RecruiterJobHandler,
+	JobseekerJobhandler *handler.JobseekerJobHandler,
+
 ) *ServerHTTP {
 
 	// Gin Engine
@@ -68,15 +70,16 @@ func NewServerHTTP(
 		// Jobseeker Routes
 		jobseekerAuthRoute.GET("/profile", JobseekerHandler.JobSeekerGetProfile)
 		jobseekerAuthRoute.PATCH("/profile", JobseekerHandler.JobSeekerEditProfile)
+		jobseekerAuthRoute.GET("/jobs", JobseekerJobhandler.JobSeekerGetAllJobs)
 
 		// Recruiter Routes
 		recruiterAuthRoute.GET("/profile", RecruiterHandler.RecruiterGetProfile)
 		recruiterAuthRoute.PATCH("/profile", RecruiterHandler.RecruiterEditProfile)
-		recruiterAuthRoute.POST("/job", JobHandler.PostJob)
-		recruiterAuthRoute.GET("/jobs", JobHandler.GetAllJobs)
-		recruiterAuthRoute.GET("/job", JobHandler.GetOneJob)
-		recruiterAuthRoute.PATCH("/job", JobHandler.UpdateAJob)
-		recruiterAuthRoute.DELETE("/job", JobHandler.DeleteAJob)
+		recruiterAuthRoute.POST("/job", RecruiterJobHandler.PostJob)
+		recruiterAuthRoute.GET("/jobs", RecruiterJobHandler.GetAllJobs)
+		recruiterAuthRoute.GET("/job", RecruiterJobHandler.GetOneJob)
+		recruiterAuthRoute.PATCH("/job", RecruiterJobHandler.UpdateAJob)
+		recruiterAuthRoute.DELETE("/job", RecruiterJobHandler.DeleteAJob)
 	}
 
 	return &ServerHTTP{engine: router}

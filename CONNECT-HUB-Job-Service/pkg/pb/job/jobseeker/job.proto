@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package job;
+
+
+option go_package = "./pkg/pb/job/jobseeker";
+
+// Service definition for JobseekerJob service
+service JobseekerJob {
+    rpc JobSeekerGetAllJobs(JobSeekerGetAllJobsRequest) returns (JobSeekerGetAllJobsResponse) {};
+}
+
+message JobSeekerGetAllJobsRequest {
+    string title = 1;
+}
+
+message JobSeekerGetAllJobsResponse {
+    repeated JSGetAllJobsRespons jobs = 1;
+}
+
+message JSGetAllJobsRespons {
+    uint64 id = 1;
+    string title = 2;
+}
+
+

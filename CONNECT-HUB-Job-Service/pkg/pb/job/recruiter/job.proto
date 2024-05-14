@@ -14,21 +14,9 @@ service RecruiterJob {
     rpc GetOneJob(GetAJobRequest) returns (JobOpeningResponse) {};
     rpc DeleteAJob(DeleteAJobRequest) returns (google.protobuf.Empty);
     rpc UpdateAJob(UpdateAJobRequest) returns (UpdateAJobResponse) {};
-    rpc JobSeekerGetAllJobs(JobSeekerGetAllJobsRequest) returns (JobSeekerGetAllJobsResponse) {};
 }
 
-message JobSeekerGetAllJobsRequest {
-    string title = 1;
-}
 
-message JobSeekerGetAllJobsResponse {
-    repeated JSGetAllJobsRespons jobs = 1;
-}
-
-message JSGetAllJobsRespons {
-    uint64 id = 1;
-    string title = 2;
-}
 
 // Request message for posting a job opening
 message JobOpeningRequest {

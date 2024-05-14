@@ -20,12 +20,11 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	RecruiterJob_PostJob_FullMethodName             = "/job.RecruiterJob/PostJob"
-	RecruiterJob_GetAllJobs_FullMethodName          = "/job.RecruiterJob/GetAllJobs"
-	RecruiterJob_GetOneJob_FullMethodName           = "/job.RecruiterJob/GetOneJob"
-	RecruiterJob_DeleteAJob_FullMethodName          = "/job.RecruiterJob/DeleteAJob"
-	RecruiterJob_UpdateAJob_FullMethodName          = "/job.RecruiterJob/UpdateAJob"
-	RecruiterJob_JobSeekerGetAllJobs_FullMethodName = "/job.RecruiterJob/JobSeekerGetAllJobs"
+	RecruiterJob_PostJob_FullMethodName    = "/job.RecruiterJob/PostJob"
+	RecruiterJob_GetAllJobs_FullMethodName = "/job.RecruiterJob/GetAllJobs"
+	RecruiterJob_GetOneJob_FullMethodName  = "/job.RecruiterJob/GetOneJob"
+	RecruiterJob_DeleteAJob_FullMethodName = "/job.RecruiterJob/DeleteAJob"
+	RecruiterJob_UpdateAJob_FullMethodName = "/job.RecruiterJob/UpdateAJob"
 )
 
 // RecruiterJobClient is the client API for RecruiterJob service.
@@ -37,7 +36,6 @@ type RecruiterJobClient interface {
 	GetOneJob(ctx context.Context, in *GetAJobRequest, opts ...grpc.CallOption) (*JobOpeningResponse, error)
 	DeleteAJob(ctx context.Context, in *DeleteAJobRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	UpdateAJob(ctx context.Context, in *UpdateAJobRequest, opts ...grpc.CallOption) (*UpdateAJobResponse, error)
-	JobSeekerGetAllJobs(ctx context.Context, in *JobSeekerGetAllJobsRequest, opts ...grpc.CallOption) (*JobSeekerGetAllJobsResponse, error)
 }
 
 type recruiterJobClient struct {
@@ -93,15 +91,6 @@ func (c *recruiterJobClient) UpdateAJob(ctx context.Context, in *UpdateAJobReque
 	return out, nil
 }
 
-func (c *recruiterJobClient) JobSeekerGetAllJobs(ctx context.Context, in *JobSeekerGetAllJobsRequest, opts ...grpc.CallOption) (*JobSeekerGetAllJobsResponse, error) {
-	out := new(JobSeekerGetAllJobsResponse)
-	err := c.cc.Invoke(ctx, RecruiterJob_JobSeekerGetAllJobs_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // RecruiterJobServer is the server API for RecruiterJob service.
 // All implementations must embed UnimplementedRecruiterJobServer
 // for forward compatibility
@@ -111,7 +100,6 @@ type RecruiterJobServer interface {
 	GetOneJob(context.Context, *GetAJobRequest) (*JobOpeningResponse, error)
 	DeleteAJob(context.Context, *DeleteAJobRequest) (*empty.Empty, error)
 	UpdateAJob(context.Context, *UpdateAJobRequest) (*UpdateAJobResponse, error)
-	JobSeekerGetAllJobs(context.Context, *JobSeekerGetAllJobsRequest) (*JobSeekerGetAllJobsResponse, error)
 	mustEmbedUnimplementedRecruiterJobServer()
 }
 
@@ -133,9 +121,6 @@ func (UnimplementedRecruiterJobServer) DeleteAJob(context.Context, *DeleteAJobRe
 }
 func (UnimplementedRecruiterJobServer) UpdateAJob(context.Context, *UpdateAJobRequest) (*UpdateAJobResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAJob not implemented")
-}
-func (UnimplementedRecruiterJobServer) JobSeekerGetAllJobs(context.Context, *JobSeekerGetAllJobsRequest) (*JobSeekerGetAllJobsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method JobSeekerGetAllJobs not implemented")
 }
 func (UnimplementedRecruiterJobServer) mustEmbedUnimplementedRecruiterJobServer() {}
 
@@ -240,24 +225,6 @@ func _RecruiterJob_UpdateAJob_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _RecruiterJob_JobSeekerGetAllJobs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(JobSeekerGetAllJobsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(RecruiterJobServer).JobSeekerGetAllJobs(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: RecruiterJob_JobSeekerGetAllJobs_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RecruiterJobServer).JobSeekerGetAllJobs(ctx, req.(*JobSeekerGetAllJobsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // RecruiterJob_ServiceDesc is the grpc.ServiceDesc for RecruiterJob service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -284,10 +251,6 @@ var RecruiterJob_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateAJob",
 			Handler:    _RecruiterJob_UpdateAJob_Handler,
-		},
-		{
-			MethodName: "JobSeekerGetAllJobs",
-			Handler:    _RecruiterJob_JobSeekerGetAllJobs_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -16,7 +16,7 @@ type recruiterJobUseCase struct {
 	jobRepository repo.RecruiterJobRepository
 }
 
-func NewJobUseCase(repo repo.RecruiterJobRepository) interfaces.RecruiterJobUsecase {
+func NewRecruiterJobUseCase(repo repo.RecruiterJobRepository) interfaces.RecruiterJobUsecase {
 	return &recruiterJobUseCase{
 		jobRepository: repo,
 	}

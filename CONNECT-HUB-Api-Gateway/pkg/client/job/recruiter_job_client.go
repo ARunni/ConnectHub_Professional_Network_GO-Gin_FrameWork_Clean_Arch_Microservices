@@ -13,7 +13,7 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
-type jobClient struct {
+type recruiterJobClient struct {
 	Client recruiterPb.RecruiterJobClient
 }
 
@@ -25,12 +25,12 @@ func NewRecruiterJobClient(cfg config.Config) interfaces.RecruiterJobClient {
 		fmt.Println("Could not Connect to Auth", err)
 	}
 	grpcClient := recruiterPb.NewRecruiterJobClient(grpcConnection)
-	return &jobClient{
+	return &recruiterJobClient{
 		Client: grpcClient,
 	}
 
 }
-func (jc *jobClient) PostJob(data models.JobOpening) (models.JobOpeningData, error) {
+func (jc *recruiterJobClient) PostJob(data models.JobOpening) (models.JobOpeningData, error) {
 	applicationDeadline := timestamppb.New(data.ApplicationDeadline)
 	job, err := jc.Client.PostJob(context.Background(), &recruiterPb.JobOpeningRequest{
 		Title:               data.Title,
@@ -72,7 +72,7 @@ func (jc *jobClient) PostJob(data models.JobOpening) (models.JobOpeningData, err
 	}, nil
 }
 
-func (jc *jobClient) GetAllJobs(recruiterID int32) ([]models.AllJob, error) {
+func (jc *recruiterJobClient) GetAllJobs(recruiterID int32) ([]models.AllJob, error) {
 
 	resp, err := jc.Client.GetAllJobs(context.Background(), &recruiterPb.GetAllJobsRequest{EmployerIDInt: recruiterID})
 	if err != nil {
@@ -95,7 +95,7 @@ func (jc *jobClient) GetAllJobs(recruiterID int32) ([]models.AllJob, error) {
 	return allJobs, nil
 }
 
-func (jc *jobClient) GetOneJob(recruiterID, jobId int32) (models.JobOpeningData, error) {
+func (jc *recruiterJobClient) GetOneJob(recruiterID, jobId int32) (models.JobOpeningData, error) {
 
 	resp, err := jc.Client.GetOneJob(context.Background(), &recruiterPb.GetAJobRequest{
 		EmployerIDInt: recruiterID,
@@ -128,7 +128,7 @@ func (jc *jobClient) GetOneJob(recruiterID, jobId int32) (models.JobOpeningData,
 	}, nil
 }
 
-func (jc *jobClient) DeleteAJob(employerIDInt, jobID int32) error {
+func (jc *recruiterJobClient) DeleteAJob(employerIDInt, jobID int32) error {
 	_, err := jc.Client.DeleteAJob(context.Background(), &recruiterPb.DeleteAJobRequest{EmployerIDInt: employerIDInt, JobId: jobID})
 	if err != nil {
 		return fmt.Errorf("failed to delete job: %v", err)
@@ -136,7 +136,7 @@ func (jc *jobClient) DeleteAJob(employerIDInt, jobID int32) error {
 	return nil
 }
 
-func (jc *jobClient) UpdateAJob(employerIDInt int32, jobID int32, jobDetails models.JobOpening) (models.JobOpeningData, error) {
+func (jc *recruiterJobClient) UpdateAJob(employerIDInt int32, jobID int32, jobDetails models.JobOpening) (models.JobOpeningData, error) {
 
 	applicationDeadline := timestamppb.New(jobDetails.ApplicationDeadline)
 
