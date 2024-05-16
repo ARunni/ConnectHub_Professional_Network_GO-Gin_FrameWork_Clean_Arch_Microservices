@@ -28,7 +28,7 @@ func NewRecruiterJobServer(useCase interfaces.RecruiterJobUsecase) jobpb.Recruit
 
 func (js *RecruiterJobServer) PostJob(ctx context.Context, Req *jobpb.JobOpeningRequest) (*jobpb.JobOpeningResponse, error) {
 	applicationDeadlineTime := Req.ApplicationDeadline.AsTime()
-
+	fmt.Println("refdssd id ", Req.EmployerId)
 	recruiterJob := models.JobOpening{
 		EmployerID:          int(Req.EmployerId),
 		Title:               Req.Title,

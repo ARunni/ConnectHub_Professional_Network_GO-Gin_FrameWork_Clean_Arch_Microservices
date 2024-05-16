@@ -23,7 +23,7 @@ func NewRecruiterJobUseCase(repo repo.RecruiterJobRepository) interfaces.Recruit
 }
 
 func (ju *recruiterJobUseCase) PostJob(data models.JobOpening) (models.JobOpeningData, error) {
-
+	fmt.Println("recruiter id ", data.EmployerID)
 	if data.EmployerID <= 0 {
 		return models.JobOpeningData{}, errors.New(msg.ErrDataNegative)
 	}
