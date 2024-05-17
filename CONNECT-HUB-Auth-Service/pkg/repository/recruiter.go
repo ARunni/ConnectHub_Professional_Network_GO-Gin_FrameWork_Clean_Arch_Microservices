@@ -89,3 +89,13 @@ func (rr *recruiterRepository) RecruiterEditProfile(profile req.RecruiterProfile
 	}
 	return profile, nil
 }
+
+func (rr *recruiterRepository) IsRecruiterBlocked(id int) (bool, error) {
+	var ok bool
+	qurry := `select is_blocked from recruiters where id = ?`
+	err := rr.DB.Raw(qurry, id).Scan(&ok).Error
+	if err != nil {
+		return false, err
+	}
+	return ok, nil
+}

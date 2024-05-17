@@ -107,6 +107,14 @@ func (ju *recruiterUseCase) RecruiterLogin(recruiterDetails req.RecruiterLogin) 
 		return req.TokenRecruiter{}, err
 	}
 
+	ok, err = ju.recruiterRepository.IsRecruiterBlocked(int(recruiterCompare.ID))
+
+	if err != nil {
+		return req.TokenRecruiter{}, err
+	}
+	if ok {
+		return req.TokenRecruiter{}, errors.New(msg.ErrUserBlockTrue)
+	}
 	// Comparing Password
 	err = helper.CompareHashAndPassword(recruiterCompare.Password, recruiterDetails.Password)
 	if err != nil {
@@ -130,10 +138,27 @@ func (ju *recruiterUseCase) RecruiterGetProfile(id int) (req.RecruiterProfile, e
 	if err != nil {
 		return req.RecruiterProfile{}, err
 	}
+	ok, err := ju.recruiterRepository.IsRecruiterBlocked(int(recruiter.ID))
+
+	if err != nil {
+		return req.RecruiterProfile{}, err
+	}
+	if ok {
+		return req.RecruiterProfile{}, errors.New(msg.ErrUserBlockTrue)
+	}
 	return recruiter, nil
 }
 
 func (ju *recruiterUseCase) RecruiterEditProfile(profile req.RecruiterProfile) (req.RecruiterProfile, error) {
+
+	ok, err := ju.recruiterRepository.IsRecruiterBlocked(int(profile.ID))
+
+	if err != nil {
+		return req.RecruiterProfile{}, err
+	}
+	if ok {
+		return req.RecruiterProfile{}, errors.New(msg.ErrUserBlockTrue)
+	}
 
 	if profile.Company_name == "" {
 		return req.RecruiterProfile{}, errors.New("company_name " + msg.ErrFieldEmpty)
@@ -154,3 +179,4 @@ func (ju *recruiterUseCase) RecruiterEditProfile(profile req.RecruiterProfile) (
 	}
 	return recruiter, nil
 }
+

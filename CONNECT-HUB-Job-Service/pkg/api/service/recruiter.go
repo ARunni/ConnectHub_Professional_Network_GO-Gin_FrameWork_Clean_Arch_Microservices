@@ -28,7 +28,7 @@ func NewRecruiterJobServer(useCase interfaces.RecruiterJobUsecase) jobpb.Recruit
 
 func (js *RecruiterJobServer) PostJob(ctx context.Context, Req *jobpb.JobOpeningRequest) (*jobpb.JobOpeningResponse, error) {
 	applicationDeadlineTime := Req.ApplicationDeadline.AsTime()
-
+	fmt.Println("refdssd id ", Req.EmployerId)
 	recruiterJob := models.JobOpening{
 		EmployerID:          int(Req.EmployerId),
 		Title:               Req.Title,
@@ -95,16 +95,16 @@ func (js *RecruiterJobServer) GetOneJob(ctx context.Context, req *jobpb.GetAJobR
 	if err != nil {
 		return nil, err
 	}
-
+	salary := strconv.Itoa(res.Salary)
 	jobOpening := &jobpb.JobOpeningResponse{
-		Id:             uint64(res.ID),
-		Title:          res.Title,
-		Description:    res.Description,
-		Requirements:   res.Requirements,
-		PostedOn:       timestamppb.New(res.PostedOn),
-		Location:       res.Location,
-		EmploymentType: res.EmploymentType,
-		// Salary:              res.Salary,
+		Id:                  uint64(res.ID),
+		Title:               res.Title,
+		Description:         res.Description,
+		Requirements:        res.Requirements,
+		PostedOn:            timestamppb.New(res.PostedOn),
+		Location:            res.Location,
+		EmploymentType:      res.EmploymentType,
+		Salary:              salary,
 		SkillsRequired:      res.SkillsRequired,
 		ExperienceLevel:     res.ExperienceLevel,
 		EducationLevel:      res.EducationLevel,
@@ -150,16 +150,16 @@ func (js *RecruiterJobServer) UpdateAJob(ctx context.Context, req *jobpb.UpdateA
 	if err != nil {
 		return nil, err
 	}
-
+	salary := strconv.Itoa(res.Salary)
 	updateResponse := &jobpb.UpdateAJobResponse{
-		Id:             uint64(res.ID),
-		Title:          res.Title,
-		Description:    res.Description,
-		Requirements:   res.Requirements,
-		PostedOn:       timestamppb.New(res.PostedOn),
-		Location:       res.Location,
-		EmploymentType: res.EmploymentType,
-		// Salary:              res.Salary,
+		Id:                  uint64(res.ID),
+		Title:               res.Title,
+		Description:         res.Description,
+		Requirements:        res.Requirements,
+		PostedOn:            timestamppb.New(res.PostedOn),
+		Location:            res.Location,
+		EmploymentType:      res.EmploymentType,
+		Salary:              salary,
 		SkillsRequired:      res.SkillsRequired,
 		ExperienceLevel:     res.ExperienceLevel,
 		EducationLevel:      res.EducationLevel,

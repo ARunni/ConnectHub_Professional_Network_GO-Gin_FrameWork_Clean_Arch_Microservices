@@ -4,6 +4,8 @@ import (
 	interfaces "connectHub_gateway/pkg/client/auth/interface"
 	"connectHub_gateway/pkg/utils/models"
 	"connectHub_gateway/pkg/utils/response"
+	"errors"
+	"fmt"
 	"net/http"
 
 	msg "github.com/ARunni/Error_Message"
@@ -66,9 +68,17 @@ func (jh *RecruiterHandler) RecruiterLogin(c *gin.Context) {
 }
 
 func (jh *RecruiterHandler) RecruiterGetProfile(c *gin.Context) {
-
-	userIdstring, _ := c.Get("id")
+	userIdstring, ok := c.Get("id")
+	fmt.Println("status ", ok)
+	if !ok {
+		err := errors.New("error in getting id")
+		errResp := response.ClientResponse(http.StatusBadRequest, msg.MsgIdGetErr, nil, err.Error())
+		c.JSON(http.StatusBadRequest, errResp)
+		return
+	}
 	userId, strErr := userIdstring.(int)
+	fmt.Println("recruiter id ", userId)
+	fmt.Println("recruiter id ", userIdstring)
 	if !strErr {
 		errResp := response.ClientResponse(http.StatusBadRequest, msg.MsgFormatErr, nil, strErr)
 		c.JSON(http.StatusBadRequest, errResp)

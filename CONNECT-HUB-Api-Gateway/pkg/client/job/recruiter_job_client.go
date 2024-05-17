@@ -160,16 +160,16 @@ func (jc *recruiterJobClient) UpdateAJob(employerIDInt int32, jobID int32, jobDe
 
 	postedOnTime := job.PostedOn.AsTime()
 	applicationDeadlineTime := job.ApplicationDeadline.AsTime()
-
+	salary, _ := strconv.Atoi(job.Salary)
 	return models.JobOpeningData{
-		ID:             uint(job.Id),
-		Title:          job.Title,
-		Description:    job.Description,
-		Requirements:   job.Requirements,
-		PostedOn:       postedOnTime,
-		Location:       job.Location,
-		EmploymentType: job.EmploymentType,
-		// Salary:              job.Salary,
+		ID:                  uint(job.Id),
+		Title:               job.Title,
+		Description:         job.Description,
+		Requirements:        job.Requirements,
+		PostedOn:            postedOnTime,
+		Location:            job.Location,
+		EmploymentType:      job.EmploymentType,
+		Salary:              salary,
 		SkillsRequired:      job.SkillsRequired,
 		ExperienceLevel:     job.ExperienceLevel,
 		EducationLevel:      job.EducationLevel,

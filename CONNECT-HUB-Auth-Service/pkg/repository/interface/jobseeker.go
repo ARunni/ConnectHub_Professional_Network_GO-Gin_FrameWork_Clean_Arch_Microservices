@@ -9,4 +9,5 @@ type JobseekerRepository interface {
 	CheckJobseekerBlockByEmail(email string) (bool, error)
 	JobSeekerGetProfile(id int) (req.JobSeekerProfile, error)
 	JobSeekerEditProfile(data req.JobSeekerProfile) (req.JobSeekerProfile, error)
+	IsJobseekerBlocked(id int) (bool, error)
 }

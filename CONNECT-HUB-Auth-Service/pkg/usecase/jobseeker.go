@@ -78,6 +78,14 @@ func (ju *jobseekerUseCase) JobSeekerSignup(jobseekerdata req.JobSeekerSignUp) (
 }
 
 func (ju *jobseekerUseCase) JobSeekerLogin(jobseekerDetails req.JobSeekerLogin) (req.TokenJobSeeker, error) {
+
+	ok, err := ju.jobseekerRepository.CheckJobseekerBlockByEmail(jobseekerDetails.Email)
+	if err != nil {
+		return req.TokenJobSeeker{}, err
+	}
+	if ok {
+		return req.TokenJobSeeker{}, errors.New(msg.ErrUserBlockTrue)
+	}
 	//  Validation
 	if jobseekerDetails.Email == "" {
 		return req.TokenJobSeeker{}, errors.New("email " + msg.ErrFieldEmpty)
@@ -85,7 +93,7 @@ func (ju *jobseekerUseCase) JobSeekerLogin(jobseekerDetails req.JobSeekerLogin) 
 	if jobseekerDetails.Password == "" {
 		return req.TokenJobSeeker{}, errors.New("password " + msg.ErrFieldEmpty)
 	}
-	ok, err := ju.jobseekerRepository.CheckJobseekerExistsByEmail(jobseekerDetails.Email)
+	ok, err = ju.jobseekerRepository.CheckJobseekerExistsByEmail(jobseekerDetails.Email)
 	if err != nil {
 		return req.TokenJobSeeker{}, err
 	}
@@ -127,6 +135,14 @@ func (ju *jobseekerUseCase) JobSeekerGetProfile(id int) (req.JobSeekerProfile, e
 	if id <= 0 {
 		return req.JobSeekerProfile{}, errors.New("id error")
 	}
+	ok, err := ju.jobseekerRepository.IsJobseekerBlocked(id)
+	if err != nil {
+		return req.JobSeekerProfile{}, err
+	}
+	if ok {
+		return req.JobSeekerProfile{}, errors.New(msg.ErrUserBlockTrue)
+	}
+
 	data, err := ju.jobseekerRepository.JobSeekerGetProfile(id)
 	if err != nil {
 		return req.JobSeekerProfile{}, err
@@ -155,9 +171,17 @@ func (ju *jobseekerUseCase) JobSeekerEditProfile(data req.JobSeekerProfile) (req
 	}
 	if data.DateOfBirth == "" {
 		return req.JobSeekerProfile{}, errors.New("date_of_birth " + msg.ErrFieldEmpty)
+
+	}
+	ok, err := ju.jobseekerRepository.IsJobseekerBlocked(int(data.ID))
+	if err != nil {
+		return req.JobSeekerProfile{}, err
+	}
+	if ok {
+		return req.JobSeekerProfile{}, errors.New(msg.ErrUserBlockTrue)
 	}
 
-	data, err := ju.jobseekerRepository.JobSeekerEditProfile(data)
+	data, err = ju.jobseekerRepository.JobSeekerEditProfile(data)
 	if err != nil {
 		return req.JobSeekerProfile{}, err
 	}

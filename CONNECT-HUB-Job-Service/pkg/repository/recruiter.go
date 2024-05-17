@@ -5,6 +5,7 @@ import (
 	"ConnetHub_job/pkg/utils/models"
 	"errors"
 	"fmt"
+	"strconv"
 	"time"
 
 	"gorm.io/gorm"
@@ -73,26 +74,32 @@ func (jr *recruiterJobRepository) DeleteAJob(employerIDInt, jobID int32) error {
 func (jr *recruiterJobRepository) UpdateAJob(employerID int32, jobID int32, jobDetails models.JobOpening) (models.JobOpeningData, error) {
 
 	postedOn := time.Now()
-
+	salary, err := strconv.Atoi(jobDetails.Salary)
+	if err != nil {
+		return models.JobOpeningData{}, err
+	}
 	updatedJob := models.JobOpeningData{
-		ID:             uint(jobID),
-		Title:          jobDetails.Title,
-		Description:    jobDetails.Description,
-		Requirements:   jobDetails.Requirements,
-		PostedOn:       postedOn,
-		EmployerID:     int(employerID),
-		Location:       jobDetails.Location,
-		EmploymentType: jobDetails.EmploymentType,
-		// Salary:              jobDetails.Salary,
+		ID:                  uint(jobID),
+		Title:               jobDetails.Title,
+		Description:         jobDetails.Description,
+		Requirements:        jobDetails.Requirements,
+		PostedOn:            postedOn,
+		EmployerID:          int(employerID),
+		Location:            jobDetails.Location,
+		EmploymentType:      jobDetails.EmploymentType,
+		Salary:              salary,
 		SkillsRequired:      jobDetails.SkillsRequired,
 		ExperienceLevel:     jobDetails.ExperienceLevel,
 		EducationLevel:      jobDetails.EducationLevel,
 		ApplicationDeadline: jobDetails.ApplicationDeadline,
 	}
+	fmt.Println("job id ", updatedJob.ID)
+	fmt.Println("all struct ", updatedJob)
 
 	if err := jr.DB.Model(&models.JobOpeningData{}).Where("id = ?", jobID).Updates(updatedJob).Error; err != nil {
 		return models.JobOpeningData{}, err
 	}
+	fmt.Println("updated employment type", updatedJob.EmploymentType)
 
 	return updatedJob, nil
 }

@@ -97,3 +97,14 @@ func (jr *jobseekerRepository) JobSeekerEditProfile(data req.JobSeekerProfile) (
 	}
 	return data, nil
 }
+
+func (jr *jobseekerRepository) IsJobseekerBlocked(id int) (bool, error) {
+
+	var ok bool
+	qurry := `select is_blocked from job_seekers where id = ?`
+	err := jr.DB.Raw(qurry, id).Scan(&ok).Error
+	if err != nil {
+		return false, err
+	}
+	return ok, nil
+}
