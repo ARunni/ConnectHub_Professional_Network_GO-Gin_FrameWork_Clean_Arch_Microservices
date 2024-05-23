@@ -25,7 +25,7 @@ type JobOpeningData struct {
 	EmployerID          int       `json:"employer_id"`
 	Location            string    `json:"location"`
 	EmploymentType      string    `json:"employment_type"`
-	Salary              int    `json:"salary"`
+	Salary              int       `json:"salary"`
 	SkillsRequired      string    `json:"skills_required"`
 	ExperienceLevel     string    `json:"experience_level"`
 	EducationLevel      string    `json:"education_level"`
@@ -42,4 +42,10 @@ type AllJob struct {
 type JobSeekerGetAllJobs struct {
 	ID    uint   `json:"id"`
 	Title string `json:"title"`
+}
+
+type ApplyJob struct {
+	ID          uint `json:"id"`
+	JobID       uint `json:"job_id"`
+	JobseekerID uint `json:"jobseeker_id"`
 }

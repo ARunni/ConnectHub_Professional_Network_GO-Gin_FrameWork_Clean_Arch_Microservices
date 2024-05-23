@@ -1,7 +1,8 @@
 package server
 
 import (
-	"connectHub_gateway/pkg/api/handler"
+	authHandler "connectHub_gateway/pkg/api/handler/auth"
+	jobHandler "connectHub_gateway/pkg/api/handler/job"
 	"connectHub_gateway/pkg/config"
 	"connectHub_gateway/pkg/middleware"
 	"log"
@@ -14,11 +15,11 @@ type ServerHTTP struct {
 }
 
 func NewServerHTTP(
-	AdminHandler *handler.AdminHandler,
-	JobseekerHandler *handler.JobSeekerHandler,
-	RecruiterHandler *handler.RecruiterHandler,
-	RecruiterJobHandler *handler.RecruiterJobHandler,
-	JobseekerJobhandler *handler.JobseekerJobHandler,
+	AdminHandler *authHandler.AdminHandler,
+	JobseekerHandler *authHandler.JobSeekerHandler,
+	RecruiterHandler *authHandler.RecruiterHandler,
+	RecruiterJobHandler *jobHandler.RecruiterJobHandler,
+	JobseekerJobhandler *jobHandler.JobseekerJobHandler,
 
 ) *ServerHTTP {
 
@@ -52,7 +53,7 @@ func NewServerHTTP(
 		// Jobseeker Router Group
 		jobseekerAuthRoute := router.Group("/jobseeker")
 
-		// Jobseeker Router Group
+		// recruiter Router Group
 		recruiterAuthRoute := router.Group("/recruiter")
 
 		// Admin Routes jobseeker
@@ -71,6 +72,8 @@ func NewServerHTTP(
 		jobseekerAuthRoute.GET("/profile", JobseekerHandler.JobSeekerGetProfile)
 		jobseekerAuthRoute.PATCH("/profile", JobseekerHandler.JobSeekerEditProfile)
 		jobseekerAuthRoute.GET("/jobs", JobseekerJobhandler.JobSeekerGetAllJobs)
+		jobseekerAuthRoute.GET("/job", JobseekerJobhandler.JobSeekerGetJobByID)
+		jobseekerAuthRoute.POST("/job", JobseekerJobhandler.JobSeekerApplyJob)
 
 		// Recruiter Routes
 		recruiterAuthRoute.GET("/profile", RecruiterHandler.RecruiterGetProfile)

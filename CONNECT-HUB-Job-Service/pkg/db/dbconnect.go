@@ -21,6 +21,7 @@ func ConnectDatabase(cfg config.Config) (*gorm.DB, error) {
 
 	var modelsToMigrate = []interface{}{
 		&models.JobOpeningData{},
+		&models.ApplyJob{},
 	}
 
 	for _, model := range modelsToMigrate {

@@ -12,6 +12,7 @@ import (
 type authCustomClaimsJobseeker struct {
 	Id    uint   `json:"id"`
 	Email string `json:"email"`
+	Role  string `json:"role"`
 	jwt.StandardClaims
 }
 
@@ -19,6 +20,7 @@ func GenerateTokenJobseeker(jobseeker req.JobSeekerDetailsResponse) (string, err
 	claims := &authCustomClaimsJobseeker{
 		Id:    jobseeker.ID,
 		Email: jobseeker.Email,
+		Role:  "jobseeker",
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Hour * 48).Unix(),
 			IssuedAt:  time.Now().Unix(),

@@ -48,3 +48,35 @@ func (jc *jobseekerJobClient) JobSeekerGetAllJobs(keyword string) ([]models.JobS
 
 	return jobs, nil
 }
+
+func (jc *jobseekerJobClient) JobSeekerGetJobByID(id int) (models.JobOpeningData, error) {
+	var job models.JobOpeningData
+	resp, err := jc.Client.JobSeekerGetJobByID(context.Background(), &jobseekerPb.JobSeekerGetJobByIDRequest{
+		Id: uint64(id),
+	})
+	if err != nil {
+		return models.JobOpeningData{}, fmt.Errorf("failed to get job: %v", err)
+	}
+
+	job.ID = uint(resp.Job.Id)
+	job.Title = resp.Job.Title
+	job.Description = resp.Job.Description
+	job.Location = resp.Job.Location
+	job.EmployerID = int(resp.Job.EmployerId)
+	job.EmploymentType = resp.Job.EmploymentType
+
+	return job, nil
+}
+
+func (jc *jobseekerJobClient) JobSeekerApplyJob(jobId, userId int) (bool, error) {
+
+	resp, err := jc.Client.JobSeekerApplyJob(context.Background(), &jobseekerPb.JobSeekerApplyJobRequest{
+		JobId:  uint64(jobId),
+		UserId: uint64(userId),
+	})
+	if err != nil {
+		return false, fmt.Errorf("failed to apply job: %v", err)
+	}
+
+	return resp.Success, nil
+}

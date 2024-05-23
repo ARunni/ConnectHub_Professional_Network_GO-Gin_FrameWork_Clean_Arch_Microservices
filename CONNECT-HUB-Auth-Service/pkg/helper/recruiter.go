@@ -12,6 +12,7 @@ import (
 type authCustomClaimsRecruiter struct {
 	Id    uint   `json:"id"`
 	Email string `json:"email"`
+	Role  string `json:"role"`
 	jwt.StandardClaims
 }
 
@@ -19,6 +20,7 @@ func GenerateTokenRecruiter(recruiter req.RecruiterDetailsResponse) (string, err
 	claims := &authCustomClaimsRecruiter{
 		Id:    recruiter.ID,
 		Email: recruiter.Contact_email,
+		Role:  "recruiter",
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Hour * 48).Unix(),
 			IssuedAt:  time.Now().Unix(),

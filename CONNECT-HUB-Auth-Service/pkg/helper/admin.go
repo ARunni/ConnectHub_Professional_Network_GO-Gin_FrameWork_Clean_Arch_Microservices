@@ -12,6 +12,7 @@ import (
 type authCustomClaimsAdmin struct {
 	Id    uint   `json:"id"`
 	Email string `json:"email"`
+	Role  string `json:"role"`
 	jwt.StandardClaims
 }
 
@@ -19,6 +20,7 @@ func GenerateTokenAdmin(admin req.AdminDetailsResponse) (string, error) {
 	claims := &authCustomClaimsAdmin{
 		Id:    admin.ID,
 		Email: admin.Email,
+		Role:  "admin",
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Hour * 48).Unix(),
 			IssuedAt:  time.Now().Unix(),

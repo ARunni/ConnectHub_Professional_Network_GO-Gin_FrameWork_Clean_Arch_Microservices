@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+package post;
+
+option go_package = "./pkg/pb/post/jobseeker";
+
+// Service definition for PostManagement service
+service PostManagement {
+    rpc CreatePost(CreatePostRequest) returns (CreatePostResponse) {};
+    rpc GetPostByID(GetPostByIDRequest) returns (GetPostByIDResponse) {};
+    rpc UpdatePost(UpdatePostRequest) returns (UpdatePostResponse) {};
+    rpc DeletePost(DeletePostRequest) returns (DeletePostResponse) {};
+    rpc GetAllPosts(GetAllPostsRequest) returns (GetAllPostsResponse) {};
+}
+
+message CreatePostRequest {
+    string title = 1;
+    string content = 2;
+   
+}
+
+message CreatePostResponse {
+    Post post = 1;
+}
+
+message GetPostByIDRequest {
+    uint64 id = 1;
+}
+
+message GetPostByIDResponse {
+    Post post = 1;
+}
+
+message UpdatePostRequest {
+    uint64 id = 1;
+    string title = 2;
+    string content = 3;
+    
+}
+
+message UpdatePostResponse {
+    Post post = 1;
+}
+
+message DeletePostRequest {
+    uint64 id = 1;
+}
+
+message DeletePostResponse {
+    bool success = 1;
+}
+
+message GetAllPostsRequest {
+    string category = 1;
+}
+
+message GetAllPostsResponse {
+    repeated Post posts = 1;
+}
+
+message Post {
+    uint64 id = 1;
+    string title = 2;
+    string content = 3;
+    int64 created_at = 4;  // Timestamp in seconds since epoch
+    int64 updated_at = 5;  // Timestamp in seconds since epoch
+}

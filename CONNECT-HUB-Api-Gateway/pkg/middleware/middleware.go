@@ -46,12 +46,26 @@ func AuthMiddleware(c *gin.Context) {
 			c.Abort()
 			return
 		}
+		if tokenclaims.Role != "admin" {
+			err := errors.New("invalid role")
+			response := response.ClientResponse(http.StatusUnauthorized, "Invalid Token admin", nil, err.Error())
+			c.JSON(http.StatusUnauthorized, response)
+			c.Abort()
+			return
+		}
 		c.Set("tokenClaims", tokenclaims)
 
 		c.Next()
 	case "Jobseeker":
 		tokenclaims, err := helper.ValidateTokenJobSeeker(tokenPart2)
 		if err != nil {
+			response := response.ClientResponse(http.StatusUnauthorized, "Invalid Token Jobseeker", nil, err.Error())
+			c.JSON(http.StatusUnauthorized, response)
+			c.Abort()
+			return
+		}
+		if tokenclaims.Role != "jobseeker" {
+			err := errors.New("invalid role")
 			response := response.ClientResponse(http.StatusUnauthorized, "Invalid Token Jobseeker", nil, err.Error())
 			c.JSON(http.StatusUnauthorized, response)
 			c.Abort()
@@ -69,7 +83,13 @@ func AuthMiddleware(c *gin.Context) {
 			c.Abort()
 			return
 		}
-
+		if tokenclaims.Role != "recruiter" {
+			err := errors.New("invalid role")
+			response := response.ClientResponse(http.StatusUnauthorized, "Invalid Token Recruiter", nil, err.Error())
+			c.JSON(http.StatusUnauthorized, response)
+			c.Abort()
+			return
+		}
 		c.Set("id", int(tokenclaims.ID))
 		c.Next()
 

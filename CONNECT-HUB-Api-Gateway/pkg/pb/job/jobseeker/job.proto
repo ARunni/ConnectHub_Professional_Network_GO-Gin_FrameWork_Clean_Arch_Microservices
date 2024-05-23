@@ -2,12 +2,13 @@ syntax = "proto3";
 
 package job;
 
-
 option go_package = "./pkg/pb/job/jobseeker";
 
 // Service definition for JobseekerJob service
 service JobseekerJob {
     rpc JobSeekerGetAllJobs(JobSeekerGetAllJobsRequest) returns (JobSeekerGetAllJobsResponse) {};
+    rpc JobSeekerGetJobByID(JobSeekerGetJobByIDRequest) returns (JobSeekerGetJobByIDResponse) {};
+    rpc JobSeekerApplyJob(JobSeekerApplyJobRequest) returns (JobSeekerApplyJobResponse) {};
 }
 
 message JobSeekerGetAllJobsRequest {
@@ -24,3 +25,29 @@ message JSGetAllJobsRespons {
 }
 
 
+message JobSeekerGetJobByIDRequest {
+    uint64 id = 1;
+}
+
+message JobSeekerGetJobByIDResponse {
+    Job job = 1;
+}
+
+
+message JobSeekerApplyJobRequest {
+    uint64 job_id = 1;
+    uint64 user_id = 2;
+}
+
+message JobSeekerApplyJobResponse {
+    bool success = 1;
+}
+
+message Job {
+    uint64 id = 1;
+    string title = 2;
+    string description = 3;
+    string location = 4;
+    int64 employer_id = 5;
+    string employment_type = 6;
+}

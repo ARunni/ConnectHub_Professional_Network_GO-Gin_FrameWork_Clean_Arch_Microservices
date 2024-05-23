@@ -44,3 +44,41 @@ func (js *JobseekerJobServer) JobSeekerGetAllJobs(ctx context.Context, req *jobs
 
 	return response, nil
 }
+
+func (js *JobseekerJobServer) JobSeekerGetJobByID(ctx context.Context, req *jobseekerpb.JobSeekerGetJobByIDRequest) (*jobseekerpb.JobSeekerGetJobByIDResponse, error) {
+	jobId := req.Id
+
+	jobSeekerJobs, err := js.jobUseCase.JobSeekerGetJobByID(int(jobId))
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "failed to get job for job seeker: %v", err)
+	}
+
+	response := &jobseekerpb.JobSeekerGetJobByIDResponse{
+		Job: &jobseekerpb.Job{
+			Id:             uint64(jobSeekerJobs.ID),
+			Title:          jobSeekerJobs.Title,
+			Description:    jobSeekerJobs.Description,
+			Location:       jobSeekerJobs.Location,
+			EmployerId:     int64(jobSeekerJobs.EmployerID),
+			EmploymentType: jobSeekerJobs.EmploymentType,
+		},
+	}
+
+	return response, nil
+}
+
+func (js *JobseekerJobServer) JobSeekerApplyJob(ctx context.Context, req *jobseekerpb.JobSeekerApplyJobRequest) (*jobseekerpb.JobSeekerApplyJobResponse, error) {
+	jobId := req.JobId
+	jobseekerId := req.UserId
+
+	jobSeekerJobs, err := js.jobUseCase.JobSeekerApplyJob(int(jobId),int(jobseekerId))
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "failed to apply job for job seeker: %v", err)
+	}
+
+	response := &jobseekerpb.JobSeekerApplyJobResponse{
+		Success: jobSeekerJobs,
+	}
+
+	return response, nil
+}
