@@ -2,6 +2,7 @@ package server
 
 import (
 	"ConnetHub_post/pkg/config"
+	postJ"ConnetHub_post/pkg/pb/post/jobseeker"
 	"context"
 	"fmt"
 	"log"
@@ -16,14 +17,14 @@ type Server struct {
 	listener net.Listener
 }
 
-func NewGRPCServer(cfg config.Config, postJ ) (*Server, error) {
+func NewGRPCServer(cfg config.Config, JPostServer postJ.JobseekerPostServiceServer   ) (*Server, error) {
 	lis, err := net.Listen("tcp", cfg.Port)
 	if err != nil {
 		return nil, err
 	}
 
 	newServer := grpc.NewServer(grpc.UnaryInterceptor(grpcInterceptor))
-	// jobR.RegisterRecruiterJobServer(newServer, RJobServer)
+	postJ.RegisterJobseekerPostServiceServer(newServer, JPostServer)
 	// jobJ.RegisterJobseekerJobServer(newServer, JJobServer)
 
 	// recruiterPb.RegisterRecruiterServer(newServer, recruiterServer)

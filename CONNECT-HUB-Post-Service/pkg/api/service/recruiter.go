@@ -1,15 +1,15 @@
 package service
 
-import "ConnetHub_post/pkg/usecase/interfaces"
+// import "ConnetHub_post/pkg/usecase/interfaces"
 
-type RecruiterPostServer struct {
-	postUseCase interfaces.RecruiterPostUsecase
-	jobpb.UnimplementedRecruiterJobServer
-}
+// type RecruiterPostServer struct {
+// 	postUseCase interfaces.RecruiterPostUsecase
+// 	jobpb.UnimplementedRecruiterJobServer
+// }
 
-func NewRecruiterPostServer(useCase interfaces.RecruiterPostUsecase) jobpb.RecruiterJobServer {
+// func NewRecruiterPostServer(useCase interfaces.RecruiterPostUsecase) jobpb.RecruiterJobServer {
 
-	return &RecruiterPostServer{
-		postUseCase: useCase,
-	}
-}
+// 	return &RecruiterPostServer{
+// 		postUseCase: useCase,
+// 	}
+// }

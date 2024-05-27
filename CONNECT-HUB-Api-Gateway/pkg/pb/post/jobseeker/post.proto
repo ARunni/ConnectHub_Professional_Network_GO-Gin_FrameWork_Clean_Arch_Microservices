@@ -1,67 +1,84 @@
 syntax = "proto3";
-
+import "google/protobuf/timestamp.proto";
 package post;
 
 option go_package = "./pkg/pb/post/jobseeker";
 
-// Service definition for PostManagement service
-service PostManagement {
-    rpc CreatePost(CreatePostRequest) returns (CreatePostResponse) {};
-    rpc GetPostByID(GetPostByIDRequest) returns (GetPostByIDResponse) {};
-    rpc UpdatePost(UpdatePostRequest) returns (UpdatePostResponse) {};
-    rpc DeletePost(DeletePostRequest) returns (DeletePostResponse) {};
-    rpc GetAllPosts(GetAllPostsRequest) returns (GetAllPostsResponse) {};
+
+// PostService defines the service for managing posts.
+service JobseekerPostService {
+
+  rpc CreatePost(CreatePostRequest) returns (CreatePostResponse);
+  rpc GetPost(GetPostRequest) returns (GetPostResponse);
+  rpc UpdatePost(UpdatePostRequest) returns (UpdatePostResponse);
+  rpc DeletePost(DeletePostRequest) returns (DeletePostResponse);
+  rpc GetAllPost(GetAllPostRequest) returns (GetAllPostResponse);
 }
 
+message GetAllPostRequest{}
+message GetAllPostResponse {
+  repeated Post posts = 1;
+}
+
+// Request to create a post.
 message CreatePostRequest {
-    string title = 1;
-    string content = 2;
-   
+  string title = 1;
+  string content = 2;
+  string author_id = 3;
+  bytes  image = 4;
 }
 
+// Response after creating a post.
 message CreatePostResponse {
-    Post post = 1;
+  Post post = 1;
 }
 
-message GetPostByIDRequest {
-    uint64 id = 1;
+// Request to get a post by ID.
+message GetPostRequest {
+  uint64 id = 1;
 }
 
-message GetPostByIDResponse {
-    Post post = 1;
+// Response after getting a post.
+message GetPostResponse {
+  Post post = 1;
 }
 
+// Request to update a post.
 message UpdatePostRequest {
-    uint64 id = 1;
-    string title = 2;
-    string content = 3;
-    
+  uint64 id = 1;
+  string title = 2;
+  string content = 3;
+  bytes  image = 4;
+  int64 jobseekerId = 5;
 }
 
+// Response after updating a post.
 message UpdatePostResponse {
-    Post post = 1;
+  uint64 id = 1;
+  string title = 2;
+  string content = 3;
+  string author_id = 4;
+  google.protobuf.Timestamp updated_at = 5;
+  string url = 6;
 }
 
+// Request to delete a post.
 message DeletePostRequest {
-    uint64 id = 1;
+  uint64 postId = 1;
+  uint64 jobseekerId = 2;
 }
 
+// Response after deleting a post.
 message DeletePostResponse {
-    bool success = 1;
+  bool success = 1;
 }
 
-message GetAllPostsRequest {
-    string category = 1;
-}
-
-message GetAllPostsResponse {
-    repeated Post posts = 1;
-}
-
+// Post represents a post entity.
 message Post {
-    uint64 id = 1;
-    string title = 2;
-    string content = 3;
-    int64 created_at = 4;  // Timestamp in seconds since epoch
-    int64 updated_at = 5;  // Timestamp in seconds since epoch
+  uint64 id = 1;
+  string title = 2;
+  string content = 3;
+  string author_id = 4;
+  google.protobuf.Timestamp created_at = 5;
+   string url = 6;
 }

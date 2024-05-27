@@ -2,6 +2,7 @@ package db
 
 import (
 	"ConnetHub_post/pkg/config"
+	"ConnetHub_post/pkg/utils/models"
 	"fmt"
 
 	"gorm.io/driver/postgres"
@@ -18,15 +19,15 @@ func ConnectDatabase(cfg config.Config) (*gorm.DB, error) {
 		return nil, dbErr
 	}
 
-	// var modelsToMigrate = []interface{}{
-	// 	&models.JobOpeningData{},
-	// }
+	var modelsToMigrate = []interface{}{
+		&models.Post{},
+	}
 
-	// for _, model := range modelsToMigrate {
-	// 	if err := db.AutoMigrate(model); err != nil {
-	// 		fmt.Println("Error migrating model:", err)
-	// 		return nil, err
-	// 	}
-	// }
+	for _, model := range modelsToMigrate {
+		if err := db.AutoMigrate(model); err != nil {
+			fmt.Println("Error migrating model:", err)
+			return nil, err
+		}
+	}
 	return db, nil
 }

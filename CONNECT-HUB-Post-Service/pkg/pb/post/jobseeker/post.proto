@@ -12,6 +12,12 @@ service JobseekerPostService {
   rpc GetPost(GetPostRequest) returns (GetPostResponse);
   rpc UpdatePost(UpdatePostRequest) returns (UpdatePostResponse);
   rpc DeletePost(DeletePostRequest) returns (DeletePostResponse);
+  rpc GetAllPost(GetAllPostRequest) returns (GetAllPostResponse);
+}
+
+message GetAllPostRequest{}
+message GetAllPostResponse {
+  repeated Post posts = 1;
 }
 
 // Request to create a post.
@@ -19,6 +25,7 @@ message CreatePostRequest {
   string title = 1;
   string content = 2;
   string author_id = 3;
+  bytes  image = 4;
 }
 
 // Response after creating a post.
@@ -41,16 +48,24 @@ message UpdatePostRequest {
   uint64 id = 1;
   string title = 2;
   string content = 3;
+  bytes  image = 4;
+  int64 jobseekerId = 5;
 }
 
 // Response after updating a post.
 message UpdatePostResponse {
-  Post post = 1;
+  uint64 id = 1;
+  string title = 2;
+  string content = 3;
+  string author_id = 4;
+  google.protobuf.Timestamp updated_at = 5;
+  string url = 6;
 }
 
 // Request to delete a post.
 message DeletePostRequest {
-  uint64 id = 1;
+  uint64 postId = 1;
+  uint64 jobseekerId = 2;
 }
 
 // Response after deleting a post.
@@ -65,4 +80,5 @@ message Post {
   string content = 3;
   string author_id = 4;
   google.protobuf.Timestamp created_at = 5;
+   string url = 6;
 }
