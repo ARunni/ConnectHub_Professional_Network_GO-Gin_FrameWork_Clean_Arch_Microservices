@@ -73,18 +73,26 @@ func NewServerHTTP(
 		// Jobseeker Routes
 		jobseekerAuthRoute.GET("/profile", JobseekerHandler.JobSeekerGetProfile)
 		jobseekerAuthRoute.PATCH("/profile", JobseekerHandler.JobSeekerEditProfile)
+
 		jobseekerAuthRoute.GET("/jobs", JobseekerJobhandler.JobSeekerGetAllJobs)
 		jobseekerAuthRoute.GET("/job", JobseekerJobhandler.JobSeekerGetJobByID)
 		jobseekerAuthRoute.POST("/job", JobseekerJobhandler.JobSeekerApplyJob)
+
 		jobseekerAuthRoute.POST("/post", jobseekerPostHandler.CreatePost)
 		jobseekerAuthRoute.PATCH("/post", jobseekerPostHandler.UpdatePost)
 		jobseekerAuthRoute.DELETE("/post", jobseekerPostHandler.DeletePost)
 		jobseekerAuthRoute.GET("/post", jobseekerPostHandler.GetOnePost)
 		jobseekerAuthRoute.GET("/posts", jobseekerPostHandler.GetAllPost)
+		jobseekerAuthRoute.POST("/post/comment", jobseekerPostHandler.CreateCommentPost)
+		jobseekerAuthRoute.PUT("/post/comment", jobseekerPostHandler.UpdateCommentPost)
+		jobseekerAuthRoute.DELETE("/post/comment", jobseekerPostHandler.DeleteCommentPost)
+		jobseekerAuthRoute.POST("/post/comment/like", jobseekerPostHandler.AddLikePost)
+		jobseekerAuthRoute.DELETE("/post/comment/like", jobseekerPostHandler.RemoveLikePost)
 
 		// Recruiter Routes
 		recruiterAuthRoute.GET("/profile", RecruiterHandler.RecruiterGetProfile)
 		recruiterAuthRoute.PATCH("/profile", RecruiterHandler.RecruiterEditProfile)
+		
 		recruiterAuthRoute.POST("/job", RecruiterJobHandler.PostJob)
 		recruiterAuthRoute.GET("/jobs", RecruiterJobHandler.GetAllJobs)
 		recruiterAuthRoute.GET("/job", RecruiterJobHandler.GetOneJob)

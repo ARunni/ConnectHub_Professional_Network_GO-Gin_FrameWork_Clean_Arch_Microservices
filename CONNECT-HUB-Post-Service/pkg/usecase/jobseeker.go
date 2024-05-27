@@ -154,6 +154,13 @@ func (ju *jobseekerJobUseCase) DeletePost(postId, JobseekerId int) (bool, error)
 }
 func (ju *jobseekerJobUseCase) CreateCommentPost(postId, userId int, comment string) (bool, error) {
 
+	if postId <= 0 {
+		return false, errors.New("postId is required")
+	}
+	if comment == "" {
+		return false, errors.New("comment is required")
+	}
+
 	okP, err := ju.postRepository.IsPostExistByPostId(postId)
 
 	if err != nil {
@@ -171,6 +178,16 @@ func (ju *jobseekerJobUseCase) CreateCommentPost(postId, userId int, comment str
 }
 
 func (ju *jobseekerJobUseCase) UpdateCommentPost(commentId, postId, userId int, comment string) (bool, error) {
+	if postId <= 0 {
+		return false, errors.New("postId is required")
+	}
+	if comment == "" {
+		return false, errors.New("comment is required")
+	}
+	if commentId <= 0 {
+		return false, errors.New("commentId is required")
+	}
+
 	okc, err := ju.postRepository.IsCommentIdExist(commentId)
 	if err != nil {
 		return false, err
@@ -195,6 +212,12 @@ func (ju *jobseekerJobUseCase) UpdateCommentPost(commentId, postId, userId int, 
 }
 
 func (ju *jobseekerJobUseCase) DeleteCommentPost(postId, userId, commentId int) (bool, error) {
+	if postId <= 0 {
+		return false, errors.New("postId is required")
+	}
+	if commentId <= 0 {
+		return false, errors.New("commentId is required")
+	}
 	okc, err := ju.postRepository.IsCommentIdExist(commentId)
 	if err != nil {
 		return false, err

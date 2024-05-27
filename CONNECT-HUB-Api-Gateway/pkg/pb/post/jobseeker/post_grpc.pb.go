@@ -19,11 +19,16 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	JobseekerPostService_CreatePost_FullMethodName = "/post.JobseekerPostService/CreatePost"
-	JobseekerPostService_GetOnePost_FullMethodName = "/post.JobseekerPostService/GetOnePost"
-	JobseekerPostService_UpdatePost_FullMethodName = "/post.JobseekerPostService/UpdatePost"
-	JobseekerPostService_DeletePost_FullMethodName = "/post.JobseekerPostService/DeletePost"
-	JobseekerPostService_GetAllPost_FullMethodName = "/post.JobseekerPostService/GetAllPost"
+	JobseekerPostService_CreatePost_FullMethodName        = "/post.JobseekerPostService/CreatePost"
+	JobseekerPostService_GetOnePost_FullMethodName        = "/post.JobseekerPostService/GetOnePost"
+	JobseekerPostService_UpdatePost_FullMethodName        = "/post.JobseekerPostService/UpdatePost"
+	JobseekerPostService_DeletePost_FullMethodName        = "/post.JobseekerPostService/DeletePost"
+	JobseekerPostService_GetAllPost_FullMethodName        = "/post.JobseekerPostService/GetAllPost"
+	JobseekerPostService_CreateCommentPost_FullMethodName = "/post.JobseekerPostService/CreateCommentPost"
+	JobseekerPostService_UpdateCommentPost_FullMethodName = "/post.JobseekerPostService/UpdateCommentPost"
+	JobseekerPostService_DeleteCommentPost_FullMethodName = "/post.JobseekerPostService/DeleteCommentPost"
+	JobseekerPostService_AddLikePost_FullMethodName       = "/post.JobseekerPostService/AddLikePost"
+	JobseekerPostService_RemoveLikePost_FullMethodName    = "/post.JobseekerPostService/RemoveLikePost"
 )
 
 // JobseekerPostServiceClient is the client API for JobseekerPostService service.
@@ -35,6 +40,11 @@ type JobseekerPostServiceClient interface {
 	UpdatePost(ctx context.Context, in *UpdatePostRequest, opts ...grpc.CallOption) (*UpdatePostResponse, error)
 	DeletePost(ctx context.Context, in *DeletePostRequest, opts ...grpc.CallOption) (*DeletePostResponse, error)
 	GetAllPost(ctx context.Context, in *GetAllPostRequest, opts ...grpc.CallOption) (*GetAllPostResponse, error)
+	CreateCommentPost(ctx context.Context, in *CreateCommentRequest, opts ...grpc.CallOption) (*CreateCommentResponse, error)
+	UpdateCommentPost(ctx context.Context, in *UpdateCommentRequest, opts ...grpc.CallOption) (*UpdateCommentResponse, error)
+	DeleteCommentPost(ctx context.Context, in *DeleteCommentRequest, opts ...grpc.CallOption) (*DeleteCommentResponse, error)
+	AddLikePost(ctx context.Context, in *AddLikeRequest, opts ...grpc.CallOption) (*AddLikeResponse, error)
+	RemoveLikePost(ctx context.Context, in *RemoveLikeRequest, opts ...grpc.CallOption) (*RemoveLikeResponse, error)
 }
 
 type jobseekerPostServiceClient struct {
@@ -90,6 +100,51 @@ func (c *jobseekerPostServiceClient) GetAllPost(ctx context.Context, in *GetAllP
 	return out, nil
 }
 
+func (c *jobseekerPostServiceClient) CreateCommentPost(ctx context.Context, in *CreateCommentRequest, opts ...grpc.CallOption) (*CreateCommentResponse, error) {
+	out := new(CreateCommentResponse)
+	err := c.cc.Invoke(ctx, JobseekerPostService_CreateCommentPost_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *jobseekerPostServiceClient) UpdateCommentPost(ctx context.Context, in *UpdateCommentRequest, opts ...grpc.CallOption) (*UpdateCommentResponse, error) {
+	out := new(UpdateCommentResponse)
+	err := c.cc.Invoke(ctx, JobseekerPostService_UpdateCommentPost_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *jobseekerPostServiceClient) DeleteCommentPost(ctx context.Context, in *DeleteCommentRequest, opts ...grpc.CallOption) (*DeleteCommentResponse, error) {
+	out := new(DeleteCommentResponse)
+	err := c.cc.Invoke(ctx, JobseekerPostService_DeleteCommentPost_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *jobseekerPostServiceClient) AddLikePost(ctx context.Context, in *AddLikeRequest, opts ...grpc.CallOption) (*AddLikeResponse, error) {
+	out := new(AddLikeResponse)
+	err := c.cc.Invoke(ctx, JobseekerPostService_AddLikePost_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *jobseekerPostServiceClient) RemoveLikePost(ctx context.Context, in *RemoveLikeRequest, opts ...grpc.CallOption) (*RemoveLikeResponse, error) {
+	out := new(RemoveLikeResponse)
+	err := c.cc.Invoke(ctx, JobseekerPostService_RemoveLikePost_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // JobseekerPostServiceServer is the server API for JobseekerPostService service.
 // All implementations must embed UnimplementedJobseekerPostServiceServer
 // for forward compatibility
@@ -99,6 +154,11 @@ type JobseekerPostServiceServer interface {
 	UpdatePost(context.Context, *UpdatePostRequest) (*UpdatePostResponse, error)
 	DeletePost(context.Context, *DeletePostRequest) (*DeletePostResponse, error)
 	GetAllPost(context.Context, *GetAllPostRequest) (*GetAllPostResponse, error)
+	CreateCommentPost(context.Context, *CreateCommentRequest) (*CreateCommentResponse, error)
+	UpdateCommentPost(context.Context, *UpdateCommentRequest) (*UpdateCommentResponse, error)
+	DeleteCommentPost(context.Context, *DeleteCommentRequest) (*DeleteCommentResponse, error)
+	AddLikePost(context.Context, *AddLikeRequest) (*AddLikeResponse, error)
+	RemoveLikePost(context.Context, *RemoveLikeRequest) (*RemoveLikeResponse, error)
 	mustEmbedUnimplementedJobseekerPostServiceServer()
 }
 
@@ -120,6 +180,21 @@ func (UnimplementedJobseekerPostServiceServer) DeletePost(context.Context, *Dele
 }
 func (UnimplementedJobseekerPostServiceServer) GetAllPost(context.Context, *GetAllPostRequest) (*GetAllPostResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAllPost not implemented")
+}
+func (UnimplementedJobseekerPostServiceServer) CreateCommentPost(context.Context, *CreateCommentRequest) (*CreateCommentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateCommentPost not implemented")
+}
+func (UnimplementedJobseekerPostServiceServer) UpdateCommentPost(context.Context, *UpdateCommentRequest) (*UpdateCommentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateCommentPost not implemented")
+}
+func (UnimplementedJobseekerPostServiceServer) DeleteCommentPost(context.Context, *DeleteCommentRequest) (*DeleteCommentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteCommentPost not implemented")
+}
+func (UnimplementedJobseekerPostServiceServer) AddLikePost(context.Context, *AddLikeRequest) (*AddLikeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddLikePost not implemented")
+}
+func (UnimplementedJobseekerPostServiceServer) RemoveLikePost(context.Context, *RemoveLikeRequest) (*RemoveLikeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RemoveLikePost not implemented")
 }
 func (UnimplementedJobseekerPostServiceServer) mustEmbedUnimplementedJobseekerPostServiceServer() {}
 
@@ -224,6 +299,96 @@ func _JobseekerPostService_GetAllPost_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _JobseekerPostService_CreateCommentPost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateCommentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JobseekerPostServiceServer).CreateCommentPost(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: JobseekerPostService_CreateCommentPost_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JobseekerPostServiceServer).CreateCommentPost(ctx, req.(*CreateCommentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _JobseekerPostService_UpdateCommentPost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateCommentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JobseekerPostServiceServer).UpdateCommentPost(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: JobseekerPostService_UpdateCommentPost_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JobseekerPostServiceServer).UpdateCommentPost(ctx, req.(*UpdateCommentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _JobseekerPostService_DeleteCommentPost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteCommentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JobseekerPostServiceServer).DeleteCommentPost(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: JobseekerPostService_DeleteCommentPost_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JobseekerPostServiceServer).DeleteCommentPost(ctx, req.(*DeleteCommentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _JobseekerPostService_AddLikePost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddLikeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JobseekerPostServiceServer).AddLikePost(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: JobseekerPostService_AddLikePost_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JobseekerPostServiceServer).AddLikePost(ctx, req.(*AddLikeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _JobseekerPostService_RemoveLikePost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RemoveLikeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JobseekerPostServiceServer).RemoveLikePost(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: JobseekerPostService_RemoveLikePost_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JobseekerPostServiceServer).RemoveLikePost(ctx, req.(*RemoveLikeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // JobseekerPostService_ServiceDesc is the grpc.ServiceDesc for JobseekerPostService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -250,6 +415,26 @@ var JobseekerPostService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetAllPost",
 			Handler:    _JobseekerPostService_GetAllPost_Handler,
+		},
+		{
+			MethodName: "CreateCommentPost",
+			Handler:    _JobseekerPostService_CreateCommentPost_Handler,
+		},
+		{
+			MethodName: "UpdateCommentPost",
+			Handler:    _JobseekerPostService_UpdateCommentPost_Handler,
+		},
+		{
+			MethodName: "DeleteCommentPost",
+			Handler:    _JobseekerPostService_DeleteCommentPost_Handler,
+		},
+		{
+			MethodName: "AddLikePost",
+			Handler:    _JobseekerPostService_AddLikePost_Handler,
+		},
+		{
+			MethodName: "RemoveLikePost",
+			Handler:    _JobseekerPostService_RemoveLikePost_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

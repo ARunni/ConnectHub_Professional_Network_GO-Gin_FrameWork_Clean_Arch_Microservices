@@ -7,17 +7,85 @@ option go_package = "./pkg/pb/post/jobseeker";
 
 // PostService defines the service for managing posts.
 service JobseekerPostService {
-    rpc CreatePost(CreatePostRequest) returns (CreatePostResponse);
-    rpc GetOnePost(GetPostRequest) returns (GetPostResponse);
-    rpc UpdatePost(UpdatePostRequest) returns (UpdatePostResponse);
-    rpc DeletePost(DeletePostRequest) returns (DeletePostResponse);
-    rpc GetAllPost(GetAllPostRequest) returns (GetAllPostResponse);
+
+  rpc CreatePost(CreatePostRequest) returns (CreatePostResponse);
+  rpc GetOnePost(GetPostRequest) returns (GetPostResponse);
+  rpc UpdatePost(UpdatePostRequest) returns (UpdatePostResponse);
+  rpc DeletePost(DeletePostRequest) returns (DeletePostResponse);
+  rpc GetAllPost(GetAllPostRequest) returns (GetAllPostResponse);
+  rpc CreateCommentPost(CreateCommentRequest) returns (CreateCommentResponse);
+  rpc UpdateCommentPost(UpdateCommentRequest) returns (UpdateCommentResponse);
+  rpc DeleteCommentPost (DeleteCommentRequest) returns (DeleteCommentResponse);
+  rpc AddLikePost (AddLikeRequest) returns (AddLikeResponse);
+  rpc RemoveLikePost (RemoveLikeRequest) returns (RemoveLikeResponse);
 }
 
+
+// Request to create a comment for a post.
+message CreateCommentRequest {
+  uint64 post_id = 1;
+  uint64 user_id = 2;
+  string comment = 3;
+}
+
+// Response after creating a comment for a post.
+message CreateCommentResponse {
+  bool success = 1;
+}
+
+// Request to update a comment for a post.
+message UpdateCommentRequest {
+  uint64 comment_id = 1;
+  uint64 post_id = 2;
+  uint64 user_id = 3;
+  string comment = 4;
+}
+
+// Response after updating a comment for a post.
+message UpdateCommentResponse {
+  bool success = 1;
+}
+
+// Request to delete a comment for a post.
+message DeleteCommentRequest {
+  uint64 post_id = 1;
+  uint64 user_id = 2;
+  uint64 comment_id = 3;
+}
+
+// Response after deleting a comment for a post.
+message DeleteCommentResponse {
+  bool success = 1;
+}
+
+// Request to add a like to a post.
+message AddLikeRequest {
+  uint64 post_id = 1;
+  uint64 user_id = 2;
+}
+
+// Response after adding a like to a post.
+message AddLikeResponse {
+  bool success = 1;
+}
+
+// Request to remove a like from a post.
+message RemoveLikeRequest {
+  uint64 post_id = 1;
+  uint64 user_id = 2;
+}
+
+// Response after removing a like from a post.
+message RemoveLikeResponse {
+  bool success = 1;
+}
+// 
+// 
 message GetAllPostRequest{}
 message GetAllPostResponse {
   repeated Post posts = 1;
 }
+
 
 // Request to create a post.
 message CreatePostRequest {

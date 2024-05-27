@@ -132,3 +132,69 @@ func (jps *JobseekerPostServer) DeletePost(ctx context.Context, req *jobseekerPb
 	}, nil
 
 }
+
+func (jps *JobseekerPostServer) CreateCommentPost(ctx context.Context, req *jobseekerPb.CreateCommentRequest) (*jobseekerPb.CreateCommentResponse, error) {
+
+	postData, err := jps.postUseCase.CreateCommentPost(int(req.PostId), int(req.UserId), req.Comment)
+	if err != nil {
+		return nil, err
+	}
+
+	return &jobseekerPb.CreateCommentResponse{
+		Success: postData,
+	}, nil
+
+}
+
+func (jps *JobseekerPostServer) UpdateCommentPost(ctx context.Context, req *jobseekerPb.UpdateCommentRequest) (*jobseekerPb.UpdateCommentResponse, error) {
+
+	postData, err := jps.postUseCase.UpdateCommentPost(int(req.CommentId), int(req.PostId), int(req.UserId), req.Comment)
+	if err != nil {
+		return nil, err
+	}
+
+	return &jobseekerPb.UpdateCommentResponse{
+		Success: postData,
+	}, nil
+
+}
+
+func (jps *JobseekerPostServer) DeleteCommentPost(ctx context.Context, req *jobseekerPb.DeleteCommentRequest) (*jobseekerPb.DeleteCommentResponse, error) {
+
+	postData, err := jps.postUseCase.DeleteCommentPost(int(req.PostId), int(req.UserId), int(req.CommentId))
+	if err != nil {
+		return nil, err
+	}
+
+	return &jobseekerPb.DeleteCommentResponse{
+		Success: postData,
+	}, nil
+
+}
+
+func (jps *JobseekerPostServer) AddLikePost(ctx context.Context, req *jobseekerPb.AddLikeRequest) (*jobseekerPb.AddLikeResponse, error) {
+
+	postData, err := jps.postUseCase.AddLikePost(int(req.PostId), int(req.UserId))
+	if err != nil {
+		return nil, err
+	}
+
+	return &jobseekerPb.AddLikeResponse{
+		Success: postData,
+	}, nil
+
+}
+
+func (jps *JobseekerPostServer) RemoveLikePost(ctx context.Context, req *jobseekerPb.RemoveLikeRequest) (*jobseekerPb.RemoveLikeResponse, error) {
+
+	postData, err := jps.postUseCase.RemoveLikePost(int(req.PostId), int(req.UserId))
+	if err != nil {
+		return nil, err
+	}
+
+	return &jobseekerPb.RemoveLikeResponse{
+		Success: postData,
+	}, nil
+
+}
+

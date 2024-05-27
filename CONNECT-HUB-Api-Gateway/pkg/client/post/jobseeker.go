@@ -130,3 +130,62 @@ func (jpc *jobseekerPostClient) DeletePost(postId, JobseekerId int) (bool, error
 	}
 	return resp.Success, nil
 }
+
+func (jpc *jobseekerPostClient) CreateCommentPost(postId, userId int, comment string) (bool, error) {
+	resp, err := jpc.Client.CreateCommentPost(context.Background(), &jobseekerPb.CreateCommentRequest{
+		PostId:  uint64(postId),
+		UserId:  uint64(userId),
+		Comment: comment,
+	})
+	if err != nil {
+		return false, err
+	}
+	return resp.Success, nil
+}
+
+func (jpc *jobseekerPostClient) UpdateCommentPost(commentId, postId, userId int, comment string) (bool, error) {
+	resp, err := jpc.Client.UpdateCommentPost(context.Background(), &jobseekerPb.UpdateCommentRequest{
+		PostId:    uint64(postId),
+		UserId:    uint64(userId),
+		Comment:   comment,
+		CommentId: uint64(commentId),
+	})
+	if err != nil {
+		return false, err
+	}
+	return resp.Success, nil
+}
+
+func (jpc *jobseekerPostClient) DeleteCommentPost(postId, userId, commentId int) (bool, error) {
+	resp, err := jpc.Client.DeleteCommentPost(context.Background(), &jobseekerPb.DeleteCommentRequest{
+		PostId:    uint64(postId),
+		UserId:    uint64(userId),
+		CommentId: uint64(commentId),
+	})
+	if err != nil {
+		return false, err
+	}
+	return resp.Success, nil
+}
+
+func (jpc *jobseekerPostClient) AddLikePost(postId, userId int) (bool, error) {
+	resp, err := jpc.Client.AddLikePost(context.Background(), &jobseekerPb.AddLikeRequest{
+		PostId: uint64(postId),
+		UserId: uint64(userId),
+	})
+	if err != nil {
+		return false, err
+	}
+	return resp.Success, nil
+}
+
+func (jpc *jobseekerPostClient) RemoveLikePost(postId, userId int) (bool, error) {
+	resp, err := jpc.Client.RemoveLikePost(context.Background(), &jobseekerPb.RemoveLikeRequest{
+		PostId: uint64(postId),
+		UserId: uint64(userId),
+	})
+	if err != nil {
+		return false, err
+	}
+	return resp.Success, nil
+}

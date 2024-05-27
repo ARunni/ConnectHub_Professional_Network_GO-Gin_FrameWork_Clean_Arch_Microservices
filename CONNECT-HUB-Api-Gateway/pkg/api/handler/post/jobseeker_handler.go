@@ -191,3 +191,145 @@ func (jph *JobseekerPostHandler) DeletePost(c *gin.Context) {
 	c.JSON(http.StatusOK, successRes)
 
 }
+
+func (jph *JobseekerPostHandler) CreateCommentPost(c *gin.Context) {
+	userIdany, ok := c.Get("id")
+	if !ok {
+		err := errors.New(msg.ErrGetData)
+		errResp := response.ClientResponse(http.StatusInternalServerError, msg.ErrInternal, nil, err.Error())
+		c.JSON(http.StatusInternalServerError, errResp)
+		return
+	}
+	var comment models.CreateCommentPost
+	userId := userIdany.(int)
+	comment.UserId = userId
+	if err := c.ShouldBindJSON(&comment); err != nil {
+		errResp := response.ClientResponse(http.StatusBadRequest, "Incorrect Format", nil, err.Error())
+		c.JSON(http.StatusBadRequest, errResp)
+		return
+	}
+
+	postOk, err := jph.GRPC_Client.CreateCommentPost(comment.PostId, comment.UserId, comment.Comment)
+	if err != nil {
+		errResp := response.ClientResponse(http.StatusInternalServerError, msg.ErrInternal, nil, err.Error())
+		c.JSON(http.StatusInternalServerError, errResp)
+		return
+	}
+	successRes := response.ClientResponse(http.StatusOK, msg.MsgSuccess, postOk, nil)
+	c.JSON(http.StatusOK, successRes)
+
+}
+
+func (jph *JobseekerPostHandler) UpdateCommentPost(c *gin.Context) {
+	userIdany, ok := c.Get("id")
+	if !ok {
+		err := errors.New(msg.ErrGetData)
+		errResp := response.ClientResponse(http.StatusInternalServerError, msg.ErrInternal, nil, err.Error())
+		c.JSON(http.StatusInternalServerError, errResp)
+		return
+	}
+	var comment models.UpdateCommentPost
+	userId := userIdany.(int)
+	comment.UserId = userId
+	if err := c.ShouldBindJSON(&comment); err != nil {
+		errResp := response.ClientResponse(http.StatusBadRequest, "Incorrect Format", nil, err.Error())
+		c.JSON(http.StatusBadRequest, errResp)
+		return
+	}
+
+	postOk, err := jph.GRPC_Client.UpdateCommentPost(comment.CommentId, comment.PostId, comment.UserId, comment.Comment)
+	if err != nil {
+		errResp := response.ClientResponse(http.StatusInternalServerError, msg.ErrInternal, nil, err.Error())
+		c.JSON(http.StatusInternalServerError, errResp)
+		return
+	}
+	successRes := response.ClientResponse(http.StatusOK, msg.MsgSuccess, postOk, nil)
+	c.JSON(http.StatusOK, successRes)
+
+}
+
+func (jph *JobseekerPostHandler) DeleteCommentPost(c *gin.Context) {
+	userIdany, ok := c.Get("id")
+	if !ok {
+		err := errors.New(msg.ErrGetData)
+		errResp := response.ClientResponse(http.StatusInternalServerError, msg.ErrInternal, nil, err.Error())
+		c.JSON(http.StatusInternalServerError, errResp)
+		return
+	}
+	var comment models.DeleteCommentPost
+	userId := userIdany.(int)
+	comment.UserId = userId
+	if err := c.ShouldBindJSON(&comment); err != nil {
+		errResp := response.ClientResponse(http.StatusBadRequest, "Incorrect Format", nil, err.Error())
+		c.JSON(http.StatusBadRequest, errResp)
+		return
+	}
+
+	postOk, err := jph.GRPC_Client.DeleteCommentPost(comment.PostId, comment.UserId, comment.CommentId)
+	if err != nil {
+		errResp := response.ClientResponse(http.StatusInternalServerError, msg.ErrInternal, nil, err.Error())
+		c.JSON(http.StatusInternalServerError, errResp)
+		return
+	}
+	successRes := response.ClientResponse(http.StatusOK, msg.MsgSuccess, postOk, nil)
+	c.JSON(http.StatusOK, successRes)
+
+}
+
+func (jph *JobseekerPostHandler) AddLikePost(c *gin.Context) {
+	userIdany, ok := c.Get("id")
+	if !ok {
+		err := errors.New(msg.ErrGetData)
+		errResp := response.ClientResponse(http.StatusInternalServerError, msg.ErrInternal, nil, err.Error())
+		c.JSON(http.StatusInternalServerError, errResp)
+		return
+	}
+
+	userId := userIdany.(int)
+	postIdstr := c.Query("post_id")
+	postId, err := strconv.Atoi(postIdstr)
+	if err != nil {
+		errResp := response.ClientResponse(http.StatusBadRequest, "Incorrect Format of post id", nil, err.Error())
+		c.JSON(http.StatusBadRequest, errResp)
+		return
+	}
+
+	postOk, err := jph.GRPC_Client.AddLikePost(postId, userId)
+	if err != nil {
+		errResp := response.ClientResponse(http.StatusInternalServerError, msg.ErrInternal, nil, err.Error())
+		c.JSON(http.StatusInternalServerError, errResp)
+		return
+	}
+	successRes := response.ClientResponse(http.StatusOK, msg.MsgSuccess, postOk, nil)
+	c.JSON(http.StatusOK, successRes)
+
+}
+
+func (jph *JobseekerPostHandler) RemoveLikePost(c *gin.Context) {
+	userIdany, ok := c.Get("id")
+	if !ok {
+		err := errors.New(msg.ErrGetData)
+		errResp := response.ClientResponse(http.StatusInternalServerError, msg.ErrInternal, nil, err.Error())
+		c.JSON(http.StatusInternalServerError, errResp)
+		return
+	}
+
+	userId := userIdany.(int)
+	postIdstr := c.Query("post_id")
+	postId, err := strconv.Atoi(postIdstr)
+	if err != nil {
+		errResp := response.ClientResponse(http.StatusBadRequest, "Incorrect Format of post id", nil, err.Error())
+		c.JSON(http.StatusBadRequest, errResp)
+		return
+	}
+
+	postOk, err := jph.GRPC_Client.RemoveLikePost(postId, userId)
+	if err != nil {
+		errResp := response.ClientResponse(http.StatusInternalServerError, msg.ErrInternal, nil, err.Error())
+		c.JSON(http.StatusInternalServerError, errResp)
+		return
+	}
+	successRes := response.ClientResponse(http.StatusOK, msg.MsgSuccess, postOk, nil)
+	c.JSON(http.StatusOK, successRes)
+
+}

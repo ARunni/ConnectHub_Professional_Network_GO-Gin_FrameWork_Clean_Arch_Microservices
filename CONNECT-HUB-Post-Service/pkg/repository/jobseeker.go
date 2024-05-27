@@ -135,7 +135,7 @@ func (jr *jobseekerPostRepository) IsPostExistByUserId(userId int) (bool, error)
 func (jr *jobseekerPostRepository) CreateCommentPost(postId, userId int, comment string) (bool, error) {
 	querry := `insert into comments (post_id,comment,jobseeker_id,created_at)
 	values ($1,$2,$3,$4)`
-	err := jr.DB.Raw(querry, postId, comment, userId, time.Now()).Error
+	err := jr.DB.Exec(querry, postId, comment, userId, time.Now()).Error
 	if err != nil {
 		return false, err
 	}
@@ -163,8 +163,8 @@ func (jr *jobseekerPostRepository) IsCommentIdBelongsUserId(commentId, userId in
 }
 
 func (jr *jobseekerPostRepository) UpdateCommentPost(commentId, postId, userId int, comment string) (bool, error) {
-	querry := `update comments set comment = ? where id = ? and  jobseeker_id = ? and post_id = ? `
-	err := jr.DB.Raw(querry, comment, commentId, userId, postId).Error
+	querry := `update comments set comment = ?, updated_at = ? where id = ? and  jobseeker_id = ? and post_id = ? `
+	err := jr.DB.Exec(querry, comment, time.Now(), commentId, userId, postId).Error
 	if err != nil {
 		return false, err
 	}
@@ -173,7 +173,7 @@ func (jr *jobseekerPostRepository) UpdateCommentPost(commentId, postId, userId i
 
 func (jr *jobseekerPostRepository) DeleteCommentPost(postId, userId, commentId int) (bool, error) {
 	querry := `delete from comments where id = ? and  jobseeker_id = ? and post_id = ? `
-	err := jr.DB.Raw(querry, commentId, userId, postId).Error
+	err := jr.DB.Exec(querry, commentId, userId, postId).Error
 	if err != nil {
 		return false, err
 	}
@@ -192,7 +192,7 @@ func (jr *jobseekerPostRepository) IsLikeExist(postId, userId int) (bool, error)
 
 func (jr *jobseekerPostRepository) AddLikePost(postId, userId int) (bool, error) {
 	querry := `insert into likes (jobseeker_id,post_id,created_at) values (?,?,?)`
-	err := jr.DB.Raw(querry, userId, postId, time.Now()).Error
+	err := jr.DB.Exec(querry, userId, postId, time.Now()).Error
 	if err != nil {
 		return false, err
 	}
@@ -201,7 +201,7 @@ func (jr *jobseekerPostRepository) AddLikePost(postId, userId int) (bool, error)
 
 func (jr *jobseekerPostRepository) RemoveLikePost(postId, userId int) (bool, error) {
 	querry := `delete from likes where post_id = ? and  jobseeker_id = ?`
-	err := jr.DB.Raw(querry, postId, userId).Error
+	err := jr.DB.Exec(querry, postId, userId).Error
 	if err != nil {
 		return false, err
 	}
