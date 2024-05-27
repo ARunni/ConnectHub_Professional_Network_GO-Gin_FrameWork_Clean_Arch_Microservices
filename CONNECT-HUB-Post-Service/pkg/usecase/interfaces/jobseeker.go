@@ -8,4 +8,9 @@ type JobseekerPostUsecase interface {
 	GetAllPost() (models.AllPost, error)
 	UpdatePost(post models.EditPostReq) (models.EditPostRes, error)
 	DeletePost(postId, JobseekerId int) (bool, error)
+	CreateCommentPost(postId, userId int, comment string) (bool, error)
+	UpdateCommentPost(commentId, postId, userId int, comment string) (bool, error)
+	DeleteCommentPost(postId, userId, commentId int) (bool, error)
+	AddLikePost(postId, userId int) (bool, error)
+	RemoveLikePost(postId, userId int) (bool, error)
 }

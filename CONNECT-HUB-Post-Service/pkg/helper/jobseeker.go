@@ -50,7 +50,7 @@ func (h *Helper) AddImageToAwsS3(file []byte) (string, error) {
 
 	_, err = uploader.Upload(&s3manager.UploadInput{
 		Bucket: aws.String(config.BucketName),
-		Key:    aws.String("test1"),
+		Key:    aws.String(fileName),
 		Body:   bytes.NewReader(file),
 	})
 

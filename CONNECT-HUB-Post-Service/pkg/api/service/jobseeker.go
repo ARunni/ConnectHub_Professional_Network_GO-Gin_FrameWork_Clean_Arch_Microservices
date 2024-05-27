@@ -74,7 +74,7 @@ func (jps *JobseekerPostServer) GetAllPost(ctx context.Context, req *jobseekerPb
 
 }
 
-func (jps *JobseekerPostServer) GetPost(ctx context.Context, req *jobseekerPb.GetPostRequest) (*jobseekerPb.GetPostResponse, error) {
+func (jps *JobseekerPostServer) GetOnePost(ctx context.Context, req *jobseekerPb.GetPostRequest) (*jobseekerPb.GetPostResponse, error) {
 
 	postData, err := jps.postUseCase.GetOnePost(int(req.Id))
 	if err != nil {

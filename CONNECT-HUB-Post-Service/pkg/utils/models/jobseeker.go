@@ -32,7 +32,7 @@ type EditPostReq struct {
 
 type EditPostRes struct {
 	JobseekerId int       `json:"jobseeker_id"`
-	PostId      int       `json:"post_id"`
+	PostId      uint      `json:"post_id"`
 	Title       string    `gorm:"size:255;not null" json:"title"`
 	Content     string    `gorm:"type:text;not null" json:"content"`
 	ImageUrl    string    `json:"image_url"`

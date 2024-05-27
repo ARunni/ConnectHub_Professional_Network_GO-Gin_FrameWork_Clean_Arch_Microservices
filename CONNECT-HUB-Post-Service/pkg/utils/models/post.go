@@ -11,3 +11,19 @@ type Post struct {
 	CreatedAt   time.Time `gorm:"autoCreateTime" json:"created_at"`
 	UpdatedAt   time.Time `gorm:"autoUpdateTime" json:"updated_at"`
 }
+
+type Comment struct {
+	ID          uint      `gorm:"primary_key;auto_increment" json:"id"`
+	PostID      uint      `gorm:"not null" json:"post_id"`
+	Comment     string    `gorm:"type:text;not null" json:"comment"`
+	JobseekerId uint      `gorm:"not null" json:"jobseeker_id"`
+	CreatedAt   time.Time `gorm:"autoCreateTime" json:"created_at"`
+	UpdatedAt   time.Time `gorm:"autoUpdateTime" json:"updated_at"`
+}
+
+type Like struct {
+	ID        uint      `gorm:"primary_key;auto_increment" json:"id"`
+	PostID    uint      `gorm:"not null" json:"post_id"`
+	JobseekerId    uint      `gorm:"not null" json:"jobseeker_id"`
+	CreatedAt time.Time `gorm:"autoCreateTime" json:"created_at"`
+}

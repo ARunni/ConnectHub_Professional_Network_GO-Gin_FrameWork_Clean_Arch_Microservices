@@ -7,12 +7,11 @@ option go_package = "./pkg/pb/post/jobseeker";
 
 // PostService defines the service for managing posts.
 service JobseekerPostService {
-
-  rpc CreatePost(CreatePostRequest) returns (CreatePostResponse);
-  rpc GetPost(GetPostRequest) returns (GetPostResponse);
-  rpc UpdatePost(UpdatePostRequest) returns (UpdatePostResponse);
-  rpc DeletePost(DeletePostRequest) returns (DeletePostResponse);
-  rpc GetAllPost(GetAllPostRequest) returns (GetAllPostResponse);
+    rpc CreatePost(CreatePostRequest) returns (CreatePostResponse);
+    rpc GetOnePost(GetPostRequest) returns (GetPostResponse);
+    rpc UpdatePost(UpdatePostRequest) returns (UpdatePostResponse);
+    rpc DeletePost(DeletePostRequest) returns (DeletePostResponse);
+    rpc GetAllPost(GetAllPostRequest) returns (GetAllPostResponse);
 }
 
 message GetAllPostRequest{}

@@ -20,7 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 
 const (
 	JobseekerPostService_CreatePost_FullMethodName = "/post.JobseekerPostService/CreatePost"
-	JobseekerPostService_GetPost_FullMethodName    = "/post.JobseekerPostService/GetPost"
+	JobseekerPostService_GetOnePost_FullMethodName = "/post.JobseekerPostService/GetOnePost"
 	JobseekerPostService_UpdatePost_FullMethodName = "/post.JobseekerPostService/UpdatePost"
 	JobseekerPostService_DeletePost_FullMethodName = "/post.JobseekerPostService/DeletePost"
 	JobseekerPostService_GetAllPost_FullMethodName = "/post.JobseekerPostService/GetAllPost"
@@ -31,7 +31,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type JobseekerPostServiceClient interface {
 	CreatePost(ctx context.Context, in *CreatePostRequest, opts ...grpc.CallOption) (*CreatePostResponse, error)
-	GetPost(ctx context.Context, in *GetPostRequest, opts ...grpc.CallOption) (*GetPostResponse, error)
+	GetOnePost(ctx context.Context, in *GetPostRequest, opts ...grpc.CallOption) (*GetPostResponse, error)
 	UpdatePost(ctx context.Context, in *UpdatePostRequest, opts ...grpc.CallOption) (*UpdatePostResponse, error)
 	DeletePost(ctx context.Context, in *DeletePostRequest, opts ...grpc.CallOption) (*DeletePostResponse, error)
 	GetAllPost(ctx context.Context, in *GetAllPostRequest, opts ...grpc.CallOption) (*GetAllPostResponse, error)
@@ -54,9 +54,9 @@ func (c *jobseekerPostServiceClient) CreatePost(ctx context.Context, in *CreateP
 	return out, nil
 }
 
-func (c *jobseekerPostServiceClient) GetPost(ctx context.Context, in *GetPostRequest, opts ...grpc.CallOption) (*GetPostResponse, error) {
+func (c *jobseekerPostServiceClient) GetOnePost(ctx context.Context, in *GetPostRequest, opts ...grpc.CallOption) (*GetPostResponse, error) {
 	out := new(GetPostResponse)
-	err := c.cc.Invoke(ctx, JobseekerPostService_GetPost_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, JobseekerPostService_GetOnePost_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -95,7 +95,7 @@ func (c *jobseekerPostServiceClient) GetAllPost(ctx context.Context, in *GetAllP
 // for forward compatibility
 type JobseekerPostServiceServer interface {
 	CreatePost(context.Context, *CreatePostRequest) (*CreatePostResponse, error)
-	GetPost(context.Context, *GetPostRequest) (*GetPostResponse, error)
+	GetOnePost(context.Context, *GetPostRequest) (*GetPostResponse, error)
 	UpdatePost(context.Context, *UpdatePostRequest) (*UpdatePostResponse, error)
 	DeletePost(context.Context, *DeletePostRequest) (*DeletePostResponse, error)
 	GetAllPost(context.Context, *GetAllPostRequest) (*GetAllPostResponse, error)
@@ -109,8 +109,8 @@ type UnimplementedJobseekerPostServiceServer struct {
 func (UnimplementedJobseekerPostServiceServer) CreatePost(context.Context, *CreatePostRequest) (*CreatePostResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreatePost not implemented")
 }
-func (UnimplementedJobseekerPostServiceServer) GetPost(context.Context, *GetPostRequest) (*GetPostResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetPost not implemented")
+func (UnimplementedJobseekerPostServiceServer) GetOnePost(context.Context, *GetPostRequest) (*GetPostResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOnePost not implemented")
 }
 func (UnimplementedJobseekerPostServiceServer) UpdatePost(context.Context, *UpdatePostRequest) (*UpdatePostResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdatePost not implemented")
@@ -152,20 +152,20 @@ func _JobseekerPostService_CreatePost_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
-func _JobseekerPostService_GetPost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _JobseekerPostService_GetOnePost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetPostRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(JobseekerPostServiceServer).GetPost(ctx, in)
+		return srv.(JobseekerPostServiceServer).GetOnePost(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: JobseekerPostService_GetPost_FullMethodName,
+		FullMethod: JobseekerPostService_GetOnePost_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JobseekerPostServiceServer).GetPost(ctx, req.(*GetPostRequest))
+		return srv.(JobseekerPostServiceServer).GetOnePost(ctx, req.(*GetPostRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -236,8 +236,8 @@ var JobseekerPostService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _JobseekerPostService_CreatePost_Handler,
 		},
 		{
-			MethodName: "GetPost",
-			Handler:    _JobseekerPostService_GetPost_Handler,
+			MethodName: "GetOnePost",
+			Handler:    _JobseekerPostService_GetOnePost_Handler,
 		},
 		{
 			MethodName: "UpdatePost",

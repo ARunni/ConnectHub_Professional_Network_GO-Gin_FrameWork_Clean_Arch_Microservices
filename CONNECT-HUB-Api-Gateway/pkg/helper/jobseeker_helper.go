@@ -44,3 +44,4 @@ func ValidateTokenJobSeeker(tokenString string) (*authCustomClaimsJobSeeker, err
 
 	return nil, fmt.Errorf("invalid token")
 }
+

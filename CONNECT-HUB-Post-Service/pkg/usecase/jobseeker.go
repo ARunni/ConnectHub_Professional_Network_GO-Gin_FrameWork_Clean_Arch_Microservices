@@ -109,7 +109,7 @@ func (ju *jobseekerJobUseCase) UpdatePost(post models.EditPostReq) (models.EditP
 	}
 	var editPost = models.EditPostRes{
 		JobseekerId: post.JobseekerId,
-		PostId:      post.PostId,
+		PostId:      uint(post.PostId),
 		Title:       post.Title,
 		Content:     post.Content,
 		ImageUrl:    url,
@@ -151,4 +151,114 @@ func (ju *jobseekerJobUseCase) DeletePost(postId, JobseekerId int) (bool, error)
 
 	return ok, nil
 
+}
+func (ju *jobseekerJobUseCase) CreateCommentPost(postId, userId int, comment string) (bool, error) {
+
+	okP, err := ju.postRepository.IsPostExistByPostId(postId)
+
+	if err != nil {
+		return false, err
+	}
+	if !okP {
+		return false, errors.New("post does not exist")
+	}
+	ok, err := ju.postRepository.CreateCommentPost(postId, userId, comment)
+	if err != nil {
+		return false, err
+	}
+	return ok, nil
+
+}
+
+func (ju *jobseekerJobUseCase) UpdateCommentPost(commentId, postId, userId int, comment string) (bool, error) {
+	okc, err := ju.postRepository.IsCommentIdExist(commentId)
+	if err != nil {
+		return false, err
+	}
+	if !okc {
+		return false, errors.New("comment does not exist")
+	}
+
+	okcu, err := ju.postRepository.IsCommentIdBelongsUserId(commentId, userId)
+	if err != nil {
+		return false, err
+	}
+	if !okcu {
+		return false, errors.New("comment does not belongs to you")
+	}
+	ok, err := ju.postRepository.UpdateCommentPost(commentId, postId, userId, comment)
+	if err != nil {
+		return false, err
+	}
+	return ok, nil
+
+}
+
+func (ju *jobseekerJobUseCase) DeleteCommentPost(postId, userId, commentId int) (bool, error) {
+	okc, err := ju.postRepository.IsCommentIdExist(commentId)
+	if err != nil {
+		return false, err
+	}
+	if !okc {
+		return false, errors.New("comment does not exist")
+	}
+
+	okcu, err := ju.postRepository.IsCommentIdBelongsUserId(commentId, userId)
+	if err != nil {
+		return false, err
+	}
+	if !okcu {
+		return false, errors.New("comment does not belongs to you")
+	}
+	ok, err := ju.postRepository.DeleteCommentPost(commentId, postId, userId)
+	if err != nil {
+		return false, err
+	}
+	return ok, nil
+}
+
+func (ju *jobseekerJobUseCase) AddLikePost(postId, userId int) (bool, error) {
+	okP, err := ju.postRepository.IsPostExistByPostId(postId)
+
+	if err != nil {
+		return false, err
+	}
+	if !okP {
+		return false, errors.New("post does not exist")
+	}
+	okL, err := ju.postRepository.IsLikeExist(postId, userId)
+	if err != nil {
+		return false, err
+	}
+	if okL {
+		return false, errors.New("you already like this post")
+	}
+	ok, err := ju.postRepository.AddLikePost(postId, userId)
+	if err != nil {
+		return false, err
+	}
+	return ok, nil
+}
+
+func (ju *jobseekerJobUseCase) RemoveLikePost(postId, userId int) (bool, error) {
+	okP, err := ju.postRepository.IsPostExistByPostId(postId)
+
+	if err != nil {
+		return false, err
+	}
+	if !okP {
+		return false, errors.New("post does not exist")
+	}
+	okL, err := ju.postRepository.IsLikeExist(postId, userId)
+	if err != nil {
+		return false, err
+	}
+	if !okL {
+		return false, errors.New("you already unliked this post")
+	}
+	ok, err := ju.postRepository.RemoveLikePost(postId, userId)
+	if err != nil {
+		return false, err
+	}
+	return ok, nil
 }

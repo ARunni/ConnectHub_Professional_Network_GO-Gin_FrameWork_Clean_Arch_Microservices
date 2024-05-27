@@ -3,6 +3,7 @@ package repository
 import (
 	"ConnetHub_post/pkg/repository/interfaces"
 	"ConnetHub_post/pkg/utils/models"
+	"time"
 
 	"gorm.io/gorm"
 )
@@ -18,14 +19,29 @@ func NewJobseekerPostRepository(DB *gorm.DB) interfaces.JobseekerPostRepository 
 }
 
 func (jr *jobseekerPostRepository) CreatePost(post models.CreatePostRes) (models.CreatePostRes, error) {
-	var res models.CreatePostRes
-	querry := `
-		insert into table posts 
-		(title,content,image_url,jobseeker_id) 
-		values (?,?,?,?,?) returnes *
-		`
+	// var res models.CreatePostRes
+	// querry := `
+	// INSERT INTO posts (title, content, image_url, jobseeker_id)
+	// VALUES ($1, $2, $3, $4)
+	// RETURNING id, title, content, image_url, jobseeker_id, created_at
 
-	err := jr.DB.Exec(querry, post.Title, post.Content, post.ImageUrl, post.JobseekerId).Scan(&res).Error
+	// `
+
+	// err := jr.DB.Exec(querry, post.Title, post.Content, post.ImageUrl, post.JobseekerId).Scan(&res).Error
+	// if err != nil {
+	// 	return models.CreatePostRes{}, err
+	// }
+
+	var res models.CreatePostRes
+	query := `
+		INSERT INTO posts (title, content, image_url, jobseeker_id,created_at) 
+		VALUES ($1, $2, $3, $4,$5) 
+		RETURNING id, title, content, image_url, jobseeker_id, created_at
+	`
+
+	// Using Raw SQL and Scan to execute and get the returning values
+	row := jr.DB.Raw(query, post.Title, post.Content, post.ImageUrl, post.JobseekerId, time.Now()).Row()
+	err := row.Scan(&res.ID, &res.Title, &res.Content, &res.ImageUrl, &res.JobseekerId, &res.CreatedAt)
 	if err != nil {
 		return models.CreatePostRes{}, err
 	}
@@ -47,7 +63,7 @@ func (jr *jobseekerPostRepository) GetOnePost(postId int) (models.CreatePostRes,
 }
 
 func (jr *jobseekerPostRepository) GetAllPost() (models.AllPost, error) {
-	var res models.AllPost
+	var res []models.CreatePostRes
 	querry := `
 		select id,jobseeker_id,title,content,image_url,created_at 
 		from posts
@@ -57,17 +73,20 @@ func (jr *jobseekerPostRepository) GetAllPost() (models.AllPost, error) {
 	if err != nil {
 		return models.AllPost{}, err
 	}
-	return res, nil
+	allPosts := models.AllPost{
+		Posts: res,
+	}
+	return allPosts, nil
 }
 
 func (jr *jobseekerPostRepository) UpdatePost(post models.EditPostRes) (models.EditPostRes, error) {
 	var res models.EditPostRes
 	querry := `
-		update table posts title = ?,content = ?,image_url ?,created_at =? 
-		from posts where id = ? and jobseeker_id = ?
+		update posts set title = $1,content = $2,image_url = $3,created_at = $4 
+		 where id = $5 and jobseeker_id = $6 returning id as post_id, jobseeker_id, title,content,image_url,updated_at
 		`
 
-	err := jr.DB.Exec(querry, post.Title, post.Content, post.ImageUrl).Scan(&res).Error
+	err := jr.DB.Raw(querry, post.Title, post.Content, post.ImageUrl, time.Now(), post.PostId, post.JobseekerId).Scan(&res).Error
 	if err != nil {
 		return models.EditPostRes{}, err
 	}
@@ -111,4 +130,80 @@ func (jr *jobseekerPostRepository) IsPostExistByUserId(userId int) (bool, error)
 		return false, err
 	}
 	return ok > 0, nil
+}
+
+func (jr *jobseekerPostRepository) CreateCommentPost(postId, userId int, comment string) (bool, error) {
+	querry := `insert into comments (post_id,comment,jobseeker_id,created_at)
+	values ($1,$2,$3,$4)`
+	err := jr.DB.Raw(querry, postId, comment, userId, time.Now()).Error
+	if err != nil {
+		return false, err
+	}
+	return true, nil
+}
+
+func (jr *jobseekerPostRepository) IsCommentIdExist(commentId int) (bool, error) {
+	var ok int
+	querry := `select count(*) from comments where id = ?`
+	err := jr.DB.Raw(querry, commentId).Scan(&ok).Error
+	if err != nil {
+		return false, err
+	}
+	return ok > 0, nil
+}
+
+func (jr *jobseekerPostRepository) IsCommentIdBelongsUserId(commentId, userId int) (bool, error) {
+	var ok int
+	querry := `select count(*) from comments where id = ? and  jobseeker_id = ?`
+	err := jr.DB.Raw(querry, commentId, userId).Scan(&ok).Error
+	if err != nil {
+		return false, err
+	}
+	return ok > 0, nil
+}
+
+func (jr *jobseekerPostRepository) UpdateCommentPost(commentId, postId, userId int, comment string) (bool, error) {
+	querry := `update comments set comment = ? where id = ? and  jobseeker_id = ? and post_id = ? `
+	err := jr.DB.Raw(querry, comment, commentId, userId, postId).Error
+	if err != nil {
+		return false, err
+	}
+	return true, nil
+}
+
+func (jr *jobseekerPostRepository) DeleteCommentPost(postId, userId, commentId int) (bool, error) {
+	querry := `delete from comments where id = ? and  jobseeker_id = ? and post_id = ? `
+	err := jr.DB.Raw(querry, commentId, userId, postId).Error
+	if err != nil {
+		return false, err
+	}
+	return true, nil
+}
+
+func (jr *jobseekerPostRepository) IsLikeExist(postId, userId int) (bool, error) {
+	var ok int
+	querry := `select count(*) from likes where jobseeker_id = ? and post_id = ? `
+	err := jr.DB.Raw(querry, userId, postId).Scan(&ok).Error
+	if err != nil {
+		return false, err
+	}
+	return ok > 0, nil
+}
+
+func (jr *jobseekerPostRepository) AddLikePost(postId, userId int) (bool, error) {
+	querry := `insert into likes (jobseeker_id,post_id,created_at) values (?,?,?)`
+	err := jr.DB.Raw(querry, userId, postId, time.Now()).Error
+	if err != nil {
+		return false, err
+	}
+	return true, nil
+}
+
+func (jr *jobseekerPostRepository) RemoveLikePost(postId, userId int) (bool, error) {
+	querry := `delete from likes where post_id = ? and  jobseeker_id = ?`
+	err := jr.DB.Raw(querry, postId, userId).Error
+	if err != nil {
+		return false, err
+	}
+	return true, nil
 }
