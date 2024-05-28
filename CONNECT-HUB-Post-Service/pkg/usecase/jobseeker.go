@@ -63,6 +63,17 @@ func (ju *jobseekerJobUseCase) GetOnePost(postId int) (models.CreatePostRes, err
 	if err != nil {
 		return models.CreatePostRes{}, err
 	}
+	likeData, err := ju.postRepository.GetLikesCountPost(postId)
+	if err != nil {
+		return models.CreatePostRes{}, err
+	}
+	commentData, err := ju.postRepository.GetCommetsPost(postId)
+	if err != nil {
+		return models.CreatePostRes{}, err
+	}
+	postData.Likes = likeData
+	postData.Comments = commentData
+
 	return postData, nil
 }
 
@@ -71,6 +82,18 @@ func (ju *jobseekerJobUseCase) GetAllPost() (models.AllPost, error) {
 
 	if err != nil {
 		return models.AllPost{}, err
+	}
+	for _, post := range postData.Posts {
+		likeData, err := ju.postRepository.GetLikesCountPost(post.ID)
+		if err != nil {
+			return models.AllPost{}, err
+		}
+		commentData, err := ju.postRepository.GetCommetsPost(post.ID)
+		if err != nil {
+			return models.AllPost{}, err
+		}
+		post.Likes = likeData
+		post.Comments = commentData
 	}
 	return postData, nil
 
@@ -119,6 +142,7 @@ func (ju *jobseekerJobUseCase) UpdatePost(post models.EditPostReq) (models.EditP
 	if err != nil {
 		return models.EditPostRes{}, err
 	}
+
 	return PostData, nil
 
 }

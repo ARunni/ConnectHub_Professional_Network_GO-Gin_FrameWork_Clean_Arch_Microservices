@@ -27,3 +27,4 @@ type Like struct {
 	JobseekerId    uint      `gorm:"not null" json:"jobseeker_id"`
 	CreatedAt time.Time `gorm:"autoCreateTime" json:"created_at"`
 }
+

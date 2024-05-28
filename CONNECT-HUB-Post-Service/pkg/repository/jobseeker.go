@@ -19,18 +19,6 @@ func NewJobseekerPostRepository(DB *gorm.DB) interfaces.JobseekerPostRepository 
 }
 
 func (jr *jobseekerPostRepository) CreatePost(post models.CreatePostRes) (models.CreatePostRes, error) {
-	// var res models.CreatePostRes
-	// querry := `
-	// INSERT INTO posts (title, content, image_url, jobseeker_id)
-	// VALUES ($1, $2, $3, $4)
-	// RETURNING id, title, content, image_url, jobseeker_id, created_at
-
-	// `
-
-	// err := jr.DB.Exec(querry, post.Title, post.Content, post.ImageUrl, post.JobseekerId).Scan(&res).Error
-	// if err != nil {
-	// 	return models.CreatePostRes{}, err
-	// }
 
 	var res models.CreatePostRes
 	query := `
@@ -206,4 +194,29 @@ func (jr *jobseekerPostRepository) RemoveLikePost(postId, userId int) (bool, err
 		return false, err
 	}
 	return true, nil
+}
+
+func (jr *jobseekerPostRepository) GetCommetsPost(postId int) ([]models.CommentData, error) {
+
+	var comments []models.CommentData
+
+	querry := `select id,comment,jobseeker_id,created-at,updated_at 
+	from comments where post_id = ?`
+	err := jr.DB.Raw(querry, postId).Scan(&comments).Error
+	if err != nil {
+		return nil, err
+	}
+	return comments, nil
+}
+
+func (jr *jobseekerPostRepository) GetLikesCountPost(postId int) (int, error) {
+
+	var count int
+	querry := `select count(*) 
+	from comments where post_id = ?`
+	err := jr.DB.Raw(querry, postId).Scan(&count).Error
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
 }

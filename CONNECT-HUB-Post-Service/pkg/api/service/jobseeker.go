@@ -38,7 +38,9 @@ func (jps *JobseekerPostServer) CreatePost(ctx context.Context, req *jobseekerPb
 	if err != nil {
 		return nil, err
 	}
+
 	user := strconv.Itoa(postData.JobseekerId)
+
 	return &jobseekerPb.CreatePostResponse{
 		Post: &jobseekerPb.Post{
 			Id:        uint64(postData.ID),
@@ -47,6 +49,8 @@ func (jps *JobseekerPostServer) CreatePost(ctx context.Context, req *jobseekerPb
 			AuthorId:  user,
 			CreatedAt: timestamppb.New(postData.CreatedAt),
 			Url:       postData.ImageUrl,
+			Comments:  nil,
+			Likes:     0,
 		},
 	}, nil
 }
@@ -58,7 +62,17 @@ func (jps *JobseekerPostServer) GetAllPost(ctx context.Context, req *jobseekerPb
 		return nil, err
 	}
 	var posts []*jobseekerPb.Post
+	var commentss []*jobseekerPb.CommentData
 	for _, post := range postData.Posts {
+		for _, Comment := range post.Comments {
+			commentss = append(commentss, &jobseekerPb.CommentData{
+				Id:        int64(Comment.ID),
+				Comment:   Comment.Comment,
+				AuthorId:  int64(Comment.JobseekerId),
+				CreatedAt: timestamppb.New(Comment.CreatedAt),
+				UpdatedAt: timestamppb.New(Comment.UpdatedAt),
+			})
+		}
 		posts = append(posts, &jobseekerPb.Post{
 			Id:        uint64(post.ID),
 			Title:     post.Title,
@@ -66,6 +80,8 @@ func (jps *JobseekerPostServer) GetAllPost(ctx context.Context, req *jobseekerPb
 			AuthorId:  strconv.Itoa(post.JobseekerId),
 			CreatedAt: timestamppb.New(post.CreatedAt),
 			Url:       post.ImageUrl,
+			Comments:  commentss,
+			Likes:     int64(post.Likes),
 		})
 	}
 	return &jobseekerPb.GetAllPostResponse{
@@ -80,7 +96,16 @@ func (jps *JobseekerPostServer) GetOnePost(ctx context.Context, req *jobseekerPb
 	if err != nil {
 		return nil, err
 	}
-
+	var commentss []*jobseekerPb.CommentData
+	for _, Comment := range postData.Comments {
+		commentss = append(commentss, &jobseekerPb.CommentData{
+			Id:        int64(Comment.ID),
+			Comment:   Comment.Comment,
+			AuthorId:  int64(Comment.JobseekerId),
+			CreatedAt: timestamppb.New(Comment.CreatedAt),
+			UpdatedAt: timestamppb.New(Comment.UpdatedAt),
+		})
+	}
 	var post = &jobseekerPb.GetPostResponse{
 		Post: &jobseekerPb.Post{
 			Id:        uint64(postData.ID),
@@ -89,6 +114,8 @@ func (jps *JobseekerPostServer) GetOnePost(ctx context.Context, req *jobseekerPb
 			AuthorId:  strconv.Itoa(postData.JobseekerId),
 			CreatedAt: timestamppb.New(postData.CreatedAt),
 			Url:       postData.ImageUrl,
+			Comments:  commentss,
+			Likes:     int64(postData.Likes),
 		},
 	}
 	return post, nil
@@ -197,4 +224,3 @@ func (jps *JobseekerPostServer) RemoveLikePost(ctx context.Context, req *jobseek
 	}, nil
 
 }
-

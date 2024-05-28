@@ -140,6 +140,15 @@ message DeletePostResponse {
   bool success = 1;
 }
 
+message CommentData {
+  int64 id = 1;
+  string comment = 2;
+  int64 author_id = 3;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp updated_at = 5;
+  
+}
+
 // Post represents a post entity.
 message Post {
   uint64 id = 1;
@@ -147,5 +156,8 @@ message Post {
   string content = 3;
   string author_id = 4;
   google.protobuf.Timestamp created_at = 5;
-   string url = 6;
+  string url = 6;
+  repeated CommentData comments = 7;
+  int64 likes = 8;
+
 }

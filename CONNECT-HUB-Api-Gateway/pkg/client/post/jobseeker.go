@@ -18,28 +18,37 @@ type jobseekerPostClient struct {
 }
 
 func NewJobseekerPostClient(cfg config.Config) interfaces.JobseekerPostClient {
+
 	grpcConnection, err := grpc.Dial(cfg.ConnetHubPost, grpc.WithInsecure())
+
 	if err != nil {
 		fmt.Println("Could not connect to Post service", err)
 	}
+
 	grpcClient := jobseekerPb.NewJobseekerPostServiceClient(grpcConnection)
+
 	return &jobseekerPostClient{Client: grpcClient}
 }
 
 func (jpc *jobseekerPostClient) CreatePost(post models.CreatePostReq) (models.CreatePostRes, error) {
+
 	resp, err := jpc.Client.CreatePost(context.Background(), &jobseekerPb.CreatePostRequest{
 		Title:    post.Title,
 		Content:  post.Content,
 		AuthorId: strconv.Itoa(post.JobseekerId),
 		Image:    post.Image,
 	})
+
 	if err != nil {
 		return models.CreatePostRes{}, err
 	}
+
 	jobseekerId, err := strconv.Atoi(resp.Post.AuthorId)
+
 	if err != nil {
 		return models.CreatePostRes{}, err
 	}
+
 	return models.CreatePostRes{
 		ID:          int(resp.Post.Id),
 		JobseekerId: jobseekerId,
@@ -47,10 +56,13 @@ func (jpc *jobseekerPostClient) CreatePost(post models.CreatePostReq) (models.Cr
 		Content:     resp.Post.Content,
 		ImageUrl:    resp.Post.Url,
 		CreatedAt:   helper.FromProtoTimestamp(resp.Post.CreatedAt),
+		Comments:    nil,
+		Likes:       int(resp.Post.Likes),
 	}, nil
 }
 
 func (jpc *jobseekerPostClient) GetOnePost(postId int) (models.CreatePostRes, error) {
+
 	resp, err := jpc.Client.GetOnePost(context.Background(), &jobseekerPb.GetPostRequest{
 		Id: uint64(postId),
 	})
@@ -61,6 +73,16 @@ func (jpc *jobseekerPostClient) GetOnePost(postId int) (models.CreatePostRes, er
 	if err != nil {
 		return models.CreatePostRes{}, err
 	}
+	var commentDatas []models.CommentData
+	for _, commentD := range resp.Post.Comments {
+		commentDatas = append(commentDatas, models.CommentData{
+			ID:          uint(commentD.Id),
+			Comment:     commentD.Comment,
+			JobseekerId: uint(commentD.AuthorId),
+			CreatedAt:   helper.FromProtoTimestamp(commentD.CreatedAt),
+			UpdatedAt:   helper.FromProtoTimestamp(commentD.UpdatedAt),
+		})
+	}
 	return models.CreatePostRes{
 		ID:          int(resp.Post.Id),
 		JobseekerId: jobseekerId,
@@ -68,6 +90,8 @@ func (jpc *jobseekerPostClient) GetOnePost(postId int) (models.CreatePostRes, er
 		Content:     resp.Post.Content,
 		ImageUrl:    resp.Post.Url,
 		CreatedAt:   helper.FromProtoTimestamp(resp.Post.CreatedAt),
+		Comments:    commentDatas,
+		Likes:       int(resp.Post.Likes),
 	}, nil
 }
 
@@ -77,7 +101,17 @@ func (jpc *jobseekerPostClient) GetAllPost() (models.AllPost, error) {
 		return models.AllPost{}, err
 	}
 	var posts []models.CreatePostRes
+	var commentData []models.CommentData
 	for _, post := range resp.Posts {
+		for _, Comment := range post.Comments {
+			commentData = append(commentData, models.CommentData{
+				ID:          uint(Comment.Id),
+				Comment:     Comment.Comment,
+				JobseekerId: uint(Comment.AuthorId),
+				CreatedAt:   helper.FromProtoTimestamp(Comment.CreatedAt),
+				UpdatedAt:   helper.FromProtoTimestamp(Comment.UpdatedAt),
+			})
+		}
 		createdAt := helper.FromProtoTimestamp(post.CreatedAt)
 		jobseekerId, err := strconv.Atoi(post.AuthorId)
 		if err != nil {
@@ -90,6 +124,8 @@ func (jpc *jobseekerPostClient) GetAllPost() (models.AllPost, error) {
 			Content:     post.Content,
 			ImageUrl:    post.Url,
 			CreatedAt:   createdAt,
+			Comments:    commentData,
+			Likes:       int(post.Likes),
 		})
 	}
 	return models.AllPost{Posts: posts}, nil

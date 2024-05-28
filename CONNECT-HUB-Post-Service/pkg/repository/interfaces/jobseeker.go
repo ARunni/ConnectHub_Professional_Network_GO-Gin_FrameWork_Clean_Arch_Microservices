@@ -18,4 +18,6 @@ type JobseekerPostRepository interface {
 	IsLikeExist(postId, userId int) (bool, error)
 	AddLikePost(postId, userId int) (bool, error)
 	RemoveLikePost(postId, userId int) (bool, error)
+	GetCommetsPost(postId int) ([]models.CommentData, error)
+	GetLikesCountPost(postId int) (int, error)
 }
