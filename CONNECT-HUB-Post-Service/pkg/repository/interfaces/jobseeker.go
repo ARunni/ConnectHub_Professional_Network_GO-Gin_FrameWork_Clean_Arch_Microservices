@@ -3,7 +3,7 @@ package interfaces
 import "ConnetHub_post/pkg/utils/models"
 
 type JobseekerPostRepository interface {
-	GetOnePost(postId int) (models.CreatePostRes, error)
+	GetOnePost(postId int) (models.CreatePostResp, error)
 	CreatePost(post models.CreatePostRes) (models.CreatePostRes, error)
 	GetAllPost() (models.AllPost, error)
 	UpdatePost(post models.EditPostRes) (models.EditPostRes, error)
@@ -18,6 +18,6 @@ type JobseekerPostRepository interface {
 	IsLikeExist(postId, userId int) (bool, error)
 	AddLikePost(postId, userId int) (bool, error)
 	RemoveLikePost(postId, userId int) (bool, error)
-	GetCommetsPost(postId int) ([]models.CommentData, error)
+	GetCommentsPost(postId int) ([]models.CommentData, error)
 	GetLikesCountPost(postId int) (int, error)
 }

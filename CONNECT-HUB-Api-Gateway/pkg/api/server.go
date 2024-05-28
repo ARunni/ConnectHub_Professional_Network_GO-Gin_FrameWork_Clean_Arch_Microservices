@@ -86,13 +86,13 @@ func NewServerHTTP(
 		jobseekerAuthRoute.POST("/post/comment", jobseekerPostHandler.CreateCommentPost)
 		jobseekerAuthRoute.PUT("/post/comment", jobseekerPostHandler.UpdateCommentPost)
 		jobseekerAuthRoute.DELETE("/post/comment", jobseekerPostHandler.DeleteCommentPost)
-		jobseekerAuthRoute.POST("/post/comment/like", jobseekerPostHandler.AddLikePost)
-		jobseekerAuthRoute.DELETE("/post/comment/like", jobseekerPostHandler.RemoveLikePost)
+		jobseekerAuthRoute.POST("/post/like", jobseekerPostHandler.AddLikePost)
+		jobseekerAuthRoute.DELETE("/post/like", jobseekerPostHandler.RemoveLikePost)
 
 		// Recruiter Routes
 		recruiterAuthRoute.GET("/profile", RecruiterHandler.RecruiterGetProfile)
 		recruiterAuthRoute.PATCH("/profile", RecruiterHandler.RecruiterEditProfile)
-		
+
 		recruiterAuthRoute.POST("/job", RecruiterJobHandler.PostJob)
 		recruiterAuthRoute.GET("/jobs", RecruiterJobHandler.GetAllJobs)
 		recruiterAuthRoute.GET("/job", RecruiterJobHandler.GetOneJob)

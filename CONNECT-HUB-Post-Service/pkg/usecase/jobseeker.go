@@ -67,37 +67,61 @@ func (ju *jobseekerJobUseCase) GetOnePost(postId int) (models.CreatePostRes, err
 	if err != nil {
 		return models.CreatePostRes{}, err
 	}
-	commentData, err := ju.postRepository.GetCommetsPost(postId)
+	commentData, err := ju.postRepository.GetCommentsPost(postId)
 	if err != nil {
 		return models.CreatePostRes{}, err
 	}
-	postData.Likes = likeData
-	postData.Comments = commentData
+	var result = models.CreatePostRes{
+		ID:          postData.ID,
+		JobseekerId: postData.JobseekerId,
+		Title:       postData.Title,
+		Content:     postData.Content,
+		ImageUrl:    postData.ImageUrl,
+		Comments:    commentData,
+		Likes:       likeData,
+		CreatedAt:   postData.CreatedAt,
+	}
+	// postData.Likes = likeData
+	// postData.Comments = commentData
 
-	return postData, nil
+	return result, nil
 }
 
-func (ju *jobseekerJobUseCase) GetAllPost() (models.AllPost, error) {
-	postData, err := ju.postRepository.GetAllPost()
+func (ju *jobseekerJobUseCase) GetAllPost() (models.AllPostData, error) {
 
+	postData, err := ju.postRepository.GetAllPost()
 	if err != nil {
-		return models.AllPost{}, err
+		return models.AllPostData{}, err
 	}
+
+	var postAllData []models.CreatePostRes
+
 	for _, post := range postData.Posts {
 		likeData, err := ju.postRepository.GetLikesCountPost(post.ID)
 		if err != nil {
-			return models.AllPost{}, err
+			return models.AllPostData{}, err
 		}
-		commentData, err := ju.postRepository.GetCommetsPost(post.ID)
+		commentData, err := ju.postRepository.GetCommentsPost(post.ID)
 		if err != nil {
-			return models.AllPost{}, err
+			return models.AllPostData{}, err
 		}
-		post.Likes = likeData
-		post.Comments = commentData
-	}
-	return postData, nil
 
+		postAllData = append(postAllData, models.CreatePostRes{
+			ID:          post.ID,
+			JobseekerId: post.JobseekerId,
+			Title:       post.Title,
+			Content:     post.Content,
+			ImageUrl:    post.ImageUrl,
+			Comments:    commentData,
+			Likes:       likeData,
+			CreatedAt:   post.CreatedAt,
+		})
+	}
+
+	return models.AllPostData{Posts: postAllData}, nil
 }
+
+//
 
 func (ju *jobseekerJobUseCase) UpdatePost(post models.EditPostReq) (models.EditPostRes, error) {
 

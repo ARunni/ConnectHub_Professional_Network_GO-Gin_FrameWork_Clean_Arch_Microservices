@@ -36,8 +36,8 @@ func (jr *jobseekerPostRepository) CreatePost(post models.CreatePostRes) (models
 	return res, nil
 }
 
-func (jr *jobseekerPostRepository) GetOnePost(postId int) (models.CreatePostRes, error) {
-	var res models.CreatePostRes
+func (jr *jobseekerPostRepository) GetOnePost(postId int) (models.CreatePostResp, error) {
+	var res models.CreatePostResp
 	querry := `
 		select id,jobseeker_id,title,content,image_url,created_at 
 		from posts where id = ?
@@ -45,15 +45,15 @@ func (jr *jobseekerPostRepository) GetOnePost(postId int) (models.CreatePostRes,
 
 	err := jr.DB.Raw(querry, postId).Scan(&res).Error
 	if err != nil {
-		return models.CreatePostRes{}, err
+		return models.CreatePostResp{}, err
 	}
 	return res, nil
 }
 
 func (jr *jobseekerPostRepository) GetAllPost() (models.AllPost, error) {
-	var res []models.CreatePostRes
+	var res []models.CreatePostResp
 	querry := `
-		select id,jobseeker_id,title,content,image_url,created_at 
+		select id,jobseeker_id,title,content,image_url,created_at
 		from posts
 		`
 
@@ -66,6 +66,8 @@ func (jr *jobseekerPostRepository) GetAllPost() (models.AllPost, error) {
 	}
 	return allPosts, nil
 }
+
+//
 
 func (jr *jobseekerPostRepository) UpdatePost(post models.EditPostRes) (models.EditPostRes, error) {
 	var res models.EditPostRes
@@ -196,11 +198,11 @@ func (jr *jobseekerPostRepository) RemoveLikePost(postId, userId int) (bool, err
 	return true, nil
 }
 
-func (jr *jobseekerPostRepository) GetCommetsPost(postId int) ([]models.CommentData, error) {
+func (jr *jobseekerPostRepository) GetCommentsPost(postId int) ([]models.CommentData, error) {
 
 	var comments []models.CommentData
 
-	querry := `select id,comment,jobseeker_id,created-at,updated_at 
+	querry := `select id,comment,jobseeker_id,created_at,updated_at
 	from comments where post_id = ?`
 	err := jr.DB.Raw(querry, postId).Scan(&comments).Error
 	if err != nil {
@@ -210,11 +212,10 @@ func (jr *jobseekerPostRepository) GetCommetsPost(postId int) ([]models.CommentD
 }
 
 func (jr *jobseekerPostRepository) GetLikesCountPost(postId int) (int, error) {
-
 	var count int
-	querry := `select count(*) 
-	from comments where post_id = ?`
-	err := jr.DB.Raw(querry, postId).Scan(&count).Error
+	query := `SELECT count(*) 
+	FROM likes WHERE post_id = ?`
+	err := jr.DB.Raw(query, postId).Scan(&count).Error
 	if err != nil {
 		return 0, err
 	}

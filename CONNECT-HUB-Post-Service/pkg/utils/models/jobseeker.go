@@ -20,6 +20,15 @@ type CreatePostRes struct {
 	CreatedAt   time.Time   `gorm:"autoCreateTime" json:"created_at"`
 }
 
+type CreatePostResp struct {
+	ID          int         `json:"id"`
+	JobseekerId int         `json:"jobseeker_id"`
+	Title       string      `gorm:"size:255;not null" json:"title"`
+	Content     string      `gorm:"type:text;not null" json:"content"`
+	ImageUrl    string      `json:"image_url"`
+	CreatedAt   time.Time   `gorm:"autoCreateTime" json:"created_at"`
+}
+
 type CommentData struct {
 	ID          uint      `gorm:"primary_key;auto_increment" json:"id"`
 	Comment     string    `gorm:"type:text;not null" json:"comment"`
@@ -29,6 +38,9 @@ type CommentData struct {
 }
 
 type AllPost struct {
+	Posts []CreatePostResp `json:"posts"`
+}
+type AllPostData struct {
 	Posts []CreatePostRes `json:"posts"`
 }
 
