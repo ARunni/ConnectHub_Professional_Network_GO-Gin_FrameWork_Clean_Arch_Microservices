@@ -5,6 +5,7 @@ import (
 	"connectHub_gateway/pkg/utils/models"
 	"connectHub_gateway/pkg/utils/response"
 	"net/http"
+	"strconv"
 
 	msg "github.com/ARunni/Error_Message"
 	"github.com/gin-gonic/gin"
@@ -114,4 +115,40 @@ func (jh *JobSeekerHandler) JobSeekerEditProfile(c *gin.Context) {
 	successResp := response.ClientResponse(http.StatusOK, msg.MsgGetSucces, jobseeker, nil)
 	c.JSON(http.StatusOK, successResp)
 
+}
+
+func (jh *JobSeekerHandler) GetAllPolicies(c *gin.Context) {
+
+	data, err := jh.GRPC_Client.GetAllPolicies()
+	if err != nil {
+		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgGettingDataErr, nil, err.Error())
+		c.JSON(http.StatusBadRequest, errorRes)
+		return
+	}
+
+	successRes := response.ClientResponse(http.StatusOK, msg.MsgGetSucces, data, nil)
+	c.JSON(http.StatusOK, successRes)
+
+}
+
+func (jh *JobSeekerHandler) GetOnePolicy(c *gin.Context) {
+
+	idStr := c.Query("policy_id")
+	id, err := strconv.Atoi(idStr)
+
+	if err != nil {
+		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgIdGetErr, nil, err.Error())
+		c.JSON(http.StatusBadRequest, errorRes)
+		return
+	}
+
+	data, err := jh.GRPC_Client.GetOnePolicy(id)
+	if err != nil {
+		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgGettingDataErr, nil, err.Error())
+		c.JSON(http.StatusBadRequest, errorRes)
+		return
+	}
+
+	successRes := response.ClientResponse(http.StatusOK, msg.MsgGetSucces, data, nil)
+	c.JSON(http.StatusOK, successRes)
 }

@@ -51,12 +51,20 @@ func NewServerHTTP(
 		// Admin Router Group
 		adminJobseeker := router.Group("/admin/jobseeker")
 		adminRecruiter := router.Group("/admin/recruiter")
+		adminAuthRoute := router.Group("/admin")
 
 		// Jobseeker Router Group
 		jobseekerAuthRoute := router.Group("/jobseeker")
 
 		// recruiter Router Group
 		recruiterAuthRoute := router.Group("/recruiter")
+
+		// Admin Routes
+		adminAuthRoute.POST("/policy", AdminHandler.CreatePolicy)
+		adminAuthRoute.PUT("/policy", AdminHandler.UpdatePolicy)
+		adminAuthRoute.DELETE("/policy", AdminHandler.DeletePolicy)
+		adminAuthRoute.GET("/policy", AdminHandler.GetOnePolicy)
+		adminAuthRoute.GET("/policies", AdminHandler.GetAllPolicies)
 
 		// Admin Routes jobseeker
 		adminJobseeker.GET("/all", AdminHandler.GetJobseekers)
@@ -89,6 +97,9 @@ func NewServerHTTP(
 		jobseekerAuthRoute.POST("/post/like", jobseekerPostHandler.AddLikePost)
 		jobseekerAuthRoute.DELETE("/post/like", jobseekerPostHandler.RemoveLikePost)
 
+		jobseekerAuthRoute.GET("/policy", JobseekerHandler.GetOnePolicy)
+		jobseekerAuthRoute.GET("/policies", JobseekerHandler.GetAllPolicies)
+
 		// Recruiter Routes
 		recruiterAuthRoute.GET("/profile", RecruiterHandler.RecruiterGetProfile)
 		recruiterAuthRoute.PATCH("/profile", RecruiterHandler.RecruiterEditProfile)
@@ -98,6 +109,9 @@ func NewServerHTTP(
 		recruiterAuthRoute.GET("/job", RecruiterJobHandler.GetOneJob)
 		recruiterAuthRoute.PATCH("/job", RecruiterJobHandler.UpdateAJob)
 		recruiterAuthRoute.DELETE("/job", RecruiterJobHandler.DeleteAJob)
+
+		recruiterAuthRoute.GET("/policy", RecruiterHandler.GetOnePolicy)
+		recruiterAuthRoute.GET("/policies", RecruiterHandler.GetAllPolicies)
 	}
 
 	return &ServerHTTP{engine: router}

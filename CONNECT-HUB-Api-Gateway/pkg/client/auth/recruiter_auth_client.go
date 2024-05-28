@@ -3,6 +3,7 @@ package client
 import (
 	interfaces "connectHub_gateway/pkg/client/auth/interface"
 	"connectHub_gateway/pkg/config"
+	"connectHub_gateway/pkg/helper"
 	pb "connectHub_gateway/pkg/pb/auth/recruiter"
 	"connectHub_gateway/pkg/utils/models"
 	"context"
@@ -131,5 +132,43 @@ func (rc *recruiterClient) RecruiterEditProfile(data models.RecruiterProfile) (m
 		About_company:        profiledata.Profile.AboutCompany,
 		Contact_email:        profiledata.Profile.Email,
 		Contact_phone_number: uint(profiledata.Profile.PhoneNumber),
+	}, nil
+}
+
+func (rc *recruiterClient) GetAllPolicies() (models.GetAllPolicyRes, error) {
+	data, err := rc.Client.GetAllPolicies(context.Background(), &pb.GetAllPoliciesRequest{})
+	if err != nil {
+		return models.GetAllPolicyRes{}, err
+	}
+	var policies []models.Policy
+	for _, policy := range data.Policies {
+		policies = append(policies, models.Policy{
+			ID:        uint(policy.Id),
+			Title:     policy.Title,
+			Content:   policy.Content,
+			CreatedAt: helper.FromProtoTimestamp(policy.CreatedAt),
+			UpdatedAt: helper.FromProtoTimestamp(policy.UpdatedAt),
+		})
+
+	}
+	return models.GetAllPolicyRes{
+		Policies: policies,
+	}, nil
+}
+
+func (rc *recruiterClient) GetOnePolicy(policy_id int) (models.CreatePolicyRes, error) {
+	data, err := rc.Client.GetOnePolicy(context.Background(), &pb.GetOnePolicyRequest{Id: int64(policy_id)})
+	if err != nil {
+		return models.CreatePolicyRes{}, err
+	}
+
+	return models.CreatePolicyRes{
+		Policies: models.Policy{
+			ID:        uint(data.Policy.Id),
+			Title:     data.Policy.Title,
+			Content:   data.Policy.Content,
+			CreatedAt: helper.FromProtoTimestamp(data.Policy.CreatedAt),
+			UpdatedAt: helper.FromProtoTimestamp(data.Policy.UpdatedAt),
+		},
 	}, nil
 }

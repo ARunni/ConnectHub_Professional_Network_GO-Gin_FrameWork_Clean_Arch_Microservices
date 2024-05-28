@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 type Admin struct {
 	ID        uint   `json:"id" gorm:"uniquekey; not null"`
 	Firstname string `json:"firstname" gorm:"validate:required"`
@@ -37,13 +39,39 @@ type JobseekerDetailsAtAdmin struct {
 	Blocked bool   `json:"blocked"`
 }
 type RecruiterDetailsAtAdmin struct {
-	Id      int    `json:"id"`
-	CompanyName    string `json:"company_name"`
-	Email   string `json:"contact_mail" validate:"email"`
-	Phone   string `json:"phone"`
-	Blocked bool   `json:"blocked"`
+	Id          int    `json:"id"`
+	CompanyName string `json:"company_name"`
+	Email       string `json:"contact_mail" validate:"email"`
+	Phone       string `json:"phone"`
+	Blocked     bool   `json:"blocked"`
 }
 
 type BlockRes struct {
 	Status string `json:"status"`
+}
+
+type CreatePolicyReq struct {
+	Title   string `json:"title" gorm:"validate:required"`
+	Content string `json:"content" gorm:"validate:required"`
+}
+type UpdatePolicyReq struct {
+	Id      int    `json:"id"`
+	Title   string `json:"title" gorm:"validate:required"`
+	Content string `json:"content" gorm:"validate:required"`
+}
+
+type CreatePolicyRes struct {
+	Policies Policy `json:"polices"`
+}
+
+type GetAllPolicyRes struct {
+	Policies []Policy `json:"polices"`
+}
+
+type Policy struct {
+	ID        uint      `json:"id" gorm:"primary_key"`
+	Title     string    `json:"title" gorm:"validate:required"`
+	Content   string    `json:"content" gorm:"validate:required"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }

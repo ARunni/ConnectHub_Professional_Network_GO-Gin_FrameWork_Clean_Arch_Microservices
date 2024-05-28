@@ -5,6 +5,8 @@ import (
 	interfaces "ConnetHub_auth/pkg/usecase/interface"
 	req "ConnetHub_auth/pkg/utils/reqAndResponse"
 	"context"
+
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type AdminServer struct {
@@ -167,5 +169,107 @@ func (as *AdminServer) GetRecruiterDetails(ctx context.Context, Req *pb.GetRecru
 		CompanyName: result.CompanyName,
 		PhoneNumber: result.Phone,
 		Blocked:     result.Blocked,
+	}, nil
+}
+
+func (as *AdminServer) CreatePolicy(ctx context.Context, Req *pb.CreatePolicyRequest) (*pb.CreatePolicyResponse, error) {
+	var policy = req.CreatePolicyReq{
+		Title:   Req.Title,
+		Content: Req.Content,
+	}
+
+	result, err := as.adminUseCase.CreatePolicy(policy)
+	if err != nil {
+		return &pb.CreatePolicyResponse{}, err
+	}
+	return &pb.CreatePolicyResponse{
+		Policy: &pb.Policy{
+			Id:        int64(result.Policies.ID),
+			Title:     result.Policies.Title,
+			Content:   result.Policies.Content,
+			CreatedAt: timestamppb.New(result.Policies.CreatedAt),
+			UpdatedAt: timestamppb.New(result.Policies.UpdatedAt),
+		},
+	}, nil
+}
+
+func (as *AdminServer) UpdatePolicy(ctx context.Context, Req *pb.UpdatePolicyRequest) (*pb.UpdatePolicyResponse, error) {
+	var policy = req.UpdatePolicyReq{
+		Id:      int(Req.Id),
+		Title:   Req.Title,
+		Content: Req.Content,
+	}
+
+	result, err := as.adminUseCase.UpdatePolicy(policy)
+	if err != nil {
+		return &pb.UpdatePolicyResponse{}, err
+	}
+	return &pb.UpdatePolicyResponse{
+		Policy: &pb.Policy{
+			Id:        int64(result.Policies.ID),
+			Title:     result.Policies.Title,
+			Content:   result.Policies.Content,
+			CreatedAt: timestamppb.New(result.Policies.CreatedAt),
+			UpdatedAt: timestamppb.New(result.Policies.UpdatedAt),
+		},
+	}, nil
+}
+
+func (as *AdminServer) DeletePolicy(ctx context.Context, Req *pb.DeletePolicyRequest) (*pb.DeletePolicyResponse, error) {
+
+	var policy_id = Req.Id
+
+	result, err := as.adminUseCase.DeletePolicy(int(policy_id))
+	if err != nil {
+		return &pb.DeletePolicyResponse{}, err
+	}
+
+	return &pb.DeletePolicyResponse{
+		Deleted: result,
+	}, nil
+}
+
+func (as *AdminServer) GetAllPolicies(ctx context.Context, Req *pb.GetAllPoliciesRequest) (*pb.GetAllPoliciesResponse, error) {
+
+	result, err := as.adminUseCase.GetAllPolicies()
+	if err != nil {
+		return &pb.GetAllPoliciesResponse{}, err
+	}
+
+	var policies []*pb.Policy
+
+	for _, p := range result.Policies {
+		policy := &pb.Policy{
+			Id:        int64(p.ID),
+			Title:     p.Title,
+			Content:   p.Content,
+			CreatedAt: timestamppb.New(p.CreatedAt),
+			UpdatedAt: timestamppb.New(p.UpdatedAt),
+		}
+
+		policies = append(policies, policy)
+	}
+
+	return &pb.GetAllPoliciesResponse{
+		Policies: policies,
+	}, nil
+}
+
+func (as *AdminServer) GetOnePolicy(ctx context.Context, Req *pb.GetOnePolicyRequest) (*pb.GetOnePolicyResponse, error) {
+
+	policy_id := Req.Id
+	result, err := as.adminUseCase.GetOnePolicy(int(policy_id))
+	if err != nil {
+		return &pb.GetOnePolicyResponse{}, err
+	}
+
+	return &pb.GetOnePolicyResponse{
+		Policy: &pb.Policy{
+			Id:        int64(result.Policies.ID),
+			Title:     result.Policies.Title,
+			Content:   result.Policies.Content,
+			CreatedAt: timestamppb.New(result.Policies.CreatedAt),
+			UpdatedAt: timestamppb.New(result.Policies.UpdatedAt),
+		},
 	}, nil
 }

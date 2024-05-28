@@ -208,3 +208,101 @@ func (ah *AdminHandler) GetRecruiterDetails(c *gin.Context) {
 	successRes := response.ClientResponse(http.StatusOK, msg.MsgGetSucces, unBlockRecruiter, nil)
 	c.JSON(http.StatusOK, successRes)
 }
+
+// policies
+
+func (ah *AdminHandler) CreatePolicy(c *gin.Context) {
+	var policyData models.CreatePolicyReq
+
+	if err := c.ShouldBindJSON(&policyData); err != nil {
+		errResp := response.ClientResponse(http.StatusBadRequest, msg.ErrFormat, nil, err.Error())
+		c.JSON(http.StatusBadRequest, errResp)
+		return
+	}
+
+	data, err := ah.GRPC_Client.CreatePolicy(policyData)
+	if err != nil {
+		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgGettingDataErr, nil, err.Error())
+		c.JSON(http.StatusBadRequest, errorRes)
+		return
+	}
+
+	successRes := response.ClientResponse(http.StatusOK, msg.MsgSuccess, data, nil)
+	c.JSON(http.StatusOK, successRes)
+}
+
+func (ah *AdminHandler) UpdatePolicy(c *gin.Context) {
+
+	var policyData models.UpdatePolicyReq
+
+	if err := c.ShouldBindJSON(&policyData); err != nil {
+		errResp := response.ClientResponse(http.StatusBadRequest, msg.ErrFormat, nil, err.Error())
+		c.JSON(http.StatusBadRequest, errResp)
+		return
+	}
+
+	data, err := ah.GRPC_Client.UpdatePolicy(policyData)
+	if err != nil {
+		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgGettingDataErr, nil, err.Error())
+		c.JSON(http.StatusBadRequest, errorRes)
+		return
+	}
+
+	successRes := response.ClientResponse(http.StatusOK, msg.MsgSuccess, data, nil)
+	c.JSON(http.StatusOK, successRes)
+}
+
+func (ah *AdminHandler) DeletePolicy(c *gin.Context) {
+	idStr := c.Query("policy_id")
+	id, err := strconv.Atoi(idStr)
+
+	if err != nil {
+		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgIdGetErr, nil, err.Error())
+		c.JSON(http.StatusBadRequest, errorRes)
+		return
+	}
+
+	data, err := ah.GRPC_Client.DeletePolicy(id)
+	if err != nil {
+		errorRes := response.ClientResponse(http.StatusBadRequest, "Deleting operation failed", nil, err.Error())
+		c.JSON(http.StatusBadRequest, errorRes)
+		return
+	}
+
+	successRes := response.ClientResponse(http.StatusOK, msg.MsgSuccess, data, nil)
+	c.JSON(http.StatusOK, successRes)
+}
+
+func (ah *AdminHandler) GetAllPolicies(c *gin.Context) {
+
+	data, err := ah.GRPC_Client.GetAllPolicies()
+	if err != nil {
+		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgGettingDataErr, nil, err.Error())
+		c.JSON(http.StatusBadRequest, errorRes)
+		return
+	}
+
+	successRes := response.ClientResponse(http.StatusOK, msg.MsgGetSucces, data, nil)
+	c.JSON(http.StatusOK, successRes)
+}
+
+func (ah *AdminHandler) GetOnePolicy(c *gin.Context) {
+	idStr := c.Query("policy_id")
+	id, err := strconv.Atoi(idStr)
+
+	if err != nil {
+		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgIdGetErr, nil, err.Error())
+		c.JSON(http.StatusBadRequest, errorRes)
+		return
+	}
+
+	data, err := ah.GRPC_Client.GetOnePolicy(id)
+	if err != nil {
+		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgGettingDataErr, nil, err.Error())
+		c.JSON(http.StatusBadRequest, errorRes)
+		return
+	}
+
+	successRes := response.ClientResponse(http.StatusOK, msg.MsgGetSucces, data, nil)
+	c.JSON(http.StatusOK, successRes)
+}

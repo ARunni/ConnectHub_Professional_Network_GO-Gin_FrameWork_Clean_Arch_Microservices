@@ -5,6 +5,8 @@ import (
 	interfaces "ConnetHub_auth/pkg/usecase/interface"
 	req "ConnetHub_auth/pkg/utils/reqAndResponse"
 	"context"
+
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type JobSeekerServer struct {
@@ -119,6 +121,49 @@ func (js *JobSeekerServer) JobSeekerEditProfile(ctx context.Context, Req *pb.Job
 			DateOfBirth: jobseekerData.DateOfBirth,
 			Phone:       jobseekerData.PhoneNumber,
 			LastName:    jobseekerData.LastName,
+		},
+	}, nil
+}
+
+func (js *JobSeekerServer) GetAllPolicies(ctx context.Context, Req *pb.GetAllPoliciesRequest) (*pb.GetAllPoliciesResponse, error) {
+
+	jobseekerData, err := js.jobseekerUsecase.GetAllPolicies()
+	if err != nil {
+		return nil, err
+	}
+	var policies []*pb.Policy
+
+	for _, p := range jobseekerData.Policies {
+		policy := &pb.Policy{
+			Id:        int64(p.ID),
+			Title:     p.Title,
+			Content:   p.Content,
+			CreatedAt: timestamppb.New(p.CreatedAt),
+			UpdatedAt: timestamppb.New(p.UpdatedAt),
+		}
+
+		policies = append(policies, policy)
+	}
+
+	return &pb.GetAllPoliciesResponse{
+		Policies: policies,
+	}, nil
+}
+
+func (js *JobSeekerServer) GetOnePolicy(ctx context.Context, Req *pb.GetOnePolicyRequest) (*pb.GetOnePolicyResponse, error) {
+
+	policy_id := Req.Id
+	jobseekerData, err := js.jobseekerUsecase.GetOnePolicy(int(policy_id))
+	if err != nil {
+		return nil, err
+	}
+	return &pb.GetOnePolicyResponse{
+		Policy: &pb.Policy{
+			Id:        int64(jobseekerData.Policies.ID),
+			Title:     jobseekerData.Policies.Title,
+			Content:   jobseekerData.Policies.Content,
+			CreatedAt: timestamppb.New(jobseekerData.Policies.CreatedAt),
+			UpdatedAt: timestamppb.New(jobseekerData.Policies.UpdatedAt),
 		},
 	}, nil
 }

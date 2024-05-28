@@ -3,6 +3,7 @@ package client
 import (
 	interfaces "connectHub_gateway/pkg/client/auth/interface"
 	"connectHub_gateway/pkg/config"
+	"connectHub_gateway/pkg/helper"
 	pb "connectHub_gateway/pkg/pb/auth/admin"
 	"connectHub_gateway/pkg/utils/models"
 	"context"
@@ -178,5 +179,98 @@ func (ac *adminClient) GetRecruiterDetails(id int) (models.RecruiterDetailsAtAdm
 		Email:       recruiterdata.Email,
 		Phone:       recruiterdata.PhoneNumber,
 		Blocked:     recruiterdata.Blocked,
+	}, nil
+}
+
+func (ac *adminClient) CreatePolicy(data models.CreatePolicyReq) (models.CreatePolicyRes, error) {
+
+	recruiterdata, err := ac.Client.CreatePolicy(context.Background(), &pb.CreatePolicyRequest{
+		Title:   data.Title,
+		Content: data.Content,
+	})
+	if err != nil {
+		return models.CreatePolicyRes{}, err
+	}
+	return models.CreatePolicyRes{
+		Policies: models.Policy{
+			ID:        uint(recruiterdata.Policy.Id),
+			Title:     recruiterdata.Policy.Title,
+			Content:   recruiterdata.Policy.Content,
+			CreatedAt: helper.FromProtoTimestamp(recruiterdata.Policy.CreatedAt),
+			UpdatedAt: helper.FromProtoTimestamp(recruiterdata.Policy.UpdatedAt),
+		},
+	}, nil
+}
+
+func (ac *adminClient) UpdatePolicy(data models.UpdatePolicyReq) (models.CreatePolicyRes, error) {
+
+	recruiterdata, err := ac.Client.UpdatePolicy(context.Background(), &pb.UpdatePolicyRequest{
+		Id:      int64(data.Id),
+		Title:   data.Title,
+		Content: data.Content,
+	})
+	if err != nil {
+		return models.CreatePolicyRes{}, err
+	}
+	return models.CreatePolicyRes{
+		Policies: models.Policy{
+			ID:        uint(recruiterdata.Policy.Id),
+			Title:     recruiterdata.Policy.Title,
+			Content:   recruiterdata.Policy.Content,
+			CreatedAt: helper.FromProtoTimestamp(recruiterdata.Policy.CreatedAt),
+			UpdatedAt: helper.FromProtoTimestamp(recruiterdata.Policy.UpdatedAt),
+		},
+	}, nil
+}
+
+func (ac *adminClient) DeletePolicy(policy_id int) (bool, error) {
+
+	recruiterdata, err := ac.Client.DeletePolicy(context.Background(), &pb.DeletePolicyRequest{
+		Id: int64(policy_id),
+	})
+	if err != nil {
+		return false, err
+	}
+	return recruiterdata.Deleted, nil
+
+}
+
+func (ac *adminClient) GetAllPolicies() (models.GetAllPolicyRes, error) {
+
+	recruiterdata, err := ac.Client.GetAllPolicies(context.Background(), &pb.GetAllPoliciesRequest{})
+	if err != nil {
+		return models.GetAllPolicyRes{}, err
+	}
+	var policies []models.Policy
+	for _, policy := range recruiterdata.Policies {
+		policies = append(policies, models.Policy{
+			ID:        uint(policy.Id),
+			Title:     policy.Title,
+			Content:   policy.Content,
+			CreatedAt: helper.FromProtoTimestamp(policy.CreatedAt),
+			UpdatedAt: helper.FromProtoTimestamp(policy.UpdatedAt),
+		})
+
+	}
+	return models.GetAllPolicyRes{
+		Policies: policies,
+	}, nil
+}
+
+func (ac *adminClient) GetOnePolicy(policy_id int) (models.CreatePolicyRes, error) {
+
+	recruiterdata, err := ac.Client.GetOnePolicy(context.Background(), &pb.GetOnePolicyRequest{Id: int64(policy_id)})
+	if err != nil {
+		return models.CreatePolicyRes{}, err
+	}
+
+	return models.CreatePolicyRes{
+		Policies: models.Policy{
+			ID:        uint(recruiterdata.Policy.Id),
+			Title:     recruiterdata.Policy.Title,
+			Content:   recruiterdata.Policy.Content,
+			CreatedAt: helper.FromProtoTimestamp(recruiterdata.Policy.CreatedAt),
+			UpdatedAt: helper.FromProtoTimestamp(recruiterdata.Policy.UpdatedAt),
+		},
 	}, nil
 }

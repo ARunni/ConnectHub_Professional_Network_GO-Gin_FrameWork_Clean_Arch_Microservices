@@ -7,4 +7,7 @@ type JobSeekerAuthClient interface {
 	JobSeekerLogin(jobseekerData models.JobSeekerLogin) (models.TokenJobSeeker, error)
 	JobSeekerGetProfile(id int) (models.JobSeekerProfile, error)
 	JobSeekerEditProfile(profile models.JobSeekerProfile) (models.JobSeekerProfile, error)
+
+	GetAllPolicies() (models.GetAllPolicyRes, error)
+	GetOnePolicy(policy_id int) (models.CreatePolicyRes, error)
 }
