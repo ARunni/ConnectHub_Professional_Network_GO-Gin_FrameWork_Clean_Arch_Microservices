@@ -2,6 +2,7 @@ package repository
 
 import (
 	interfaces "ConnetHub_auth/pkg/repository/interface"
+	"ConnetHub_auth/pkg/utils/models"
 	req "ConnetHub_auth/pkg/utils/reqAndResponse"
 
 	"gorm.io/gorm"
@@ -98,4 +99,35 @@ func (rr *recruiterRepository) IsRecruiterBlocked(id int) (bool, error) {
 		return false, err
 	}
 	return ok, nil
+}
+
+// policies
+func (rr *recruiterRepository) GetAllPolicies() (req.GetAllPolicyRes, error) {
+	var pData []models.Policy
+	qurry := `select id,title,content,created_at,updated_at from policies`
+	err := rr.DB.Raw(qurry).Scan(&pData).Error
+	if err != nil {
+		return req.GetAllPolicyRes{}, err
+	}
+	return req.GetAllPolicyRes{Policies: pData}, nil
+}
+
+func (rr *recruiterRepository) GetOnePolicy(policy_id int) (req.CreatePolicyRes, error) {
+	var pData models.Policy
+	qurry := `select id,title,content,created_at,updated_at from policies where id = ?`
+	err := rr.DB.Raw(qurry, policy_id).Scan(&pData).Error
+	if err != nil {
+		return req.CreatePolicyRes{}, err
+	}
+	return req.CreatePolicyRes{Policies: pData}, nil
+}
+
+func (rr *recruiterRepository) IsPolicyExist(policy_id int) (bool, error) {
+	var data int
+	qurry := `select count(*) from policies where id = ?`
+	err := rr.DB.Raw(qurry, policy_id).Scan(&data).Error
+	if err != nil {
+		return false, err
+	}
+	return data > 0, nil
 }

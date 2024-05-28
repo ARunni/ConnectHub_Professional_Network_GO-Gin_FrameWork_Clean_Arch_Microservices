@@ -239,3 +239,88 @@ func (au *adminUseCase) GetRecruiterDetails(id int) (req.RecruiterDetailsAtAdmin
 	}
 	return data, nil
 }
+
+// policies
+func (au *adminUseCase) CreatePolicy(data req.CreatePolicyReq) (req.CreatePolicyRes, error) {
+
+	if data.Title == "" {
+		return req.CreatePolicyRes{}, errors.New("title not be null")
+	}
+	if data.Content == "" {
+		return req.CreatePolicyRes{}, errors.New("content not be null")
+	}
+	pData, err := au.adminRepository.CreatePolicy(data)
+	if err != nil {
+		return req.CreatePolicyRes{}, err
+	}
+
+	return pData, nil
+}
+
+func (au *adminUseCase) UpdatePolicy(data req.UpdatePolicyReq) (req.CreatePolicyRes, error) {
+	if data.Id <= 0 {
+		return req.CreatePolicyRes{}, errors.New(msg.ErrDataZero)
+	}
+	if data.Title == "" {
+		return req.CreatePolicyRes{}, errors.New("title not be null")
+	}
+	if data.Content == "" {
+		return req.CreatePolicyRes{}, errors.New("content not be null")
+	}
+	ok, err := au.adminRepository.IsPolicyExist(data.Id)
+	if err != nil {
+		return req.CreatePolicyRes{}, err
+	}
+	if !ok {
+		return req.CreatePolicyRes{}, errors.New(msg.ErrIdExist)
+	}
+	pData, err := au.adminRepository.UpdatePolicy(data)
+	if err != nil {
+		return req.CreatePolicyRes{}, err
+	}
+	return pData, nil
+}
+
+func (au *adminUseCase) DeletePolicy(policy_id int) (bool, error) {
+	if policy_id <= 0 {
+		return false, errors.New(msg.ErrDataZero)
+	}
+	ok, err := au.adminRepository.IsPolicyExist(policy_id)
+	if err != nil {
+		return false, err
+	}
+	if !ok {
+		return false, errors.New(msg.ErrIdExist)
+	}
+	okP, err := au.adminRepository.DeletePolicy(policy_id)
+	if err != nil {
+		return false, err
+	}
+	return okP, nil
+}
+
+func (au *adminUseCase) GetAllPolicies() (req.GetAllPolicyRes, error) {
+	data, err := au.adminRepository.GetAllPolicies()
+	if err != nil {
+		return req.GetAllPolicyRes{}, err
+	}
+	return data, nil
+}
+
+func (au *adminUseCase) GetOnePolicy(policy_id int) (req.CreatePolicyRes, error) {
+	if policy_id <= 0 {
+		return req.CreatePolicyRes{}, errors.New(msg.ErrDataZero)
+	}
+	ok, err := au.adminRepository.IsPolicyExist(policy_id)
+	if err != nil {
+		return req.CreatePolicyRes{}, err
+	}
+	if !ok {
+		return req.CreatePolicyRes{}, errors.New(msg.ErrIdExist)
+	}
+	data, err := au.adminRepository.GetOnePolicy(policy_id)
+	if err != nil {
+		return req.CreatePolicyRes{}, err
+	}
+	return data, nil
+}

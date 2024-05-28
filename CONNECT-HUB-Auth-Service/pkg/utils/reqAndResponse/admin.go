@@ -1,5 +1,7 @@
 package reqandresponse
 
+import "ConnetHub_auth/pkg/utils/models"
+
 type AdminLogin struct {
 	Email    string `json:"email" binding:"required" validate:"required"`
 	Password string `json:"password" binding:"required" validate:"required"`
@@ -47,4 +49,22 @@ type RecruiterDetailsAtAdmin struct {
 
 type BlockRes struct {
 	Status string `json:"status"`
+}
+
+type CreatePolicyReq struct {
+	Title   string `json:"title" gorm:"validate:required"`
+	Content string `json:"content" gorm:"validate:required"`
+}
+type UpdatePolicyReq struct {
+	Id      int    `json:"id"`
+	Title   string `json:"title" gorm:"validate:required"`
+	Content string `json:"content" gorm:"validate:required"`
+}
+
+type CreatePolicyRes struct {
+	Policies models.Policy `json:"polices"`
+}
+
+type GetAllPolicyRes struct {
+	Policies []models.Policy `json:"polices"`
 }

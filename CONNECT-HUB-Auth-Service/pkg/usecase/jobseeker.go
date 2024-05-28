@@ -187,3 +187,30 @@ func (ju *jobseekerUseCase) JobSeekerEditProfile(data req.JobSeekerProfile) (req
 	}
 	return data, nil
 }
+
+// policies
+func (ju *jobseekerUseCase) GetAllPolicies() (req.GetAllPolicyRes, error) {
+	data, err := ju.jobseekerRepository.GetAllPolicies()
+	if err != nil {
+		return req.GetAllPolicyRes{}, err
+	}
+	return data, nil
+}
+
+func (ju *jobseekerUseCase) GetOnePolicy(policy_id int) (req.CreatePolicyRes, error) {
+	if policy_id <= 0 {
+		return req.CreatePolicyRes{}, errors.New(msg.ErrDataZero)
+	}
+	ok, err := ju.jobseekerRepository.IsPolicyExist(policy_id)
+	if err != nil {
+		return req.CreatePolicyRes{}, err
+	}
+	if !ok {
+		return req.CreatePolicyRes{}, errors.New(msg.ErrIdExist)
+	}
+	data, err := ju.jobseekerRepository.GetOnePolicy(policy_id)
+	if err != nil {
+		return req.CreatePolicyRes{}, err
+	}
+	return data, nil
+}

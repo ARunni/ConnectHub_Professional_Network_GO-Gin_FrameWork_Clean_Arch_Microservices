@@ -10,4 +10,8 @@ type JobseekerRepository interface {
 	JobSeekerGetProfile(id int) (req.JobSeekerProfile, error)
 	JobSeekerEditProfile(data req.JobSeekerProfile) (req.JobSeekerProfile, error)
 	IsJobseekerBlocked(id int) (bool, error)
+
+	GetAllPolicies()(req.GetAllPolicyRes,error)
+	GetOnePolicy(policy_id int) (req.CreatePolicyRes,error)
+	IsPolicyExist(policy_id int)(bool,error)
 }

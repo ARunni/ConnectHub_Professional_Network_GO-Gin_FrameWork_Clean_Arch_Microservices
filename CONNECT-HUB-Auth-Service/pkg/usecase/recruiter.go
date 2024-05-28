@@ -180,3 +180,32 @@ func (ju *recruiterUseCase) RecruiterEditProfile(profile req.RecruiterProfile) (
 	return recruiter, nil
 }
 
+// policies
+func (ru *recruiterUseCase) GetAllPolicies() (req.GetAllPolicyRes, error) {
+
+	recruiter, err := ru.recruiterRepository.GetAllPolicies()
+	if err != nil {
+		return req.GetAllPolicyRes{}, err
+	}
+
+	return recruiter, nil
+}
+
+func (ru *recruiterUseCase) GetOnePolicy(policy_id int) (req.CreatePolicyRes, error) {
+
+	if policy_id <= 0 {
+		return req.CreatePolicyRes{}, errors.New(msg.ErrDataZero)
+	}
+	ok, err := ru.recruiterRepository.IsPolicyExist(policy_id)
+	if err != nil {
+		return req.CreatePolicyRes{}, err
+	}
+	if !ok {
+		return req.CreatePolicyRes{}, errors.New(msg.ErrIdExist)
+	}
+	data, err := ru.recruiterRepository.GetOnePolicy(policy_id)
+	if err != nil {
+		return req.CreatePolicyRes{}, err
+	}
+	return data, nil
+}

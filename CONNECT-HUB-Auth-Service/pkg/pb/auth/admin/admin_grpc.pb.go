@@ -28,6 +28,11 @@ const (
 	Admin_UnBlockRecruiter_FullMethodName    = "/adminauth.Admin/UnBlockRecruiter"
 	Admin_GetJobseekerDetails_FullMethodName = "/adminauth.Admin/GetJobseekerDetails"
 	Admin_GetRecruiterDetails_FullMethodName = "/adminauth.Admin/GetRecruiterDetails"
+	Admin_CreatePolicy_FullMethodName        = "/adminauth.Admin/CreatePolicy"
+	Admin_UpdatePolicy_FullMethodName        = "/adminauth.Admin/UpdatePolicy"
+	Admin_DeletePolicy_FullMethodName        = "/adminauth.Admin/DeletePolicy"
+	Admin_GetAllPolicies_FullMethodName      = "/adminauth.Admin/GetAllPolicies"
+	Admin_GetOnePolicy_FullMethodName        = "/adminauth.Admin/GetOnePolicy"
 )
 
 // AdminClient is the client API for Admin service.
@@ -43,6 +48,11 @@ type AdminClient interface {
 	UnBlockRecruiter(ctx context.Context, in *UnBlockRecruiterRequest, opts ...grpc.CallOption) (*UnBlockRecruiterResponse, error)
 	GetJobseekerDetails(ctx context.Context, in *GetJobseekerDetailsRequest, opts ...grpc.CallOption) (*GetJobseekerDetailsResponse, error)
 	GetRecruiterDetails(ctx context.Context, in *GetRecruiterDetailsRequest, opts ...grpc.CallOption) (*GetRecruiterDetailsResponse, error)
+	CreatePolicy(ctx context.Context, in *CreatePolicyRequest, opts ...grpc.CallOption) (*CreatePolicyResponse, error)
+	UpdatePolicy(ctx context.Context, in *UpdatePolicyRequest, opts ...grpc.CallOption) (*UpdatePolicyResponse, error)
+	DeletePolicy(ctx context.Context, in *DeletePolicyRequest, opts ...grpc.CallOption) (*DeletePolicyResponse, error)
+	GetAllPolicies(ctx context.Context, in *GetAllPoliciesRequest, opts ...grpc.CallOption) (*GetAllPoliciesResponse, error)
+	GetOnePolicy(ctx context.Context, in *GetOnePolicyRequest, opts ...grpc.CallOption) (*GetOnePolicyResponse, error)
 }
 
 type adminClient struct {
@@ -134,6 +144,51 @@ func (c *adminClient) GetRecruiterDetails(ctx context.Context, in *GetRecruiterD
 	return out, nil
 }
 
+func (c *adminClient) CreatePolicy(ctx context.Context, in *CreatePolicyRequest, opts ...grpc.CallOption) (*CreatePolicyResponse, error) {
+	out := new(CreatePolicyResponse)
+	err := c.cc.Invoke(ctx, Admin_CreatePolicy_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminClient) UpdatePolicy(ctx context.Context, in *UpdatePolicyRequest, opts ...grpc.CallOption) (*UpdatePolicyResponse, error) {
+	out := new(UpdatePolicyResponse)
+	err := c.cc.Invoke(ctx, Admin_UpdatePolicy_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminClient) DeletePolicy(ctx context.Context, in *DeletePolicyRequest, opts ...grpc.CallOption) (*DeletePolicyResponse, error) {
+	out := new(DeletePolicyResponse)
+	err := c.cc.Invoke(ctx, Admin_DeletePolicy_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminClient) GetAllPolicies(ctx context.Context, in *GetAllPoliciesRequest, opts ...grpc.CallOption) (*GetAllPoliciesResponse, error) {
+	out := new(GetAllPoliciesResponse)
+	err := c.cc.Invoke(ctx, Admin_GetAllPolicies_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminClient) GetOnePolicy(ctx context.Context, in *GetOnePolicyRequest, opts ...grpc.CallOption) (*GetOnePolicyResponse, error) {
+	out := new(GetOnePolicyResponse)
+	err := c.cc.Invoke(ctx, Admin_GetOnePolicy_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AdminServer is the server API for Admin service.
 // All implementations must embed UnimplementedAdminServer
 // for forward compatibility
@@ -147,6 +202,11 @@ type AdminServer interface {
 	UnBlockRecruiter(context.Context, *UnBlockRecruiterRequest) (*UnBlockRecruiterResponse, error)
 	GetJobseekerDetails(context.Context, *GetJobseekerDetailsRequest) (*GetJobseekerDetailsResponse, error)
 	GetRecruiterDetails(context.Context, *GetRecruiterDetailsRequest) (*GetRecruiterDetailsResponse, error)
+	CreatePolicy(context.Context, *CreatePolicyRequest) (*CreatePolicyResponse, error)
+	UpdatePolicy(context.Context, *UpdatePolicyRequest) (*UpdatePolicyResponse, error)
+	DeletePolicy(context.Context, *DeletePolicyRequest) (*DeletePolicyResponse, error)
+	GetAllPolicies(context.Context, *GetAllPoliciesRequest) (*GetAllPoliciesResponse, error)
+	GetOnePolicy(context.Context, *GetOnePolicyRequest) (*GetOnePolicyResponse, error)
 	mustEmbedUnimplementedAdminServer()
 }
 
@@ -180,6 +240,21 @@ func (UnimplementedAdminServer) GetJobseekerDetails(context.Context, *GetJobseek
 }
 func (UnimplementedAdminServer) GetRecruiterDetails(context.Context, *GetRecruiterDetailsRequest) (*GetRecruiterDetailsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetRecruiterDetails not implemented")
+}
+func (UnimplementedAdminServer) CreatePolicy(context.Context, *CreatePolicyRequest) (*CreatePolicyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreatePolicy not implemented")
+}
+func (UnimplementedAdminServer) UpdatePolicy(context.Context, *UpdatePolicyRequest) (*UpdatePolicyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdatePolicy not implemented")
+}
+func (UnimplementedAdminServer) DeletePolicy(context.Context, *DeletePolicyRequest) (*DeletePolicyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeletePolicy not implemented")
+}
+func (UnimplementedAdminServer) GetAllPolicies(context.Context, *GetAllPoliciesRequest) (*GetAllPoliciesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAllPolicies not implemented")
+}
+func (UnimplementedAdminServer) GetOnePolicy(context.Context, *GetOnePolicyRequest) (*GetOnePolicyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOnePolicy not implemented")
 }
 func (UnimplementedAdminServer) mustEmbedUnimplementedAdminServer() {}
 
@@ -356,6 +431,96 @@ func _Admin_GetRecruiterDetails_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Admin_CreatePolicy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreatePolicyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServer).CreatePolicy(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Admin_CreatePolicy_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServer).CreatePolicy(ctx, req.(*CreatePolicyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Admin_UpdatePolicy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdatePolicyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServer).UpdatePolicy(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Admin_UpdatePolicy_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServer).UpdatePolicy(ctx, req.(*UpdatePolicyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Admin_DeletePolicy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeletePolicyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServer).DeletePolicy(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Admin_DeletePolicy_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServer).DeletePolicy(ctx, req.(*DeletePolicyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Admin_GetAllPolicies_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAllPoliciesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServer).GetAllPolicies(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Admin_GetAllPolicies_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServer).GetAllPolicies(ctx, req.(*GetAllPoliciesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Admin_GetOnePolicy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetOnePolicyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServer).GetOnePolicy(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Admin_GetOnePolicy_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServer).GetOnePolicy(ctx, req.(*GetOnePolicyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Admin_ServiceDesc is the grpc.ServiceDesc for Admin service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -398,6 +563,26 @@ var Admin_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetRecruiterDetails",
 			Handler:    _Admin_GetRecruiterDetails_Handler,
+		},
+		{
+			MethodName: "CreatePolicy",
+			Handler:    _Admin_CreatePolicy_Handler,
+		},
+		{
+			MethodName: "UpdatePolicy",
+			Handler:    _Admin_UpdatePolicy_Handler,
+		},
+		{
+			MethodName: "DeletePolicy",
+			Handler:    _Admin_DeletePolicy_Handler,
+		},
+		{
+			MethodName: "GetAllPolicies",
+			Handler:    _Admin_GetAllPolicies_Handler,
+		},
+		{
+			MethodName: "GetOnePolicy",
+			Handler:    _Admin_GetOnePolicy_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

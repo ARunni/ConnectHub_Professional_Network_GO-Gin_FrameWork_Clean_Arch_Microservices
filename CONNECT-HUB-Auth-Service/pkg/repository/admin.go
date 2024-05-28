@@ -2,7 +2,9 @@ package repository
 
 import (
 	interfaces "ConnetHub_auth/pkg/repository/interface"
+	"ConnetHub_auth/pkg/utils/models"
 	req "ConnetHub_auth/pkg/utils/reqAndResponse"
+	"time"
 
 	"gorm.io/gorm"
 )
@@ -172,4 +174,75 @@ func (ar *adminRepository) GetRecruiterDetails(id int) (req.RecruiterDetailsAtAd
 		return req.RecruiterDetailsAtAdmin{}, err
 	}
 	return data, nil
+}
+
+// policies
+func (ar *adminRepository) CreatePolicy(data req.CreatePolicyReq) (req.CreatePolicyRes, error) {
+
+	var pData req.CreatePolicyRes
+
+	qurry := `insert into policies 
+	(title,content,created_at) 
+	values ($1,$2,$3)
+	 returning id,title,content,created_at`
+
+	err := ar.DB.Exec(qurry, data.Title, data.Title, time.Now()).Scan(&pData).Error
+
+	if err != nil {
+		return req.CreatePolicyRes{}, err
+	}
+
+	return pData, nil
+}
+
+func (ar *adminRepository) UpdatePolicy(data req.UpdatePolicyReq) (req.CreatePolicyRes, error) {
+	var pData req.CreatePolicyRes
+	qurry := `update policies set title = $1,content = $2, updated_at =$3 where id = $4`
+	err := ar.DB.Raw(qurry, data.Title, data.Content, time.Now(), data.Id).Scan(&pData).Error
+	if err != nil {
+		return req.CreatePolicyRes{}, err
+	}
+	return pData, nil
+}
+
+func (ar *adminRepository) DeletePolicy(policy_id int) (bool, error) {
+
+	qurry := `delete policies where id = ?`
+	err := ar.DB.Raw(qurry, policy_id).Error
+	if err != nil {
+		return false, err
+	}
+	return true, nil
+}
+
+func (ar *adminRepository) GetAllPolicies() (req.GetAllPolicyRes, error) {
+
+	var pData []models.Policy
+	qurry := `select id,title,content,created_at,updated_at from policies`
+	err := ar.DB.Raw(qurry).Scan(&pData).Error
+	if err != nil {
+		return req.GetAllPolicyRes{}, err
+	}
+	return req.GetAllPolicyRes{Policies: pData}, nil
+
+}
+
+func (ar *adminRepository) GetOnePolicy(policy_id int) (req.CreatePolicyRes, error) {
+	var pData models.Policy
+	qurry := `select id,title,content,created_at,updated_at from policies where id = ?`
+	err := ar.DB.Raw(qurry, policy_id).Scan(&pData).Error
+	if err != nil {
+		return req.CreatePolicyRes{}, err
+	}
+	return req.CreatePolicyRes{Policies: pData}, nil
+}
+
+func (ar *adminRepository) IsPolicyExist(policy_id int) (bool, error) {
+	var data int
+	qurry := `select count(*) from policies where id = ?`
+	err := ar.DB.Raw(qurry, policy_id).Scan(&data).Error
+	if err != nil {
+		return false, err
+	}
+	return data > 0, nil
 }

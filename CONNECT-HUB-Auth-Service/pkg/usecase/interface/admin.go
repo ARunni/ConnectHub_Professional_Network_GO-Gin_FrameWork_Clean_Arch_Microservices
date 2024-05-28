@@ -12,4 +12,10 @@ type AdminUseCase interface {
 	UnBlockJobseeker(id int) (req.BlockRes, error)
 	GetJobseekerDetails(id int) (req.JobseekerDetailsAtAdmin, error)
 	GetRecruiterDetails(id int) (req.RecruiterDetailsAtAdmin, error)
+
+	CreatePolicy(data req.CreatePolicyReq) (req.CreatePolicyRes, error)
+	UpdatePolicy(data req.UpdatePolicyReq) (req.CreatePolicyRes, error)
+	DeletePolicy(policy_id int) (bool, error)
+	GetAllPolicies() (req.GetAllPolicyRes, error)
+	GetOnePolicy(policy_id int) (req.CreatePolicyRes,error)
 }

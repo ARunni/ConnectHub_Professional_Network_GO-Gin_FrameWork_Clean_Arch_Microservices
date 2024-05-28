@@ -1,5 +1,5 @@
 syntax = "proto3";
-
+import "google/protobuf/timestamp.proto";
 package recruiterauth;
 
 option go_package = "./pkg/pb/auth/recruiter";
@@ -9,7 +9,29 @@ service Recruiter{
     rpc RecruiterLogin(RecruiterLoginInRequest) returns (RecruiterLoginResponse){};
     rpc GetUsers(GetUsersRequest) returns (GetUsersResponse) {};
     rpc RecruiterGetProfile(GetProfileRequest) returns (RecruiterDetailsResponse); 
-    rpc RecruiterEditProfile(RecruiterEditProfileRequest) returns (RecruiterEditProfileResponse); 
+    rpc RecruiterEditProfile(RecruiterEditProfileRequest) returns (RecruiterEditProfileResponse);
+    rpc GetAllPolicies(GetAllPoliciesRequest) returns (GetAllPoliciesResponse) {};
+    rpc GetOnePolicy(GetOnePolicyRequest) returns (GetOnePolicyResponse) {}; 
+}
+
+
+message Policy {
+    int64 id = 1;
+    string title = 2;
+    string content = 3;
+    google.protobuf.Timestamp created_at =4;
+    google.protobuf.Timestamp updated_at = 5;
+}
+
+message GetAllPoliciesRequest {}
+message GetAllPoliciesResponse {
+    repeated Policy policies =1;
+}
+message GetOnePolicyRequest {
+    int64 id = 1;
+}
+message GetOnePolicyResponse {
+    Policy policy =1;
 }
 
 message GetProfileRequest {

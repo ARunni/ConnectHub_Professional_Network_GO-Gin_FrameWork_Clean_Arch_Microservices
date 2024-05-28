@@ -108,3 +108,37 @@ func (jr *jobseekerRepository) IsJobseekerBlocked(id int) (bool, error) {
 	}
 	return ok, nil
 }
+
+// policies
+func (jr *jobseekerRepository) GetAllPolicies() (req.GetAllPolicyRes, error) {
+
+	var pData []models.Policy
+	qurry := `select id,title,content,created_at,updated_at from policies`
+	err := jr.DB.Raw(qurry).Scan(&pData).Error
+	if err != nil {
+		return req.GetAllPolicyRes{}, err
+	}
+	return req.GetAllPolicyRes{Policies: pData}, nil
+}
+
+func (jr *jobseekerRepository) GetOnePolicy(policy_id int) (req.CreatePolicyRes, error) {
+
+	var pData models.Policy
+	qurry := `select id,title,content,created_at,updated_at from policies where id = ?`
+	err := jr.DB.Raw(qurry, policy_id).Scan(&pData).Error
+	if err != nil {
+		return req.CreatePolicyRes{}, err
+	}
+	return req.CreatePolicyRes{Policies: pData}, nil
+}
+
+func (jr *jobseekerRepository) IsPolicyExist(policy_id int) (bool, error) {
+
+	var data int
+	qurry := `select count(*) from policies where id = ?`
+	err := jr.DB.Raw(qurry, policy_id).Scan(&data).Error
+	if err != nil {
+		return false, err
+	}
+	return data > 0, nil
+}

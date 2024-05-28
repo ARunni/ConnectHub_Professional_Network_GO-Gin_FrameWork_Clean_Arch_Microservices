@@ -27,6 +27,8 @@ const (
 	Jobseeker_JobSeekerOTPLogin_FullMethodName    = "/jobseekerauth.Jobseeker/JobSeekerOTPLogin"
 	Jobseeker_OtpVerification_FullMethodName      = "/jobseekerauth.Jobseeker/OtpVerification"
 	Jobseeker_ChangePassword_FullMethodName       = "/jobseekerauth.Jobseeker/ChangePassword"
+	Jobseeker_GetAllPolicies_FullMethodName       = "/jobseekerauth.Jobseeker/GetAllPolicies"
+	Jobseeker_GetOnePolicy_FullMethodName         = "/jobseekerauth.Jobseeker/GetOnePolicy"
 )
 
 // JobseekerClient is the client API for Jobseeker service.
@@ -41,6 +43,8 @@ type JobseekerClient interface {
 	JobSeekerOTPLogin(ctx context.Context, in *JobSeekerOTPLoginRequest, opts ...grpc.CallOption) (*JobSeekerOTPLoginResponse, error)
 	OtpVerification(ctx context.Context, in *OtpVerificationRequest, opts ...grpc.CallOption) (*OtpVerificationResponse, error)
 	ChangePassword(ctx context.Context, in *ChangePasswordRequest, opts ...grpc.CallOption) (*ChangePasswordResponse, error)
+	GetAllPolicies(ctx context.Context, in *GetAllPoliciesRequest, opts ...grpc.CallOption) (*GetAllPoliciesResponse, error)
+	GetOnePolicy(ctx context.Context, in *GetOnePolicyRequest, opts ...grpc.CallOption) (*GetOnePolicyResponse, error)
 }
 
 type jobseekerClient struct {
@@ -123,6 +127,24 @@ func (c *jobseekerClient) ChangePassword(ctx context.Context, in *ChangePassword
 	return out, nil
 }
 
+func (c *jobseekerClient) GetAllPolicies(ctx context.Context, in *GetAllPoliciesRequest, opts ...grpc.CallOption) (*GetAllPoliciesResponse, error) {
+	out := new(GetAllPoliciesResponse)
+	err := c.cc.Invoke(ctx, Jobseeker_GetAllPolicies_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *jobseekerClient) GetOnePolicy(ctx context.Context, in *GetOnePolicyRequest, opts ...grpc.CallOption) (*GetOnePolicyResponse, error) {
+	out := new(GetOnePolicyResponse)
+	err := c.cc.Invoke(ctx, Jobseeker_GetOnePolicy_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // JobseekerServer is the server API for Jobseeker service.
 // All implementations must embed UnimplementedJobseekerServer
 // for forward compatibility
@@ -135,6 +157,8 @@ type JobseekerServer interface {
 	JobSeekerOTPLogin(context.Context, *JobSeekerOTPLoginRequest) (*JobSeekerOTPLoginResponse, error)
 	OtpVerification(context.Context, *OtpVerificationRequest) (*OtpVerificationResponse, error)
 	ChangePassword(context.Context, *ChangePasswordRequest) (*ChangePasswordResponse, error)
+	GetAllPolicies(context.Context, *GetAllPoliciesRequest) (*GetAllPoliciesResponse, error)
+	GetOnePolicy(context.Context, *GetOnePolicyRequest) (*GetOnePolicyResponse, error)
 	mustEmbedUnimplementedJobseekerServer()
 }
 
@@ -165,6 +189,12 @@ func (UnimplementedJobseekerServer) OtpVerification(context.Context, *OtpVerific
 }
 func (UnimplementedJobseekerServer) ChangePassword(context.Context, *ChangePasswordRequest) (*ChangePasswordResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ChangePassword not implemented")
+}
+func (UnimplementedJobseekerServer) GetAllPolicies(context.Context, *GetAllPoliciesRequest) (*GetAllPoliciesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAllPolicies not implemented")
+}
+func (UnimplementedJobseekerServer) GetOnePolicy(context.Context, *GetOnePolicyRequest) (*GetOnePolicyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOnePolicy not implemented")
 }
 func (UnimplementedJobseekerServer) mustEmbedUnimplementedJobseekerServer() {}
 
@@ -323,6 +353,42 @@ func _Jobseeker_ChangePassword_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Jobseeker_GetAllPolicies_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAllPoliciesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JobseekerServer).GetAllPolicies(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Jobseeker_GetAllPolicies_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JobseekerServer).GetAllPolicies(ctx, req.(*GetAllPoliciesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Jobseeker_GetOnePolicy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetOnePolicyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JobseekerServer).GetOnePolicy(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Jobseeker_GetOnePolicy_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JobseekerServer).GetOnePolicy(ctx, req.(*GetOnePolicyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Jobseeker_ServiceDesc is the grpc.ServiceDesc for Jobseeker service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -361,6 +427,14 @@ var Jobseeker_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ChangePassword",
 			Handler:    _Jobseeker_ChangePassword_Handler,
+		},
+		{
+			MethodName: "GetAllPolicies",
+			Handler:    _Jobseeker_GetAllPolicies_Handler,
+		},
+		{
+			MethodName: "GetOnePolicy",
+			Handler:    _Jobseeker_GetOnePolicy_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

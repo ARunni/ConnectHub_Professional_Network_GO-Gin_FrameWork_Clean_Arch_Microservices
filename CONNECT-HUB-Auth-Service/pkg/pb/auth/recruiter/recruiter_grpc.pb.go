@@ -24,6 +24,8 @@ const (
 	Recruiter_GetUsers_FullMethodName             = "/recruiterauth.Recruiter/GetUsers"
 	Recruiter_RecruiterGetProfile_FullMethodName  = "/recruiterauth.Recruiter/RecruiterGetProfile"
 	Recruiter_RecruiterEditProfile_FullMethodName = "/recruiterauth.Recruiter/RecruiterEditProfile"
+	Recruiter_GetAllPolicies_FullMethodName       = "/recruiterauth.Recruiter/GetAllPolicies"
+	Recruiter_GetOnePolicy_FullMethodName         = "/recruiterauth.Recruiter/GetOnePolicy"
 )
 
 // RecruiterClient is the client API for Recruiter service.
@@ -35,6 +37,8 @@ type RecruiterClient interface {
 	GetUsers(ctx context.Context, in *GetUsersRequest, opts ...grpc.CallOption) (*GetUsersResponse, error)
 	RecruiterGetProfile(ctx context.Context, in *GetProfileRequest, opts ...grpc.CallOption) (*RecruiterDetailsResponse, error)
 	RecruiterEditProfile(ctx context.Context, in *RecruiterEditProfileRequest, opts ...grpc.CallOption) (*RecruiterEditProfileResponse, error)
+	GetAllPolicies(ctx context.Context, in *GetAllPoliciesRequest, opts ...grpc.CallOption) (*GetAllPoliciesResponse, error)
+	GetOnePolicy(ctx context.Context, in *GetOnePolicyRequest, opts ...grpc.CallOption) (*GetOnePolicyResponse, error)
 }
 
 type recruiterClient struct {
@@ -90,6 +94,24 @@ func (c *recruiterClient) RecruiterEditProfile(ctx context.Context, in *Recruite
 	return out, nil
 }
 
+func (c *recruiterClient) GetAllPolicies(ctx context.Context, in *GetAllPoliciesRequest, opts ...grpc.CallOption) (*GetAllPoliciesResponse, error) {
+	out := new(GetAllPoliciesResponse)
+	err := c.cc.Invoke(ctx, Recruiter_GetAllPolicies_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *recruiterClient) GetOnePolicy(ctx context.Context, in *GetOnePolicyRequest, opts ...grpc.CallOption) (*GetOnePolicyResponse, error) {
+	out := new(GetOnePolicyResponse)
+	err := c.cc.Invoke(ctx, Recruiter_GetOnePolicy_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // RecruiterServer is the server API for Recruiter service.
 // All implementations must embed UnimplementedRecruiterServer
 // for forward compatibility
@@ -99,6 +121,8 @@ type RecruiterServer interface {
 	GetUsers(context.Context, *GetUsersRequest) (*GetUsersResponse, error)
 	RecruiterGetProfile(context.Context, *GetProfileRequest) (*RecruiterDetailsResponse, error)
 	RecruiterEditProfile(context.Context, *RecruiterEditProfileRequest) (*RecruiterEditProfileResponse, error)
+	GetAllPolicies(context.Context, *GetAllPoliciesRequest) (*GetAllPoliciesResponse, error)
+	GetOnePolicy(context.Context, *GetOnePolicyRequest) (*GetOnePolicyResponse, error)
 	mustEmbedUnimplementedRecruiterServer()
 }
 
@@ -120,6 +144,12 @@ func (UnimplementedRecruiterServer) RecruiterGetProfile(context.Context, *GetPro
 }
 func (UnimplementedRecruiterServer) RecruiterEditProfile(context.Context, *RecruiterEditProfileRequest) (*RecruiterEditProfileResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RecruiterEditProfile not implemented")
+}
+func (UnimplementedRecruiterServer) GetAllPolicies(context.Context, *GetAllPoliciesRequest) (*GetAllPoliciesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAllPolicies not implemented")
+}
+func (UnimplementedRecruiterServer) GetOnePolicy(context.Context, *GetOnePolicyRequest) (*GetOnePolicyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOnePolicy not implemented")
 }
 func (UnimplementedRecruiterServer) mustEmbedUnimplementedRecruiterServer() {}
 
@@ -224,6 +254,42 @@ func _Recruiter_RecruiterEditProfile_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Recruiter_GetAllPolicies_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAllPoliciesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RecruiterServer).GetAllPolicies(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Recruiter_GetAllPolicies_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RecruiterServer).GetAllPolicies(ctx, req.(*GetAllPoliciesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Recruiter_GetOnePolicy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetOnePolicyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RecruiterServer).GetOnePolicy(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Recruiter_GetOnePolicy_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RecruiterServer).GetOnePolicy(ctx, req.(*GetOnePolicyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Recruiter_ServiceDesc is the grpc.ServiceDesc for Recruiter service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -250,6 +316,14 @@ var Recruiter_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RecruiterEditProfile",
 			Handler:    _Recruiter_RecruiterEditProfile_Handler,
+		},
+		{
+			MethodName: "GetAllPolicies",
+			Handler:    _Recruiter_GetAllPolicies_Handler,
+		},
+		{
+			MethodName: "GetOnePolicy",
+			Handler:    _Recruiter_GetOnePolicy_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

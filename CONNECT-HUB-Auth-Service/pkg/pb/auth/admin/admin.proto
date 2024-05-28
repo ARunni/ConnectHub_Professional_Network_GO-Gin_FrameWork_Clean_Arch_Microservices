@@ -1,5 +1,5 @@
 syntax = "proto3";
-
+import "google/protobuf/timestamp.proto";
 package adminauth;
 
 option go_package = "./pkg/pb/auth/admin";
@@ -14,9 +14,54 @@ service Admin{
     rpc UnBlockRecruiter(UnBlockRecruiterRequest) returns (UnBlockRecruiterResponse) {};
     rpc GetJobseekerDetails(GetJobseekerDetailsRequest) returns (GetJobseekerDetailsResponse) {};
     rpc GetRecruiterDetails(GetRecruiterDetailsRequest) returns (GetRecruiterDetailsResponse) {};
+   
+    rpc CreatePolicy(CreatePolicyRequest) returns (CreatePolicyResponse) {};
+    rpc UpdatePolicy(UpdatePolicyRequest) returns (UpdatePolicyResponse) {};
+    rpc DeletePolicy(DeletePolicyRequest) returns (DeletePolicyResponse) {};
+    rpc GetAllPolicies(GetAllPoliciesRequest) returns (GetAllPoliciesResponse) {};
+    rpc GetOnePolicy(GetOnePolicyRequest) returns (GetOnePolicyResponse) {};
 }
 
-message AdminDetails{
+message CreatePolicyRequest{
+    string title = 1;
+    string content =2;
+}
+message CreatePolicyResponse{
+    Policy policy =1;
+}
+message UpdatePolicyRequest{
+    int64 id =1;
+    string title = 2;
+    string content = 3;
+}
+message UpdatePolicyResponse{
+    Policy policy =1;
+}
+message DeletePolicyRequest {
+    int64 id = 1;
+}
+message DeletePolicyResponse {
+    bool deleted = 1;
+}
+message Policy {
+    int64 id = 1;
+    string title = 2;
+    string content = 3;
+    google.protobuf.Timestamp created_at =4;
+    google.protobuf.Timestamp updated_at = 5;
+}
+message GetAllPoliciesRequest {}
+message GetAllPoliciesResponse {
+    repeated Policy policies =1;
+}
+message GetOnePolicyRequest {
+    int64 id = 1;
+}
+message GetOnePolicyResponse {
+    Policy policy =1;
+}
+
+message AdminDetails { 
     uint64 id=1;
     string firstname=2;
     string lastname=3;
