@@ -177,38 +177,37 @@ func (ar *adminRepository) GetRecruiterDetails(id int) (req.RecruiterDetailsAtAd
 }
 
 // policies
-func (ar *adminRepository) CreatePolicy(data req.CreatePolicyReq) (req.CreatePolicyRes, error) {
+func (ar *adminRepository) CreatePolicy(data req.CreatePolicyReq) (models.Policy, error) {
 
-	var pData req.CreatePolicyRes
+	var pData models.Policy
 
 	qurry := `insert into policies 
 	(title,content,created_at) 
-	values ($1,$2,$3)
-	 returning id,title,content,created_at`
+	values ($1,$2,$3) returning id,title,content,created_at,updated_at`
 
-	err := ar.DB.Exec(qurry, data.Title, data.Title, time.Now()).Scan(&pData).Error
+	err := ar.DB.Raw(qurry, data.Title, data.Content, time.Now()).Scan(&pData).Error
 
 	if err != nil {
-		return req.CreatePolicyRes{}, err
+		return models.Policy{}, err
 	}
 
 	return pData, nil
 }
 
-func (ar *adminRepository) UpdatePolicy(data req.UpdatePolicyReq) (req.CreatePolicyRes, error) {
-	var pData req.CreatePolicyRes
-	qurry := `update policies set title = $1,content = $2, updated_at =$3 where id = $4`
+func (ar *adminRepository) UpdatePolicy(data req.UpdatePolicyReq) (models.Policy, error) {
+	var pData models.Policy
+	qurry := `update policies set title = $1,content = $2, updated_at =$3 where id = $4 returning id,title,content,created_at,updated_at`
 	err := ar.DB.Raw(qurry, data.Title, data.Content, time.Now(), data.Id).Scan(&pData).Error
 	if err != nil {
-		return req.CreatePolicyRes{}, err
+		return models.Policy{}, err
 	}
 	return pData, nil
 }
 
 func (ar *adminRepository) DeletePolicy(policy_id int) (bool, error) {
 
-	qurry := `delete policies where id = ?`
-	err := ar.DB.Raw(qurry, policy_id).Error
+	qurry := `delete from policies where id = ?`
+	err := ar.DB.Exec(qurry, policy_id).Error
 	if err != nil {
 		return false, err
 	}

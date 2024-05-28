@@ -1,6 +1,9 @@
 package interfaces
 
-import req "ConnetHub_auth/pkg/utils/reqAndResponse"
+import (
+	"ConnetHub_auth/pkg/utils/models"
+	req "ConnetHub_auth/pkg/utils/reqAndResponse"
+)
 
 type AdminRepository interface {
 	AdminLogin(admin req.AdminLogin) (req.AdminDetailsResponse, error)
@@ -23,8 +26,8 @@ type AdminRepository interface {
 	GetJobseekerDetails(id int) (req.JobseekerDetailsAtAdmin, error)
 	GetRecruiterDetails(id int) (req.RecruiterDetailsAtAdmin, error)
 
-	CreatePolicy(data req.CreatePolicyReq) (req.CreatePolicyRes,error)
-	UpdatePolicy(data req.UpdatePolicyReq) (req.CreatePolicyRes,error)
+	CreatePolicy(data req.CreatePolicyReq) (models.Policy,error)
+	UpdatePolicy(data req.UpdatePolicyReq) (models.Policy,error)
 	DeletePolicy(policy_id int) (bool,error)
 	GetAllPolicies()(req.GetAllPolicyRes,error)
 	GetOnePolicy(policy_id int) (req.CreatePolicyRes,error)

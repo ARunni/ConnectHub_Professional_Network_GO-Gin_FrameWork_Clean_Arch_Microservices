@@ -254,10 +254,11 @@ func (au *adminUseCase) CreatePolicy(data req.CreatePolicyReq) (req.CreatePolicy
 		return req.CreatePolicyRes{}, err
 	}
 
-	return pData, nil
+	return req.CreatePolicyRes{Policies: pData}, nil
 }
 
 func (au *adminUseCase) UpdatePolicy(data req.UpdatePolicyReq) (req.CreatePolicyRes, error) {
+	fmt.Println("")
 	if data.Id <= 0 {
 		return req.CreatePolicyRes{}, errors.New(msg.ErrDataZero)
 	}
@@ -278,7 +279,7 @@ func (au *adminUseCase) UpdatePolicy(data req.UpdatePolicyReq) (req.CreatePolicy
 	if err != nil {
 		return req.CreatePolicyRes{}, err
 	}
-	return pData, nil
+	return req.CreatePolicyRes{Policies: pData}, nil
 }
 
 func (au *adminUseCase) DeletePolicy(policy_id int) (bool, error) {
