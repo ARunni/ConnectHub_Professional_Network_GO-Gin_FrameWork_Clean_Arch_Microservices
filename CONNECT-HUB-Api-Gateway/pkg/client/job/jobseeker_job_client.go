@@ -3,7 +3,7 @@ package client
 import (
 	interfaces "connectHub_gateway/pkg/client/job/interface"
 	"connectHub_gateway/pkg/config"
-	"connectHub_gateway/pkg/pb/job/jobseeker"
+
 	jobseekerPb "connectHub_gateway/pkg/pb/job/jobseeker"
 	"connectHub_gateway/pkg/utils/models"
 	"context"
@@ -13,7 +13,7 @@ import (
 )
 
 type jobseekerJobClient struct {
-	Client jobseeker.JobseekerJobClient
+	Client jobseekerPb.JobseekerJobClient
 }
 
 func NewJobseekerJobClient(cfg config.Config) interfaces.JobseekerJobClient {
