@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package job;
+package job_jobseeker;
 
 option go_package = "./pkg/pb/job/jobseeker";
 

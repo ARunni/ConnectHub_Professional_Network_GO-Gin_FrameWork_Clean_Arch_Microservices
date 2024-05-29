@@ -9,4 +9,5 @@ type RecruiterJobRepository interface {
 	DeleteAJob(recruiterID, jobId int32) error
 	IsJobExist(jobID int32) (bool, error)
 	UpdateAJob(employerID int32, jobID int32, jobDetails models.JobOpening) (models.JobOpeningData, error)
+	GetJobAppliedCandidates(recruiter_id int) ([]models.ApplyJob, error)
 }

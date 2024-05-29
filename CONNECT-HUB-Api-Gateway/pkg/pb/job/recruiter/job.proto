@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package job;
+package job_recruiter;
 
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
@@ -14,10 +14,23 @@ service RecruiterJob {
     rpc GetOneJob(GetAJobRequest) returns (JobOpeningResponse) {};
     rpc DeleteAJob(DeleteAJobRequest) returns (google.protobuf.Empty);
     rpc UpdateAJob(UpdateAJobRequest) returns (UpdateAJobResponse) {};
+    rpc GetJobAppliedCandidates(GetAppliedJobsRequest) returns (GetAppliedJobsResponse) {};
 }
 
+message GetAppliedJobsRequest {
+    int64 user_id =1;
+}
+message GetAppliedJobsResponse {
+repeated AppliedJobs jobs =1;
+}
 
-
+message AppliedJobs {
+    int64 id = 1;
+    int64 jobId =2;
+    int64 userId =3;
+    int64 recruiterId =4;
+    string status =5;
+}
 
 
 // Request message for posting a job opening

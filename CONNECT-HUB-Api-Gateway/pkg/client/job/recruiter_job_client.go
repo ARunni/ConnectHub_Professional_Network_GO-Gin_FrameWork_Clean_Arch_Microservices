@@ -178,3 +178,24 @@ func (jc *recruiterJobClient) UpdateAJob(employerIDInt int32, jobID int32, jobDe
 	}, nil
 
 }
+
+func (jc *recruiterJobClient) GetJobAppliedCandidates(recruiter_id int) (models.AppliedJobs, error) {
+
+	job, err := jc.Client.GetJobAppliedCandidates(context.Background(), &recruiterPb.GetAppliedJobsRequest{
+		UserId: int64(recruiter_id),
+	})
+	if err != nil {
+		return models.AppliedJobs{}, fmt.Errorf("failed to apply job: %v", err)
+	}
+	var jobs []models.ApplyJob
+	for _, job := range job.Jobs {
+		jobs = append(jobs, models.ApplyJob{
+			ID:          uint(job.Id),
+			JobID:       uint(job.JobId),
+			JobseekerID: uint(job.UserId),
+			RecruiterID: uint(job.RecruiterId),
+			Status:      job.Status,
+		})
+	}
+	return models.AppliedJobs{Jobs: jobs}, nil
+}

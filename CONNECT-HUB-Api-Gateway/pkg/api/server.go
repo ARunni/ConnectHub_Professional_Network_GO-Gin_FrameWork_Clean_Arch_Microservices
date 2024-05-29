@@ -110,6 +110,7 @@ func NewServerHTTP(
 		recruiterAuthRoute.GET("/job", RecruiterJobHandler.GetOneJob)
 		recruiterAuthRoute.PATCH("/job", RecruiterJobHandler.UpdateAJob)
 		recruiterAuthRoute.DELETE("/job", RecruiterJobHandler.DeleteAJob)
+		recruiterAuthRoute.GET("/appliedjobs", RecruiterJobHandler.GetJobAppliedCandidates)
 
 		recruiterAuthRoute.GET("/policy", RecruiterHandler.GetOnePolicy)
 		recruiterAuthRoute.GET("/policies", RecruiterHandler.GetAllPolicies)

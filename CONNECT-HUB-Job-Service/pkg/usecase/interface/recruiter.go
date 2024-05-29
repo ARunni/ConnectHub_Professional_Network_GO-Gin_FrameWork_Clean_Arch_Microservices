@@ -8,5 +8,5 @@ type RecruiterJobUsecase interface {
 	GetOneJob(recruiterID, jobId int32) (models.JobOpeningData, error)
 	DeleteAJob(recruiterID, jobId int32) error
 	UpdateAJob(employerID int32, jobID int32, jobDetails models.JobOpening) (models.JobOpeningData, error)
-	// GetJobAppliedCandidates(recruiter_id int)()
+	GetJobAppliedCandidates(recruiter_id int)(models.AppliedJobs, error)
 }

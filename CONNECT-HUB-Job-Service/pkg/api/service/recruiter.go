@@ -169,3 +169,28 @@ func (js *RecruiterJobServer) UpdateAJob(ctx context.Context, req *jobpb.UpdateA
 
 	return updateResponse, nil
 }
+
+func (js *RecruiterJobServer) GetJobAppliedCandidates(ctx context.Context, req *jobpb.GetAppliedJobsRequest) (*jobpb.GetAppliedJobsResponse, error) {
+	employerID := req.UserId
+
+	res, err := js.jobUseCase.GetJobAppliedCandidates(int(employerID))
+	if err != nil {
+		return nil, err
+	}
+
+	var jobs []*jobpb.AppliedJobs
+	for _, job := range res.Jobs {
+		jobs = append(jobs, &jobpb.AppliedJobs{
+			JobId:       int64(job.JobID),
+			Id:          int64(job.ID),
+			UserId:      int64(job.JobseekerID),
+			RecruiterId: int64(job.RecruiterID),
+			Status:      job.Status,
+		})
+	}
+	response := &jobpb.GetAppliedJobsResponse{
+		Jobs: jobs,
+	}
+
+	return response, nil
+}

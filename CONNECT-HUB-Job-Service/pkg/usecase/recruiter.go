@@ -127,3 +127,12 @@ func (ju *recruiterJobUseCase) UpdateAJob(employerID int32, jobID int32, jobDeta
 
 	return updatedJob, nil
 }
+
+func (ju *recruiterJobUseCase) GetJobAppliedCandidates(recruiter_id int) (models.AppliedJobs, error) {
+
+	jobData, err := ju.jobRepository.GetJobAppliedCandidates(recruiter_id)
+	if err != nil {
+		return models.AppliedJobs{}, fmt.Errorf("failed to Get applied job: %v", err)
+	}
+	return models.AppliedJobs{Jobs: jobData}, nil
+}

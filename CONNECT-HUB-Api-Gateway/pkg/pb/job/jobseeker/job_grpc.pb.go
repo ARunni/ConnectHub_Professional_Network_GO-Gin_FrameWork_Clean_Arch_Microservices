@@ -19,10 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	JobseekerJob_JobSeekerGetAllJobs_FullMethodName = "/job.JobseekerJob/JobSeekerGetAllJobs"
-	JobseekerJob_JobSeekerGetJobByID_FullMethodName = "/job.JobseekerJob/JobSeekerGetJobByID"
-	JobseekerJob_JobSeekerApplyJob_FullMethodName   = "/job.JobseekerJob/JobSeekerApplyJob"
-	JobseekerJob_GetAppliedJobs_FullMethodName      = "/job.JobseekerJob/GetAppliedJobs"
+	JobseekerJob_JobSeekerGetAllJobs_FullMethodName = "/job_jobseeker.JobseekerJob/JobSeekerGetAllJobs"
+	JobseekerJob_JobSeekerGetJobByID_FullMethodName = "/job_jobseeker.JobseekerJob/JobSeekerGetJobByID"
+	JobseekerJob_JobSeekerApplyJob_FullMethodName   = "/job_jobseeker.JobseekerJob/JobSeekerApplyJob"
+	JobseekerJob_GetAppliedJobs_FullMethodName      = "/job_jobseeker.JobseekerJob/GetAppliedJobs"
 )
 
 // JobseekerJobClient is the client API for JobseekerJob service.
@@ -195,7 +195,7 @@ func _JobseekerJob_GetAppliedJobs_Handler(srv interface{}, ctx context.Context, 
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var JobseekerJob_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "job.JobseekerJob",
+	ServiceName: "job_jobseeker.JobseekerJob",
 	HandlerType: (*JobseekerJobServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

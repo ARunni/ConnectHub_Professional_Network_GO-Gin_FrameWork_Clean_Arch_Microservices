@@ -90,7 +90,7 @@ func (ju *jobseekerJobUseCase) GetAppliedJobs(user_id int) (models.AppliedJobs, 
 
 	jobData, err := ju.jobRepository.GetAppliedJobs(user_id)
 	if err != nil {
-		return models.AppliedJobs{}, fmt.Errorf("failed to apply job: %v", err)
+		return models.AppliedJobs{}, fmt.Errorf("failed to Get applied job: %v", err)
 	}
 
 	return models.AppliedJobs{Jobs: jobData}, nil
