@@ -9,6 +9,23 @@ service JobseekerJob {
     rpc JobSeekerGetAllJobs(JobSeekerGetAllJobsRequest) returns (JobSeekerGetAllJobsResponse) {};
     rpc JobSeekerGetJobByID(JobSeekerGetJobByIDRequest) returns (JobSeekerGetJobByIDResponse) {};
     rpc JobSeekerApplyJob(JobSeekerApplyJobRequest) returns (JobSeekerApplyJobResponse) {};
+    rpc GetAppliedJobs(JobSeekerGetAppliedJobsRequest) returns (JobSeekerGetAppliedJobsResponse) {};
+
+}
+
+message JobSeekerGetAppliedJobsRequest {
+    int64 user_id =1;
+}
+message JobSeekerGetAppliedJobsResponse {
+repeated AppliedJobs jobs =1;
+}
+
+message AppliedJobs {
+    int64 id = 1;
+    int64 jobId =2;
+    int64 userId =3;
+    int64 recruiterId =4;
+    string status =5;
 }
 
 message JobSeekerGetAllJobsRequest {

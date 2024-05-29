@@ -56,11 +56,42 @@ func (ju *jobseekerJobUseCase) JobSeekerGetJobByID(id int) (models.JobOpeningDat
 }
 
 func (ju *jobseekerJobUseCase) JobSeekerApplyJob(jobId, userId int) (bool, error) {
+	if jobId <= 0 {
+		return false, fmt.Errorf("invalid job id")
+	}
+	ok, err := ju.jobRepository.IsJobExist(int32(jobId))
+	if err != nil {
+		return false, fmt.Errorf("failed to check if job exist: %v", err)
+	}
+	if !ok {
+		return false, fmt.Errorf("job not found")
+	}
+	applyOk, err := ju.jobRepository.IsAppliedAlready(jobId, userId)
+	if err != nil {
+		return false, fmt.Errorf("failed to check if already applied: %v", err)
+	}
+	if applyOk {
+		return false, fmt.Errorf("already applied")
+	}
+	recruiterId, err := ju.jobRepository.GetRecruiterByJobId(jobId)
+	if err != nil {
+		return false, fmt.Errorf("failed to get recruiter id: %v", err)
+	}
 
-	jobOk, err := ju.jobRepository.JobSeekerApplyJob(jobId,userId)
+	jobOk, err := ju.jobRepository.JobSeekerApplyJob(jobId, userId, recruiterId)
 	if err != nil {
 		return false, fmt.Errorf("failed to apply job: %v", err)
 	}
 
 	return jobOk, nil
+}
+
+func (ju *jobseekerJobUseCase) GetAppliedJobs(user_id int) (models.AppliedJobs, error) {
+
+	jobData, err := ju.jobRepository.GetAppliedJobs(user_id)
+	if err != nil {
+		return models.AppliedJobs{}, fmt.Errorf("failed to apply job: %v", err)
+	}
+
+	return models.AppliedJobs{Jobs: jobData}, nil
 }

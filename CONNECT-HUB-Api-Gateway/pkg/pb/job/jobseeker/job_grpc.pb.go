@@ -22,6 +22,7 @@ const (
 	JobseekerJob_JobSeekerGetAllJobs_FullMethodName = "/job.JobseekerJob/JobSeekerGetAllJobs"
 	JobseekerJob_JobSeekerGetJobByID_FullMethodName = "/job.JobseekerJob/JobSeekerGetJobByID"
 	JobseekerJob_JobSeekerApplyJob_FullMethodName   = "/job.JobseekerJob/JobSeekerApplyJob"
+	JobseekerJob_GetAppliedJobs_FullMethodName      = "/job.JobseekerJob/GetAppliedJobs"
 )
 
 // JobseekerJobClient is the client API for JobseekerJob service.
@@ -31,6 +32,7 @@ type JobseekerJobClient interface {
 	JobSeekerGetAllJobs(ctx context.Context, in *JobSeekerGetAllJobsRequest, opts ...grpc.CallOption) (*JobSeekerGetAllJobsResponse, error)
 	JobSeekerGetJobByID(ctx context.Context, in *JobSeekerGetJobByIDRequest, opts ...grpc.CallOption) (*JobSeekerGetJobByIDResponse, error)
 	JobSeekerApplyJob(ctx context.Context, in *JobSeekerApplyJobRequest, opts ...grpc.CallOption) (*JobSeekerApplyJobResponse, error)
+	GetAppliedJobs(ctx context.Context, in *JobSeekerGetAppliedJobsRequest, opts ...grpc.CallOption) (*JobSeekerGetAppliedJobsResponse, error)
 }
 
 type jobseekerJobClient struct {
@@ -68,6 +70,15 @@ func (c *jobseekerJobClient) JobSeekerApplyJob(ctx context.Context, in *JobSeeke
 	return out, nil
 }
 
+func (c *jobseekerJobClient) GetAppliedJobs(ctx context.Context, in *JobSeekerGetAppliedJobsRequest, opts ...grpc.CallOption) (*JobSeekerGetAppliedJobsResponse, error) {
+	out := new(JobSeekerGetAppliedJobsResponse)
+	err := c.cc.Invoke(ctx, JobseekerJob_GetAppliedJobs_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // JobseekerJobServer is the server API for JobseekerJob service.
 // All implementations must embed UnimplementedJobseekerJobServer
 // for forward compatibility
@@ -75,6 +86,7 @@ type JobseekerJobServer interface {
 	JobSeekerGetAllJobs(context.Context, *JobSeekerGetAllJobsRequest) (*JobSeekerGetAllJobsResponse, error)
 	JobSeekerGetJobByID(context.Context, *JobSeekerGetJobByIDRequest) (*JobSeekerGetJobByIDResponse, error)
 	JobSeekerApplyJob(context.Context, *JobSeekerApplyJobRequest) (*JobSeekerApplyJobResponse, error)
+	GetAppliedJobs(context.Context, *JobSeekerGetAppliedJobsRequest) (*JobSeekerGetAppliedJobsResponse, error)
 	mustEmbedUnimplementedJobseekerJobServer()
 }
 
@@ -90,6 +102,9 @@ func (UnimplementedJobseekerJobServer) JobSeekerGetJobByID(context.Context, *Job
 }
 func (UnimplementedJobseekerJobServer) JobSeekerApplyJob(context.Context, *JobSeekerApplyJobRequest) (*JobSeekerApplyJobResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method JobSeekerApplyJob not implemented")
+}
+func (UnimplementedJobseekerJobServer) GetAppliedJobs(context.Context, *JobSeekerGetAppliedJobsRequest) (*JobSeekerGetAppliedJobsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAppliedJobs not implemented")
 }
 func (UnimplementedJobseekerJobServer) mustEmbedUnimplementedJobseekerJobServer() {}
 
@@ -158,6 +173,24 @@ func _JobseekerJob_JobSeekerApplyJob_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _JobseekerJob_GetAppliedJobs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(JobSeekerGetAppliedJobsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JobseekerJobServer).GetAppliedJobs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: JobseekerJob_GetAppliedJobs_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JobseekerJobServer).GetAppliedJobs(ctx, req.(*JobSeekerGetAppliedJobsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // JobseekerJob_ServiceDesc is the grpc.ServiceDesc for JobseekerJob service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -176,6 +209,10 @@ var JobseekerJob_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "JobSeekerApplyJob",
 			Handler:    _JobseekerJob_JobSeekerApplyJob_Handler,
+		},
+		{
+			MethodName: "GetAppliedJobs",
+			Handler:    _JobseekerJob_GetAppliedJobs_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -107,3 +107,29 @@ func (jh *JobseekerJobHandler) JobSeekerApplyJob(c *gin.Context) {
 	response := response.ClientResponse(http.StatusOK, "Job applied successfully", job, nil)
 	c.JSON(http.StatusOK, response)
 }
+
+func (jh *JobseekerJobHandler) GetAppliedJobs(c *gin.Context) {
+
+	userIdAny, ok := c.Get("id")
+	if !ok {
+		errs := response.ClientResponse(http.StatusBadRequest, "getting user id failed", nil, nil)
+		c.JSON(http.StatusBadRequest, errs)
+		return
+	}
+	userId, ok := userIdAny.(int)
+	if !ok {
+		errs := response.ClientResponse(http.StatusBadRequest, "converting user id failed", nil, nil)
+		c.JSON(http.StatusBadRequest, errs)
+		return
+	}
+
+	job, err := jh.GRPC_Client.GetAppliedJobs(userId)
+	if err != nil {
+		errs := response.ClientResponse(http.StatusInternalServerError, "Failed to Getting Applied Jobs", nil, err.Error())
+		c.JSON(http.StatusInternalServerError, errs)
+		return
+	}
+
+	response := response.ClientResponse(http.StatusOK, "Getting Applied Jobs  successfully", job, nil)
+	c.JSON(http.StatusOK, response)
+}

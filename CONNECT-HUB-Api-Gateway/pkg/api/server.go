@@ -85,6 +85,7 @@ func NewServerHTTP(
 		jobseekerAuthRoute.GET("/jobs", JobseekerJobhandler.JobSeekerGetAllJobs)
 		jobseekerAuthRoute.GET("/job", JobseekerJobhandler.JobSeekerGetJobByID)
 		jobseekerAuthRoute.POST("/job", JobseekerJobhandler.JobSeekerApplyJob)
+		jobseekerAuthRoute.GET("/appliedjobs", JobseekerJobhandler.GetAppliedJobs)
 
 		jobseekerAuthRoute.POST("/post", jobseekerPostHandler.CreatePost)
 		jobseekerAuthRoute.PATCH("/post", jobseekerPostHandler.UpdatePost)
