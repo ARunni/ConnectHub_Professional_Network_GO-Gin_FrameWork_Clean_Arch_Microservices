@@ -1,5 +1,5 @@
 syntax = "proto3";
-
+import "google/protobuf/timestamp.proto";
 package job_jobseeker;
 
 option go_package = "./pkg/pb/job/jobseeker";
@@ -26,6 +26,8 @@ message AppliedJobs {
     int64 userId =3;
     int64 recruiterId =4;
     string status =5;
+    string coverLetter =6;
+    string resumeUrl =7;
 }
 
 message JobSeekerGetAllJobsRequest {
@@ -54,10 +56,12 @@ message JobSeekerGetJobByIDResponse {
 message JobSeekerApplyJobRequest {
     uint64 job_id = 1;
     uint64 user_id = 2;
+    string cover_letter =3;
+    bytes resume =4;
 }
 
 message JobSeekerApplyJobResponse {
-    bool success = 1;
+    AppliedJobs job = 1;
 }
 
 message Job {
@@ -67,4 +71,11 @@ message Job {
     string location = 4;
     int64 employer_id = 5;
     string employment_type = 6;
+    int64 salary =7;
+    string skills_required = 8;
+    string experience_level = 9;
+    string education_level = 10;
+    google.protobuf.Timestamp application_deadline =11;
+
 }
+

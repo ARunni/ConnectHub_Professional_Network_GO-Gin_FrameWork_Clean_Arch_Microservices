@@ -44,13 +44,31 @@ type JobSeekerGetAllJobs struct {
 	Title string `json:"title"`
 }
 
+//	type ApplyJob struct {
+//		ID             uint   `gorm:"primary_key;auto_increment" json:"id"`
+//		JobID          uint   `json:"job_id"`
+//		JobseekerID    uint   `json:"jobseeker_id"`
+//		RecruiterID    uint   `json:"recruiter_id"`
+//		CoverLetterUrl string `json:"cover_letter_url"`
+//		ResumeUrl      string `json:"resume_url"`
+//		Status         string `gorm:"default:waiting" json:"status"`
+//	}
+type AppliedJobs struct {
+	Jobs []ApplyJob `json:"jobs"`
+}
+
+type ApplyJobReq struct {
+	JobID       uint   `json:"job_id"`
+	JobseekerID uint   `json:"jobseeker_id"`
+	CoverLetter string `json:"cover_letter"`
+	Resume      []byte `json:"resume"`
+}
 type ApplyJob struct {
 	ID          uint   `gorm:"primary_key;auto_increment" json:"id"`
 	JobID       uint   `json:"job_id"`
 	JobseekerID uint   `json:"jobseeker_id"`
 	RecruiterID uint   `json:"recruiter_id"`
+	CoverLetter string `json:"cover_letter"`
+	ResumeUrl   string `json:"resume_url"`
 	Status      string `gorm:"default:waiting" json:"status"`
-}
-type AppliedJobs struct {
-	Jobs []ApplyJob `json:"jobs"`
 }

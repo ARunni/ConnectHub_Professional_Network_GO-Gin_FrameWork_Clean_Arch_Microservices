@@ -4,8 +4,10 @@ go 1.21.5
 
 require (
 	github.com/ARunni/Error_Message v0.0.0-20240507125221-61001a1fbf1f
+	github.com/aws/aws-sdk-go v1.53.11
 	github.com/fatih/color v1.14.1
 	github.com/go-playground/validator v9.31.0+incompatible
+	github.com/google/uuid v1.4.0
 	github.com/spf13/viper v1.18.2
 	google.golang.org/grpc v1.59.0
 	google.golang.org/protobuf v1.31.0
@@ -24,6 +26,7 @@ require (
 	github.com/jackc/pgx/v5 v5.4.3 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
+	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/magiconair/properties v1.8.7 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect

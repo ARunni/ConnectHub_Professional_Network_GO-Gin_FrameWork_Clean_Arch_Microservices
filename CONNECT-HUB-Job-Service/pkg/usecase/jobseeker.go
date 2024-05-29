@@ -1,6 +1,8 @@
 package usecase
 
 import (
+	"ConnetHub_job/pkg/config"
+	"ConnetHub_job/pkg/helper"
 	repo "ConnetHub_job/pkg/repository/interface"
 	interfaces "ConnetHub_job/pkg/usecase/interface"
 	"ConnetHub_job/pkg/utils/models"
@@ -55,32 +57,55 @@ func (ju *jobseekerJobUseCase) JobSeekerGetJobByID(id int) (models.JobOpeningDat
 	return job, nil
 }
 
-func (ju *jobseekerJobUseCase) JobSeekerApplyJob(jobId, userId int) (bool, error) {
-	if jobId <= 0 {
-		return false, fmt.Errorf("invalid job id")
+func (ju *jobseekerJobUseCase) JobSeekerApplyJob(data models.ApplyJobReq) (models.ApplyJob, error) {
+	if data.JobID <= 0 {
+		return models.ApplyJob{}, fmt.Errorf("invalid job id")
 	}
-	ok, err := ju.jobRepository.IsJobExist(int32(jobId))
+	ok, err := ju.jobRepository.IsJobExist(int32(data.JobID))
 	if err != nil {
-		return false, fmt.Errorf("failed to check if job exist: %v", err)
+		return models.ApplyJob{}, fmt.Errorf("failed to check if job exist: %v", err)
 	}
 	if !ok {
-		return false, fmt.Errorf("job not found")
+		return models.ApplyJob{}, fmt.Errorf("job not found")
 	}
-	applyOk, err := ju.jobRepository.IsAppliedAlready(jobId, userId)
+	applyOk, err := ju.jobRepository.IsAppliedAlready(int(data.JobID), int(data.JobseekerID))
 	if err != nil {
-		return false, fmt.Errorf("failed to check if already applied: %v", err)
+		return models.ApplyJob{}, fmt.Errorf("failed to check if already applied: %v", err)
 	}
 	if applyOk {
-		return false, fmt.Errorf("already applied")
+		return models.ApplyJob{}, fmt.Errorf("already applied")
 	}
-	recruiterId, err := ju.jobRepository.GetRecruiterByJobId(jobId)
+	recruiterId, err := ju.jobRepository.GetRecruiterByJobId(int(data.JobID))
 	if err != nil {
-		return false, fmt.Errorf("failed to get recruiter id: %v", err)
+		return models.ApplyJob{}, fmt.Errorf("failed to get recruiter id: %v", err)
+	}
+	cfg, err := config.LoadConfig()
+	if err != nil {
+		return models.ApplyJob{}, err
 	}
 
-	jobOk, err := ju.jobRepository.JobSeekerApplyJob(jobId, userId, recruiterId)
+	h := helper.NewHelper(cfg)
+	// coverUrl, err := h.AddImageToAwsS3(data.CoverLetter)
+	// if err != nil {
+	// 	return models.ApplyJob{}, err
+	// }
+
+	resumeUrl, err := h.AddImageToAwsS3(data.Resume)
 	if err != nil {
-		return false, fmt.Errorf("failed to apply job: %v", err)
+		return models.ApplyJob{}, err
+	}
+
+	var reqJob = models.ApplyJob{
+		JobID:       data.JobID,
+		JobseekerID: data.JobseekerID,
+		RecruiterID: uint(recruiterId),
+		CoverLetter: data.CoverLetter,
+		ResumeUrl:   resumeUrl,
+	}
+
+	jobOk, err := ju.jobRepository.JobSeekerApplyJob(reqJob)
+	if err != nil {
+		return models.ApplyJob{}, fmt.Errorf("failed to apply job: %v", err)
 	}
 
 	return jobOk, nil

@@ -29,7 +29,9 @@ message AppliedJobs {
     int64 jobId =2;
     int64 userId =3;
     int64 recruiterId =4;
-    string status =5;
+    string coverLetter =5;
+    string resumeUrl =6;
+    string status =7;
 }
 
 

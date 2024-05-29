@@ -51,14 +51,18 @@ func (jr *jobseekerJobRepository) IsJobExist(jobID int32) (bool, error) {
 
 }
 
-func (jr *jobseekerJobRepository) JobSeekerApplyJob(jobId, userId, recruiterId int) (bool, error) {
+func (jr *jobseekerJobRepository) JobSeekerApplyJob(data models.ApplyJob) (models.ApplyJob, error) {
+	var dataJob models.ApplyJob
+	querry := `insert into apply_jobs
+ (job_id,jobseeker_id,recruiter_id,cover_letter,resume_url) 
+ values (?,?,?,?,?) returning id,job_id,jobseeker_id,recruiter_id,cover_letter,resume_url,status`
 
-	if err := jr.DB.Exec("insert into apply_jobs (job_id,jobseeker_id,recruiter_id) values (?,?,?)", jobId, userId, recruiterId).Error; err != nil {
+	if err := jr.DB.Raw(querry, data.JobID, data.JobseekerID, data.RecruiterID, data.CoverLetter, data.ResumeUrl).Scan(&dataJob).Error; err != nil {
 		fmt.Println(err)
-		return false, fmt.Errorf("failed to query jobs: %v", err)
+		return models.ApplyJob{}, fmt.Errorf("failed to query jobs: %v", err)
 	}
 
-	return true, nil
+	return dataJob, nil
 
 }
 

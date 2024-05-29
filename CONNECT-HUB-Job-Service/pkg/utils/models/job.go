@@ -1,6 +1,8 @@
 package models
 
-import "time"
+import (
+	"time"
+)
 
 type JobOpening struct {
 	EmployerID          int       `json:"employer_id"`
@@ -49,7 +51,16 @@ type ApplyJob struct {
 	JobID       uint   `json:"job_id"`
 	JobseekerID uint   `json:"jobseeker_id"`
 	RecruiterID uint   `json:"recruiter_id"`
+	CoverLetter string `json:"cover_letter"`
+	ResumeUrl   string `json:"resume_url"`
 	Status      string `gorm:"default:waiting" json:"status"`
+}
+
+type ApplyJobReq struct {
+	JobID       uint   `json:"job_id"`
+	JobseekerID uint   `json:"jobseeker_id"`
+	CoverLetter string `json:"cover_letter"`
+	Resume      []byte `json:"resume"`
 }
 type AppliedJobs struct {
 	Jobs []ApplyJob `json:"jobs"`

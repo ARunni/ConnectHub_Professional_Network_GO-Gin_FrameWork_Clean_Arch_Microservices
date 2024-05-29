@@ -3,10 +3,12 @@ package service
 import (
 	jobseekerpb "ConnetHub_job/pkg/pb/job/jobseeker"
 	interfaces "ConnetHub_job/pkg/usecase/interface"
+	"ConnetHub_job/pkg/utils/models"
 	"context"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type JobseekerJobServer struct {
@@ -52,15 +54,21 @@ func (js *JobseekerJobServer) JobSeekerGetJobByID(ctx context.Context, req *jobs
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to get job for job seeker: %v", err)
 	}
-
+	// cfg,_:= config.LoadConfig()
+	// h,err := helper.
 	response := &jobseekerpb.JobSeekerGetJobByIDResponse{
 		Job: &jobseekerpb.Job{
-			Id:             uint64(jobSeekerJobs.ID),
-			Title:          jobSeekerJobs.Title,
-			Description:    jobSeekerJobs.Description,
-			Location:       jobSeekerJobs.Location,
-			EmployerId:     int64(jobSeekerJobs.EmployerID),
-			EmploymentType: jobSeekerJobs.EmploymentType,
+			Id:                  uint64(jobSeekerJobs.ID),
+			Title:               jobSeekerJobs.Title,
+			Description:         jobSeekerJobs.Description,
+			Location:            jobSeekerJobs.Location,
+			EmployerId:          int64(jobSeekerJobs.EmployerID),
+			EmploymentType:      jobSeekerJobs.EmploymentType,
+			Salary:              int64(jobSeekerJobs.Salary),
+			SkillsRequired:      jobSeekerJobs.SkillsRequired,
+			ExperienceLevel:     jobSeekerJobs.ExperienceLevel,
+			EducationLevel:      jobSeekerJobs.EducationLevel,
+			ApplicationDeadline: timestamppb.New(jobSeekerJobs.ApplicationDeadline),
 		},
 	}
 
@@ -68,16 +76,28 @@ func (js *JobseekerJobServer) JobSeekerGetJobByID(ctx context.Context, req *jobs
 }
 
 func (js *JobseekerJobServer) JobSeekerApplyJob(ctx context.Context, req *jobseekerpb.JobSeekerApplyJobRequest) (*jobseekerpb.JobSeekerApplyJobResponse, error) {
-	jobId := req.JobId
-	jobseekerId := req.UserId
+	var data = models.ApplyJobReq{
+		JobID:       uint(req.JobId),
+		JobseekerID: uint(req.UserId),
+		CoverLetter: req.CoverLetter,
+		Resume:      req.Resume,
+	}
 
-	jobSeekerJobs, err := js.jobUseCase.JobSeekerApplyJob(int(jobId), int(jobseekerId))
+	jobSeekerJobs, err := js.jobUseCase.JobSeekerApplyJob(data)
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to apply job for job seeker: %v", err)
 	}
 
 	response := &jobseekerpb.JobSeekerApplyJobResponse{
-		Success: jobSeekerJobs,
+		Job: &jobseekerpb.AppliedJobs{
+			Id:          int64(jobSeekerJobs.ID),
+			JobId:       int64(jobSeekerJobs.JobID),
+			UserId:      int64(jobSeekerJobs.JobseekerID),
+			RecruiterId: int64(jobSeekerJobs.RecruiterID),
+			Status:      jobSeekerJobs.Status,
+			CoverLetter: jobSeekerJobs.CoverLetter,
+			ResumeUrl:   jobSeekerJobs.ResumeUrl,
+		},
 	}
 
 	return response, nil
@@ -99,6 +119,8 @@ func (js *JobseekerJobServer) GetAppliedJobs(ctx context.Context, req *jobseeker
 			UserId:      int64(job.JobseekerID),
 			RecruiterId: int64(job.RecruiterID),
 			Status:      job.Status,
+			CoverLetter: job.CoverLetter,
+			ResumeUrl:   job.ResumeUrl,
 		})
 	}
 	response := &jobseekerpb.JobSeekerGetAppliedJobsResponse{

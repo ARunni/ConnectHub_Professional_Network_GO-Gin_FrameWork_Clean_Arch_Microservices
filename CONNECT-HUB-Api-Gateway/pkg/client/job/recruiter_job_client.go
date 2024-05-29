@@ -195,6 +195,8 @@ func (jc *recruiterJobClient) GetJobAppliedCandidates(recruiter_id int) (models.
 			JobseekerID: uint(job.UserId),
 			RecruiterID: uint(job.RecruiterId),
 			Status:      job.Status,
+			CoverLetter: job.CoverLetter,
+			ResumeUrl:   job.ResumeUrl,
 		})
 	}
 	return models.AppliedJobs{Jobs: jobs}, nil

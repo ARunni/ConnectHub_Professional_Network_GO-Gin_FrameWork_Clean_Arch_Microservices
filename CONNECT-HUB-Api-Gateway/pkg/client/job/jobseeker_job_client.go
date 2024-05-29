@@ -64,21 +64,36 @@ func (jc *jobseekerJobClient) JobSeekerGetJobByID(id int) (models.JobOpeningData
 	job.Location = resp.Job.Location
 	job.EmployerID = int(resp.Job.EmployerId)
 	job.EmploymentType = resp.Job.EmploymentType
+	job.Salary = int(resp.Job.Salary)
+	job.SkillsRequired = resp.Job.SkillsRequired
+	job.ExperienceLevel = resp.Job.ExperienceLevel
+	job.EducationLevel = resp.Job.EducationLevel
+	job.ApplicationDeadline = resp.Job.ApplicationDeadline.AsTime()
 
 	return job, nil
 }
 
-func (jc *jobseekerJobClient) JobSeekerApplyJob(jobId, userId int) (bool, error) {
+func (jc *jobseekerJobClient) JobSeekerApplyJob(data models.ApplyJobReq) (models.ApplyJob, error) {
 
 	resp, err := jc.Client.JobSeekerApplyJob(context.Background(), &jobseekerPb.JobSeekerApplyJobRequest{
-		JobId:  uint64(jobId),
-		UserId: uint64(userId),
+		JobId:       uint64(data.JobID),
+		UserId:      uint64(data.JobseekerID),
+		CoverLetter: data.CoverLetter,
+		Resume:      data.Resume,
 	})
 	if err != nil {
-		return false, fmt.Errorf("failed to apply job: %v", err)
+		return models.ApplyJob{}, fmt.Errorf("failed to apply job: %v", err)
 	}
 
-	return resp.Success, nil
+	return models.ApplyJob{
+		ID:          uint(resp.Job.Id),
+		JobID:       uint(resp.Job.JobId),
+		JobseekerID: uint(resp.Job.UserId),
+		RecruiterID: uint(resp.Job.RecruiterId),
+		CoverLetter: resp.Job.CoverLetter,
+		ResumeUrl:   resp.Job.ResumeUrl,
+		Status:      resp.Job.Status,
+	}, nil
 }
 
 func (jc *jobseekerJobClient) GetAppliedJobs(user_id int) (models.AppliedJobs, error) {
@@ -97,6 +112,8 @@ func (jc *jobseekerJobClient) GetAppliedJobs(user_id int) (models.AppliedJobs, e
 			JobseekerID: uint(job.UserId),
 			RecruiterID: uint(job.RecruiterId),
 			Status:      job.Status,
+			CoverLetter: job.CoverLetter,
+			ResumeUrl:   job.ResumeUrl,
 		})
 	}
 	return models.AppliedJobs{Jobs: jobs}, nil
