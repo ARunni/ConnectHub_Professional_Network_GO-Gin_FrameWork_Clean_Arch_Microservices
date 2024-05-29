@@ -114,3 +114,58 @@ func (jr *recruiterJobRepository) GetJobAppliedCandidates(recruiter_id int) ([]m
 
 	return jobs, nil
 }
+
+// Scheluling interwiew
+func (jr *recruiterJobRepository) ScheduleInterview(data models.Interview) (models.Interview, error) {
+
+	var jobs models.Interview
+	querry := `insert into interviews (job_id,jobseeker_id,recruiter_id,date_and_time,mode,link) 
+	values ($1,$2,$3,$4,$5,$6) returning id,job_id,jobseeker_id,recruiter_id,date_and_time,mode,link,status`
+	if err := jr.DB.Raw(querry, data.JobID, data.JobseekerID, data.RecruiterID, data.DateAndTime, data.Mode, data.Link).Scan(&jobs).Error; err != nil {
+		return models.Interview{}, fmt.Errorf("failed to query schedule interview: %v", err)
+	}
+
+	return jobs, nil
+}
+
+func (jr *recruiterJobRepository) ISApplicationExist(appId, recruiterId int) (bool, error) {
+
+	var data int
+	if err := jr.DB.Raw("select count(*) from apply_jobs where recruiter_id = ? and id = ?", recruiterId, appId).Scan(&data).Error; err != nil {
+		fmt.Println(err)
+		return false, fmt.Errorf("failed to query jobs: %v", err)
+	}
+
+	return data > 0, nil
+}
+
+func (jr *recruiterJobRepository) GetApplicationDetails(appId int) (models.ApplyJob, error) {
+
+	var jobs models.ApplyJob
+	if err := jr.DB.Raw("select * from apply_jobs where id = ?", appId).Scan(&jobs).Error; err != nil {
+		fmt.Println(err)
+		return models.ApplyJob{}, fmt.Errorf("failed to query jobs: %v", err)
+	}
+
+	return jobs, nil
+}
+
+func (jr *recruiterJobRepository) ChangeApplicationStatusToScheduled(appId int) (bool, error) {
+
+	if err := jr.DB.Raw("update apply_jobs set status = ? where id = ?", "scheduled", appId).Error; err != nil {
+		fmt.Println(err)
+		return false, fmt.Errorf("failed to query jobs: %v", err)
+	}
+
+	return true, nil
+}
+
+func (jr *recruiterJobRepository) ChangeApplicationStatusToRejected(appId int) (bool, error) {
+
+	if err := jr.DB.Raw("update apply_jobs set status = ? where id = ?", "rejected", appId).Error; err != nil {
+		fmt.Println(err)
+		return false, fmt.Errorf("failed to query jobs: %v", err)
+	}
+
+	return true, nil
+}

@@ -208,3 +208,36 @@ func (jh *RecruiterJobHandler) GetJobAppliedCandidates(c *gin.Context) {
 	response := response.ClientResponse(http.StatusOK, "Getting Applied Jobs  successfully", job, nil)
 	c.JSON(http.StatusOK, response)
 }
+
+func (jh *RecruiterJobHandler) ScheduleInterview(c *gin.Context) {
+
+	userIdAny, ok := c.Get("id")
+	if !ok {
+		errs := response.ClientResponse(http.StatusBadRequest, "getting user id failed", nil, nil)
+		c.JSON(http.StatusBadRequest, errs)
+		return
+	}
+	userId, ok := userIdAny.(int)
+	if !ok {
+		errs := response.ClientResponse(http.StatusBadRequest, "converting user id failed", nil, nil)
+		c.JSON(http.StatusBadRequest, errs)
+		return
+	}
+	var jobSchedule models.ScheduleReq
+	if err := c.ShouldBindJSON(&jobSchedule); err != nil {
+		errs := response.ClientResponse(http.StatusBadRequest, "Details not in correct format", nil, err.Error())
+		c.JSON(http.StatusBadRequest, errs)
+		return
+	}
+	jobSchedule.RecruiterID = uint(userId)
+
+	job, err := jh.GRPC_Client.ScheduleInterview(jobSchedule)
+	if err != nil {
+		errs := response.ClientResponse(http.StatusInternalServerError, "Failed to interview schedule", nil, err.Error())
+		c.JSON(http.StatusInternalServerError, errs)
+		return
+	}
+
+	response := response.ClientResponse(http.StatusOK, "interview scheduled successfully", job, nil)
+	c.JSON(http.StatusOK, response)
+}

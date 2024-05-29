@@ -15,6 +15,26 @@ service RecruiterJob {
     rpc DeleteAJob(DeleteAJobRequest) returns (google.protobuf.Empty);
     rpc UpdateAJob(UpdateAJobRequest) returns (UpdateAJobResponse) {};
     rpc GetJobAppliedCandidates(GetAppliedJobsRequest) returns (GetAppliedJobsResponse) {};
+    rpc ScheduleInterview (ScheduleInterviewRequest) returns (ScheduleInterviewResponse);
+}
+
+message ScheduleInterviewRequest {
+    int64 applicationId =1;
+    int64 recruiterId =2;
+    google.protobuf.Timestamp date_and_time =3;
+    string mode =4;
+    string link = 5;
+}
+
+message ScheduleInterviewResponse {
+    int64 id = 1;
+    int64 job_id = 2;
+    int64 jobseeker_id = 3;
+    int64 recruiter_id = 4;
+    google.protobuf.Timestamp date_and_time = 5;
+    string mode = 6;
+    string link = 7;
+    string status = 8;
 }
 
 message GetAppliedJobsRequest {

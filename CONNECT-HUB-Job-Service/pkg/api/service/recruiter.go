@@ -196,3 +196,29 @@ func (js *RecruiterJobServer) GetJobAppliedCandidates(ctx context.Context, req *
 
 	return response, nil
 }
+
+func (js *RecruiterJobServer) ScheduleInterview(ctx context.Context, req *jobpb.ScheduleInterviewRequest) (*jobpb.ScheduleInterviewResponse, error) {
+	var data = models.ScheduleReq{
+		ApplicationId: int(req.ApplicationId),
+		RecruiterID:   uint(req.RecruiterId),
+		DateAndTime:   req.DateAndTime.AsTime(),
+		Mode:          req.Mode,
+		Link:          req.Link,
+	}
+
+	res, err := js.jobUseCase.ScheduleInterview(data)
+	if err != nil {
+		return nil, err
+	}
+
+	return &jobpb.ScheduleInterviewResponse{
+		Id:          int64(res.ID),
+		JobId:       int64(res.JobID),
+		JobseekerId: int64(res.JobseekerID),
+		RecruiterId: req.RecruiterId,
+		DateAndTime: req.DateAndTime,
+		Mode:        res.Mode,
+		Link:        res.Link,
+		Status:      res.Status,
+	}, nil
+}

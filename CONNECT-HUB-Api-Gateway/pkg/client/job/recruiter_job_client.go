@@ -201,3 +201,28 @@ func (jc *recruiterJobClient) GetJobAppliedCandidates(recruiter_id int) (models.
 	}
 	return models.AppliedJobs{Jobs: jobs}, nil
 }
+
+func (jc *recruiterJobClient) ScheduleInterview(data models.ScheduleReq) (models.Interview, error) {
+
+	job, err := jc.Client.ScheduleInterview(context.Background(), &recruiterPb.ScheduleInterviewRequest{
+		ApplicationId: int64(data.ApplicationId),
+		RecruiterId:   int64(data.RecruiterID),
+		DateAndTime:   timestamppb.New(data.DateAndTime),
+		Mode:          data.Mode,
+		Link:          data.Link,
+	})
+	if err != nil {
+		return models.Interview{}, fmt.Errorf("failed to apply job: %v", err)
+	}
+
+	return models.Interview{
+		ID:          uint(job.Id),
+		JobID:       uint(job.JobId),
+		JobseekerID: uint(job.JobseekerId),
+		RecruiterID: uint(job.RecruiterId),
+		DateAndTime: job.DateAndTime.AsTime(),
+		Mode:        job.Mode,
+		Link:        job.Link,
+		Status:      job.Status,
+	}, nil
+}

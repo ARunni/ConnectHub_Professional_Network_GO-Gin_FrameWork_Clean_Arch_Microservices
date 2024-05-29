@@ -136,3 +136,62 @@ func (ju *recruiterJobUseCase) GetJobAppliedCandidates(recruiter_id int) (models
 	}
 	return models.AppliedJobs{Jobs: jobData}, nil
 }
+
+func (ju *recruiterJobUseCase) ChangeApplicationStatusToRejected(appId, recruiterID int) (bool, error) {
+	if appId <= 0 {
+		return false, errors.New("application id not valid")
+	}
+	okA, err := ju.jobRepository.ISApplicationExist(appId, recruiterID)
+	if err != nil {
+		return false, fmt.Errorf("failed to check if application exists: %v", err)
+	}
+	if !okA {
+		return false, fmt.Errorf("application with ID %d does not exist or not belongs to you", appId)
+	}
+
+	jobData, err := ju.jobRepository.ChangeApplicationStatusToRejected(appId)
+	if err != nil {
+		return false, fmt.Errorf("failed to Get applied job: %v", err)
+	}
+	return jobData, nil
+}
+
+func (ju *recruiterJobUseCase) ScheduleInterview(data models.ScheduleReq) (models.Interview, error) {
+	// if appId <= 0 {
+	// 	return false, errors.New("application id not valid")
+	// }
+	okA, err := ju.jobRepository.ISApplicationExist(data.ApplicationId, int(data.RecruiterID))
+	if err != nil {
+		return models.Interview{}, fmt.Errorf("failed to check if application exists: %v", err)
+	}
+	if !okA {
+		return models.Interview{}, fmt.Errorf("application with ID %d does not exist or not belongs to you", data.ApplicationId)
+	}
+
+	appData, err := ju.jobRepository.GetApplicationDetails(data.ApplicationId)
+	if err != nil {
+		return models.Interview{}, fmt.Errorf("failed to get application details: %v", err)
+	}
+	var dataI = models.Interview{
+		JobID:       appData.ID,
+		JobseekerID: appData.JobseekerID,
+		RecruiterID: data.RecruiterID,
+		DateAndTime: data.DateAndTime,
+		Mode:        data.Mode,
+		Link:        data.Link,
+	}
+
+	jobData, err := ju.jobRepository.ScheduleInterview(dataI)
+	if err != nil {
+		return models.Interview{}, fmt.Errorf("failed to schedule interview: %v", err)
+	}
+
+	okR, err := ju.jobRepository.ChangeApplicationStatusToScheduled(data.ApplicationId)
+	if err != nil {
+		return models.Interview{}, fmt.Errorf("failed to Get applied job: %v", err)
+	}
+	if !okR {
+		return models.Interview{}, fmt.Errorf("failed to schedule interview")
+	}
+	return jobData, nil
+}
