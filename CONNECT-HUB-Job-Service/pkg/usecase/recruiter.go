@@ -91,6 +91,13 @@ func (ju *recruiterJobUseCase) GetOneJob(recruiterID, jobId int32) (models.JobOp
 }
 
 func (ju *recruiterJobUseCase) DeleteAJob(employerIDInt, jobID int32) error {
+	if employerIDInt <= 0 {
+		return fmt.Errorf("employer ID must be greater than zero")
+	}
+
+	if jobID <= 0 {
+		return fmt.Errorf("jobID ID must be greater than zero")
+	}
 
 	isJobExist, err := ju.jobRepository.IsJobExist(jobID)
 	if err != nil {
@@ -111,6 +118,43 @@ func (ju *recruiterJobUseCase) DeleteAJob(employerIDInt, jobID int32) error {
 }
 func (ju *recruiterJobUseCase) UpdateAJob(employerID int32, jobID int32, jobDetails models.JobOpening) (models.JobOpeningData, error) {
 
+	if employerID <= 0 {
+		return models.JobOpeningData{}, errors.New("recruiter id is not valid")
+	}
+	if jobID <= 0 {
+		return models.JobOpeningData{}, errors.New("job id is not valid")
+	}
+	salaryInt, err := strconv.Atoi(jobDetails.Salary)
+	if err != nil {
+		return models.JobOpeningData{}, err
+	}
+	if salaryInt <= 0 {
+		return models.JobOpeningData{}, errors.New("salary is not valid")
+	}
+	if jobDetails.Title == "" {
+		return models.JobOpeningData{}, errors.New("title is required")
+	}
+	if jobDetails.Description == "" {
+		return models.JobOpeningData{}, errors.New("description is required")
+	}
+
+	if jobDetails.Requirements == "" {
+		return models.JobOpeningData{}, errors.New("requirements is required")
+	}
+	if jobDetails.EducationLevel == "" {
+		return models.JobOpeningData{}, errors.New("educationLevel is required")
+	}
+	if jobDetails.EmploymentType == "" {
+		return models.JobOpeningData{}, errors.New("employmentType is required")
+	}
+	if jobDetails.Location == "" {
+		return models.JobOpeningData{}, errors.New("location is required")
+	}
+
+	if jobDetails.SkillsRequired == "" {
+		return models.JobOpeningData{}, errors.New("skillsrequired is required")
+	}
+
 	isJobExist, err := ju.jobRepository.IsJobExist(jobID)
 	if err != nil {
 		return models.JobOpeningData{}, fmt.Errorf("failed to check if job exists: %v", err)
@@ -119,6 +163,8 @@ func (ju *recruiterJobUseCase) UpdateAJob(employerID int32, jobID int32, jobDeta
 	if !isJobExist {
 		return models.JobOpeningData{}, fmt.Errorf("job with ID %d does not exist", jobID)
 	}
+
+	// updation
 
 	updatedJob, err := ju.jobRepository.UpdateAJob(employerID, jobID, jobDetails)
 	if err != nil {
@@ -129,6 +175,9 @@ func (ju *recruiterJobUseCase) UpdateAJob(employerID int32, jobID int32, jobDeta
 }
 
 func (ju *recruiterJobUseCase) GetJobAppliedCandidates(recruiter_id int) (models.AppliedJobs, error) {
+	if recruiter_id <= 0 {
+		return models.AppliedJobs{}, errors.New("recruiter id is not valid")
+	}
 
 	jobData, err := ju.jobRepository.GetJobAppliedCandidates(recruiter_id)
 	if err != nil {
@@ -157,9 +206,15 @@ func (ju *recruiterJobUseCase) ChangeApplicationStatusToRejected(appId, recruite
 }
 
 func (ju *recruiterJobUseCase) ScheduleInterview(data models.ScheduleReq) (models.Interview, error) {
-	// if appId <= 0 {
-	// 	return false, errors.New("application id not valid")
-	// }
+	if data.ApplicationId <= 0 {
+		return models.Interview{}, errors.New("application id not valid")
+	}
+	if data.Mode != "online" && data.Mode != "offline" {
+		return models.Interview{}, errors.New("application mode should be online or offline")
+	}
+	if data.Link == "" {
+		return models.Interview{}, errors.New("link is not valid")
+	}
 	okA, err := ju.jobRepository.ISApplicationExist(data.ApplicationId, int(data.RecruiterID))
 	if err != nil {
 		return models.Interview{}, fmt.Errorf("failed to check if application exists: %v", err)
@@ -172,13 +227,22 @@ func (ju *recruiterJobUseCase) ScheduleInterview(data models.ScheduleReq) (model
 	if err != nil {
 		return models.Interview{}, fmt.Errorf("failed to get application details: %v", err)
 	}
+	okI, err := ju.jobRepository.ISApplicationScheduled(data.ApplicationId)
+	if err != nil {
+		return models.Interview{}, fmt.Errorf("failed to check if application is scheduled: %v", err)
+	}
+	if okI {
+		return models.Interview{}, fmt.Errorf("application with ID %d is already scheduled", data.ApplicationId)
+	}
+
 	var dataI = models.Interview{
-		JobID:       appData.ID,
-		JobseekerID: appData.JobseekerID,
-		RecruiterID: data.RecruiterID,
-		DateAndTime: data.DateAndTime,
-		Mode:        data.Mode,
-		Link:        data.Link,
+		JobID:         appData.ID,
+		JobseekerID:   appData.JobseekerID,
+		RecruiterID:   data.RecruiterID,
+		DateAndTime:   data.DateAndTime,
+		Mode:          data.Mode,
+		Link:          data.Link,
+		ApplicationId: uint(data.ApplicationId),
 	}
 
 	jobData, err := ju.jobRepository.ScheduleInterview(dataI)

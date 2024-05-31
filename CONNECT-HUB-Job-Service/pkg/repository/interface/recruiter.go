@@ -11,9 +11,10 @@ type RecruiterJobRepository interface {
 	UpdateAJob(employerID int32, jobID int32, jobDetails models.JobOpening) (models.JobOpeningData, error)
 	GetJobAppliedCandidates(recruiter_id int) ([]models.ApplyJob, error)
 
-	ScheduleInterview(data models.Interview) (models.Interview,error)
-	ISApplicationExist(appId , recruiterId int) (bool,error)
-	GetApplicationDetails(appId int) (models.ApplyJob,error)
-	ChangeApplicationStatusToScheduled(appId int) (bool,error)
-	ChangeApplicationStatusToRejected(appId int) (bool,error)
+	ScheduleInterview(data models.Interview) (models.Interview, error)
+	ISApplicationExist(appId, recruiterId int) (bool, error)
+	GetApplicationDetails(appId int) (models.ApplyJob, error)
+	ISApplicationScheduled(appId int) (bool, error)
+	ChangeApplicationStatusToScheduled(appId int) (bool, error)
+	ChangeApplicationStatusToRejected(appId int) (bool, error)
 }
