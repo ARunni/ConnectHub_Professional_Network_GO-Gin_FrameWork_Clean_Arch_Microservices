@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package chat;
+
+option go_package = "./pkg/pb/chat";
+
+service ChatService {
+    rpc GetFriendChat (GetFriendChatRequest) returns (GetFriendChatResponse){}
+}
+
+message GetFriendChatRequest {
+    string UserID =1;
+    string OffSet =2;
+    string Limit=3;
+    string FriendID =4;
+}
+
+message Message {
+    string MessageID = 1;
+    string sender_id = 2;
+    string recipient_id = 3;
+    string content = 4;
+    string timestamp = 5;
+}
+
+message GetFriendChatResponse {
+    repeated Message FriendChat =1;
+}

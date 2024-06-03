@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package user_auth;
+
+option go_package = "./pkg/pb/auth";
+
+service AuthService {
+    rpc CheckUserAvalilabilityWithUserID (CheckUserAvalilabilityWithUserIDRequest) returns (CheckUserAvalilabilityWithUserIDResponse){}
+    rpc UserData (UserDataRequest) returns (UserDataResponse){}
+}
+
+message CheckUserAvalilabilityWithUserIDRequest {
+    int64 id = 1;
+}
+
+message CheckUserAvalilabilityWithUserIDResponse {
+    bool valid = 1;
+}
+
+message UserDataRequest{
+      int64 id = 1;
+}
+
+message UserDataResponse {
+    int64 id = 1;
+    string username = 2;
+    string profile_photo = 3;
+}

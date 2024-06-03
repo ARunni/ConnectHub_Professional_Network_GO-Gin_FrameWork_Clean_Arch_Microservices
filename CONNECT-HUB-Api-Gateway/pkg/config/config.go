@@ -17,6 +17,8 @@ type Config struct {
 	JobSeekerRefreshKey string `mapstructure:"Job_Seeker_RefreshKey"`
 	AdminRefreshKey     string `mapstructure:"Admin_RefreshKey"`
 	RecruiterRefreshKey string `mapstructure:"Recruiter_RefreshKey"`
+	KafkaPort         string `mapstructure:"KAFKA_PORT"`
+	KafkaTopic        string `mapstructure:"KAFKA_TOPIC"`
 }
 
 var envs = []string{
@@ -25,6 +27,7 @@ var envs = []string{
 	"Admin_AccessKey", "Recruiter_AccessKey",
 	"Job_Seeker_RefreshKey", "Admin_RefreshKey",
 	"Recruiter_RefreshKey", "Connect_Hub_Job",
+	"KAFKA_PORT", "KAFKA_TOPIC",
 }
 
 func LoadConfig() (Config, error) {

@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package chat;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "./pkg/pb/chat";
+
+service ChatService {
+    rpc GetAllChats  (GetAllChatsRequest) returns (GetAllChatsResponse){}
+    rpc GetFriendChat (GetFriendChatRequest) returns (GetFriendChatResponse){}
+}
+
+message GetAllChatsRequest {
+    int64 userid = 1;
+}
+
+message chat {
+    string id = 1;
+    repeated uint64 users = 2;
+    string lastmessage = 3;
+    google.protobuf.Timestamp lastmessagetime = 4;
+}
+
+message userData {
+    int64 userid = 1;
+    string username = 2;
+    string profile = 3;
+}
+
+message chatResponse {
+    chat chat = 1;
+    userData user = 2;
+}
+
+message GetAllChatsResponse {
+    repeated chatResponse response = 1;
+}
+
+message GetFriendChatRequest {
+    string UserID =1;
+    string OffSet =2;
+    string Limit=3;
+    string FriendID =4;
+}
+
+message Message {
+    string MessageID = 1;
+    string sender_id = 2;
+    string recipient_id = 3;
+    string content = 4;
+    string timestamp = 5;
+}
+
+message GetFriendChatResponse {
+    repeated Message FriendChat =1;
+}

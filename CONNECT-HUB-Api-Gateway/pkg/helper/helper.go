@@ -12,3 +12,4 @@ func FromProtoTimestamp(ts *timestamppb.Timestamp) time.Time {
 	}
 	return ts.AsTime()
 }
+
