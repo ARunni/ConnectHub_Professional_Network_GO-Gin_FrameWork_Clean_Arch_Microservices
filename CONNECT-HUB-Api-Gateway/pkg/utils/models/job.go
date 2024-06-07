@@ -45,7 +45,11 @@ type JobSeekerGetAllJobs struct {
 }
 
 type AppliedJobs struct {
-	Jobs []ApplyJobs `json:"jobs"`
+	Jobs []ApplyJobRes `json:"jobs"`
+}
+
+type AppliedJobsJ struct {
+	Jobs []ApplyJob `json:"jobs"`
 }
 
 type ApplyJobReq struct {
@@ -63,7 +67,7 @@ type ApplyJob struct {
 	ResumeUrl   string `json:"resume_url"`
 	Status      string `gorm:"default:waiting" json:"status"`
 }
-type ApplyJobs struct {
+type ApplyJobRes struct {
 	ID            uint   `gorm:"primary_key;auto_increment" json:"id"`
 	JobID         uint   `json:"job_id"`
 	JobseekerID   uint   `json:"jobseeker_id"`

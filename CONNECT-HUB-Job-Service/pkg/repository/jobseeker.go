@@ -66,11 +66,11 @@ func (jr *jobseekerJobRepository) JobSeekerApplyJob(data models.ApplyJob) (model
 
 }
 
-func (jr *jobseekerJobRepository) GetAppliedJobs(userId int) ([]models.ApplyJobs, error) {
-	var jobs []models.ApplyJobs
+func (jr *jobseekerJobRepository) GetAppliedJobs(userId int) ([]models.ApplyJob, error) {
+	var jobs []models.ApplyJob
 	if err := jr.DB.Raw("select * from apply_jobs where jobseeker_id = ?", userId).Scan(&jobs).Error; err != nil {
 		fmt.Println(err)
-		return []models.ApplyJobs{}, fmt.Errorf("failed to query jobs: %v", err)
+		return []models.ApplyJob{}, fmt.Errorf("failed to query jobs: %v", err)
 	}
 
 	return jobs, nil
@@ -96,5 +96,27 @@ func (jr *jobseekerJobRepository) GetRecruiterByJobId(jobId int) (int, error) {
 	}
 
 	return ok, nil
+
+}
+
+func (jr *jobseekerJobRepository) GetInterviewDetails(appId int) (models.Interview, error) {
+	var data models.Interview
+	if err := jr.DB.Raw("select * from interviews where application_id = ? ", appId).Scan(&data).Error; err != nil {
+		fmt.Println(err)
+		return models.Interview{}, fmt.Errorf("failed to query jobs: %v", err)
+	}
+
+	return data, nil
+
+}
+
+func (jr *jobseekerJobRepository) GetJobDetails(jobId int) (models.JobOpeningData, error) {
+	var data models.JobOpeningData
+	if err := jr.DB.Raw("select * from job_opening_data where id = ? ", jobId).Scan(&data).Error; err != nil {
+		fmt.Println(err)
+		return models.JobOpeningData{}, fmt.Errorf("failed to query jobs: %v", err)
+	}
+
+	return data, nil
 
 }

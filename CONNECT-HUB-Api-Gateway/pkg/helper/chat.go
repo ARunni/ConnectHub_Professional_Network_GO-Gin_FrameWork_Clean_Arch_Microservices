@@ -31,7 +31,7 @@ func (r *Helper) SendMessageToUser(User map[string]*websocket.Conn, msg []byte, 
 
 	message.SenderID = userID
 	recipientConn, ok := User[message.RecipientID]
-	fmt.Println("recipient id", message.RecipientID)
+
 	if ok {
 		recipientConn.WriteMessage(websocket.TextMessage, msg)
 	}
@@ -39,33 +39,7 @@ func (r *Helper) SendMessageToUser(User map[string]*websocket.Conn, msg []byte, 
 	fmt.Println("==sending succesful==", err)
 }
 
-// func KafkaProducer(message models.Message) error {
-// 	fmt.Println("from kafka ", message)
-// 	cfg, _ := config.LoadConfig()
-// 	configs := sarama.NewConfig()
-// 	configs.Producer.Return.Successes = true
-// 	configs.Producer.Retry.Max = 5
 
-// 	producer, err := sarama.NewSyncProducer([]string{cfg.KafkaPort}, configs)
-// 	if err != nil {
-// 		fmt.Println("errrorr1 sarama", err)
-// 		return err
-// 	}
-// 	fmt.Println("producer sarama", producer)
-// 	result, err := json.Marshal(message)
-// 	if err != nil {
-// 		return err
-// 	}
-
-// 	msg := &sarama.ProducerMessage{Topic: cfg.KafkaTopic, Key: sarama.StringEncoder("Friend message"), Value: sarama.StringEncoder(result)}
-
-//		partition, offset, err := producer.SendMessage(msg)
-//		if err != nil {
-//			fmt.Println("err send message in kafka ", err)
-//		}
-//		log.Printf("[producer] partition id: %d; offset:%d, value: %v\n", partition, offset, msg)
-//		return nil
-//	}
 func KafkaProducer(message models.Message) error {
 	fmt.Println("from kafka ", message)
 
@@ -103,12 +77,31 @@ func KafkaProducer(message models.Message) error {
 	return nil
 }
 
-func (h *Helper) ValidateToken(tokenString string) (int, error) {
-
-	fmt.Println("at validate helper")
+func (h *Helper) ValidateTokenJobseeker(tokenString string) (int, error) {
 
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		return []byte(h.config.JobSeekerAccessKey), nil
+	})
+	if err != nil {
+		return 0, err
+	}
+	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		userID, ok := claims["id"].(float64)
+		intUserID := int(userID)
+
+		if !ok {
+			return 0, errors.New("user_id not found in token")
+		}
+		return intUserID, nil
+	} else {
+		return 0, errors.New("invalid token")
+	}
+}
+
+func (h *Helper) ValidateTokenRecruiter(tokenString string) (int, error) {
+
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		return []byte(h.config.RecruiterAccessKey), nil
 	})
 	if err != nil {
 		return 0, err

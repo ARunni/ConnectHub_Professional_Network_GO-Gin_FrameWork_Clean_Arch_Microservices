@@ -187,9 +187,9 @@ func (jc *recruiterJobClient) GetJobAppliedCandidates(recruiter_id int) (models.
 	if err != nil {
 		return models.AppliedJobs{}, fmt.Errorf("failed to apply job: %v", err)
 	}
-	var jobs []models.ApplyJobs
+	var jobs []models.ApplyJobRes
 	for _, job := range job.Jobs {
-		jobs = append(jobs, models.ApplyJobs{
+		jobs = append(jobs, models.ApplyJobRes{
 			ID:            uint(job.Id),
 			JobID:         uint(job.JobId),
 			JobseekerID:   uint(job.UserId),
@@ -197,9 +197,10 @@ func (jc *recruiterJobClient) GetJobAppliedCandidates(recruiter_id int) (models.
 			Status:        job.Status,
 			CoverLetter:   job.CoverLetter,
 			ResumeUrl:     job.ResumeUrl,
-			JobseekerName: job.Name,
-			JoseekerEmail: job.Email,
+			JobseekerName: job.JobseekerName,
+			JoseekerEmail: job.JobseekerEmail,
 		})
+		fmt.Println("hjhjhjhjhjjhhjk", job.JobseekerEmail)
 	}
 	return models.AppliedJobs{Jobs: jobs}, nil
 }
@@ -218,13 +219,14 @@ func (jc *recruiterJobClient) ScheduleInterview(data models.ScheduleReq) (models
 	}
 
 	return models.Interview{
-		ID:          uint(job.Id),
-		JobID:       uint(job.JobId),
-		JobseekerID: uint(job.JobseekerId),
-		RecruiterID: uint(job.RecruiterId),
-		DateAndTime: job.DateAndTime.AsTime(),
-		Mode:        job.Mode,
-		Link:        job.Link,
-		Status:      job.Status,
+		ID:            uint(job.Id),
+		JobID:         uint(job.JobId),
+		JobseekerID:   uint(job.JobseekerId),
+		RecruiterID:   uint(job.RecruiterId),
+		DateAndTime:   job.DateAndTime.AsTime(),
+		Mode:          job.Mode,
+		Link:          job.Link,
+		Status:        job.Status,
+		ApplicationId: uint(job.ApplicationId),
 	}, nil
 }

@@ -8,6 +8,7 @@ require (
 	github.com/fatih/color v1.14.1
 	github.com/go-playground/validator v9.31.0+incompatible
 	github.com/google/uuid v1.4.0
+	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/viper v1.18.2
 	google.golang.org/grpc v1.59.0
 	google.golang.org/protobuf v1.31.0

@@ -1,0 +1,12 @@
+time="2024-06-07T22:17:12+05:30" level=info msg="connectHub_gateway started"
+time="2024-06-07T22:19:06+05:30" level=info msg="connectHub_gateway started"
+time="2024-06-07T22:19:18+05:30" level=error msg="Failed to Get Data: EOF"
+time="2024-06-07T22:19:34+05:30" level=error msg="Failed to Signin: rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp 127.0.0.1:7001: connect: connection refused\""
+time="2024-06-07T22:19:56+05:30" level=error msg="Failed to Signin: rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp 127.0.0.1:7001: connect: connection refused\""
+time="2024-06-07T22:20:24+05:30" level=info msg="connectHub_gateway started"
+time="2024-06-07T22:20:27+05:30" level=error msg="Failed to Signin: rpc error: code = Unknown desc = password does not match"
+time="2024-06-07T22:20:43+05:30" level=info msg="Jobseeker Signin Successful"
+
+
+time="2024-06-07T22:28:07+05:30" level=info msg="connectHub_gateway started"
+time="2024-06-07T22:28:35+05:30" level=info msg="Getting profile Successful"

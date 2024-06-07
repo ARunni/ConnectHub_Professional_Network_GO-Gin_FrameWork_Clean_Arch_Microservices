@@ -133,7 +133,7 @@ func (rr *recruiterRepository) IsPolicyExist(policy_id int) (bool, error) {
 }
 func (rr *recruiterRepository) GetDetailsById(userId int) (string, string, error) {
 	var data models.UserData
-	query := `SELECT email, first_name FROM jobseekers WHERE id = ?`
+	query := `SELECT email, first_name FROM job_seekers WHERE id = ?`
 
 	err := rr.DB.Raw(query, userId).Scan(&data).Error
 	if err != nil {

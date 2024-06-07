@@ -5,6 +5,7 @@ import (
 	"connectHub_gateway/pkg/helper"
 	"connectHub_gateway/pkg/utils/models"
 	"connectHub_gateway/pkg/utils/response"
+	"errors"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -46,39 +47,75 @@ func (ch *ChatHandler) SendMessage(c *gin.Context) {
 	}
 
 	splitToken[1] = strings.TrimSpace(splitToken[1])
-	println("error on trim1 ", splitToken[1])
-	println("error on trim0 ", splitToken[0])
-	userID, err := ch.helper.ValidateToken(splitToken[1])
-	fmt.Println("validate token result ", userID, err)
-	if err != nil {
-		errs := response.ClientResponse(http.StatusUnauthorized, "Invalid token", nil, err.Error())
+	splitToken[0] = strings.TrimSpace(splitToken[0])
+	if splitToken[0] == "Jobseeker" {
+		userID, err := ch.helper.ValidateTokenJobseeker(splitToken[1])
+		fmt.Println("validate token result ", userID, err)
+		if err != nil {
+			errs := response.ClientResponse(http.StatusUnauthorized, "Invalid token", nil, err.Error())
+			c.JSON(http.StatusUnauthorized, errs)
+			return
+		}
+		fmt.Println("upgrading ")
+		conn, err := upgrade.Upgrade(c.Writer, c.Request, nil)
+		if err != nil {
+			errs := response.ClientResponse(http.StatusBadRequest, "Websocket Connection Issue", nil, err.Error())
+			c.JSON(http.StatusBadRequest, errs)
+			return
+		}
+
+		defer delete(User, strconv.Itoa(userID))
+		defer conn.Close()
+		user := strconv.Itoa(userID)
+		User[user] = conn
+
+		for {
+			fmt.Println("loop starts", userID, User)
+			_, msg, err := conn.ReadMessage()
+			if err != nil {
+				errs := response.ClientResponse(http.StatusBadRequest, "Details not in correct format", nil, err.Error())
+				c.JSON(http.StatusBadRequest, errs)
+				return
+			}
+			ch.helper.SendMessageToUser(User, msg, user)
+		}
+	} else if splitToken[0] == "Recruiter" {
+		userID, err := ch.helper.ValidateTokenRecruiter(splitToken[1])
+		fmt.Println("validate token result ", userID, err)
+		if err != nil {
+			errs := response.ClientResponse(http.StatusUnauthorized, "Invalid token", nil, err.Error())
+			c.JSON(http.StatusUnauthorized, errs)
+			return
+		}
+		fmt.Println("upgrading ")
+		conn, err := upgrade.Upgrade(c.Writer, c.Request, nil)
+		if err != nil {
+			errs := response.ClientResponse(http.StatusBadRequest, "Websocket Connection Issue", nil, err.Error())
+			c.JSON(http.StatusBadRequest, errs)
+			return
+		}
+
+		defer delete(User, strconv.Itoa(userID))
+		defer conn.Close()
+		user := strconv.Itoa(userID)
+		User[user] = conn
+
+		for {
+			fmt.Println("loop starts", userID, User)
+			_, msg, err := conn.ReadMessage()
+			if err != nil {
+				errs := response.ClientResponse(http.StatusBadRequest, "Details not in correct format", nil, err.Error())
+				c.JSON(http.StatusBadRequest, errs)
+				return
+			}
+			ch.helper.SendMessageToUser(User, msg, user)
+		}
+	} else {
+		errs := response.ClientResponse(http.StatusUnauthorized, "Invalid token role", nil, errors.New("role is not specified"))
 		c.JSON(http.StatusUnauthorized, errs)
 		return
 	}
 
-	fmt.Println("upgrading ")
-	conn, err := upgrade.Upgrade(c.Writer, c.Request, nil)
-	if err != nil {
-		errs := response.ClientResponse(http.StatusBadRequest, "Websocket Connection Issue", nil, err.Error())
-		c.JSON(http.StatusBadRequest, errs)
-		return
-	}
-
-	defer delete(User, strconv.Itoa(userID))
-	defer conn.Close()
-	user := strconv.Itoa(userID)
-	User[user] = conn
-
-	for {
-		fmt.Println("loop starts", userID, User)
-		_, msg, err := conn.ReadMessage()
-		if err != nil {
-			errs := response.ClientResponse(http.StatusBadRequest, "Details not in correct format", nil, err.Error())
-			c.JSON(http.StatusBadRequest, errs)
-			return
-		}
-		ch.helper.SendMessageToUser(User, msg, user)
-	}
 }
 
 func (ch *ChatHandler) GetChat(c *gin.Context) {

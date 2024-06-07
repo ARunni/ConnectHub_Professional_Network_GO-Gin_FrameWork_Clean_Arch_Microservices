@@ -96,17 +96,17 @@ func (jc *jobseekerJobClient) JobSeekerApplyJob(data models.ApplyJobReq) (models
 	}, nil
 }
 
-func (jc *jobseekerJobClient) GetAppliedJobs(user_id int) (models.AppliedJobs, error) {
+func (jc *jobseekerJobClient) GetAppliedJobs(user_id int) (models.AppliedJobsJ, error) {
 
 	resp, err := jc.Client.GetAppliedJobs(context.Background(), &jobseekerPb.JobSeekerGetAppliedJobsRequest{
 		UserId: int64(user_id),
 	})
 	if err != nil {
-		return models.AppliedJobs{}, fmt.Errorf("failed to apply job: %v", err)
+		return models.AppliedJobsJ{}, fmt.Errorf("failed to apply job: %v", err)
 	}
-	var jobs []models.ApplyJobs
+	var jobs []models.ApplyJob
 	for _, job := range resp.Jobs {
-		jobs = append(jobs, models.ApplyJobs{
+		jobs = append(jobs, models.ApplyJob{
 			ID:          uint(job.Id),
 			JobID:       uint(job.JobId),
 			JobseekerID: uint(job.UserId),
@@ -116,5 +116,5 @@ func (jc *jobseekerJobClient) GetAppliedJobs(user_id int) (models.AppliedJobs, e
 			ResumeUrl:   job.ResumeUrl,
 		})
 	}
-	return models.AppliedJobs{Jobs: jobs}, nil
+	return models.AppliedJobsJ{Jobs: jobs}, nil
 }

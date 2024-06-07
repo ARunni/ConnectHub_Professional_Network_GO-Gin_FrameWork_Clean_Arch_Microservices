@@ -104,12 +104,12 @@ func (jr *recruiterJobRepository) UpdateAJob(employerID int32, jobID int32, jobD
 	return updatedJob, nil
 }
 
-func (jr *recruiterJobRepository) GetJobAppliedCandidates(recruiter_id int) ([]models.ApplyJobs, error) {
+func (jr *recruiterJobRepository) GetJobAppliedCandidates(recruiter_id int) ([]models.ApplyJobRes, error) {
 
-	var jobs []models.ApplyJobs
+	var jobs []models.ApplyJobRes
 	if err := jr.DB.Raw("select * from apply_jobs where recruiter_id = ?", recruiter_id).Scan(&jobs).Error; err != nil {
 		fmt.Println(err)
-		return []models.ApplyJobs{}, fmt.Errorf("failed to query jobs: %v", err)
+		return []models.ApplyJobRes{}, fmt.Errorf("failed to query jobs: %v", err)
 	}
 
 	return jobs, nil
@@ -163,7 +163,7 @@ func (jr *recruiterJobRepository) GetApplicationDetails(appId int) (models.Apply
 
 func (jr *recruiterJobRepository) ChangeApplicationStatusToScheduled(appId int) (bool, error) {
 
-	if err := jr.DB.Raw("update apply_jobs set status = ? where id = ?", "scheduled", appId).Error; err != nil {
+	if err := jr.DB.Exec("update apply_jobs set status = ? where id = ?", "scheduled", appId).Error; err != nil {
 		fmt.Println(err)
 		return false, fmt.Errorf("failed to query jobs: %v", err)
 	}

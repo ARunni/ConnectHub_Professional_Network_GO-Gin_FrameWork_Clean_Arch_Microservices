@@ -15,6 +15,7 @@ type JobAuthClient struct {
 }
 
 func NewJobAuthClient(cfg config.Config) interfaces.JobAuthClient {
+	fmt.Println("fsdjkh", cfg.Connect_Hub_Auth)
 	grpcConnection, err := grpc.Dial(cfg.Connect_Hub_Auth, grpc.WithInsecure())
 
 	if err != nil {

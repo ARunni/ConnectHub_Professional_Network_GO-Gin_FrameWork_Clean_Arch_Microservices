@@ -50,7 +50,7 @@ func NewServerHTTP(
 	chat := router.Group("/user/chat")
 	{
 		chat.GET("", chatHandler.SendMessage)
-		chat.GET("/message", chatHandler.GetChat)
+		// chat.GET("/message", chatHandler.GetChat)
 	}
 
 	router.Use(middleware.AuthMiddleware)
@@ -125,6 +125,11 @@ func NewServerHTTP(
 		recruiterAuthRoute.GET("/policies", RecruiterHandler.GetAllPolicies)
 
 		// chat
+		chat := router.Group("/user/chat")
+		{
+
+			chat.GET("/message", chatHandler.GetChat)
+		}
 
 	}
 

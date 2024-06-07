@@ -35,6 +35,7 @@ message ScheduleInterviewResponse {
     string mode = 6;
     string link = 7;
     string status = 8;
+    int64 application_id =9;
 }
 
 message GetAppliedJobsRequest {
@@ -52,8 +53,8 @@ message AppliedJobs {
     string coverLetter =5;
     string resumeUrl =6;
     string status =7;
-    string name =8;
-    string email =9;
+    string jobseekerName =8;
+    string jobseekerEmail =9;
 }
 
 

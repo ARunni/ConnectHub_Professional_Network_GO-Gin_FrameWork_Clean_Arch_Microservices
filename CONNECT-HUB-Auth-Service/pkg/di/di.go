@@ -27,11 +27,14 @@ func InitializeAPI(cfg config.Config) (*server.Server, error) {
 	recruiterUseCase := usecase.NewRecruiterUseCase(recruiterRepository)
 	recruiterServiceServer := service.NewRecruiterServer(recruiterUseCase)
 
+	jobAuthServiceServer := service.NewJobauthServer(recruiterUseCase)
+
 	grpcServer, err := server.NewGRPCServer(
 		cfg,
 		adminServiceServer,
 		recruiterServiceServer,
-		jobseekerServiceServer)
+		jobseekerServiceServer,
+		jobAuthServiceServer)
 
 	if err != nil {
 		return &server.Server{}, err

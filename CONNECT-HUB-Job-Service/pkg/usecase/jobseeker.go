@@ -6,6 +6,7 @@ import (
 	repo "ConnetHub_job/pkg/repository/interface"
 	interfaces "ConnetHub_job/pkg/usecase/interface"
 	"ConnetHub_job/pkg/utils/models"
+	"errors"
 	"fmt"
 )
 
@@ -111,12 +112,42 @@ func (ju *jobseekerJobUseCase) JobSeekerApplyJob(data models.ApplyJobReq) (model
 	return jobOk, nil
 }
 
-func (ju *jobseekerJobUseCase) GetAppliedJobs(user_id int) (models.AppliedJobs, error) {
+func (ju *jobseekerJobUseCase) GetAppliedJobs(user_id int) (models.AppliedJobsJ, error) {
+
+	if user_id <= 0 {
+		return models.AppliedJobsJ{}, errors.New("invalid userid")
+	}
 
 	jobData, err := ju.jobRepository.GetAppliedJobs(user_id)
 	if err != nil {
-		return models.AppliedJobs{}, fmt.Errorf("failed to Get applied job: %v", err)
+		return models.AppliedJobsJ{}, fmt.Errorf("failed to Get applied job: %v", err)
 	}
 
-	return models.AppliedJobs{Jobs: jobData}, nil
+	return models.AppliedJobsJ{Jobs: jobData}, nil
+}
+
+func (ju *jobseekerJobUseCase) GetInterviewDetails(appId, userId int) (models.InterviewResp, error) {
+
+	jobData, err := ju.jobRepository.GetInterviewDetails(appId)
+	if err != nil {
+		return models.InterviewResp{}, fmt.Errorf("failed to Get applied job: %v", err)
+	}
+	job, err := ju.jobRepository.GetJobDetails(int(jobData.JobID))
+	if err != nil {
+		return models.InterviewResp{}, err
+	}
+	var data = models.InterviewResp{
+		ID:            jobData.ID,
+		ApplicationId: jobData.ApplicationId,
+		JobID:         jobData.JobID,
+		Title:         job.Title,
+		JobseekerID:   jobData.JobseekerID,
+		RecruiterID:   jobData.RecruiterID,
+		DateAndTime:   jobData.DateAndTime,
+		Mode:          jobData.Mode,
+		Link:          jobData.Link,
+		Status:        jobData.Status,
+	}
+
+	return data, nil
 }

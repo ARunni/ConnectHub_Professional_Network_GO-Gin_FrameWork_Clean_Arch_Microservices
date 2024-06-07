@@ -181,16 +181,17 @@ func (js *RecruiterJobServer) GetJobAppliedCandidates(ctx context.Context, req *
 	var jobs []*jobpb.AppliedJobs
 	for _, job := range res.Jobs {
 		jobs = append(jobs, &jobpb.AppliedJobs{
-			JobId:       int64(job.JobID),
-			Id:          int64(job.ID),
-			UserId:      int64(job.JobseekerID),
-			RecruiterId: int64(job.RecruiterID),
-			Status:      job.Status,
-			ResumeUrl:   job.ResumeUrl,
-			CoverLetter: job.CoverLetter,
-			Name:        job.JobseekerName,
-			Email:       job.JoseekerEmail,
+			JobId:          int64(job.JobID),
+			Id:             int64(job.ID),
+			UserId:         int64(job.JobseekerID),
+			RecruiterId:    int64(job.RecruiterID),
+			Status:         job.Status,
+			ResumeUrl:      job.ResumeUrl,
+			CoverLetter:    job.CoverLetter,
+			JobseekerName:  job.JobseekerName,
+			JobseekerEmail: job.JoseekerEmail,
 		})
+		fmt.Println("jb service name ", job.JobseekerName)
 	}
 	response := &jobpb.GetAppliedJobsResponse{
 		Jobs: jobs,
@@ -214,13 +215,14 @@ func (js *RecruiterJobServer) ScheduleInterview(ctx context.Context, req *jobpb.
 	}
 
 	return &jobpb.ScheduleInterviewResponse{
-		Id:          int64(res.ID),
-		JobId:       int64(res.JobID),
-		JobseekerId: int64(res.JobseekerID),
-		RecruiterId: req.RecruiterId,
-		DateAndTime: req.DateAndTime,
-		Mode:        res.Mode,
-		Link:        res.Link,
-		Status:      res.Status,
+		Id:            int64(res.ID),
+		JobId:         int64(res.JobID),
+		JobseekerId:   int64(res.JobseekerID),
+		RecruiterId:   req.RecruiterId,
+		DateAndTime:   req.DateAndTime,
+		Mode:          res.Mode,
+		Link:          res.Link,
+		Status:        res.Status,
+		ApplicationId: int64(res.ApplicationId),
 	}, nil
 }

@@ -186,7 +186,9 @@ func (ju *recruiterJobUseCase) GetJobAppliedCandidates(recruiter_id int) (models
 	if err != nil {
 		return models.AppliedJobs{}, fmt.Errorf("failed to Get applied job: %v", err)
 	}
+	var jobDatas []models.ApplyJobRes
 	for _, datas := range jobData {
+
 		fmt.Println("datas", datas)
 		email, name, err := ju.Client.GetDetailsById(int(datas.JobseekerID))
 		if err != nil {
@@ -194,10 +196,12 @@ func (ju *recruiterJobUseCase) GetJobAppliedCandidates(recruiter_id int) (models
 		}
 		datas.JobseekerName = name
 		datas.JoseekerEmail = email
+		jobDatas = append(jobDatas, datas)
 
 	}
+	fmt.Println("qasdfggtreefgffgsgg", jobData)
 
-	return models.AppliedJobs{Jobs: jobData}, nil
+	return models.AppliedJobs{Jobs: jobDatas}, nil
 }
 
 func (ju *recruiterJobUseCase) ChangeApplicationStatusToRejected(appId, recruiterID int) (bool, error) {
@@ -271,5 +275,7 @@ func (ju *recruiterJobUseCase) ScheduleInterview(data models.ScheduleReq) (model
 	if !okR {
 		return models.Interview{}, fmt.Errorf("failed to schedule interview")
 	}
+	jobData.ApplicationId = uint(data.ApplicationId)
+	fmt.Println("hgdsfjhsdsdhkjgdsjkh", jobData.ApplicationId)
 	return jobData, nil
 }

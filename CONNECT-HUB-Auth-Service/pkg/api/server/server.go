@@ -8,6 +8,7 @@ import (
 
 	jobseekerPb "ConnetHub_auth/pkg/pb/auth/jobseeker"
 	recruiterPb "ConnetHub_auth/pkg/pb/auth/recruiter"
+	jobAuthPb "ConnetHub_auth/pkg/pb/job/auth"
 	"fmt"
 	"net"
 
@@ -20,7 +21,7 @@ type Server struct {
 	listener net.Listener
 }
 
-func NewGRPCServer(cfg config.Config, adminServer adminPb.AdminServer, recruiterServer recruiterPb.RecruiterServer, jobseekerServer jobseekerPb.JobseekerServer) (*Server, error) {
+func NewGRPCServer(cfg config.Config, adminServer adminPb.AdminServer, recruiterServer recruiterPb.RecruiterServer, jobseekerServer jobseekerPb.JobseekerServer, jobAuthServer jobAuthPb.JobAuthServer) (*Server, error) {
 	lis, err := net.Listen("tcp", cfg.Port)
 	if err != nil {
 		return nil, err
@@ -30,6 +31,7 @@ func NewGRPCServer(cfg config.Config, adminServer adminPb.AdminServer, recruiter
 	adminPb.RegisterAdminServer(newServer, adminServer)
 	recruiterPb.RegisterRecruiterServer(newServer, recruiterServer)
 	jobseekerPb.RegisterJobseekerServer(newServer, jobseekerServer)
+	jobAuthPb.RegisterJobAuthServer(newServer, jobAuthServer)
 
 	return &Server{
 		server:   newServer,
