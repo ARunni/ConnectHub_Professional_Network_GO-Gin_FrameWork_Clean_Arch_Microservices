@@ -104,12 +104,12 @@ func (jr *recruiterJobRepository) UpdateAJob(employerID int32, jobID int32, jobD
 	return updatedJob, nil
 }
 
-func (jr *recruiterJobRepository) GetJobAppliedCandidates(recruiter_id int) ([]models.ApplyJob, error) {
+func (jr *recruiterJobRepository) GetJobAppliedCandidates(recruiter_id int) ([]models.ApplyJobs, error) {
 
-	var jobs []models.ApplyJob
+	var jobs []models.ApplyJobs
 	if err := jr.DB.Raw("select * from apply_jobs where recruiter_id = ?", recruiter_id).Scan(&jobs).Error; err != nil {
 		fmt.Println(err)
-		return []models.ApplyJob{}, fmt.Errorf("failed to query jobs: %v", err)
+		return []models.ApplyJobs{}, fmt.Errorf("failed to query jobs: %v", err)
 	}
 
 	return jobs, nil

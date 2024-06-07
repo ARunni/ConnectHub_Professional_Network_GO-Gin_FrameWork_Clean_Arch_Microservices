@@ -56,6 +56,18 @@ type ApplyJob struct {
 	Status      string `gorm:"default:waiting" json:"status"`
 }
 
+type ApplyJobs struct {
+	ID            uint   `gorm:"primary_key;auto_increment" json:"id"`
+	JobID         uint   `json:"job_id"`
+	JobseekerID   uint   `json:"jobseeker_id"`
+	JobseekerName string `json:"jobseeker_name"`
+	JoseekerEmail string `json:"jobseeker_email"`
+	RecruiterID   uint   `json:"recruiter_id"`
+	CoverLetter   string `json:"cover_letter"`
+	ResumeUrl     string `json:"resume_url"`
+	Status        string `gorm:"default:waiting" json:"status"`
+}
+
 type ApplyJobReq struct {
 	JobID       uint   `json:"job_id"`
 	JobseekerID uint   `json:"jobseeker_id"`
@@ -63,7 +75,7 @@ type ApplyJobReq struct {
 	Resume      []byte `json:"resume"`
 }
 type AppliedJobs struct {
-	Jobs []ApplyJob `json:"jobs"`
+	Jobs []ApplyJobs `json:"jobs"`
 }
 type Interview struct {
 	ID            uint      `gorm:"primary_key;auto_increment" json:"id"`

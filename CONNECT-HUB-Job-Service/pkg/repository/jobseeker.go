@@ -66,11 +66,11 @@ func (jr *jobseekerJobRepository) JobSeekerApplyJob(data models.ApplyJob) (model
 
 }
 
-func (jr *jobseekerJobRepository) GetAppliedJobs(userId int) ([]models.ApplyJob, error) {
-	var jobs []models.ApplyJob
+func (jr *jobseekerJobRepository) GetAppliedJobs(userId int) ([]models.ApplyJobs, error) {
+	var jobs []models.ApplyJobs
 	if err := jr.DB.Raw("select * from apply_jobs where jobseeker_id = ?", userId).Scan(&jobs).Error; err != nil {
 		fmt.Println(err)
-		return []models.ApplyJob{}, fmt.Errorf("failed to query jobs: %v", err)
+		return []models.ApplyJobs{}, fmt.Errorf("failed to query jobs: %v", err)
 	}
 
 	return jobs, nil

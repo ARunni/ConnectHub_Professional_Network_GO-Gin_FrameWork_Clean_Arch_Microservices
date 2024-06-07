@@ -187,16 +187,18 @@ func (jc *recruiterJobClient) GetJobAppliedCandidates(recruiter_id int) (models.
 	if err != nil {
 		return models.AppliedJobs{}, fmt.Errorf("failed to apply job: %v", err)
 	}
-	var jobs []models.ApplyJob
+	var jobs []models.ApplyJobs
 	for _, job := range job.Jobs {
-		jobs = append(jobs, models.ApplyJob{
-			ID:          uint(job.Id),
-			JobID:       uint(job.JobId),
-			JobseekerID: uint(job.UserId),
-			RecruiterID: uint(job.RecruiterId),
-			Status:      job.Status,
-			CoverLetter: job.CoverLetter,
-			ResumeUrl:   job.ResumeUrl,
+		jobs = append(jobs, models.ApplyJobs{
+			ID:            uint(job.Id),
+			JobID:         uint(job.JobId),
+			JobseekerID:   uint(job.UserId),
+			RecruiterID:   uint(job.RecruiterId),
+			Status:        job.Status,
+			CoverLetter:   job.CoverLetter,
+			ResumeUrl:     job.ResumeUrl,
+			JobseekerName: job.Name,
+			JoseekerEmail: job.Email,
 		})
 	}
 	return models.AppliedJobs{Jobs: jobs}, nil

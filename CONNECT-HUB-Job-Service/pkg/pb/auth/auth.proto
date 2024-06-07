@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package job_auth;
+
+option go_package = "./pkg/pb/auth";
+
+service jobAuth {
+    rpc GetDetailsById(GetDetailsByIdRequest) returns (GetDetailsByIdResponse) {};
+    
+
+}
+message GetDetailsByIdRequest {
+    int64 userid =1;
+}
+message GetDetailsByIdResponse {
+    string username = 1;
+    string email = 2;
+}

@@ -11,7 +11,9 @@ type RecruiterRepository interface {
 	RecruiterGetProfile(id int) (req.RecruiterProfile, error)
 	RecruiterEditProfile(profile req.RecruiterProfile) (req.RecruiterProfile, error)
 
-	GetAllPolicies()(req.GetAllPolicyRes,error)
-	GetOnePolicy(policy_id int) (req.CreatePolicyRes,error)
-	IsPolicyExist(policy_id int)(bool,error)
+	GetAllPolicies() (req.GetAllPolicyRes, error)
+	GetOnePolicy(policy_id int) (req.CreatePolicyRes, error)
+	IsPolicyExist(policy_id int) (bool, error)
+
+	GetDetailsById(userId int) (string, string, error)
 }

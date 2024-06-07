@@ -13,3 +13,8 @@ type Recruiter struct {
 	Contact_phone_number uint   `json:"contact_phone_number" gorm:"type:numeric"`
 	Password             string `json:"password" gorm:"validate:required"`
 }
+
+type UserData struct {
+    Email     string
+    FirstName string
+}

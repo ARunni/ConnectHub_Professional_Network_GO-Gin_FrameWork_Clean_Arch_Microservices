@@ -25,7 +25,6 @@ type JobSeekerDetailsResponse struct {
 	LastName    string `json:"last_name"`
 	PhoneNumber string `json:"phone_number"`
 	DateOfBirth string `json:"date_of_birth"`
-	Password    string `json:"password"`
 	Gender      string `json:"gender"`
 }
 

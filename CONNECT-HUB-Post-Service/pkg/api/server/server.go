@@ -2,7 +2,7 @@ package server
 
 import (
 	"ConnetHub_post/pkg/config"
-	postJ"ConnetHub_post/pkg/pb/post/jobseeker"
+	postJ "ConnetHub_post/pkg/pb/post/jobseeker"
 	"context"
 	"fmt"
 	"log"
@@ -17,7 +17,7 @@ type Server struct {
 	listener net.Listener
 }
 
-func NewGRPCServer(cfg config.Config, JPostServer postJ.JobseekerPostServiceServer   ) (*Server, error) {
+func NewGRPCServer(cfg config.Config, JPostServer postJ.JobseekerPostServiceServer) (*Server, error) {
 	lis, err := net.Listen("tcp", cfg.Port)
 	if err != nil {
 		return nil, err
@@ -37,7 +37,7 @@ func NewGRPCServer(cfg config.Config, JPostServer postJ.JobseekerPostServiceServ
 }
 
 func (s *Server) Start() error {
-	fmt.Println("grpc server listening on port :7004")
+	fmt.Println("grpc server listening on port :7002")
 	return s.server.Serve(s.listener)
 }
 

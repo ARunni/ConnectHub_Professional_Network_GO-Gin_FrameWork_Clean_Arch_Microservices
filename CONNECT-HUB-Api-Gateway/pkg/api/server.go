@@ -2,6 +2,7 @@ package server
 
 import (
 	authHandler "connectHub_gateway/pkg/api/handler/auth"
+	chatHandler "connectHub_gateway/pkg/api/handler/chat"
 	jobHandler "connectHub_gateway/pkg/api/handler/job"
 	postHandler "connectHub_gateway/pkg/api/handler/post"
 	"connectHub_gateway/pkg/config"
@@ -22,6 +23,7 @@ func NewServerHTTP(
 	RecruiterJobHandler *jobHandler.RecruiterJobHandler,
 	JobseekerJobhandler *jobHandler.JobseekerJobHandler,
 	jobseekerPostHandler *postHandler.JobseekerPostHandler,
+	chatHandler *chatHandler.ChatHandler,
 
 ) *ServerHTTP {
 
@@ -44,6 +46,12 @@ func NewServerHTTP(
 	// Recruiter Routes
 	recruiterRoute.POST("/signup", RecruiterHandler.RecruiterSignup)
 	recruiterRoute.POST("/login", RecruiterHandler.RecruiterLogin)
+
+	chat := router.Group("/user/chat")
+	{
+		chat.GET("", chatHandler.SendMessage)
+		chat.GET("/message", chatHandler.GetChat)
+	}
 
 	router.Use(middleware.AuthMiddleware)
 	{
@@ -115,6 +123,9 @@ func NewServerHTTP(
 
 		recruiterAuthRoute.GET("/policy", RecruiterHandler.GetOnePolicy)
 		recruiterAuthRoute.GET("/policies", RecruiterHandler.GetAllPolicies)
+
+		// chat
+
 	}
 
 	return &ServerHTTP{engine: router}

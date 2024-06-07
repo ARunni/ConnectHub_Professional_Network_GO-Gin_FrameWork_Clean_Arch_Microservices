@@ -105,8 +105,10 @@ func KafkaProducer(message models.Message) error {
 
 func (h *Helper) ValidateToken(tokenString string) (int, error) {
 
+	fmt.Println("at validate helper")
+
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-		return []byte("123456789"), nil
+		return []byte(h.config.JobSeekerAccessKey), nil
 	})
 	if err != nil {
 		return 0, err

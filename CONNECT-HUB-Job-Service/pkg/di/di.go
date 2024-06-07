@@ -3,6 +3,7 @@ package di
 import (
 	"ConnetHub_job/pkg/api/server"
 	service "ConnetHub_job/pkg/api/service"
+	jobAuth "ConnetHub_job/pkg/client/auth"
 	"ConnetHub_job/pkg/config"
 	"ConnetHub_job/pkg/db"
 	repo "ConnetHub_job/pkg/repository"
@@ -16,7 +17,8 @@ func InitializeAPI(cfg config.Config) (*server.Server, error) {
 	}
 
 	recruiterJobRepository := repo.NewRecruiterJobRepository(gormDB)
-	recruiterJobUseCase := usecase.NewRecruiterJobUseCase(recruiterJobRepository)
+	jobAuthClient := jobAuth.NewJobAuthClient(cfg)
+	recruiterJobUseCase := usecase.NewRecruiterJobUseCase(recruiterJobRepository, jobAuthClient)
 	recruiterJobServiceServer := service.NewRecruiterJobServer(recruiterJobUseCase)
 
 	jobseekerJobRepository := repo.NewjobseekerJobRepository(gormDB)

@@ -1,8 +1,9 @@
 package usecase
 
 import (
+	"ConnetHub_job/pkg/client/auth/interfaces"
 	repo "ConnetHub_job/pkg/repository/interface"
-	interfaces "ConnetHub_job/pkg/usecase/interface"
+	usecase "ConnetHub_job/pkg/usecase/interface"
 	"ConnetHub_job/pkg/utils/models"
 	"errors"
 	"fmt"
@@ -14,11 +15,13 @@ import (
 
 type recruiterJobUseCase struct {
 	jobRepository repo.RecruiterJobRepository
+	Client        interfaces.JobAuthClient
 }
 
-func NewRecruiterJobUseCase(repo repo.RecruiterJobRepository) interfaces.RecruiterJobUsecase {
+func NewRecruiterJobUseCase(repo repo.RecruiterJobRepository, client interfaces.JobAuthClient) usecase.RecruiterJobUsecase {
 	return &recruiterJobUseCase{
 		jobRepository: repo,
+		Client:        client,
 	}
 }
 
@@ -183,6 +186,17 @@ func (ju *recruiterJobUseCase) GetJobAppliedCandidates(recruiter_id int) (models
 	if err != nil {
 		return models.AppliedJobs{}, fmt.Errorf("failed to Get applied job: %v", err)
 	}
+	for _, datas := range jobData {
+		fmt.Println("datas", datas)
+		email, name, err := ju.Client.GetDetailsById(int(datas.JobseekerID))
+		if err != nil {
+			return models.AppliedJobs{}, err
+		}
+		datas.JobseekerName = name
+		datas.JoseekerEmail = email
+
+	}
+
 	return models.AppliedJobs{Jobs: jobData}, nil
 }
 

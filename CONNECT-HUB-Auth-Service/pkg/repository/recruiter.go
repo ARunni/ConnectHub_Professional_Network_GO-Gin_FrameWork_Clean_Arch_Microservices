@@ -131,3 +131,14 @@ func (rr *recruiterRepository) IsPolicyExist(policy_id int) (bool, error) {
 	}
 	return data > 0, nil
 }
+func (rr *recruiterRepository) GetDetailsById(userId int) (string, string, error) {
+	var data models.UserData
+	query := `SELECT email, first_name FROM jobseekers WHERE id = ?`
+
+	err := rr.DB.Raw(query, userId).Scan(&data).Error
+	if err != nil {
+		return "", "", err
+	}
+
+	return data.Email, data.FirstName, nil
+}

@@ -73,6 +73,8 @@ func (jc *jobseekerClient) JobSeekerLogin(jobseekerData models.JobSeekerLogin) (
 			LastName:    jobseeker.JobSeekerDetails.Lastname,
 			Email:       jobseeker.JobSeekerDetails.Email,
 			PhoneNumber: jobseeker.JobSeekerDetails.PhoneNumber,
+			Gender: jobseeker.JobSeekerDetails.Gender,
+			DateOfBirth: jobseeker.JobSeekerDetails.DateOfBirth,
 		},
 		Token: jobseeker.Token,
 	}, nil

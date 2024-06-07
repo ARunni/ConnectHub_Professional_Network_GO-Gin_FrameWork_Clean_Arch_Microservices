@@ -52,6 +52,8 @@ message AppliedJobs {
     string coverLetter =5;
     string resumeUrl =6;
     string status =7;
+    string name =8;
+    string email =9;
 }
 
 

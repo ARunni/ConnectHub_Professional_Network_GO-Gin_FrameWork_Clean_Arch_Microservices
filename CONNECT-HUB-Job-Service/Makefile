@@ -7,5 +7,5 @@ dep:
 proto:
 	protoc --go_out=. --go-grpc_out=. ./pkg/pb/job/recruiter/job.proto
 	protoc --go_out=. --go-grpc_out=. ./pkg/pb/job/jobseeker/job.proto
-	# protoc --go_out=. --go-grpc_out=. ./pkg/pb/job/admin/job.proto
+	protoc --go_out=. --go-grpc_out=. ./pkg/pb/auth/auth.proto
 

@@ -3,9 +3,13 @@ package di
 import (
 	server "connectHub_gateway/pkg/api"
 	authHandler "connectHub_gateway/pkg/api/handler/auth"
-	postHandler "connectHub_gateway/pkg/api/handler/post"
+	chatHandler "connectHub_gateway/pkg/api/handler/chat"
 	jobHandler "connectHub_gateway/pkg/api/handler/job"
+	postHandler "connectHub_gateway/pkg/api/handler/post"
+	"connectHub_gateway/pkg/helper"
+
 	authClient "connectHub_gateway/pkg/client/auth"
+	chatClient "connectHub_gateway/pkg/client/chat"
 	jobClient "connectHub_gateway/pkg/client/job"
 	postClient "connectHub_gateway/pkg/client/post"
 
@@ -32,10 +36,15 @@ func InitializeAPI(cfg config.Config) (*server.ServerHTTP, error) {
 	jobseekerPostClient := postClient.NewJobseekerPostClient(cfg)
 	jobseekerPostHandler := postHandler.NewJobseekerPostHandler(jobseekerPostClient)
 
+
+	chatClient := chatClient.NewChatClient(cfg)
+	chatHandler := chatHandler.NewChatHandler(chatClient,helper.NewHelper(&cfg))
+
 	serverHTTP := server.NewServerHTTP(
 		adminAuthHandler, jobseekerAuthHandler,
 		recruiterAuthHandler, recruiterJobHandler,
-		JobseekerJobhandler,jobseekerPostHandler)
+		JobseekerJobhandler,jobseekerPostHandler,
+		chatHandler)
 
 	return serverHTTP, nil
 }

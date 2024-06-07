@@ -188,6 +188,8 @@ func (js *RecruiterJobServer) GetJobAppliedCandidates(ctx context.Context, req *
 			Status:      job.Status,
 			ResumeUrl:   job.ResumeUrl,
 			CoverLetter: job.CoverLetter,
+			Name:        job.JobseekerName,
+			Email:       job.JoseekerEmail,
 		})
 	}
 	response := &jobpb.GetAppliedJobsResponse{

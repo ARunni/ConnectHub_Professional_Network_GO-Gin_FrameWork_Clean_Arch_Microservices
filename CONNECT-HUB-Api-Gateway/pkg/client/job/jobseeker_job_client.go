@@ -104,9 +104,9 @@ func (jc *jobseekerJobClient) GetAppliedJobs(user_id int) (models.AppliedJobs, e
 	if err != nil {
 		return models.AppliedJobs{}, fmt.Errorf("failed to apply job: %v", err)
 	}
-	var jobs []models.ApplyJob
+	var jobs []models.ApplyJobs
 	for _, job := range resp.Jobs {
-		jobs = append(jobs, models.ApplyJob{
+		jobs = append(jobs, models.ApplyJobs{
 			ID:          uint(job.Id),
 			JobID:       uint(job.JobId),
 			JobseekerID: uint(job.UserId),

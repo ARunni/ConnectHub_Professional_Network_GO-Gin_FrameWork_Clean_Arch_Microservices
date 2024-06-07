@@ -8,6 +8,6 @@ type JobseekerJobRepository interface {
 	JobSeekerGetJobByID(id int) (models.JobOpeningData, error)
 	IsAppliedAlready(jobId, userId int) (bool, error)
 	GetRecruiterByJobId(jobId int) (int, error)
-	GetAppliedJobs(userId int) ([]models.ApplyJob, error)
+	GetAppliedJobs(userId int) ([]models.ApplyJobs, error)
 	JobSeekerApplyJob(data models.ApplyJob) (models.ApplyJob, error)
 }

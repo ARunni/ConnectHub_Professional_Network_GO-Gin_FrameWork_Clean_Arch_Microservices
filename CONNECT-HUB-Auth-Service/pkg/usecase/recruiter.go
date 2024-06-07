@@ -209,3 +209,15 @@ func (ru *recruiterUseCase) GetOnePolicy(policy_id int) (req.CreatePolicyRes, er
 	}
 	return data, nil
 }
+
+func (ru *recruiterUseCase) GetDetailsById(userId int) (string, string, error) {
+
+	if userId <= 0 {
+		return "", "", errors.New(msg.ErrDataZero)
+	}
+	email, name, err := ru.recruiterRepository.GetDetailsById(userId)
+	if err != nil {
+		return "", "", err
+	}
+	return email, name, nil
+}
