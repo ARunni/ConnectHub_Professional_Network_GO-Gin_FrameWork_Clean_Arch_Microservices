@@ -25,6 +25,7 @@ func NewJobSeekerAuthHandler(grpc_client interfaces.JobSeekerAuthClient) *JobSee
 }
 
 func (jh *JobSeekerHandler) JobSeekerSignup(c *gin.Context) {
+
 	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
 	defer logrusLogFile.Close()
 
@@ -54,6 +55,7 @@ func (jh *JobSeekerHandler) JobSeekerSignup(c *gin.Context) {
 }
 
 func (jh *JobSeekerHandler) JobSeekerLogin(c *gin.Context) {
+
 	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
 	defer logrusLogFile.Close()
 
@@ -74,6 +76,7 @@ func (jh *JobSeekerHandler) JobSeekerLogin(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, errResp)
 		return
 	}
+
 	logrusLogger.Info("Jobseeker Signin Successful")
 
 	successResp := response.ClientResponse(http.StatusOK, "Jobseeker Authenticated Successfully", jobseeker, nil)
@@ -82,6 +85,7 @@ func (jh *JobSeekerHandler) JobSeekerLogin(c *gin.Context) {
 }
 
 func (jh *JobSeekerHandler) JobSeekerGetProfile(c *gin.Context) {
+
 	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
 	defer logrusLogFile.Close()
 
@@ -93,25 +97,31 @@ func (jh *JobSeekerHandler) JobSeekerGetProfile(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, errResp)
 		return
 	}
+
 	jobseeker, err := jh.GRPC_Client.JobSeekerGetProfile(userId)
+
 	if err != nil {
 		logrusLogger.Error("Failed to Get Profile: ", err)
 		errREsp := response.ClientResponse(http.StatusBadRequest, msg.MsgGettingDataErr, nil, err.Error())
 		c.JSON(http.StatusBadRequest, errREsp)
 		return
 	}
+	
 	logrusLogger.Info("Getting profile Successful")
+
 	successResp := response.ClientResponse(http.StatusOK, msg.MsgGetSucces, jobseeker, nil)
 	c.JSON(http.StatusOK, successResp)
 
 }
 
 func (jh *JobSeekerHandler) JobSeekerEditProfile(c *gin.Context) {
+
 	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
 	defer logrusLogFile.Close()
 
 	userIdstring, _ := c.Get("id")
 	userId, strErr := userIdstring.(int)
+
 	if !strErr {
 		logrusLogger.Error("Failed to Get Data: ", errors.New("getting id failed"))
 		errResp := response.ClientResponse(http.StatusBadRequest, msg.MsgFormatErr, nil, strErr)
@@ -130,6 +140,7 @@ func (jh *JobSeekerHandler) JobSeekerEditProfile(c *gin.Context) {
 	}
 
 	jobseeker, err := jh.GRPC_Client.JobSeekerEditProfile(jobseekerData)
+
 	if err != nil {
 		logrusLogger.Error("Failed to edit profile: ", err)
 		errREsp := response.ClientResponse(http.StatusBadRequest, msg.MsgGettingDataErr, nil, err.Error())
@@ -137,29 +148,35 @@ func (jh *JobSeekerHandler) JobSeekerEditProfile(c *gin.Context) {
 		return
 	}
 	logrusLogger.Info("Jobseeker edit profile Successful")
+
 	successResp := response.ClientResponse(http.StatusOK, msg.MsgGetSucces, jobseeker, nil)
 	c.JSON(http.StatusOK, successResp)
 
 }
 
 func (jh *JobSeekerHandler) GetAllPolicies(c *gin.Context) {
+
 	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
 	defer logrusLogFile.Close()
 
 	data, err := jh.GRPC_Client.GetAllPolicies()
+
 	if err != nil {
 		logrusLogger.Error("Failed to get all policies: ", err)
 		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgGettingDataErr, nil, err.Error())
 		c.JSON(http.StatusBadRequest, errorRes)
 		return
 	}
+
 	logrusLogger.Info("Jobseeker get all policies Successful")
+
 	successRes := response.ClientResponse(http.StatusOK, msg.MsgGetSucces, data, nil)
 	c.JSON(http.StatusOK, successRes)
 
 }
 
 func (jh *JobSeekerHandler) GetOnePolicy(c *gin.Context) {
+
 	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
 	defer logrusLogFile.Close()
 
@@ -174,13 +191,16 @@ func (jh *JobSeekerHandler) GetOnePolicy(c *gin.Context) {
 	}
 
 	data, err := jh.GRPC_Client.GetOnePolicy(id)
+
 	if err != nil {
 		logrusLogger.Error("Failed to get one policy: ", err)
 		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgGettingDataErr, nil, err.Error())
 		c.JSON(http.StatusBadRequest, errorRes)
 		return
 	}
+
 	logrusLogger.Info("Jobseeker getting one policy Successful")
+	
 	successRes := response.ClientResponse(http.StatusOK, msg.MsgGetSucces, data, nil)
 	c.JSON(http.StatusOK, successRes)
 }

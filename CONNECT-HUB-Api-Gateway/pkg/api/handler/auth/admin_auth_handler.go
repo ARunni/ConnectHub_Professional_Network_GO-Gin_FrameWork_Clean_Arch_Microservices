@@ -115,6 +115,7 @@ func (ah *AdminHandler) BlockRecruiter(c *gin.Context) {
 	}
 
 	blockRecruiter, err := ah.GRPC_Client.BlockRecruiter(id)
+
 	if err != nil {
 		logrusLogger.Error("Failed to Block Recruiter: ", err)
 		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgGettingDataErr, nil, err.Error())
@@ -122,36 +123,50 @@ func (ah *AdminHandler) BlockRecruiter(c *gin.Context) {
 		return
 	}
 	logrusLogger.Info("Block Recruiter Successful")
+
 	successRes := response.ClientResponse(http.StatusOK, msg.ErrUserBlockTrue, blockRecruiter, nil)
 	c.JSON(http.StatusOK, successRes)
 }
 
 func (ah *AdminHandler) BlockJobseeker(c *gin.Context) {
+
+	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
+	defer logrusLogFile.Close()
+
 	idStr := c.Query("id")
 	id, err := strconv.Atoi(idStr)
 
 	if err != nil {
+		logrusLogger.Error("Failed to Get Data: ", err)
 		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgPageNumFormatErr, nil, err.Error())
 		c.JSON(http.StatusBadRequest, errorRes)
 		return
 	}
 
 	blockJobseeker, err := ah.GRPC_Client.BlockJobseeker(id)
+
 	if err != nil {
+		logrusLogger.Error("Failed to BlockJobseeker: ", err)
 		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgGettingDataErr, nil, err.Error())
 		c.JSON(http.StatusBadRequest, errorRes)
 		return
 	}
+	logrusLogger.Info("BlockJobseeker is Successful")
 
 	successRes := response.ClientResponse(http.StatusOK, msg.ErrUserBlockTrue, blockJobseeker, nil)
 	c.JSON(http.StatusOK, successRes)
 }
 
 func (ah *AdminHandler) UnBlockJobseeker(c *gin.Context) {
+
+	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
+	defer logrusLogFile.Close()
+
 	idStr := c.Query("id")
 	id, err := strconv.Atoi(idStr)
 
 	if err != nil {
+		logrusLogger.Error("Failed to Get Data: ", err)
 		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgPageNumFormatErr, nil, err.Error())
 		c.JSON(http.StatusBadRequest, errorRes)
 		return
@@ -160,73 +175,99 @@ func (ah *AdminHandler) UnBlockJobseeker(c *gin.Context) {
 	unBlockjobseeker, err := ah.GRPC_Client.UnBlockJobseeker(id)
 
 	if err != nil {
+		logrusLogger.Error("Failed to UnBlockJobseeker: ", err)
 		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgGettingDataErr, nil, err.Error())
 		c.JSON(http.StatusBadRequest, errorRes)
 		return
 	}
+	logrusLogger.Info("UnBlock Jobseeker Successful")
 
 	successRes := response.ClientResponse(http.StatusOK, msg.MsgGetSucces, unBlockjobseeker, nil)
 	c.JSON(http.StatusOK, successRes)
 }
 
 func (ah *AdminHandler) UnBlockRecruiter(c *gin.Context) {
+
+	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
+	defer logrusLogFile.Close()
+
 	idStr := c.Query("id")
 	id, err := strconv.Atoi(idStr)
 
 	if err != nil {
+		logrusLogger.Error("Failed to Get Data: ", err)
 		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgPageNumFormatErr, nil, err.Error())
 		c.JSON(http.StatusBadRequest, errorRes)
 		return
 	}
 
 	unBlockRecruiter, err := ah.GRPC_Client.UnBlockRecruiter(id)
+
 	if err != nil {
+		logrusLogger.Error("Failed to UnBlock Recruiter: ", err)
 		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgGettingDataErr, nil, err.Error())
 		c.JSON(http.StatusBadRequest, errorRes)
 		return
 	}
+	logrusLogger.Info("UnBlock Recruiter Successful")
 
 	successRes := response.ClientResponse(http.StatusOK, msg.MsgGetSucces, unBlockRecruiter, nil)
 	c.JSON(http.StatusOK, successRes)
 }
 
 func (ah *AdminHandler) GetJobseekerDetails(c *gin.Context) {
+
+	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
+	defer logrusLogFile.Close()
+
 	idStr := c.Query("id")
 	id, err := strconv.Atoi(idStr)
 
 	if err != nil {
+		logrusLogger.Error("Failed to Get Data: ", err)
 		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgPageNumFormatErr, nil, err.Error())
 		c.JSON(http.StatusBadRequest, errorRes)
 		return
 	}
 
 	unBlockRecruiter, err := ah.GRPC_Client.GetJobseekerDetails(id)
+
 	if err != nil {
+		logrusLogger.Error("Failed to Get Jobseeker Details: ", err)
 		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgGettingDataErr, nil, err.Error())
 		c.JSON(http.StatusBadRequest, errorRes)
 		return
 	}
+	logrusLogger.Info("Get Jobseeker Details Successful")
 
 	successRes := response.ClientResponse(http.StatusOK, msg.MsgGetSucces, unBlockRecruiter, nil)
 	c.JSON(http.StatusOK, successRes)
 }
 
 func (ah *AdminHandler) GetRecruiterDetails(c *gin.Context) {
+
+	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
+	defer logrusLogFile.Close()
+
 	idStr := c.Query("id")
 	id, err := strconv.Atoi(idStr)
 
 	if err != nil {
+		logrusLogger.Error("Failed to Get Data: ", err)
 		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgPageNumFormatErr, nil, err.Error())
 		c.JSON(http.StatusBadRequest, errorRes)
 		return
 	}
 
 	unBlockRecruiter, err := ah.GRPC_Client.GetRecruiterDetails(id)
+
 	if err != nil {
+		logrusLogger.Error("Failed to Get Recruiter Details: ", err)
 		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgGettingDataErr, nil, err.Error())
 		c.JSON(http.StatusBadRequest, errorRes)
 		return
 	}
+	logrusLogger.Info("Get Recruiter Details Successful")
 
 	successRes := response.ClientResponse(http.StatusOK, msg.MsgGetSucces, unBlockRecruiter, nil)
 	c.JSON(http.StatusOK, successRes)
@@ -235,20 +276,28 @@ func (ah *AdminHandler) GetRecruiterDetails(c *gin.Context) {
 // policies
 
 func (ah *AdminHandler) CreatePolicy(c *gin.Context) {
+
+	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
+	defer logrusLogFile.Close()
+
 	var policyData models.CreatePolicyReq
 
 	if err := c.ShouldBindJSON(&policyData); err != nil {
+		logrusLogger.Error("Failed to Get Data: ", err)
 		errResp := response.ClientResponse(http.StatusBadRequest, msg.ErrFormat, nil, err.Error())
 		c.JSON(http.StatusBadRequest, errResp)
 		return
 	}
 
 	data, err := ah.GRPC_Client.CreatePolicy(policyData)
+
 	if err != nil {
+		logrusLogger.Error("Failed to Create Policy: ", err)
 		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgGettingDataErr, nil, err.Error())
 		c.JSON(http.StatusBadRequest, errorRes)
 		return
 	}
+	logrusLogger.Info("Create Policy Successful")
 
 	successRes := response.ClientResponse(http.StatusOK, msg.MsgSuccess, data, nil)
 	c.JSON(http.StatusOK, successRes)
@@ -256,41 +305,56 @@ func (ah *AdminHandler) CreatePolicy(c *gin.Context) {
 
 func (ah *AdminHandler) UpdatePolicy(c *gin.Context) {
 
+	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
+	defer logrusLogFile.Close()
+
 	var policyData models.UpdatePolicyReq
 
 	if err := c.ShouldBindJSON(&policyData); err != nil {
+		logrusLogger.Error("Failed to Get Data: ", err)
 		errResp := response.ClientResponse(http.StatusBadRequest, msg.ErrFormat, nil, err.Error())
 		c.JSON(http.StatusBadRequest, errResp)
 		return
 	}
 
 	data, err := ah.GRPC_Client.UpdatePolicy(policyData)
+
 	if err != nil {
+		logrusLogger.Error("Failed to Update Policy: ", err)
 		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgGettingDataErr, nil, err.Error())
 		c.JSON(http.StatusBadRequest, errorRes)
 		return
 	}
+	logrusLogger.Info("Update Policy Successful")
 
 	successRes := response.ClientResponse(http.StatusOK, msg.MsgSuccess, data, nil)
 	c.JSON(http.StatusOK, successRes)
 }
 
 func (ah *AdminHandler) DeletePolicy(c *gin.Context) {
+
+	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
+	defer logrusLogFile.Close()
+
 	idStr := c.Query("policy_id")
 	id, err := strconv.Atoi(idStr)
 
 	if err != nil {
+		logrusLogger.Error("Failed to Get Data: ", err)
 		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgIdGetErr, nil, err.Error())
 		c.JSON(http.StatusBadRequest, errorRes)
 		return
 	}
 
 	data, err := ah.GRPC_Client.DeletePolicy(id)
+
 	if err != nil {
+		logrusLogger.Error("Failed to Delete Policy: ", err)
 		errorRes := response.ClientResponse(http.StatusBadRequest, "Deleting operation failed", nil, err.Error())
 		c.JSON(http.StatusBadRequest, errorRes)
 		return
 	}
+	logrusLogger.Info("Delete Policy Successful")
 
 	successRes := response.ClientResponse(http.StatusOK, msg.MsgSuccess, data, nil)
 	c.JSON(http.StatusOK, successRes)
@@ -298,22 +362,33 @@ func (ah *AdminHandler) DeletePolicy(c *gin.Context) {
 
 func (ah *AdminHandler) GetAllPolicies(c *gin.Context) {
 
+	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
+	defer logrusLogFile.Close()
+
 	data, err := ah.GRPC_Client.GetAllPolicies()
+
 	if err != nil {
+		logrusLogger.Error("Failed to Get Data: ", err)
 		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgGettingDataErr, nil, err.Error())
 		c.JSON(http.StatusBadRequest, errorRes)
 		return
 	}
+	logrusLogger.Info("Get All Policies Successful")
 
 	successRes := response.ClientResponse(http.StatusOK, msg.MsgGetSucces, data, nil)
 	c.JSON(http.StatusOK, successRes)
 }
 
 func (ah *AdminHandler) GetOnePolicy(c *gin.Context) {
+
+	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
+	defer logrusLogFile.Close()
+
 	idStr := c.Query("policy_id")
 	id, err := strconv.Atoi(idStr)
 
 	if err != nil {
+		logrusLogger.Error("Failed to Get Data: ", err)
 		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgIdGetErr, nil, err.Error())
 		c.JSON(http.StatusBadRequest, errorRes)
 		return
@@ -321,11 +396,12 @@ func (ah *AdminHandler) GetOnePolicy(c *gin.Context) {
 
 	data, err := ah.GRPC_Client.GetOnePolicy(id)
 	if err != nil {
+		logrusLogger.Error("Failed to Get One Policy: ", err)
 		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgGettingDataErr, nil, err.Error())
 		c.JSON(http.StatusBadRequest, errorRes)
 		return
 	}
-
+	logrusLogger.Info("Get One Policy Successful")
 	successRes := response.ClientResponse(http.StatusOK, msg.MsgGetSucces, data, nil)
 	c.JSON(http.StatusOK, successRes)
 }
