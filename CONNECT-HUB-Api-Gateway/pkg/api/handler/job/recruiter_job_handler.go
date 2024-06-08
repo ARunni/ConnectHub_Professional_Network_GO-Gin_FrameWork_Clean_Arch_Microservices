@@ -76,7 +76,7 @@ func (jh *RecruiterJobHandler) GetAllJobs(c *gin.Context) {
 	userId, strErr := userIdstring.(int)
 	int32Value := int32(userId)
 	if !strErr {
-		logrusLogger.Error("Failed to Get Data: ", errors.New("Details is not in correct format"))
+		logrusLogger.Error("Failed to Get Data: ", errors.New("details is not in correct format"))
 		errResp := response.ClientResponse(http.StatusBadRequest, msg.MsgFormatErr, nil, strErr)
 		c.JSON(http.StatusBadRequest, errResp)
 		return
@@ -105,7 +105,7 @@ func (jh *RecruiterJobHandler) GetOneJob(c *gin.Context) {
 	userId, strErr := userIdstring.(int)
 	int32Value := int32(userId)
 	if !strErr {
-		logrusLogger.Error("Failed to Get Data: ", errors.New("Details is not in correct format"))
+		logrusLogger.Error("Failed to Get Data: ", errors.New("details is not in correct format"))
 		errResp := response.ClientResponse(http.StatusBadRequest, msg.MsgFormatErr, nil, strErr)
 		c.JSON(http.StatusBadRequest, errResp)
 		return
@@ -144,7 +144,7 @@ func (jh *RecruiterJobHandler) DeleteAJob(c *gin.Context) {
 	int32Value := int32(userId)
 
 	if !strErr {
-		logrusLogger.Error("Failed to Get Data: ", errors.New("Details not in correct format"))
+		logrusLogger.Error("Failed to Get Data: ", errors.New("details not in correct format"))
 		errResp := response.ClientResponse(http.StatusBadRequest, msg.MsgFormatErr, nil, strErr)
 		c.JSON(http.StatusBadRequest, errResp)
 		return
@@ -189,7 +189,7 @@ func (jh *RecruiterJobHandler) UpdateAJob(c *gin.Context) {
 	userId, strErr := userIdstring.(int)
 	int32Value := int32(userId)
 	if !strErr {
-		logrusLogger.Error("Failed to Get Data: ", errors.New("Details not in correct format"))
+		logrusLogger.Error("Failed to Get Data: ", errors.New("details not in correct format"))
 		errResp := response.ClientResponse(http.StatusBadRequest, msg.MsgFormatErr, nil, strErr)
 		c.JSON(http.StatusBadRequest, errResp)
 		return
