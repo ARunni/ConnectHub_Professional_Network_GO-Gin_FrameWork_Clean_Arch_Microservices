@@ -1,6 +1,7 @@
 package handler
 
 import (
+	logging "connectHub_gateway/Logging"
 	interfaces "connectHub_gateway/pkg/client/auth/interface"
 	"connectHub_gateway/pkg/utils/models"
 	"connectHub_gateway/pkg/utils/response"
@@ -22,29 +23,38 @@ func NewAdminAuthHandler(grpc_client interfaces.AdminAuthClient) *AdminHandler {
 }
 
 func (ah *AdminHandler) AdminLogin(c *gin.Context) {
+
+	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
+	defer logrusLogFile.Close()
 	var adminData models.AdminLogin
 
 	if err := c.ShouldBindJSON(&adminData); err != nil {
+		logrusLogger.Error("Failed to Get Data: ", err)
 		errResp := response.ClientResponse(http.StatusBadRequest, msg.ErrFormat, nil, err.Error())
 		c.JSON(http.StatusBadRequest, errResp)
 		return
 	}
 	admin, err := ah.GRPC_Client.AdminLogin(adminData)
 	if err != nil {
+		logrusLogger.Error("Failed to login admin: ", err)
 		errResp := response.ClientResponse(http.StatusInternalServerError, "Cannot authenticate Admin", nil, err.Error())
 		c.JSON(http.StatusInternalServerError, errResp)
 		return
 	}
+	logrusLogger.Info("Admin signin Successful")
 	successResp := response.ClientResponse(http.StatusOK, "Admin Authenticated Successfully", admin, nil)
 	c.JSON(http.StatusOK, successResp)
 
 }
 
 func (ah *AdminHandler) GetJobseekers(c *gin.Context) {
+	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
+	defer logrusLogFile.Close()
 	pageStr := c.Query("page")
 	page, err := strconv.Atoi(pageStr)
 
 	if err != nil {
+		logrusLogger.Error("Failed to Get Data: ", err)
 		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgPageNumFormatErr, nil, err.Error())
 		c.JSON(http.StatusBadRequest, errorRes)
 		return
@@ -52,20 +62,26 @@ func (ah *AdminHandler) GetJobseekers(c *gin.Context) {
 
 	jobseeker, err := ah.GRPC_Client.GetJobseekers(page)
 	if err != nil {
+		logrusLogger.Error("Failed to Get Jobseekers: ", err)
 		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgGettingDataErr, nil, err.Error())
 		c.JSON(http.StatusBadRequest, errorRes)
 		return
 	}
-
+	logrusLogger.Info("Get Jobseekers Successful")
 	successRes := response.ClientResponse(http.StatusOK, msg.MsgGetSucces, jobseeker, nil)
 	c.JSON(http.StatusOK, successRes)
 }
 
 func (ah *AdminHandler) GetRecruiters(c *gin.Context) {
+
+	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
+	defer logrusLogFile.Close()
+
 	pageStr := c.Query("page")
 	page, err := strconv.Atoi(pageStr)
 
 	if err != nil {
+		logrusLogger.Error("Failed to Get Data: ", err)
 		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgPageNumFormatErr, nil, err.Error())
 		c.JSON(http.StatusBadRequest, errorRes)
 		return
@@ -73,20 +89,26 @@ func (ah *AdminHandler) GetRecruiters(c *gin.Context) {
 
 	recruiter, err := ah.GRPC_Client.GetRecruiters(page)
 	if err != nil {
+		logrusLogger.Error("Failed to Get Recruiters: ", err)
 		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgGettingDataErr, nil, err.Error())
 		c.JSON(http.StatusBadRequest, errorRes)
 		return
 	}
-
+	logrusLogger.Info("Get Recruiters Successful")
 	successRes := response.ClientResponse(http.StatusOK, msg.MsgGetSucces, recruiter, nil)
 	c.JSON(http.StatusOK, successRes)
 }
 
 func (ah *AdminHandler) BlockRecruiter(c *gin.Context) {
+
+	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
+	defer logrusLogFile.Close()
+
 	idStr := c.Query("id")
 	id, err := strconv.Atoi(idStr)
 
 	if err != nil {
+		logrusLogger.Error("Failed to Get Data: ", err)
 		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgPageNumFormatErr, nil, err.Error())
 		c.JSON(http.StatusBadRequest, errorRes)
 		return
@@ -94,11 +116,12 @@ func (ah *AdminHandler) BlockRecruiter(c *gin.Context) {
 
 	blockRecruiter, err := ah.GRPC_Client.BlockRecruiter(id)
 	if err != nil {
+		logrusLogger.Error("Failed to Block Recruiter: ", err)
 		errorRes := response.ClientResponse(http.StatusBadRequest, msg.MsgGettingDataErr, nil, err.Error())
 		c.JSON(http.StatusBadRequest, errorRes)
 		return
 	}
-
+	logrusLogger.Info("Block Recruiter Successful")
 	successRes := response.ClientResponse(http.StatusOK, msg.ErrUserBlockTrue, blockRecruiter, nil)
 	c.JSON(http.StatusOK, successRes)
 }

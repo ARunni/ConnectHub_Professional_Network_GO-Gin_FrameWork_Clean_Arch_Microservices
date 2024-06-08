@@ -9,9 +9,6 @@ import (
 
 func main() {
 
-	// logrusLogger, logrusLogFile := logging.InitLogrusLogger("connectHub_gateway.log")
-	// defer logrusLogFile.Close()
-
 	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
 	defer logrusLogFile.Close()
 
@@ -26,7 +23,7 @@ func main() {
 		log.Fatal("cannot start server: ", diErr)
 	}
 	logrusLogger.Info("connectHub_gateway started")
+
 	server.Start()
-	
 
 }
