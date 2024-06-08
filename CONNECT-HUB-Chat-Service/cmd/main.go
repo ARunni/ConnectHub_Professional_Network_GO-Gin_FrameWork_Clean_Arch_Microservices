@@ -1,20 +1,26 @@
 package main
 
 import (
+	logging "ConnetHub_chat/Logging"
 	"ConnetHub_chat/pkg/config"
 	"ConnetHub_chat/pkg/di"
 	"log"
 )
 
 func main() {
-	config, err := config.LoadConfig()
-	if err != nil {
-		log.Fatal("cannot load config:", err)
+	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_Auth.log")
+	defer logrusLogFile.Close()
+
+	cfg, cfgErr := config.LoadConfig()
+	if cfgErr != nil {
+		logrusLogger.Error("Failed to load config: ", cfgErr)
+		log.Fatal("canot load config: ", cfgErr)
 	}
-	server, err := di.InitializeAPI(config)
-	if err != nil {
-		log.Fatal("cannot start server:", err)
-	} else {
-		server.Start()
+	server, diErr := di.InitializeAPI(cfg)
+	if diErr != nil {
+		logrusLogger.Fatal("Cannot start server: ", diErr)
+		log.Fatal("cannot start server: ", diErr)
 	}
+	logrusLogger.Info("connectHub_chat started")
+	server.Start()
 }
