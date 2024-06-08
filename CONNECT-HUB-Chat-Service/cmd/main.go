@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_Auth.log")
+	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_chat.log")
 	defer logrusLogFile.Close()
 
 	cfg, cfgErr := config.LoadConfig()
