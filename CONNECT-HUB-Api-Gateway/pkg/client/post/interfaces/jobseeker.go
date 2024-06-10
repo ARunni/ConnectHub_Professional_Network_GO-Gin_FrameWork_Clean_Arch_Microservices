@@ -1,6 +1,6 @@
 package interfaces
 
-import "connectHub_gateway/pkg/utils/models"
+import "github.com/ARunni/connectHub_gateway/pkg/utils/models"
 
 type JobseekerPostClient interface {
 	CreatePost(post models.CreatePostReq) (models.CreatePostRes, error)

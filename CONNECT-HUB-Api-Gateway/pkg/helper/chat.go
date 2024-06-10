@@ -1,8 +1,8 @@
 package helper
 
 import (
-	config "connectHub_gateway/pkg/config"
-	"connectHub_gateway/pkg/utils/models"
+	config "github.com/ARunni/connectHub_gateway/pkg/config"
+	"github.com/ARunni/connectHub_gateway/pkg/utils/models"
 	"encoding/json"
 	"errors"
 	"fmt"

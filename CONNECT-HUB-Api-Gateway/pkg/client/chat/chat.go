@@ -1,14 +1,14 @@
 package client
 
 import (
-	logging "connectHub_gateway/Logging"
-	"connectHub_gateway/pkg/config"
-	"connectHub_gateway/pkg/utils/models"
+	logging "github.com/ARunni/connectHub_gateway/Logging"
+	"github.com/ARunni/connectHub_gateway/pkg/config"
+	"github.com/ARunni/connectHub_gateway/pkg/utils/models"
 	"context"
 	"fmt"
 	"os"
 
-	pb "connectHub_gateway/pkg/pb/chat"
+	pb "github.com/ARunni/connectHub_gateway/pkg/pb/chat"
 
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"

@@ -1,7 +1,7 @@
 package helper
 
 import (
-	"connectHub_gateway/pkg/config"
+	"github.com/ARunni/connectHub_gateway/pkg/config"
 	"fmt"
 
 	"github.com/golang-jwt/jwt"

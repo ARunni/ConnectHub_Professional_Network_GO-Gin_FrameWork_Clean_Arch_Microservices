@@ -1,7 +1,7 @@
 package helper
 
 import (
-	logging "connectHub_gateway/Logging"
+	logging "github.com/ARunni/connectHub_gateway/Logging"
 
 	"github.com/sirupsen/logrus"
 )

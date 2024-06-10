@@ -1,12 +1,12 @@
 package client
 
 import (
-	logging "connectHub_gateway/Logging"
-	interfaces "connectHub_gateway/pkg/client/auth/interface"
-	"connectHub_gateway/pkg/config"
-	"connectHub_gateway/pkg/helper"
-	pb "connectHub_gateway/pkg/pb/auth/recruiter"
-	"connectHub_gateway/pkg/utils/models"
+	logging "github.com/ARunni/connectHub_gateway/Logging"
+	interfaces "github.com/ARunni/connectHub_gateway/pkg/client/auth/interface"
+	"github.com/ARunni/connectHub_gateway/pkg/config"
+	"github.com/ARunni/connectHub_gateway/pkg/helper"
+	pb "github.com/ARunni/connectHub_gateway/pkg/pb/auth/recruiter"
+	"github.com/ARunni/connectHub_gateway/pkg/utils/models"
 	"context"
 	"fmt"
 	"os"

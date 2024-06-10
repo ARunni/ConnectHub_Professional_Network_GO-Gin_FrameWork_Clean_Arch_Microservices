@@ -1,6 +1,6 @@
 package interfaces
 
-import "connectHub_gateway/pkg/utils/models"
+import "github.com/ARunni/connectHub_gateway/pkg/utils/models"
 
 type JobSeekerAuthClient interface {
 	JobSeekerSignup(jobseekerData models.JobSeekerSignUp) (models.TokenJobSeeker, error)

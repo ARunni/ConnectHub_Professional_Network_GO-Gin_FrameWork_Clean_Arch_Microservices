@@ -1,15 +1,15 @@
 package handler
 
 import (
-	interfaces "connectHub_gateway/pkg/client/auth/interface"
-	"connectHub_gateway/pkg/utils/models"
-	"connectHub_gateway/pkg/utils/response"
+	interfaces "github.com/ARunni/connectHub_gateway/pkg/client/auth/interface"
+	"github.com/ARunni/connectHub_gateway/pkg/utils/models"
+	"github.com/ARunni/connectHub_gateway/pkg/utils/response"
 	"errors"
 	"net/http"
 	"os"
 	"strconv"
 
-	logging "connectHub_gateway/Logging"
+	logging "github.com/ARunni/connectHub_gateway/Logging"
 
 	msg "github.com/ARunni/Error_Message"
 	"github.com/gin-gonic/gin"

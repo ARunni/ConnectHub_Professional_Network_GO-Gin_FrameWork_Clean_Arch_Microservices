@@ -1,10 +1,10 @@
 package handler
 
 import (
-	logging "connectHub_gateway/Logging"
-	"connectHub_gateway/pkg/client/post/interfaces"
-	"connectHub_gateway/pkg/utils/models"
-	"connectHub_gateway/pkg/utils/response"
+	logging "github.com/ARunni/connectHub_gateway/Logging"
+	"github.com/ARunni/connectHub_gateway/pkg/client/post/interfaces"
+	"github.com/ARunni/connectHub_gateway/pkg/utils/models"
+	"github.com/ARunni/connectHub_gateway/pkg/utils/response"
 	"errors"
 	"io/ioutil"
 	"net/http"

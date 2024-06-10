@@ -1,6 +1,6 @@
 package interfaces
 
-import "connectHub_gateway/pkg/utils/models"
+import "github.com/ARunni/connectHub_gateway/pkg/utils/models"
 
 type RecruiterAuthClient interface {
 	RecruiterSignup(recruiterData models.RecruiterSignUp) (models.TokenRecruiter, error)

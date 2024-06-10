@@ -1,8 +1,8 @@
 package middleware
 
 import (
-	"connectHub_gateway/pkg/helper"
-	"connectHub_gateway/pkg/utils/response"
+	"github.com/ARunni/connectHub_gateway/pkg/helper"
+	"github.com/ARunni/connectHub_gateway/pkg/utils/response"
 	"errors"
 	"fmt"
 	"net/http"

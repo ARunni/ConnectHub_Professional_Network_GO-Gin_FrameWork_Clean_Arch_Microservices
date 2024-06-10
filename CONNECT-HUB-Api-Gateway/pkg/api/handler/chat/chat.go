@@ -1,11 +1,11 @@
 package handler
 
 import (
-	logging "connectHub_gateway/Logging"
-	interfaces "connectHub_gateway/pkg/client/chat/interfaces"
-	"connectHub_gateway/pkg/helper"
-	"connectHub_gateway/pkg/utils/models"
-	"connectHub_gateway/pkg/utils/response"
+	logging "github.com/ARunni/connectHub_gateway/Logging"
+	interfaces "github.com/ARunni/connectHub_gateway/pkg/client/chat/interfaces"
+	"github.com/ARunni/connectHub_gateway/pkg/helper"
+	"github.com/ARunni/connectHub_gateway/pkg/utils/models"
+	"github.com/ARunni/connectHub_gateway/pkg/utils/response"
 	"errors"
 	"fmt"
 	"net/http"

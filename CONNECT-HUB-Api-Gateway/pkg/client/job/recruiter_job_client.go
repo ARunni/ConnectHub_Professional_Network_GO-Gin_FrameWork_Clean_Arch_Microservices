@@ -1,11 +1,11 @@
 package client
 
 import (
-	logging "connectHub_gateway/Logging"
-	interfaces "connectHub_gateway/pkg/client/job/interface"
-	"connectHub_gateway/pkg/config"
-	recruiterPb "connectHub_gateway/pkg/pb/job/recruiter"
-	"connectHub_gateway/pkg/utils/models"
+	logging "github.com/ARunni/connectHub_gateway/Logging"
+	interfaces "github.com/ARunni/connectHub_gateway/pkg/client/job/interface"
+	"github.com/ARunni/connectHub_gateway/pkg/config"
+	recruiterPb "github.com/ARunni/connectHub_gateway/pkg/pb/job/recruiter"
+	"github.com/ARunni/connectHub_gateway/pkg/utils/models"
 	"context"
 	"fmt"
 	"os"

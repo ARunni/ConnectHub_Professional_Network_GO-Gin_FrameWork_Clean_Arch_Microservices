@@ -1,12 +1,12 @@
 package server
 
 import (
-	authHandler "connectHub_gateway/pkg/api/handler/auth"
-	chatHandler "connectHub_gateway/pkg/api/handler/chat"
-	jobHandler "connectHub_gateway/pkg/api/handler/job"
-	postHandler "connectHub_gateway/pkg/api/handler/post"
-	"connectHub_gateway/pkg/config"
-	"connectHub_gateway/pkg/middleware"
+	authHandler "github.com/ARunni/connectHub_gateway/pkg/api/handler/auth"
+	chatHandler "github.com/ARunni/connectHub_gateway/pkg/api/handler/chat"
+	jobHandler "github.com/ARunni/connectHub_gateway/pkg/api/handler/job"
+	postHandler "github.com/ARunni/connectHub_gateway/pkg/api/handler/post"
+	"github.com/ARunni/connectHub_gateway/pkg/config"
+	"github.com/ARunni/connectHub_gateway/pkg/middleware"
 	"log"
 
 	"github.com/gin-gonic/gin"

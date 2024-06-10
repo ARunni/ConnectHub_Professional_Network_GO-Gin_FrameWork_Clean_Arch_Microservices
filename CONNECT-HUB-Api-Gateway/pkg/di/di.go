@@ -1,19 +1,19 @@
 package di
 
 import (
-	server "connectHub_gateway/pkg/api"
-	authHandler "connectHub_gateway/pkg/api/handler/auth"
-	chatHandler "connectHub_gateway/pkg/api/handler/chat"
-	jobHandler "connectHub_gateway/pkg/api/handler/job"
-	postHandler "connectHub_gateway/pkg/api/handler/post"
-	"connectHub_gateway/pkg/helper"
+	server "github.com/ARunni/connectHub_gateway/pkg/api"
+	authHandler "github.com/ARunni/connectHub_gateway/pkg/api/handler/auth"
+	chatHandler "github.com/ARunni/connectHub_gateway/pkg/api/handler/chat"
+	jobHandler "github.com/ARunni/connectHub_gateway/pkg/api/handler/job"
+	postHandler "github.com/ARunni/connectHub_gateway/pkg/api/handler/post"
+	"github.com/ARunni/connectHub_gateway/pkg/helper"
 
-	authClient "connectHub_gateway/pkg/client/auth"
-	chatClient "connectHub_gateway/pkg/client/chat"
-	jobClient "connectHub_gateway/pkg/client/job"
-	postClient "connectHub_gateway/pkg/client/post"
+	authClient "github.com/ARunni/connectHub_gateway/pkg/client/auth"
+	chatClient "github.com/ARunni/connectHub_gateway/pkg/client/chat"
+	jobClient "github.com/ARunni/connectHub_gateway/pkg/client/job"
+	postClient "github.com/ARunni/connectHub_gateway/pkg/client/post"
 
-	"connectHub_gateway/pkg/config"
+	"github.com/ARunni/connectHub_gateway/pkg/config"
 )
 
 func InitializeAPI(cfg config.Config) (*server.ServerHTTP, error) {

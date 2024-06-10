@@ -1,18 +1,17 @@
 package main
 
 import (
-	logging "connectHub_gateway/Logging"
-	"connectHub_gateway/pkg/config"
-	"connectHub_gateway/pkg/di"
 	"log"
 
-	_ "connectHub_gateway/cmd/docs"
+	logging "github.com/ARunni/connectHub_gateway/Logging"
+	"github.com/ARunni/connectHub_gateway/pkg/config"
+	"github.com/ARunni/connectHub_gateway/pkg/di"
+
+	_ "github.com/ARunni/connectHub_gateway/cmd/docs"
 
 	_ "github.com/swaggo/files"
 	_ "github.com/swaggo/gin-swagger"
-
 )
-
 
 // @title Go + Gin professional networking platform API Connect Hub
 // @version 1.0.0
