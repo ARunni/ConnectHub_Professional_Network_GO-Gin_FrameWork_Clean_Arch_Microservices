@@ -1,23 +1,33 @@
 package helper
 
 import (
+	logging "ConnetHub_post/Logging"
 	cfg "ConnetHub_post/pkg/config"
 	"bytes"
 	"fmt"
+	"os"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 	"github.com/google/uuid"
+	"github.com/sirupsen/logrus"
 )
 
 type Helper struct {
-	cfg cfg.Config
+	cfg     cfg.Config
+	Logger  *logrus.Logger
+	LogFile *os.File
 }
 
 func NewHelper(cfg cfg.Config) *Helper {
-	return &Helper{cfg: cfg}
+	logger, logFile := logging.InitLogrusLogger("./Logging/connectHub_Post.log")
+	return &Helper{
+		cfg:     cfg,
+		Logger:  logger,
+		LogFile: logFile,
+	}
 }
 
 func (h *Helper) AddImageToAwsS3(file []byte) (string, error) {

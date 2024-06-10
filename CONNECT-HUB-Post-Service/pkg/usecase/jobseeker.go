@@ -1,21 +1,30 @@
 package usecase
 
 import (
+	logging "ConnetHub_post/Logging"
 	"ConnetHub_post/pkg/config"
 	"ConnetHub_post/pkg/helper"
 	repo "ConnetHub_post/pkg/repository/interfaces"
 	"ConnetHub_post/pkg/usecase/interfaces"
 	"ConnetHub_post/pkg/utils/models"
 	"errors"
+	"os"
+
+	"github.com/sirupsen/logrus"
 )
 
 type jobseekerJobUseCase struct {
 	postRepository repo.JobseekerPostRepository
+	Logger         *logrus.Logger
+	LogFile        *os.File
 }
 
 func NewJobseekerpostUseCase(repo repo.JobseekerPostRepository) interfaces.JobseekerPostUsecase {
+	logger, logFile := logging.InitLogrusLogger("./Logging/connectHub_Post.log")
 	return &jobseekerJobUseCase{
 		postRepository: repo,
+		Logger:         logger,
+		LogFile:        logFile,
 	}
 }
 

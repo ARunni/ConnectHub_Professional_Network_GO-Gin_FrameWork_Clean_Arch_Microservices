@@ -1,20 +1,28 @@
 package repository
 
 import (
+	logging "ConnetHub_post/Logging"
 	"ConnetHub_post/pkg/repository/interfaces"
 	"ConnetHub_post/pkg/utils/models"
+	"os"
 	"time"
 
+	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 )
 
 type jobseekerPostRepository struct {
-	DB *gorm.DB
+	DB      *gorm.DB
+	Logger  *logrus.Logger
+	LogFile *os.File
 }
 
 func NewJobseekerPostRepository(DB *gorm.DB) interfaces.JobseekerPostRepository {
+	logger, logFile := logging.InitLogrusLogger("./Logging/connectHub_Post.log")
 	return &jobseekerPostRepository{
-		DB: DB,
+		DB:      DB,
+		Logger:  logger,
+		LogFile: logFile,
 	}
 }
 
