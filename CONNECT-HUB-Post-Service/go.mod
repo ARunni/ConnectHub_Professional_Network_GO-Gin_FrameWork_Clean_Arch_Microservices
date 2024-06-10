@@ -1,4 +1,4 @@
-module ConnetHub_post
+module github.com/ARunni/ConnetHub_post
 
 go 1.21.5
 

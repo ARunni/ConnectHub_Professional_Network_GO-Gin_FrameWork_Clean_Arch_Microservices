@@ -1,4 +1,4 @@
-module ConnetHub_job
+module github.com/ARunni/ConnetHub_job
 
 go 1.21.5
 

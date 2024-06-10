@@ -1,10 +1,10 @@
 package service
 
 import (
-	logging "ConnetHub_auth/Logging"
-	pb "ConnetHub_auth/pkg/pb/auth/admin"
-	interfaces "ConnetHub_auth/pkg/usecase/interface"
-	req "ConnetHub_auth/pkg/utils/reqAndResponse"
+	logging "github.com/ARunni/ConnetHub_auth/Logging"
+	pb "github.com/ARunni/ConnetHub_auth/pkg/pb/auth/admin"
+	interfaces "github.com/ARunni/ConnetHub_auth/pkg/usecase/interface"
+	req "github.com/ARunni/ConnetHub_auth/pkg/utils/reqAndResponse"
 	"context"
 	"os"
 

@@ -1,8 +1,8 @@
 package interfaces
 
 import (
-	"ConnetHub_auth/pkg/utils/models"
-	req "ConnetHub_auth/pkg/utils/reqAndResponse"
+	"github.com/ARunni/ConnetHub_auth/pkg/utils/models"
+	req "github.com/ARunni/ConnetHub_auth/pkg/utils/reqAndResponse"
 )
 
 type AdminRepository interface {

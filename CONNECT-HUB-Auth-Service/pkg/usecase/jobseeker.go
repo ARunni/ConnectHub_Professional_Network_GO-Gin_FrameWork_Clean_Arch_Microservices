@@ -1,11 +1,11 @@
 package usecase
 
 import (
-	logging "ConnetHub_auth/Logging"
-	"ConnetHub_auth/pkg/helper"
-	repo "ConnetHub_auth/pkg/repository/interface"
-	usecase "ConnetHub_auth/pkg/usecase/interface"
-	req "ConnetHub_auth/pkg/utils/reqAndResponse"
+	logging "github.com/ARunni/ConnetHub_auth/Logging"
+	"github.com/ARunni/ConnetHub_auth/pkg/helper"
+	repo "github.com/ARunni/ConnetHub_auth/pkg/repository/interface"
+	usecase "github.com/ARunni/ConnetHub_auth/pkg/usecase/interface"
+	req "github.com/ARunni/ConnetHub_auth/pkg/utils/reqAndResponse"
 	"errors"
 	"os"
 

@@ -1,9 +1,9 @@
 package service
 
 import (
-	logging "ConnetHub_auth/Logging"
-	pb "ConnetHub_auth/pkg/pb/job/auth"
-	interfaces "ConnetHub_auth/pkg/usecase/interface"
+	logging "github.com/ARunni/ConnetHub_auth/Logging"
+	pb "github.com/ARunni/ConnetHub_auth/pkg/pb/job/auth"
+	interfaces "github.com/ARunni/ConnetHub_auth/pkg/usecase/interface"
 	"context"
 	"os"
 

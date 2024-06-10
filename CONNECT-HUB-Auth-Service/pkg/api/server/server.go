@@ -1,16 +1,16 @@
 package server
 
 import (
-	logging "ConnetHub_auth/Logging"
-	"ConnetHub_auth/pkg/config"
-	adminPb "ConnetHub_auth/pkg/pb/auth/admin"
+	logging "github.com/ARunni/ConnetHub_auth/Logging"
+	"github.com/ARunni/ConnetHub_auth/pkg/config"
+	adminPb "github.com/ARunni/ConnetHub_auth/pkg/pb/auth/admin"
 	"context"
 	"log"
 	"os"
 
-	jobseekerPb "ConnetHub_auth/pkg/pb/auth/jobseeker"
-	recruiterPb "ConnetHub_auth/pkg/pb/auth/recruiter"
-	jobAuthPb "ConnetHub_auth/pkg/pb/job/auth"
+	jobseekerPb "github.com/ARunni/ConnetHub_auth/pkg/pb/auth/jobseeker"
+	recruiterPb "github.com/ARunni/ConnetHub_auth/pkg/pb/auth/recruiter"
+	jobAuthPb "github.com/ARunni/ConnetHub_auth/pkg/pb/job/auth"
 	"fmt"
 	"net"
 

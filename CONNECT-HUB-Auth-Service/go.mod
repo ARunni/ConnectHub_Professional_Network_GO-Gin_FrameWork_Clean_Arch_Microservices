@@ -1,4 +1,4 @@
-module ConnetHub_auth
+module github.com/ARunni/ConnetHub_auth
 
 go 1.21.5
 

@@ -1,10 +1,10 @@
 package repository
 
 import (
-	logging "ConnetHub_auth/Logging"
-	interfaces "ConnetHub_auth/pkg/repository/interface"
-	"ConnetHub_auth/pkg/utils/models"
-	req "ConnetHub_auth/pkg/utils/reqAndResponse"
+	logging "github.com/ARunni/ConnetHub_auth/Logging"
+	interfaces "github.com/ARunni/ConnetHub_auth/pkg/repository/interface"
+	"github.com/ARunni/ConnetHub_auth/pkg/utils/models"
+	req "github.com/ARunni/ConnetHub_auth/pkg/utils/reqAndResponse"
 	"os"
 	"time"
 

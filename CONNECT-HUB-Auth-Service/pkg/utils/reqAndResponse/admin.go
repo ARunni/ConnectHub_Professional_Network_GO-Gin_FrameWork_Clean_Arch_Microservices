@@ -1,6 +1,6 @@
 package reqandresponse
 
-import "ConnetHub_auth/pkg/utils/models"
+import "github.com/ARunni/ConnetHub_auth/pkg/utils/models"
 
 type AdminLogin struct {
 	Email    string `json:"email" binding:"required" validate:"required"`

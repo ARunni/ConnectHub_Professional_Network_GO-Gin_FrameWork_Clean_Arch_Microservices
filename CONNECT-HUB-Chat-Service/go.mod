@@ -1,4 +1,4 @@
-module ConnetHub_chat
+module github.com/ARunni/ConnetHub_chat
 
 go 1.21.5
 

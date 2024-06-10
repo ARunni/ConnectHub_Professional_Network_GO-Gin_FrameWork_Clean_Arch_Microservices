@@ -1,8 +1,8 @@
 package db
 
 import (
-	"ConnetHub_auth/pkg/config"
-	"ConnetHub_auth/pkg/utils/models"
+	"github.com/ARunni/ConnetHub_auth/pkg/config"
+	"github.com/ARunni/ConnetHub_auth/pkg/utils/models"
 	"fmt"
 
 	"golang.org/x/crypto/bcrypt"

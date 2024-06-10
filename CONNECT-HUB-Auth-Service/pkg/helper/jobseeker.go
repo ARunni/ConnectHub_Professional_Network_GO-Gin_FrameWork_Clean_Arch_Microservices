@@ -1,8 +1,8 @@
 package helper
 
 import (
-	"ConnetHub_auth/pkg/config"
-	req "ConnetHub_auth/pkg/utils/reqAndResponse"
+	"github.com/ARunni/ConnetHub_auth/pkg/config"
+	req "github.com/ARunni/ConnetHub_auth/pkg/utils/reqAndResponse"
 	"fmt"
 	"time"
 

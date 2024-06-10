@@ -1,12 +1,12 @@
 package di
 
 import (
-	"ConnetHub_auth/pkg/api/server"
-	"ConnetHub_auth/pkg/api/service"
-	"ConnetHub_auth/pkg/config"
-	"ConnetHub_auth/pkg/db"
-	"ConnetHub_auth/pkg/repository"
-	"ConnetHub_auth/pkg/usecase"
+	"github.com/ARunni/ConnetHub_auth/pkg/api/server"
+	"github.com/ARunni/ConnetHub_auth/pkg/api/service"
+	"github.com/ARunni/ConnetHub_auth/pkg/config"
+	"github.com/ARunni/ConnetHub_auth/pkg/db"
+	"github.com/ARunni/ConnetHub_auth/pkg/repository"
+	"github.com/ARunni/ConnetHub_auth/pkg/usecase"
 )
 
 func InitializeAPI(cfg config.Config) (*server.Server, error) {

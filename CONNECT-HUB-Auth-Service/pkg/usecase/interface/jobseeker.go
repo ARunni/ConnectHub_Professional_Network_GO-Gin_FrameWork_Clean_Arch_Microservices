@@ -1,6 +1,6 @@
 package interfaces
 
-import req "ConnetHub_auth/pkg/utils/reqAndResponse"
+import req "github.com/ARunni/ConnetHub_auth/pkg/utils/reqAndResponse"
 
 type JobSeekerUseCase interface {
 	JobSeekerSignup(jobseekerdata req.JobSeekerSignUp) (req.TokenJobSeeker, error)
