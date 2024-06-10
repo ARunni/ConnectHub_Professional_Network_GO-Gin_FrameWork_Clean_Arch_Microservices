@@ -1,10 +1,62 @@
+definitions:
+  models.AdminLogin:
+    properties:
+      email:
+        type: string
+      password:
+        maxLength: 20
+        minLength: 6
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  response.Response:
+    properties:
+      data: {}
+      error: {}
+      message:
+        type: string
+      status_code:
+        type: integer
+    type: object
 info:
   contact:
     name: API Support
   description: ConnectHub is a professional networking platform.
   title: Go + Gin professional networking platform API Connect Hub
   version: 1.0.0
-paths: {}
+paths:
+  /admin/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate an admin and get access token
+      parameters:
+      - description: Admin credentials for login
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.AdminLogin'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Admin login successful
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Invalid request or constraints not satisfied
+          schema:
+            $ref: '#/definitions/response.Response'
+        "401":
+          description: 'Unauthorized: cannot authenticate user'
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Admin login
+      tags:
+      - Admin
 securityDefinitions:
   BearerTokenAuth:
     in: header

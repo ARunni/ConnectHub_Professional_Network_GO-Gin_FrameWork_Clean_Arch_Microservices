@@ -23,6 +23,18 @@ func NewJobseekerJobHandler(grpc_client interfaces.JobseekerJobClient) *Jobseeke
 	}
 }
 
+// JobSeekerGetAllJobs retrieves all jobs matching the provided keyword.
+// @Summary Get all jobs for job seeker
+// @Description Retrieve all jobs matching the provided keyword for job seekers
+// @Tags Job Seeker
+// @Accept json
+// @Produce json
+// @Security BearerTokenAuth
+// @Param Keyword query string true "Keyword to search for jobs"
+// @Success 200 {object} response.Response "Successfully retrieved jobs"
+// @Failure 400 {object} response.Response "Failed to retrieve jobs: keyword parameter is required"
+// @Failure 500 {object} response.Response "Internal server error: failed to fetch jobs"
+// @Router /jobseeker/jobs [get]
 func (jh *JobseekerJobHandler) JobSeekerGetAllJobs(c *gin.Context) {
 
 	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
@@ -63,6 +75,18 @@ func (jh *JobseekerJobHandler) JobSeekerGetAllJobs(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// JobSeekerGetJobByID retrieves the details of a job by its ID for job seekers.
+// @Summary Get job by ID for job seeker
+// @Description Retrieve the details of a job by its ID for job seekers
+// @Tags Job Seeker
+// @Accept json
+// @Produce json
+// @Security BearerTokenAuth
+// @Param job_id query int true "ID of the job to retrieve"
+// @Success 200 {object} response.Response "Successfully retrieved job"
+// @Failure 400 {object} response.Response "Failed to retrieve job: job_id parameter is required or conversion failed"
+// @Failure 500 {object} response.Response "Internal server error: failed to fetch job"
+// @Router /jobseeker/job [get]
 func (jh *JobseekerJobHandler) JobSeekerGetJobByID(c *gin.Context) {
 
 	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
@@ -99,6 +123,20 @@ func (jh *JobseekerJobHandler) JobSeekerGetJobByID(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// JobSeekerApplyJob handles the job application operation for a job seeker.
+// @Summary Apply for a job
+// @Description Apply for a job as a job seeker
+// @Tags Job Seeker
+// @Accept multipart/form-data
+// @Produce json
+// @Security BearerTokenAuth
+// @Param job_id formData int true "ID of the job to apply for"
+// @Param cover_letter formData string true "Cover letter for the job application"
+// @Param resume formData file true "Resume for the job application"
+// @Success 200 {object} response.Response "Job applied successfully"
+// @Failure 400 {object} response.Response "Failed to apply for the job: missing or incorrect parameters"
+// @Failure 500 {object} response.Response "Internal server error: failed to apply for the job"
+// @Router /jobseeker/apply [post]
 func (jh *JobseekerJobHandler) JobSeekerApplyJob(c *gin.Context) {
 
 	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
@@ -178,6 +216,17 @@ func (jh *JobseekerJobHandler) JobSeekerApplyJob(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// GetAppliedJobs retrieves the jobs that a job seeker has applied for.
+// @Summary Get applied jobs
+// @Description Retrieve the jobs that a job seeker has applied for
+// @Tags Job Seeker
+// @Accept json
+// @Produce json
+// @Security BearerTokenAuth
+// @Success 200 {object} response.Response "Successfully retrieved applied jobs"
+// @Failure 400 {object} response.Response "Failed to retrieve applied jobs: missing or incorrect parameters"
+// @Failure 500 {object} response.Response "Internal server error: failed to retrieve applied jobs"
+// @Router /jobseeker/appliedjobs [get]
 func (jh *JobseekerJobHandler) GetAppliedJobs(c *gin.Context) {
 
 	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")

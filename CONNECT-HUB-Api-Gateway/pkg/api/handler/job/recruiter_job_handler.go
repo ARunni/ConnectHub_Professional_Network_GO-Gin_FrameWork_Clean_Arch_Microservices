@@ -23,6 +23,18 @@ func NewRecruiterJobHandler(grpc_client interfaces.RecruiterJobClient) *Recruite
 	}
 }
 
+// PostJob creates a new job posting by a recruiter.
+// @Summary Create job posting
+// @Description Create a new job posting by a recruiter
+// @Tags Recruiter
+// @Accept json
+// @Produce json
+// @Security BearerTokenAuth
+// @Param body body models.JobOpening true "Job opening data for posting"
+// @Success 200 {object} response.Response "Job posted successfully"
+// @Failure 400 {object} response.Response "Failed to post job: missing or incorrect parameters"
+// @Failure 500 {object} response.Response "Internal server error: failed to post job"
+// @Router /recruiter/jobs [post]
 func (jh *RecruiterJobHandler) PostJob(c *gin.Context) {
 
 	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
@@ -65,8 +77,19 @@ func (jh *RecruiterJobHandler) PostJob(c *gin.Context) {
 
 }
 
-///
 
+// GetAllJobs retrieves all jobs posted by a recruiter.
+// @Summary Get all jobs
+// @Description Retrieve all jobs posted by a recruiter
+// @Tags Recruiter
+// @Accept json
+// @Produce json
+// @Security BearerTokenAuth
+// @Param Authorization header string true "Bearer token"
+// @Success 200 {object} response.Response "Successfully retrieved jobs"
+// @Failure 400 {object} response.Response "Failed to retrieve jobs: missing or incorrect parameters"
+// @Failure 500 {object} response.Response "Internal server error: failed to retrieve jobs"
+// @Router /recruiter/jobs [get]
 func (jh *RecruiterJobHandler) GetAllJobs(c *gin.Context) {
 
 	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
@@ -94,6 +117,19 @@ func (jh *RecruiterJobHandler) GetAllJobs(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// GetOneJob retrieves the details of a single job posted by a recruiter.
+// @Summary Get one job
+// @Description Retrieve the details of a single job posted by a recruiter
+// @Tags Recruiter
+// @Accept json
+// @Produce json
+// @Security BearerTokenAuth
+// @Param job_id query int true "ID of the job to retrieve"
+// @Param Authorization header string true "Bearer token"
+// @Success 200 {object} response.Response "Successfully retrieved job"
+// @Failure 400 {object} response.Response "Failed to retrieve job: missing or incorrect parameters"
+// @Failure 500 {object} response.Response "Internal server error: failed to retrieve job"
+// @Router /recruiter/job [get]
 func (jh *RecruiterJobHandler) GetOneJob(c *gin.Context) {
 
 	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
@@ -132,6 +168,19 @@ func (jh *RecruiterJobHandler) GetOneJob(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// DeleteAJob deletes a job posted by a recruiter.
+// @Summary Delete a job
+// @Description Delete a job posted by a recruiter
+// @Tags Recruiter
+// @Accept json
+// @Produce json
+// @Security BearerTokenAuth
+// @Param job_id query int true "ID of the job to delete"
+// @Param Authorization header string true "Bearer token"
+// @Success 200 {object} response.Response "Job successfully deleted"
+// @Failure 400 {object} response.Response "Failed to delete job: missing or incorrect parameters"
+// @Failure 500 {object} response.Response "Internal server error: failed to delete job"
+// @Router /recruiter/job [delete]
 func (jh *RecruiterJobHandler) DeleteAJob(c *gin.Context) {
 
 	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
@@ -171,6 +220,20 @@ func (jh *RecruiterJobHandler) DeleteAJob(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// UpdateAJob updates a job posted by a recruiter.
+// @Summary Update a job
+// @Description Update a job posted by a recruiter
+// @Tags Recruiter
+// @Accept json
+// @Produce json
+// @Security BearerTokenAuth
+// @Param job_id query int true "ID of the job to update"
+// @Param Authorization header string true "Bearer token"
+// @Param jobOpening body JobOpening true "Updated job details"
+// @Success 200 {object} response.Response "Job successfully updated"
+// @Failure 400 {object} response.Response "Failed to update job: missing or incorrect parameters"
+// @Failure 500 {object} response.Response "Internal server error: failed to update job"
+// @Router /recruiter/job [put]
 func (jh *RecruiterJobHandler) UpdateAJob(c *gin.Context) {
 
 	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
@@ -216,6 +279,18 @@ func (jh *RecruiterJobHandler) UpdateAJob(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// GetJobAppliedCandidates retrieves the candidates who applied for a job posted by a recruiter.
+// @Summary Get applied candidates for a job
+// @Description Retrieves the candidates who applied for a job posted by a recruiter
+// @Tags Recruiter
+// @Accept json
+// @Produce json
+// @Security BearerTokenAuth
+// @Param Authorization header string true "Bearer token"
+// @Success 200 {object} response.Response "Applied candidates retrieved successfully"
+// @Failure 400 {object} response.Response "Failed to get applied candidates: missing or incorrect parameters"
+// @Failure 500 {object} response.Response "Internal server error: failed to get applied candidates"
+// @Router /recruiter/job/applied-candidates [get]
 func (jh *RecruiterJobHandler) GetJobAppliedCandidates(c *gin.Context) {
 
 	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
@@ -248,6 +323,19 @@ func (jh *RecruiterJobHandler) GetJobAppliedCandidates(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// ScheduleInterview schedules an interview by a recruiter for a job applicant.
+// @Summary Schedule interview
+// @Description Schedule an interview by a recruiter for a job applicant
+// @Tags Recruiter
+// @Accept json
+// @Produce json
+// @Security BearerTokenAuth
+// @Param Authorization header string true "Bearer token"
+// @Param jobSchedule body ScheduleReq true "Schedule details"
+// @Success 200 {object} response.Response "Interview scheduled successfully"
+// @Failure 400 {object} response.Response "Failed to schedule interview: missing or incorrect parameters"
+// @Failure 500 {object} response.Response "Internal server error: failed to schedule interview"
+// @Router /recruiter/job/schedule-interview [post]
 func (jh *RecruiterJobHandler) ScheduleInterview(c *gin.Context) {
 
 	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")

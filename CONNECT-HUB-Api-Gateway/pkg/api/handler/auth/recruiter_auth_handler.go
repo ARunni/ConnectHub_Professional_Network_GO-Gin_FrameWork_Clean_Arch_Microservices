@@ -24,6 +24,17 @@ func NewRecruiterAuthHandler(grpc_client interfaces.RecruiterAuthClient) *Recrui
 	}
 }
 
+// RecruiterSignup handles the signup operation for a recruiter.
+// @Summary Recruiter signup
+// @Description Register a new recruiter
+// @Tags Recruiter
+// @Accept json
+// @Produce json
+// @Param body body models.RecruiterSignUp true "Recruiter signup data"
+// @Success 200 {object} response.Response "Recruiter signup successful"
+// @Failure 400 {object} response.Response "Incorrect request format or missing required fields"
+// @Failure 500 {object} response.Response "Internal server error: failed to signup recruiter"
+// @Router /recruiter/signup [post]
 func (jh *RecruiterHandler) RecruiterSignup(c *gin.Context) {
 
 	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
@@ -53,6 +64,18 @@ func (jh *RecruiterHandler) RecruiterSignup(c *gin.Context) {
 	c.JSON(http.StatusOK, successResp)
 
 }
+
+// RecruiterLogin handles the login operation for a recruiter.
+// @Summary Recruiter login
+// @Description Authenticate a recruiter
+// @Tags Recruiter
+// @Accept json
+// @Produce json
+// @Param body body models.RecruiterLogin true "Recruiter credentials for login"
+// @Success 200 {object} response.Response "Recruiter login successful"
+// @Failure 400 {object} response.Response "Incorrect request format or missing required fields"
+// @Failure 500 {object} response.Response "Internal server error: failed to authenticate recruiter"
+// @Router /recruiter/login [post]
 func (jh *RecruiterHandler) RecruiterLogin(c *gin.Context) {
 
 	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
@@ -82,6 +105,16 @@ func (jh *RecruiterHandler) RecruiterLogin(c *gin.Context) {
 
 }
 
+// RecruiterGetProfile retrieves the profile of a recruiter.
+// @Summary Get recruiter profile
+// @Description Retrieve the profile of a recruiter
+// @Tags Recruiter
+// @Accept json
+// @Produce json
+// @Security BearerTokenAuth
+// @Success 200 {object} response.Response "Successfully retrieved recruiter profile"
+// @Failure 400 {object} response.Response "Failed to retrieve recruiter profile"
+// @Router /recruiter/profile [get]
 func (jh *RecruiterHandler) RecruiterGetProfile(c *gin.Context) {
 
 	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
@@ -121,6 +154,18 @@ func (jh *RecruiterHandler) RecruiterGetProfile(c *gin.Context) {
 
 }
 
+// RecruiterEditProfile handles the profile editing operation for a recruiter.
+// @Summary Edit recruiter profile
+// @Description Edit the profile of a recruiter
+// @Tags Recruiter
+// @Accept json
+// @Produce json
+// @Security BearerTokenAuth
+// @Param body body models.RecruiterProfile true "Recruiter profile data for editing"
+// @Success 200 {object} response.Response "Recruiter profile edited successfully"
+// @Failure 400 {object} response.Response "Incorrect request format or missing required fields"
+// @Failure 500 {object} response.Response "Internal server error: failed to edit recruiter profile"
+// @Router /recruiter/profile [put]
 func (jh *RecruiterHandler) RecruiterEditProfile(c *gin.Context) {
 
 	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
@@ -159,6 +204,16 @@ func (jh *RecruiterHandler) RecruiterEditProfile(c *gin.Context) {
 
 }
 
+// GetAllPolicies retrieves all policies applicable to recruiters.
+// @Summary Get all policies
+// @Description Retrieve all policies applicable to recruiters
+// @Tags Policy
+// @Accept json
+// @Produce json
+// @Security BearerTokenAuth
+// @Success 200 {object} response.Response "Successfully retrieved all policies"
+// @Failure 400 {object} response.Response "Failed to retrieve policies"
+// @Router /recruiter/policies [get]
 func (jh *RecruiterHandler) GetAllPolicies(c *gin.Context) {
 
 	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
@@ -180,6 +235,17 @@ func (jh *RecruiterHandler) GetAllPolicies(c *gin.Context) {
 
 }
 
+// GetOnePolicy retrieves details of a specific policy based on its ID.
+// @Summary Get one policy
+// @Description Retrieve details of a specific policy based on its ID
+// @Tags Policy
+// @Accept json
+// @Produce json
+// @Security BearerTokenAuth
+// @Param policy_id query int true "Policy ID to retrieve"
+// @Success 200 {object} response.Response "Successfully retrieved the policy details"
+// @Failure 400 {object} response.Response "Failed to retrieve policy details"
+// @Router /recruiter/policies/{policy_id} [get]
 func (jh *RecruiterHandler) GetOnePolicy(c *gin.Context) {
 
 	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
