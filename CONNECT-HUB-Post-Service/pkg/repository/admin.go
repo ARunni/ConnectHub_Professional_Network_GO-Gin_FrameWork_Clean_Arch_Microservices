@@ -1,8 +1,8 @@
 package repository
 
 import (
-	logging "ConnetHub_post/Logging"
-	"ConnetHub_post/pkg/repository/interfaces"
+	logging "github.com/ARunni/ConnetHub_post/Logging"
+	"github.com/ARunni/ConnetHub_post/pkg/repository/interfaces"
 	"os"
 
 	"github.com/sirupsen/logrus"

@@ -1,10 +1,10 @@
 package service
 
 import (
-	logging "ConnetHub_post/Logging"
-	jobseekerPb "ConnetHub_post/pkg/pb/post/jobseeker"
-	"ConnetHub_post/pkg/usecase/interfaces"
-	"ConnetHub_post/pkg/utils/models"
+	logging "github.com/ARunni/ConnetHub_post/Logging"
+	jobseekerPb "github.com/ARunni/ConnetHub_post/pkg/pb/post/jobseeker"
+	"github.com/ARunni/ConnetHub_post/pkg/usecase/interfaces"
+	"github.com/ARunni/ConnetHub_post/pkg/utils/models"
 	"context"
 	"os"
 	"strconv"

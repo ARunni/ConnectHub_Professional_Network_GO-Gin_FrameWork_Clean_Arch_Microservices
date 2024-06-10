@@ -1,9 +1,9 @@
 package usecase
 
 import (
-	logging "ConnetHub_post/Logging"
-	repo "ConnetHub_post/pkg/repository/interfaces"
-	"ConnetHub_post/pkg/usecase/interfaces"
+	logging "github.com/ARunni/ConnetHub_post/Logging"
+	repo "github.com/ARunni/ConnetHub_post/pkg/repository/interfaces"
+	"github.com/ARunni/ConnetHub_post/pkg/usecase/interfaces"
 	"os"
 
 	"github.com/sirupsen/logrus"

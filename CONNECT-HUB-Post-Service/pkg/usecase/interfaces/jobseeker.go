@@ -1,6 +1,6 @@
 package interfaces
 
-import "ConnetHub_post/pkg/utils/models"
+import "github.com/ARunni/ConnetHub_post/pkg/utils/models"
 
 type JobseekerPostUsecase interface {
 	CreatePost(post models.CreatePostReq) (models.CreatePostRes, error)

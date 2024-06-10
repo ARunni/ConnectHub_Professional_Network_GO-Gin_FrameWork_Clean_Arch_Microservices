@@ -1,9 +1,9 @@
 package server
 
 import (
-	logging "ConnetHub_post/Logging"
-	"ConnetHub_post/pkg/config"
-	postJ "ConnetHub_post/pkg/pb/post/jobseeker"
+	logging "github.com/ARunni/ConnetHub_post/Logging"
+	"github.com/ARunni/ConnetHub_post/pkg/config"
+	postJ "github.com/ARunni/ConnetHub_post/pkg/pb/post/jobseeker"
 	"context"
 	"fmt"
 	"log"

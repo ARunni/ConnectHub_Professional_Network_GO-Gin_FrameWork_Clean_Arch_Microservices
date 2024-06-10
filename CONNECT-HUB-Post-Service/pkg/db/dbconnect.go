@@ -1,8 +1,8 @@
 package db
 
 import (
-	"ConnetHub_post/pkg/config"
-	"ConnetHub_post/pkg/utils/models"
+	"github.com/ARunni/ConnetHub_post/pkg/config"
+	"github.com/ARunni/ConnetHub_post/pkg/utils/models"
 	"fmt"
 
 	"gorm.io/driver/postgres"

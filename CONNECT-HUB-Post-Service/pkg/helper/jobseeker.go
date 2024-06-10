@@ -1,8 +1,8 @@
 package helper
 
 import (
-	logging "ConnetHub_post/Logging"
-	cfg "ConnetHub_post/pkg/config"
+	logging "github.com/ARunni/ConnetHub_post/Logging"
+	cfg "github.com/ARunni/ConnetHub_post/pkg/config"
 	"bytes"
 	"fmt"
 	"os"

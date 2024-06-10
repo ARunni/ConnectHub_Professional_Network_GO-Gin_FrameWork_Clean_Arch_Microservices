@@ -1,12 +1,12 @@
 package di
 
 import (
-	"ConnetHub_post/pkg/api/server"
-	"ConnetHub_post/pkg/api/service"
-	"ConnetHub_post/pkg/config"
-	"ConnetHub_post/pkg/db"
-	repo "ConnetHub_post/pkg/repository"
-	usecase "ConnetHub_post/pkg/usecase"
+	"github.com/ARunni/ConnetHub_post/pkg/api/server"
+	"github.com/ARunni/ConnetHub_post/pkg/api/service"
+	"github.com/ARunni/ConnetHub_post/pkg/config"
+	"github.com/ARunni/ConnetHub_post/pkg/db"
+	repo "github.com/ARunni/ConnetHub_post/pkg/repository"
+	usecase "github.com/ARunni/ConnetHub_post/pkg/usecase"
 )
 
 func InitializeAPI(cfg config.Config) (*server.Server, error) {

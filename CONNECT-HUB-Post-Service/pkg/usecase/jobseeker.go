@@ -1,12 +1,12 @@
 package usecase
 
 import (
-	logging "ConnetHub_post/Logging"
-	"ConnetHub_post/pkg/config"
-	"ConnetHub_post/pkg/helper"
-	repo "ConnetHub_post/pkg/repository/interfaces"
-	"ConnetHub_post/pkg/usecase/interfaces"
-	"ConnetHub_post/pkg/utils/models"
+	logging "github.com/ARunni/ConnetHub_post/Logging"
+	"github.com/ARunni/ConnetHub_post/pkg/config"
+	"github.com/ARunni/ConnetHub_post/pkg/helper"
+	repo "github.com/ARunni/ConnetHub_post/pkg/repository/interfaces"
+	"github.com/ARunni/ConnetHub_post/pkg/usecase/interfaces"
+	"github.com/ARunni/ConnetHub_post/pkg/utils/models"
 	"errors"
 	"os"
 

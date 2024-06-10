@@ -1,9 +1,9 @@
 package repository
 
 import (
-	logging "ConnetHub_post/Logging"
-	"ConnetHub_post/pkg/repository/interfaces"
-	"ConnetHub_post/pkg/utils/models"
+	logging "github.com/ARunni/ConnetHub_post/Logging"
+	"github.com/ARunni/ConnetHub_post/pkg/repository/interfaces"
+	"github.com/ARunni/ConnetHub_post/pkg/utils/models"
 	"os"
 	"time"
 
