@@ -1,22 +1,28 @@
 package client
 
 import (
+	logging "ConnetHub_chat/Logging"
 	"ConnetHub_chat/pkg/config"
 	"ConnetHub_chat/pkg/utils/models"
+	"os"
 
 	"context"
 	"fmt"
 
 	pb "ConnetHub_chat/pkg/pb/auth"
 
+	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 )
 
 type clientAuth struct {
-	Client pb.AuthServiceClient
+	Client  pb.AuthServiceClient
+	Logger  *logrus.Logger
+	LogFile *os.File
 }
 
 func NewAuthClient(c *config.Config) *clientAuth {
+	logger, logFile := logging.InitLogrusLogger("./Logging/connectHub_Chat.log")
 	cc, err := grpc.Dial(c.Connect_Hub_Auth, grpc.WithInsecure())
 
 	if err != nil {
@@ -26,7 +32,9 @@ func NewAuthClient(c *config.Config) *clientAuth {
 	pbClient := pb.NewAuthServiceClient(cc)
 
 	return &clientAuth{
-		Client: pbClient,
+		Client:  pbClient,
+		Logger:  logger,
+		LogFile: logFile,
 	}
 }
 

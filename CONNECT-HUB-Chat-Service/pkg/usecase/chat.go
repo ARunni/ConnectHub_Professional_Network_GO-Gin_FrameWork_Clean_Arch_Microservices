@@ -1,10 +1,12 @@
 package usecase
 
 import (
-	interfaces "ConnetHub_chat/pkg/repository/interface"
+	logging "ConnetHub_chat/Logging"
 	"ConnetHub_chat/pkg/config"
 	"ConnetHub_chat/pkg/helper"
 	"ConnetHub_chat/pkg/pb/auth"
+	interfaces "ConnetHub_chat/pkg/repository/interface"
+	"os"
 
 	services "ConnetHub_chat/pkg/usecase/interface"
 	"ConnetHub_chat/pkg/utils/models"
@@ -13,17 +15,23 @@ import (
 	"time"
 
 	"github.com/IBM/sarama"
+	"github.com/sirupsen/logrus"
 )
 
 type ChatUseCase struct {
 	chatRepository interfaces.ChatRepository
 	authClient     auth.AuthServiceClient
+	Logger         *logrus.Logger
+	LogFile        *os.File
 }
 
 func NewChatUseCase(repository interfaces.ChatRepository, authclient auth.AuthServiceClient) services.ChatUseCase {
+	logger, logFile := logging.InitLogrusLogger("./Logging/connectHub_Chat.log")
 	return &ChatUseCase{
 		chatRepository: repository,
 		authClient:     authclient,
+		Logger:         logger,
+		LogFile:        logFile,
 	}
 }
 

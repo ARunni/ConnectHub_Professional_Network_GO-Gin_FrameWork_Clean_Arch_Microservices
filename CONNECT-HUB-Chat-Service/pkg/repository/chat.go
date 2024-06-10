@@ -1,11 +1,14 @@
 package repository
 
 import (
+	logging "ConnetHub_chat/Logging"
 	interfaces "ConnetHub_chat/pkg/repository/interface"
 	"ConnetHub_chat/pkg/utils/models"
 	"context"
+	"os"
 	"strconv"
 
+	"github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -13,10 +16,17 @@ import (
 
 type ChatRepository struct {
 	MessageCollection *mongo.Collection
+	Logger            *logrus.Logger
+	LogFile           *os.File
 }
 
 func NewChatRepository(db *mongo.Database) interfaces.ChatRepository {
-	return &ChatRepository{MessageCollection: db.Collection("messages")}
+	logger, logFile := logging.InitLogrusLogger("./Logging/connectHub_Chat.log")
+	return &ChatRepository{
+		MessageCollection: db.Collection("messages"),
+		Logger:            logger,
+		LogFile:           logFile,
+	}
 }
 
 func (c *ChatRepository) StoreFriendsChat(message models.MessageReq) error {
