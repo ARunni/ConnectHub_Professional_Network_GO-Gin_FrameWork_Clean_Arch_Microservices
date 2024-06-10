@@ -1,6 +1,7 @@
 package client
 
 import (
+	logging "connectHub_gateway/Logging"
 	interfaces "connectHub_gateway/pkg/client/auth/interface"
 	"connectHub_gateway/pkg/config"
 	"connectHub_gateway/pkg/helper"
@@ -8,15 +9,20 @@ import (
 	"connectHub_gateway/pkg/utils/models"
 	"context"
 	"fmt"
+	"os"
 
+	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 )
 
 type jobseekerClient struct {
-	Client pb.JobseekerClient
+	Client  pb.JobseekerClient
+	Logger  *logrus.Logger
+	LogFile *os.File
 }
 
 func NewJobSeekerAuthClient(cfg config.Config) interfaces.JobSeekerAuthClient {
+	logger, logFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
 	grpcConnection, err := grpc.Dial(cfg.ConnetHubAuth, grpc.WithInsecure())
 
 	if err != nil {
@@ -25,7 +31,9 @@ func NewJobSeekerAuthClient(cfg config.Config) interfaces.JobSeekerAuthClient {
 
 	grpcClient := pb.NewJobseekerClient(grpcConnection)
 	return &jobseekerClient{
-		Client: grpcClient,
+		Client:  grpcClient,
+		Logger:  logger,
+		LogFile: logFile,
 	}
 
 }
@@ -73,7 +81,7 @@ func (jc *jobseekerClient) JobSeekerLogin(jobseekerData models.JobSeekerLogin) (
 			LastName:    jobseeker.JobSeekerDetails.Lastname,
 			Email:       jobseeker.JobSeekerDetails.Email,
 			PhoneNumber: jobseeker.JobSeekerDetails.PhoneNumber,
-			Gender: jobseeker.JobSeekerDetails.Gender,
+			Gender:      jobseeker.JobSeekerDetails.Gender,
 			DateOfBirth: jobseeker.JobSeekerDetails.DateOfBirth,
 		},
 		Token: jobseeker.Token,

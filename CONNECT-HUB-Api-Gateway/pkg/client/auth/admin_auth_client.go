@@ -1,6 +1,7 @@
 package client
 
 import (
+	logging "connectHub_gateway/Logging"
 	interfaces "connectHub_gateway/pkg/client/auth/interface"
 	"connectHub_gateway/pkg/config"
 	"connectHub_gateway/pkg/helper"
@@ -8,15 +9,21 @@ import (
 	"connectHub_gateway/pkg/utils/models"
 	"context"
 	"fmt"
+	"os"
 
+	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 )
 
 type adminClient struct {
-	Client pb.AdminClient
+	Client  pb.AdminClient
+	Logger  *logrus.Logger
+	LogFile *os.File
 }
 
 func NewAdminAuthClient(cfg config.Config) interfaces.AdminAuthClient {
+
+	logger, logFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
 
 	grpcConnection, err := grpc.Dial(cfg.ConnetHubAuth, grpc.WithInsecure())
 
@@ -25,7 +32,9 @@ func NewAdminAuthClient(cfg config.Config) interfaces.AdminAuthClient {
 	}
 	grpcClient := pb.NewAdminClient(grpcConnection)
 	return &adminClient{
-		Client: grpcClient,
+		Client:  grpcClient,
+		Logger:  logger,
+		LogFile: logFile,
 	}
 
 }

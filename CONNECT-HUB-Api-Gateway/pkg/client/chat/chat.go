@@ -1,21 +1,27 @@
 package client
 
 import (
+	logging "connectHub_gateway/Logging"
 	"connectHub_gateway/pkg/config"
 	"connectHub_gateway/pkg/utils/models"
 	"context"
 	"fmt"
+	"os"
 
 	pb "connectHub_gateway/pkg/pb/chat"
 
+	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 )
 
 type ChatClient struct {
-	Client pb.ChatServiceClient
+	Client  pb.ChatServiceClient
+	Logger  *logrus.Logger
+	LogFile *os.File
 }
 
 func NewChatClient(cfg config.Config) *ChatClient {
+	logger, logFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
 	grpcConnection, err := grpc.Dial(cfg.ConnetHubChat, grpc.WithInsecure())
 	if err != nil {
 		fmt.Println("Could not connect", err)
@@ -24,7 +30,9 @@ func NewChatClient(cfg config.Config) *ChatClient {
 	grpcClient := pb.NewChatServiceClient(grpcConnection)
 
 	return &ChatClient{
-		Client: grpcClient,
+		Client:  grpcClient,
+		Logger:  logger,
+		LogFile: logFile,
 	}
 }
 

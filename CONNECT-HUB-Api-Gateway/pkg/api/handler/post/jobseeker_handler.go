@@ -1,26 +1,34 @@
 package handler
 
 import (
+	logging "connectHub_gateway/Logging"
 	"connectHub_gateway/pkg/client/post/interfaces"
 	"connectHub_gateway/pkg/utils/models"
 	"connectHub_gateway/pkg/utils/response"
 	"errors"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"strconv"
 
 	msg "github.com/ARunni/Error_Message"
+	"github.com/sirupsen/logrus"
 
 	"github.com/gin-gonic/gin"
 )
 
 type JobseekerPostHandler struct {
 	GRPC_Client interfaces.JobseekerPostClient
+	Logger      *logrus.Logger
+	LogFile     *os.File
 }
 
 func NewJobseekerPostHandler(grpc_client interfaces.JobseekerPostClient) *JobseekerPostHandler {
+	logger, logFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
 	return &JobseekerPostHandler{
 		GRPC_Client: grpc_client,
+		Logger:      logger,
+		LogFile:     logFile,
 	}
 }
 

@@ -1,23 +1,28 @@
 package client
 
 import (
+	logging "connectHub_gateway/Logging"
 	interfaces "connectHub_gateway/pkg/client/job/interface"
 	"connectHub_gateway/pkg/config"
+	"os"
 
 	jobseekerPb "connectHub_gateway/pkg/pb/job/jobseeker"
 	"connectHub_gateway/pkg/utils/models"
 	"context"
 	"fmt"
 
+	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 )
 
 type jobseekerJobClient struct {
-	Client jobseekerPb.JobseekerJobClient
+	Client  jobseekerPb.JobseekerJobClient
+	Logger  *logrus.Logger
+	LogFile *os.File
 }
 
 func NewJobseekerJobClient(cfg config.Config) interfaces.JobseekerJobClient {
-
+	logger, logFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
 	grpcConnection, err := grpc.Dial(cfg.ConnetHubJob, grpc.WithInsecure())
 
 	if err != nil {
@@ -25,7 +30,9 @@ func NewJobseekerJobClient(cfg config.Config) interfaces.JobseekerJobClient {
 	}
 	grpcClient := jobseekerPb.NewJobseekerJobClient(grpcConnection)
 	return &jobseekerJobClient{
-		Client: grpcClient,
+		Client:  grpcClient,
+		Logger:  logger,
+		LogFile: logFile,
 	}
 
 }

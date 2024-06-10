@@ -1,6 +1,7 @@
 package client
 
 import (
+	logging "connectHub_gateway/Logging"
 	"connectHub_gateway/pkg/client/post/interfaces"
 	"connectHub_gateway/pkg/config"
 	"connectHub_gateway/pkg/helper"
@@ -8,17 +9,21 @@ import (
 	"connectHub_gateway/pkg/utils/models"
 	"context"
 	"fmt"
+	"os"
 	"strconv"
 
+	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 )
 
 type jobseekerPostClient struct {
-	Client jobseekerPb.JobseekerPostServiceClient
+	Client  jobseekerPb.JobseekerPostServiceClient
+	Logger  *logrus.Logger
+	LogFile *os.File
 }
 
 func NewJobseekerPostClient(cfg config.Config) interfaces.JobseekerPostClient {
-
+	logger, logFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
 	grpcConnection, err := grpc.Dial(cfg.ConnetHubPost, grpc.WithInsecure())
 
 	if err != nil {
@@ -27,7 +32,11 @@ func NewJobseekerPostClient(cfg config.Config) interfaces.JobseekerPostClient {
 
 	grpcClient := jobseekerPb.NewJobseekerPostServiceClient(grpcConnection)
 
-	return &jobseekerPostClient{Client: grpcClient}
+	return &jobseekerPostClient{
+		Client:  grpcClient,
+		Logger:  logger,
+		LogFile: logFile,
+	}
 }
 
 func (jpc *jobseekerPostClient) CreatePost(post models.CreatePostReq) (models.CreatePostRes, error) {

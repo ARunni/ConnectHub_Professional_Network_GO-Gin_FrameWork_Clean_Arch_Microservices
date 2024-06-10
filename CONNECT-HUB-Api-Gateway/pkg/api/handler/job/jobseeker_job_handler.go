@@ -8,18 +8,25 @@ import (
 	"errors"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 )
 
 type JobseekerJobHandler struct {
 	GRPC_Client interfaces.JobseekerJobClient
+	Logger      *logrus.Logger
+	LogFile     *os.File
 }
 
 func NewJobseekerJobHandler(grpc_client interfaces.JobseekerJobClient) *JobseekerJobHandler {
+	logger, logFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
 	return &JobseekerJobHandler{
 		GRPC_Client: grpc_client,
+		Logger:      logger,
+		LogFile:     logFile,
 	}
 }
 
@@ -37,14 +44,11 @@ func NewJobseekerJobHandler(grpc_client interfaces.JobseekerJobClient) *Jobseeke
 // @Router /jobseeker/jobs [get]
 func (jh *JobseekerJobHandler) JobSeekerGetAllJobs(c *gin.Context) {
 
-	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
-	defer logrusLogFile.Close()
-
 	keyword := c.Query("Keyword")
 
 	if keyword == "" {
 
-		logrusLogger.Error("Failed to Get Data: ", errors.New("keyword parameter is required"))
+		jh.Logger.Error("Failed to Get Data: ", errors.New("keyword parameter is required"))
 
 		errs := response.ClientResponse(http.StatusBadRequest, "Keyword parameter is required", nil, nil)
 		c.JSON(http.StatusBadRequest, errs)
@@ -55,21 +59,21 @@ func (jh *JobseekerJobHandler) JobSeekerGetAllJobs(c *gin.Context) {
 
 	if err != nil {
 
-		logrusLogger.Error("Failed to Job Seeker Get All Jobs: ", err)
+		jh.Logger.Error("Failed to Job Seeker Get All Jobs: ", err)
 		errs := response.ClientResponse(http.StatusInternalServerError, "Failed to fetch jobs", nil, err.Error())
 		c.JSON(http.StatusInternalServerError, errs)
 		return
 	}
 
 	if len(jobs) == 0 {
-		logrusLogger.Error("Failed to Job Seeker Get All Jobs: ", errors.New("no jobs found matching your query"))
+		jh.Logger.Error("Failed to Job Seeker Get All Jobs: ", errors.New("no jobs found matching your query"))
 		errMsg := "No jobs found matching your query"
 		errs := response.ClientResponse(http.StatusOK, errMsg, nil, nil)
 		c.JSON(http.StatusOK, errs)
 		return
 	}
 
-	logrusLogger.Info("Jobs retrieved successfully")
+	jh.Logger.Info("Jobs retrieved successfully")
 
 	response := response.ClientResponse(http.StatusOK, "Jobs retrieved successfully", jobs, nil)
 	c.JSON(http.StatusOK, response)
@@ -89,21 +93,18 @@ func (jh *JobseekerJobHandler) JobSeekerGetAllJobs(c *gin.Context) {
 // @Router /jobseeker/job [get]
 func (jh *JobseekerJobHandler) JobSeekerGetJobByID(c *gin.Context) {
 
-	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
-	defer logrusLogFile.Close()
-
 	jobIdString := c.Query("job_id")
 
 	if jobIdString == "" {
 
-		logrusLogger.Error("Failed to Get Data: ", errors.New("job_id parameter is required"))
+		jh.Logger.Error("Failed to Get Data: ", errors.New("job_id parameter is required"))
 		errs := response.ClientResponse(http.StatusBadRequest, "job_id parameter is required", nil, nil)
 		c.JSON(http.StatusBadRequest, errs)
 		return
 	}
 	jobId, err := strconv.Atoi(jobIdString)
 	if err != nil {
-		logrusLogger.Error("job_id conversion failed: ", err)
+		jh.Logger.Error("job_id conversion failed: ", err)
 		errs := response.ClientResponse(http.StatusBadRequest, "job_id conversion failed", nil, nil)
 		c.JSON(http.StatusBadRequest, errs)
 		return
@@ -111,13 +112,13 @@ func (jh *JobseekerJobHandler) JobSeekerGetJobByID(c *gin.Context) {
 	job, err := jh.GRPC_Client.JobSeekerGetJobByID(jobId)
 
 	if err != nil {
-		logrusLogger.Error("Job Seeker Get Job By ID failed: ", err)
+		jh.Logger.Error("Job Seeker Get Job By ID failed: ", err)
 		errs := response.ClientResponse(http.StatusInternalServerError, "Failed to fetch job", nil, err.Error())
 		c.JSON(http.StatusInternalServerError, errs)
 		return
 	}
 
-	logrusLogger.Info("Job retrieved successfully")
+	jh.Logger.Info("Job retrieved successfully")
 
 	response := response.ClientResponse(http.StatusOK, "Job retrieved successfully", job, nil)
 	c.JSON(http.StatusOK, response)
@@ -139,19 +140,16 @@ func (jh *JobseekerJobHandler) JobSeekerGetJobByID(c *gin.Context) {
 // @Router /jobseeker/apply [post]
 func (jh *JobseekerJobHandler) JobSeekerApplyJob(c *gin.Context) {
 
-	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
-	defer logrusLogFile.Close()
-
 	userIdAny, ok := c.Get("id")
 	if !ok {
-		logrusLogger.Error("Failed to Get Data: ", errors.New("getting user id failed"))
+		jh.Logger.Error("Failed to Get Data: ", errors.New("getting user id failed"))
 		errs := response.ClientResponse(http.StatusBadRequest, "getting user id failed", nil, nil)
 		c.JSON(http.StatusBadRequest, errs)
 		return
 	}
 	userId, ok := userIdAny.(int)
 	if !ok {
-		logrusLogger.Error("Failed to Get Data: ", errors.New("converting user id failed"))
+		jh.Logger.Error("Failed to Get Data: ", errors.New("converting user id failed"))
 		errs := response.ClientResponse(http.StatusBadRequest, "converting user id failed", nil, nil)
 		c.JSON(http.StatusBadRequest, errs)
 		return
@@ -163,7 +161,7 @@ func (jh *JobseekerJobHandler) JobSeekerApplyJob(c *gin.Context) {
 	JobIDstr := c.PostForm("job_id")
 	JobID, err := strconv.Atoi(JobIDstr)
 	if err != nil {
-		logrusLogger.Error("Failed to Get Data: ", errors.New("getting coverletter Failed"))
+		jh.Logger.Error("Failed to Get Data: ", errors.New("getting coverletter Failed"))
 		errResp := response.ClientResponse(http.StatusInternalServerError, "Getting coverletter Failed", nil, err.Error())
 		c.JSON(http.StatusInternalServerError, errResp)
 		return
@@ -172,14 +170,14 @@ func (jh *JobseekerJobHandler) JobSeekerApplyJob(c *gin.Context) {
 
 	file, err := c.FormFile("resume")
 	if err != nil {
-		logrusLogger.Error("Failed to Get Data: ", errors.New("getting resume Failed"))
+		jh.Logger.Error("Failed to Get Data: ", errors.New("getting resume Failed"))
 		errResp := response.ClientResponse(http.StatusInternalServerError, "Getting resume Failed", nil, err.Error())
 		c.JSON(http.StatusInternalServerError, errResp)
 		return
 	}
 	fileContent, err := file.Open()
 	if err != nil {
-		logrusLogger.Error("Failed to Get Data: ", errors.New("error opening the file"))
+		jh.Logger.Error("Failed to Get Data: ", errors.New("error opening the file"))
 		errResp := response.ClientResponse(http.StatusInternalServerError, "Error opening the file", nil, err.Error())
 		c.JSON(http.StatusInternalServerError, errResp)
 		return
@@ -188,7 +186,7 @@ func (jh *JobseekerJobHandler) JobSeekerApplyJob(c *gin.Context) {
 	defer fileContent.Close()
 	resumeData, err := ioutil.ReadAll(fileContent)
 	if err != nil {
-		logrusLogger.Error("Failed to Get Data: ", errors.New("error reading the file"))
+		jh.Logger.Error("Failed to Get Data: ", errors.New("error reading the file"))
 		errResp := response.ClientResponse(http.StatusInternalServerError, "Error reading the file", nil, err.Error())
 		c.JSON(http.StatusInternalServerError, errResp)
 		return
@@ -196,7 +194,7 @@ func (jh *JobseekerJobHandler) JobSeekerApplyJob(c *gin.Context) {
 	data.Resume = resumeData
 
 	if data.JobID <= 0 {
-		logrusLogger.Error("Failed to Get Data: ", errors.New("job_id parameter is required"))
+		jh.Logger.Error("Failed to Get Data: ", errors.New("job_id parameter is required"))
 		errs := response.ClientResponse(http.StatusBadRequest, "job_id parameter is required", nil, nil)
 		c.JSON(http.StatusBadRequest, errs)
 		return
@@ -205,12 +203,12 @@ func (jh *JobseekerJobHandler) JobSeekerApplyJob(c *gin.Context) {
 	job, err := jh.GRPC_Client.JobSeekerApplyJob(data)
 
 	if err != nil {
-		logrusLogger.Error("Failed to apply job: ", err)
+		jh.Logger.Error("Failed to apply job: ", err)
 		errs := response.ClientResponse(http.StatusInternalServerError, "Failed to apply job", nil, err.Error())
 		c.JSON(http.StatusInternalServerError, errs)
 		return
 	}
-	logrusLogger.Info("Job applied successfully")
+	jh.Logger.Info("Job applied successfully")
 
 	response := response.ClientResponse(http.StatusOK, "Job applied successfully", job, nil)
 	c.JSON(http.StatusOK, response)
@@ -229,19 +227,16 @@ func (jh *JobseekerJobHandler) JobSeekerApplyJob(c *gin.Context) {
 // @Router /jobseeker/appliedjobs [get]
 func (jh *JobseekerJobHandler) GetAppliedJobs(c *gin.Context) {
 
-	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
-	defer logrusLogFile.Close()
-
 	userIdAny, ok := c.Get("id")
 	if !ok {
-		logrusLogger.Error("Failed to Get Data: ", errors.New("getting user id failed"))
+		jh.Logger.Error("Failed to Get Data: ", errors.New("getting user id failed"))
 		errs := response.ClientResponse(http.StatusBadRequest, "getting user id failed", nil, nil)
 		c.JSON(http.StatusBadRequest, errs)
 		return
 	}
 	userId, ok := userIdAny.(int)
 	if !ok {
-		logrusLogger.Error("Failed to Get Data: ", errors.New("converting user id failed"))
+		jh.Logger.Error("Failed to Get Data: ", errors.New("converting user id failed"))
 		errs := response.ClientResponse(http.StatusBadRequest, "converting user id failed", nil, nil)
 		c.JSON(http.StatusBadRequest, errs)
 		return
@@ -250,12 +245,12 @@ func (jh *JobseekerJobHandler) GetAppliedJobs(c *gin.Context) {
 	job, err := jh.GRPC_Client.GetAppliedJobs(userId)
 
 	if err != nil {
-		logrusLogger.Error("Failed to Get Applied Jobs: ", err)
+		jh.Logger.Error("Failed to Get Applied Jobs: ", err)
 		errs := response.ClientResponse(http.StatusInternalServerError, "Failed to Getting Applied Jobs", nil, err.Error())
 		c.JSON(http.StatusInternalServerError, errs)
 		return
 	}
-	logrusLogger.Info("Getting Applied Jobs  successfully")
+	jh.Logger.Info("Getting Applied Jobs  successfully")
 	response := response.ClientResponse(http.StatusOK, "Getting Applied Jobs  successfully", job, nil)
 	c.JSON(http.StatusOK, response)
 }

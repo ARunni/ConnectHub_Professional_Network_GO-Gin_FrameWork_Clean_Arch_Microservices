@@ -1,24 +1,29 @@
 package client
 
 import (
+	logging "connectHub_gateway/Logging"
 	interfaces "connectHub_gateway/pkg/client/job/interface"
 	"connectHub_gateway/pkg/config"
 	recruiterPb "connectHub_gateway/pkg/pb/job/recruiter"
 	"connectHub_gateway/pkg/utils/models"
 	"context"
 	"fmt"
+	"os"
 	"strconv"
 
+	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type recruiterJobClient struct {
-	Client recruiterPb.RecruiterJobClient
+	Client  recruiterPb.RecruiterJobClient
+	Logger  *logrus.Logger
+	LogFile *os.File
 }
 
 func NewRecruiterJobClient(cfg config.Config) interfaces.RecruiterJobClient {
-
+	logger, logFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
 	grpcConnection, err := grpc.Dial(cfg.ConnetHubJob, grpc.WithInsecure())
 
 	if err != nil {
@@ -26,7 +31,9 @@ func NewRecruiterJobClient(cfg config.Config) interfaces.RecruiterJobClient {
 	}
 	grpcClient := recruiterPb.NewRecruiterJobClient(grpcConnection)
 	return &recruiterJobClient{
-		Client: grpcClient,
+		Client:  grpcClient,
+		Logger:  logger,
+		LogFile: logFile,
 	}
 
 }
