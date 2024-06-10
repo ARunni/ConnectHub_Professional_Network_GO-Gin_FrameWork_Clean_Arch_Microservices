@@ -1,9 +1,9 @@
 package repository
 
 import (
-	logging "ConnetHub_job/Logging"
-	interfaces "ConnetHub_job/pkg/repository/interface"
-	"ConnetHub_job/pkg/utils/models"
+	logging "github.com/ARunni/ConnetHub_job/Logging"
+	interfaces "github.com/ARunni/ConnetHub_job/pkg/repository/interface"
+	"github.com/ARunni/ConnetHub_job/pkg/utils/models"
 	"errors"
 	"fmt"
 	"os"

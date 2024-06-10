@@ -1,11 +1,11 @@
 package usecase
 
 import (
-	logging "ConnetHub_job/Logging"
-	"ConnetHub_job/pkg/client/auth/interfaces"
-	repo "ConnetHub_job/pkg/repository/interface"
-	usecase "ConnetHub_job/pkg/usecase/interface"
-	"ConnetHub_job/pkg/utils/models"
+	logging "github.com/ARunni/ConnetHub_job/Logging"
+	"github.com/ARunni/ConnetHub_job/pkg/client/auth/interfaces"
+	repo "github.com/ARunni/ConnetHub_job/pkg/repository/interface"
+	usecase "github.com/ARunni/ConnetHub_job/pkg/usecase/interface"
+	"github.com/ARunni/ConnetHub_job/pkg/utils/models"
 	"errors"
 	"fmt"
 	"os"

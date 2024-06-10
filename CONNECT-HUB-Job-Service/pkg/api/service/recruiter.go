@@ -1,10 +1,10 @@
 package service
 
 import (
-	logging "ConnetHub_job/Logging"
-	jobpb "ConnetHub_job/pkg/pb/job/recruiter"
-	interfaces "ConnetHub_job/pkg/usecase/interface"
-	"ConnetHub_job/pkg/utils/models"
+	logging "github.com/ARunni/ConnetHub_job/Logging"
+	jobpb "github.com/ARunni/ConnetHub_job/pkg/pb/job/recruiter"
+	interfaces "github.com/ARunni/ConnetHub_job/pkg/usecase/interface"
+	"github.com/ARunni/ConnetHub_job/pkg/utils/models"
 	"context"
 	"fmt"
 	"os"

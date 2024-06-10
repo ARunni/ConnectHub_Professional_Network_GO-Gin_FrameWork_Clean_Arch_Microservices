@@ -1,6 +1,6 @@
 package interfaces
 
-import "ConnetHub_job/pkg/utils/models"
+import "github.com/ARunni/ConnetHub_job/pkg/utils/models"
 
 type JobseekerJobRepository interface {
 	IsJobExist(jobID int32) (bool, error)

@@ -1,10 +1,10 @@
 package server
 
 import (
-	logging "ConnetHub_job/Logging"
-	"ConnetHub_job/pkg/config"
-	jobJ "ConnetHub_job/pkg/pb/job/jobseeker"
-	jobR "ConnetHub_job/pkg/pb/job/recruiter"
+	logging "github.com/ARunni/ConnetHub_job/Logging"
+	"github.com/ARunni/ConnetHub_job/pkg/config"
+	jobJ "github.com/ARunni/ConnetHub_job/pkg/pb/job/jobseeker"
+	jobR "github.com/ARunni/ConnetHub_job/pkg/pb/job/recruiter"
 	"context"
 	"fmt"
 	"log"

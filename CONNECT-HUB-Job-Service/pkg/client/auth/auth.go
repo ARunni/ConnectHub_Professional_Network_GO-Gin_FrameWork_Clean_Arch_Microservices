@@ -1,10 +1,10 @@
 package client
 
 import (
-	logging "ConnetHub_job/Logging"
-	"ConnetHub_job/pkg/client/auth/interfaces"
-	"ConnetHub_job/pkg/config"
-	pb "ConnetHub_job/pkg/pb/auth"
+	logging "github.com/ARunni/ConnetHub_job/Logging"
+	"github.com/ARunni/ConnetHub_job/pkg/client/auth/interfaces"
+	"github.com/ARunni/ConnetHub_job/pkg/config"
+	pb "github.com/ARunni/ConnetHub_job/pkg/pb/auth"
 	"context"
 	"fmt"
 	"os"

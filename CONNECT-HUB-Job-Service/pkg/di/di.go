@@ -1,13 +1,13 @@
 package di
 
 import (
-	"ConnetHub_job/pkg/api/server"
-	service "ConnetHub_job/pkg/api/service"
-	jobAuth "ConnetHub_job/pkg/client/auth"
-	"ConnetHub_job/pkg/config"
-	"ConnetHub_job/pkg/db"
-	repo "ConnetHub_job/pkg/repository"
-	usecase "ConnetHub_job/pkg/usecase"
+	"github.com/ARunni/ConnetHub_job/pkg/api/server"
+	service "github.com/ARunni/ConnetHub_job/pkg/api/service"
+	jobAuth "github.com/ARunni/ConnetHub_job/pkg/client/auth"
+	"github.com/ARunni/ConnetHub_job/pkg/config"
+	"github.com/ARunni/ConnetHub_job/pkg/db"
+	repo "github.com/ARunni/ConnetHub_job/pkg/repository"
+	usecase "github.com/ARunni/ConnetHub_job/pkg/usecase"
 )
 
 func InitializeAPI(cfg config.Config) (*server.Server, error) {

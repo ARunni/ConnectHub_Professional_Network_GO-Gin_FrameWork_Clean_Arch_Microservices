@@ -1,6 +1,6 @@
 package interfaces
 
-import "ConnetHub_job/pkg/utils/models"
+import "github.com/ARunni/ConnetHub_job/pkg/utils/models"
 
 type RecruiterJobUsecase interface {
 	PostJob(data models.JobOpening) (models.JobOpeningData, error)

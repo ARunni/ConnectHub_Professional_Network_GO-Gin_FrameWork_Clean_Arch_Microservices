@@ -1,12 +1,12 @@
 package usecase
 
 import (
-	logging "ConnetHub_job/Logging"
-	"ConnetHub_job/pkg/config"
-	"ConnetHub_job/pkg/helper"
-	repo "ConnetHub_job/pkg/repository/interface"
-	interfaces "ConnetHub_job/pkg/usecase/interface"
-	"ConnetHub_job/pkg/utils/models"
+	logging "github.com/ARunni/ConnetHub_job/Logging"
+	"github.com/ARunni/ConnetHub_job/pkg/config"
+	"github.com/ARunni/ConnetHub_job/pkg/helper"
+	repo "github.com/ARunni/ConnetHub_job/pkg/repository/interface"
+	interfaces "github.com/ARunni/ConnetHub_job/pkg/usecase/interface"
+	"github.com/ARunni/ConnetHub_job/pkg/utils/models"
 	"errors"
 	"fmt"
 	"os"

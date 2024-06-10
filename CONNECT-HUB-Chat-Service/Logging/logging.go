@@ -7,8 +7,6 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-
-
 // InitLogrusLogger initializes a Logrus logger
 func InitLogrusLogger(logFileName string) (*logrus.Logger, *os.File) {
 	logFile, err := os.OpenFile(logFileName, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)

@@ -1,7 +1,7 @@
 package helper
 
 import (
-	cfg "ConnetHub_job/pkg/config"
+	cfg "github.com/ARunni/ConnetHub_job/pkg/config"
 	"bytes"
 	"fmt"
 	"time"
