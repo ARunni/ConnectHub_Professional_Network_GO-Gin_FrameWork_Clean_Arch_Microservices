@@ -1,25 +1,33 @@
 package usecase
 
 import (
+	logging "ConnetHub_auth/Logging"
 	"ConnetHub_auth/pkg/helper"
 	interfaces "ConnetHub_auth/pkg/repository/interface"
 	usecase "ConnetHub_auth/pkg/usecase/interface"
 	req "ConnetHub_auth/pkg/utils/reqAndResponse"
 	"errors"
 	"fmt"
+	"os"
 
 	msg "github.com/ARunni/Error_Message"
 	"github.com/jinzhu/copier"
+	"github.com/sirupsen/logrus"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type adminUseCase struct {
 	adminRepository interfaces.AdminRepository
+	Logger          *logrus.Logger
+	LogFile         *os.File
 }
 
 func NewAdminUseCase(repo interfaces.AdminRepository) usecase.AdminUseCase {
+	logger, logFile := logging.InitLogrusLogger("./Logging/connectHub_Auth.log")
 	return &adminUseCase{
 		adminRepository: repo,
+		Logger:          logger,
+		LogFile:         logFile,
 	}
 }
 

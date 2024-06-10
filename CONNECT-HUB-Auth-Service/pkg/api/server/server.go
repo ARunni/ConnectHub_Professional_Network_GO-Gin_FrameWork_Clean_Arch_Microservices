@@ -1,10 +1,12 @@
 package server
 
 import (
+	logging "ConnetHub_auth/Logging"
 	"ConnetHub_auth/pkg/config"
 	adminPb "ConnetHub_auth/pkg/pb/auth/admin"
 	"context"
 	"log"
+	"os"
 
 	jobseekerPb "ConnetHub_auth/pkg/pb/auth/jobseeker"
 	recruiterPb "ConnetHub_auth/pkg/pb/auth/recruiter"
@@ -13,15 +15,19 @@ import (
 	"net"
 
 	"github.com/fatih/color"
+	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 )
 
 type Server struct {
 	server   *grpc.Server
 	listener net.Listener
+	Logger   *logrus.Logger
+	LogFile  *os.File
 }
 
 func NewGRPCServer(cfg config.Config, adminServer adminPb.AdminServer, recruiterServer recruiterPb.RecruiterServer, jobseekerServer jobseekerPb.JobseekerServer, jobAuthServer jobAuthPb.JobAuthServer) (*Server, error) {
+	logger, logFile := logging.InitLogrusLogger("./Logging/connectHub_Auth.log")
 	lis, err := net.Listen("tcp", cfg.Port)
 	if err != nil {
 		return nil, err
@@ -36,6 +42,8 @@ func NewGRPCServer(cfg config.Config, adminServer adminPb.AdminServer, recruiter
 	return &Server{
 		server:   newServer,
 		listener: lis,
+		Logger:   logger,
+		LogFile:  logFile,
 	}, nil
 }
 

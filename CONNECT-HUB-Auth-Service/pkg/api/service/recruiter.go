@@ -1,23 +1,30 @@
 package service
 
 import (
+	logging "ConnetHub_auth/Logging"
 	pb "ConnetHub_auth/pkg/pb/auth/recruiter"
 	interfaces "ConnetHub_auth/pkg/usecase/interface"
 	req "ConnetHub_auth/pkg/utils/reqAndResponse"
 	"context"
+	"os"
 
+	"github.com/sirupsen/logrus"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type RecruiterServer struct {
 	recruiterUseCase interfaces.RecruiterUseCase
 	pb.UnimplementedRecruiterServer
+	Logger  *logrus.Logger
+	LogFile *os.File
 }
 
 func NewRecruiterServer(useCase interfaces.RecruiterUseCase) pb.RecruiterServer {
-
+	logger, logFile := logging.InitLogrusLogger("./Logging/connectHub_Auth.log")
 	return &RecruiterServer{
 		recruiterUseCase: useCase,
+		Logger:           logger,
+		LogFile:          logFile,
 	}
 }
 

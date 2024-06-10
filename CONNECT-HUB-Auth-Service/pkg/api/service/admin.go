@@ -1,23 +1,30 @@
 package service
 
 import (
+	logging "ConnetHub_auth/Logging"
 	pb "ConnetHub_auth/pkg/pb/auth/admin"
 	interfaces "ConnetHub_auth/pkg/usecase/interface"
 	req "ConnetHub_auth/pkg/utils/reqAndResponse"
 	"context"
+	"os"
 
+	"github.com/sirupsen/logrus"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type AdminServer struct {
 	adminUseCase interfaces.AdminUseCase
 	pb.UnimplementedAdminServer
+	Logger  *logrus.Logger
+	LogFile *os.File
 }
 
 func NewAdminServer(useCase interfaces.AdminUseCase) pb.AdminServer {
-
+	logger, logFile := logging.InitLogrusLogger("./Logging/connectHub_Auth.log")
 	return &AdminServer{
 		adminUseCase: useCase,
+		Logger:       logger,
+		LogFile:      logFile,
 	}
 }
 

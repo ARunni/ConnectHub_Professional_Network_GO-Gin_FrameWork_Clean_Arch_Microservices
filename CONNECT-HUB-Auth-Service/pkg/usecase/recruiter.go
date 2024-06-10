@@ -1,22 +1,30 @@
 package usecase
 
 import (
+	logging "ConnetHub_auth/Logging"
 	"ConnetHub_auth/pkg/helper"
 	repo "ConnetHub_auth/pkg/repository/interface"
 	usecase "ConnetHub_auth/pkg/usecase/interface"
 	req "ConnetHub_auth/pkg/utils/reqAndResponse"
 	"errors"
+	"os"
 
 	msg "github.com/ARunni/Error_Message"
+	"github.com/sirupsen/logrus"
 )
 
 type recruiterUseCase struct {
 	recruiterRepository repo.RecruiterRepository
+	Logger              *logrus.Logger
+	LogFile             *os.File
 }
 
 func NewRecruiterUseCase(repo repo.RecruiterRepository) usecase.RecruiterUseCase {
+	logger, logFile := logging.InitLogrusLogger("./Logging/connectHub_Auth.log")
 	return &recruiterUseCase{
 		recruiterRepository: repo,
+		Logger:              logger,
+		LogFile:             logFile,
 	}
 }
 
