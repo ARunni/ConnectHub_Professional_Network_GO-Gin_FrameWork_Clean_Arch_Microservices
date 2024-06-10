@@ -1,0 +1,13 @@
+info:
+  contact:
+    name: API Support
+  description: ConnectHub is a professional networking platform.
+  title: Go + Gin professional networking platform API Connect Hub
+  version: 1.0.0
+paths: {}
+securityDefinitions:
+  BearerTokenAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

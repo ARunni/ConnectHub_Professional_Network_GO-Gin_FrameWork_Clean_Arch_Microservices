@@ -1,0 +1,19 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "ConnectHub is a professional networking platform.",
+        "title": "Go + Gin professional networking platform API Connect Hub",
+        "contact": {
+            "name": "API Support"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {},
+    "securityDefinitions": {
+        "BearerTokenAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}
