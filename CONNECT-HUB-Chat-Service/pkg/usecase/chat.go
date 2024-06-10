@@ -1,15 +1,15 @@
 package usecase
 
 import (
-	logging "ConnetHub_chat/Logging"
-	"ConnetHub_chat/pkg/config"
-	"ConnetHub_chat/pkg/helper"
-	"ConnetHub_chat/pkg/pb/auth"
-	interfaces "ConnetHub_chat/pkg/repository/interface"
+	logging "github.com/ARunni/ConnetHub_chat/Logging"
+	"github.com/ARunni/ConnetHub_chat/pkg/config"
+	"github.com/ARunni/ConnetHub_chat/pkg/helper"
+	"github.com/ARunni/ConnetHub_chat/pkg/pb/auth"
+	interfaces "github.com/ARunni/ConnetHub_chat/pkg/repository/interface"
 	"os"
 
-	services "ConnetHub_chat/pkg/usecase/interface"
-	"ConnetHub_chat/pkg/utils/models"
+	services "github.com/ARunni/ConnetHub_chat/pkg/usecase/interface"
+	"github.com/ARunni/ConnetHub_chat/pkg/utils/models"
 	"encoding/json"
 	"fmt"
 	"time"

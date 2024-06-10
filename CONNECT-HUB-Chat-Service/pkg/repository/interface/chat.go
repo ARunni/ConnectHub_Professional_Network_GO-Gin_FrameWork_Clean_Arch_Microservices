@@ -1,7 +1,7 @@
 
 package interfaces
 
-import "ConnetHub_chat/pkg/utils/models"
+import "github.com/ARunni/ConnetHub_chat/pkg/utils/models"
 
 type ChatRepository interface {
 	StoreFriendsChat(models.MessageReq) error

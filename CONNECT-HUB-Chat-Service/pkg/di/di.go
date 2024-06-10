@@ -1,13 +1,13 @@
 package di
 
 import (
-	server "ConnetHub_chat/pkg/api/server"
-	"ConnetHub_chat/pkg/api/service"
-	"ConnetHub_chat/pkg/client"
-	"ConnetHub_chat/pkg/config"
-	"ConnetHub_chat/pkg/db"
-	"ConnetHub_chat/pkg/repository"
-	"ConnetHub_chat/pkg/usecase"
+	server "github.com/ARunni/ConnetHub_chat/pkg/api/server"
+	"github.com/ARunni/ConnetHub_chat/pkg/api/service"
+	"github.com/ARunni/ConnetHub_chat/pkg/client"
+	"github.com/ARunni/ConnetHub_chat/pkg/config"
+	"github.com/ARunni/ConnetHub_chat/pkg/db"
+	"github.com/ARunni/ConnetHub_chat/pkg/repository"
+	"github.com/ARunni/ConnetHub_chat/pkg/usecase"
 )
 
 func InitializeAPI(cfg config.Config) (*server.Server, error) {

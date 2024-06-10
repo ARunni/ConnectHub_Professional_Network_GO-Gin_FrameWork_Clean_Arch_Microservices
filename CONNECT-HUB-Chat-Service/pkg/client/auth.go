@@ -1,15 +1,15 @@
 package client
 
 import (
-	logging "ConnetHub_chat/Logging"
-	"ConnetHub_chat/pkg/config"
-	"ConnetHub_chat/pkg/utils/models"
+	logging "github.com/ARunni/ConnetHub_chat/Logging"
+	"github.com/ARunni/ConnetHub_chat/pkg/config"
+	"github.com/ARunni/ConnetHub_chat/pkg/utils/models"
 	"os"
 
 	"context"
 	"fmt"
 
-	pb "ConnetHub_chat/pkg/pb/auth"
+	pb "github.com/ARunni/ConnetHub_chat/pkg/pb/auth"
 
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"

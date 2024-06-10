@@ -1,7 +1,7 @@
 package db
 
 import (
-    "ConnetHub_chat/pkg/config"
+    "github.com/ARunni/ConnetHub_chat/pkg/config"
     "context"
     "fmt"
 

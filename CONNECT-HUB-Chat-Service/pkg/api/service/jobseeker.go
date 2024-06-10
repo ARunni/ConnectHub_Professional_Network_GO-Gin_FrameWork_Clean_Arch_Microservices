@@ -1,9 +1,9 @@
 package service
 
 import (
-	pb "ConnetHub_chat/pkg/pb/chat"
-	interfaces "ConnetHub_chat/pkg/usecase/interface"
-	"ConnetHub_chat/pkg/utils/models"
+	pb "github.com/ARunni/ConnetHub_chat/pkg/pb/chat"
+	interfaces "github.com/ARunni/ConnetHub_chat/pkg/usecase/interface"
+	"github.com/ARunni/ConnetHub_chat/pkg/utils/models"
 	"context"
 	"time"
 )

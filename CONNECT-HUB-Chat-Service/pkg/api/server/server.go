@@ -1,11 +1,11 @@
 package server
 
 import (
-	"ConnetHub_chat/pkg/config"
+	"github.com/ARunni/ConnetHub_chat/pkg/config"
 	"fmt"
 	"net"
 
-	pb "ConnetHub_chat/pkg/pb/chat"
+	pb "github.com/ARunni/ConnetHub_chat/pkg/pb/chat"
 
 	"google.golang.org/grpc"
 )

@@ -1,9 +1,9 @@
 package repository
 
 import (
-	logging "ConnetHub_chat/Logging"
-	interfaces "ConnetHub_chat/pkg/repository/interface"
-	"ConnetHub_chat/pkg/utils/models"
+	logging "github.com/ARunni/ConnetHub_chat/Logging"
+	interfaces "github.com/ARunni/ConnetHub_chat/pkg/repository/interface"
+	"github.com/ARunni/ConnetHub_chat/pkg/utils/models"
 	"context"
 	"os"
 	"strconv"

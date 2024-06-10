@@ -1,9 +1,9 @@
 package main
 
 import (
-	logging "ConnetHub_chat/Logging"
-	"ConnetHub_chat/pkg/config"
-	"ConnetHub_chat/pkg/di"
+	logging "github.com/ARunni/ConnetHub_chat/Logging"
+	"github.com/ARunni/ConnetHub_chat/pkg/config"
+	"github.com/ARunni/ConnetHub_chat/pkg/di"
 	"log"
 )
 
