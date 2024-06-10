@@ -1,13 +1,16 @@
 package service
 
 import (
+	logging "ConnetHub_job/Logging"
 	jobpb "ConnetHub_job/pkg/pb/job/recruiter"
 	interfaces "ConnetHub_job/pkg/usecase/interface"
 	"ConnetHub_job/pkg/utils/models"
 	"context"
 	"fmt"
+	"os"
 	"strconv"
 
+	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/emptypb"
@@ -17,12 +20,16 @@ import (
 type RecruiterJobServer struct {
 	jobUseCase interfaces.RecruiterJobUsecase
 	jobpb.UnimplementedRecruiterJobServer
+	Logger  *logrus.Logger
+	LogFile *os.File
 }
 
 func NewRecruiterJobServer(useCase interfaces.RecruiterJobUsecase) jobpb.RecruiterJobServer {
-
+	logger, logFile := logging.InitLogrusLogger("./Logging/connectHub_Job.log")
 	return &RecruiterJobServer{
 		jobUseCase: useCase,
+		Logger:     logger,
+		LogFile:    logFile,
 	}
 }
 

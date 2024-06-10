@@ -1,21 +1,26 @@
 package client
 
 import (
+	logging "ConnetHub_job/Logging"
 	"ConnetHub_job/pkg/client/auth/interfaces"
 	"ConnetHub_job/pkg/config"
 	pb "ConnetHub_job/pkg/pb/auth"
 	"context"
 	"fmt"
+	"os"
 
+	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 )
 
 type JobAuthClient struct {
-	Client pb.JobAuthClient
+	Client  pb.JobAuthClient
+	Logger  *logrus.Logger
+	LogFile *os.File
 }
 
 func NewJobAuthClient(cfg config.Config) interfaces.JobAuthClient {
-	fmt.Println("fsdjkh", cfg.Connect_Hub_Auth)
+	logger, logFile := logging.InitLogrusLogger("./Logging/connectHub_Job.log")
 	grpcConnection, err := grpc.Dial(cfg.Connect_Hub_Auth, grpc.WithInsecure())
 
 	if err != nil {
@@ -24,7 +29,9 @@ func NewJobAuthClient(cfg config.Config) interfaces.JobAuthClient {
 
 	grpcClient := pb.NewJobAuthClient(grpcConnection)
 	return &JobAuthClient{
-		Client: grpcClient,
+		Client:  grpcClient,
+		Logger:  logger,
+		LogFile: logFile,
 	}
 
 }
