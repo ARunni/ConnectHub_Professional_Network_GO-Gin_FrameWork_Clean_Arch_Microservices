@@ -1,15 +1,16 @@
 package handler
 
 import (
-	logging "github.com/ARunni/connectHub_gateway/Logging"
-	"github.com/ARunni/connectHub_gateway/pkg/client/post/interfaces"
-	"github.com/ARunni/connectHub_gateway/pkg/utils/models"
-	"github.com/ARunni/connectHub_gateway/pkg/utils/response"
 	"errors"
 	"io/ioutil"
 	"net/http"
 	"os"
 	"strconv"
+
+	logging "github.com/ARunni/connectHub_gateway/Logging"
+	"github.com/ARunni/connectHub_gateway/pkg/client/post/interfaces"
+	"github.com/ARunni/connectHub_gateway/pkg/utils/models"
+	"github.com/ARunni/connectHub_gateway/pkg/utils/response"
 
 	msg "github.com/ARunni/Error_Message"
 	"github.com/sirupsen/logrus"
@@ -55,6 +56,7 @@ func (jph *JobseekerPostHandler) CreatePost(c *gin.Context) {
 	post.Content = c.PostForm("content")
 	jobseekerIdAny, ok := c.Get("id")
 	if !ok {
+		jph.Logger.Error("Error on Getting Data", errors.New("id error"))
 		err := errors.New(msg.ErrGetData)
 		errResp := response.ClientResponse(http.StatusInternalServerError, msg.ErrInternal, nil, err.Error())
 		c.JSON(http.StatusInternalServerError, errResp)
@@ -65,12 +67,14 @@ func (jph *JobseekerPostHandler) CreatePost(c *gin.Context) {
 
 	file, err := c.FormFile("image")
 	if err != nil {
+		jph.Logger.Error("Error on Getting image", err)
 		errResp := response.ClientResponse(http.StatusInternalServerError, "Getting Image Failed", nil, err.Error())
 		c.JSON(http.StatusInternalServerError, errResp)
 		return
 	}
 	fileContent, err := file.Open()
 	if err != nil {
+		jph.Logger.Error("Error on opennig image", err)
 		errResp := response.ClientResponse(http.StatusInternalServerError, "Error opening the file", nil, err.Error())
 		c.JSON(http.StatusInternalServerError, errResp)
 		return
@@ -79,7 +83,7 @@ func (jph *JobseekerPostHandler) CreatePost(c *gin.Context) {
 	defer fileContent.Close()
 	imageData, err := ioutil.ReadAll(fileContent)
 	if err != nil {
-
+		jph.Logger.Error("Error on reading image", err)
 		errResp := response.ClientResponse(http.StatusInternalServerError, "Error reading the file", nil, err.Error())
 		c.JSON(http.StatusInternalServerError, errResp)
 		return
@@ -88,11 +92,14 @@ func (jph *JobseekerPostHandler) CreatePost(c *gin.Context) {
 	post.Image = imageData
 
 	postData, err := jph.GRPC_Client.CreatePost(post)
+
 	if err != nil {
+		jph.Logger.Error("Error on Create Post", err)
 		errResp := response.ClientResponse(http.StatusInternalServerError, msg.ErrInternal, nil, err.Error())
 		c.JSON(http.StatusInternalServerError, errResp)
 		return
 	}
+	jph.Logger.Info("Create Post successful")
 	successRes := response.ClientResponse(http.StatusOK, msg.MsgAddSuccess, postData, nil)
 	c.JSON(http.StatusOK, successRes)
 

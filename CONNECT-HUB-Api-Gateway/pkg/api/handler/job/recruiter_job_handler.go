@@ -1,14 +1,15 @@
 package handler
 
 import (
-	logging "github.com/ARunni/connectHub_gateway/Logging"
-	interfaces "github.com/ARunni/connectHub_gateway/pkg/client/job/interface"
-	"github.com/ARunni/connectHub_gateway/pkg/utils/models"
-	"github.com/ARunni/connectHub_gateway/pkg/utils/response"
 	"errors"
 	"net/http"
 	"os"
 	"strconv"
+
+	logging "github.com/ARunni/connectHub_gateway/Logging"
+	interfaces "github.com/ARunni/connectHub_gateway/pkg/client/job/interface"
+	"github.com/ARunni/connectHub_gateway/pkg/utils/models"
+	"github.com/ARunni/connectHub_gateway/pkg/utils/response"
 
 	msg "github.com/ARunni/Error_Message"
 	"github.com/gin-gonic/gin"
@@ -223,7 +224,7 @@ func (jh *RecruiterJobHandler) DeleteAJob(c *gin.Context) {
 // @Security BearerTokenAuth
 // @Param job_id query int true "ID of the job to update"
 // @Param Authorization header string true "Bearer token"
-// @Param jobOpening body JobOpening true "Updated job details"
+// @Param body body models.JobOpening true "Updated job details"
 // @Success 200 {object} response.Response "Job successfully updated"
 // @Failure 400 {object} response.Response "Failed to update job: missing or incorrect parameters"
 // @Failure 500 {object} response.Response "Internal server error: failed to update job"
@@ -319,7 +320,7 @@ func (jh *RecruiterJobHandler) GetJobAppliedCandidates(c *gin.Context) {
 // @Produce json
 // @Security BearerTokenAuth
 // @Param Authorization header string true "Bearer token"
-// @Param jobSchedule body ScheduleReq true "Schedule details"
+// @Param jobSchedule body models.ScheduleReq true "Schedule details"
 // @Success 200 {object} response.Response "Interview scheduled successfully"
 // @Failure 400 {object} response.Response "Failed to schedule interview: missing or incorrect parameters"
 // @Failure 500 {object} response.Response "Internal server error: failed to schedule interview"

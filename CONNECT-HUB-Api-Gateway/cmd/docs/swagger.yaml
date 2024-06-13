@@ -11,6 +11,185 @@ definitions:
     - email
     - password
     type: object
+  models.CreateCommentPost:
+    properties:
+      comment:
+        type: string
+      post_id:
+        type: integer
+      user_id:
+        type: integer
+    type: object
+  models.JobOpening:
+    properties:
+      application_deadline:
+        type: string
+      description:
+        type: string
+      education_level:
+        type: string
+      employer_id:
+        type: integer
+      employment_type:
+        type: string
+      experience_level:
+        type: string
+      location:
+        type: string
+      requirements:
+        type: string
+      salary:
+        type: string
+      skills_required:
+        type: string
+      title:
+        type: string
+    type: object
+  models.JobSeekerLogin:
+    properties:
+      email:
+        type: string
+      password:
+        maxLength: 20
+        minLength: 6
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  models.JobSeekerProfile:
+    properties:
+      date_of_birth:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      gender:
+        type: string
+      id:
+        type: integer
+      last_name:
+        type: string
+      phone_number:
+        type: string
+    type: object
+  models.JobSeekerSignUp:
+    properties:
+      confirm_password:
+        maxLength: 20
+        minLength: 6
+        type: string
+      date_of_birth:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      gender:
+        type: string
+      last_name:
+        type: string
+      password:
+        maxLength: 20
+        minLength: 6
+        type: string
+      phone_number:
+        type: string
+    required:
+    - confirm_password
+    - email
+    - password
+    type: object
+  models.RecruiterLogin:
+    properties:
+      email:
+        type: string
+      password:
+        maxLength: 20
+        minLength: 6
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  models.RecruiterProfile:
+    properties:
+      about_company:
+        type: string
+      company_name:
+        type: string
+      company_size:
+        type: integer
+      contact_email:
+        type: string
+      contact_phone_number:
+        type: integer
+      headquarters_address:
+        type: string
+      id:
+        type: integer
+      industry:
+        type: string
+      website:
+        type: string
+    type: object
+  models.RecruiterSignUp:
+    properties:
+      about_company:
+        type: string
+      company_name:
+        type: string
+      company_size:
+        type: integer
+      confirm_password:
+        type: string
+      contact_email:
+        type: string
+      contact_phone_number:
+        type: integer
+      headquarters_address:
+        type: string
+      industry:
+        type: string
+      password:
+        type: string
+      website:
+        type: string
+    type: object
+  models.ScheduleReq:
+    properties:
+      application_id:
+        type: integer
+      date_and_time:
+        type: string
+      link:
+        type: string
+      mode:
+        type: string
+      recruiter_id:
+        type: integer
+    type: object
+  models.UpdateCommentPost:
+    properties:
+      comment:
+        type: string
+      comment_id:
+        type: integer
+      post_id:
+        type: integer
+      user_id:
+        type: integer
+    type: object
+  models.UpdatePolicyReq:
+    properties:
+      content:
+        type: string
+      id:
+        type: integer
+      title:
+        type: string
+    type: object
   response.Response:
     properties:
       data: {}
@@ -27,6 +206,118 @@ info:
   title: Go + Gin professional networking platform API Connect Hub
   version: 1.0.0
 paths:
+  /admin/jobseekers:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a paginated list of jobseekers
+      parameters:
+      - description: Page number for pagination
+        in: query
+        name: page
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved jobseekers
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Invalid page number or constraints not satisfied
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Failed to retrieve jobseekers due to internal error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Get jobseekers
+      tags:
+      - Admin
+  /admin/jobseekers/block:
+    patch:
+      consumes:
+      - application/json
+      description: Block a jobseeker based on the provided ID
+      parameters:
+      - description: Jobseeker ID to block
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Jobseeker blocked successfully
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Invalid jobseeker ID or failed to block jobseeker
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Block a jobseeker
+      tags:
+      - Admin User Management
+  /admin/jobseekers/details:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve details of a jobseeker based on the provided ID
+      parameters:
+      - description: Jobseeker ID to retrieve details
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved jobseeker details
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Invalid jobseeker ID or failed to retrieve details
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Get jobseeker details
+      tags:
+      - Admin User Management
+  /admin/jobseekers/unblock:
+    patch:
+      consumes:
+      - application/json
+      description: Unblock a jobseeker based on the provided ID
+      parameters:
+      - description: Jobseeker ID to unblock
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Jobseeker unblocked successfully
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Invalid jobseeker ID or failed to unblock jobseeker
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Unblock a jobseeker
+      tags:
+      - Admin User Management
   /admin/login:
     post:
       consumes:
@@ -57,6 +348,1251 @@ paths:
       summary: Admin login
       tags:
       - Admin
+  /admin/policies:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve all policies
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved all policies
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Failed to retrieve policies
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Get all policies
+      tags:
+      - Admin Policy Management
+  /admin/policies/{policy_id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a single policy based on the provided ID
+      parameters:
+      - description: Policy ID to retrieve
+        in: query
+        name: policy_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved the policy
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Invalid policy ID or failed to retrieve policy
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Get one policy
+      tags:
+      - Admin Policy Management
+  /admin/policy:
+    put:
+      consumes:
+      - application/json
+      description: Update a policy with the provided data
+      parameters:
+      - description: Policy data to update
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdatePolicyReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Policy updated successfully
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Invalid request data or failed to update policy
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Update policy
+      tags:
+      - Admin Policy Management
+  /admin/recruiters:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a paginated list of recruiters
+      parameters:
+      - description: Page number for pagination
+        in: query
+        name: page
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved recruiters
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Invalid page number or constraints not satisfied
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Failed to retrieve recruiters due to internal error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Get recruiters
+      tags:
+      - Admin
+  /admin/recruiters/block:
+    patch:
+      consumes:
+      - application/json
+      description: Block a recruiter based on the provided ID
+      parameters:
+      - description: Recruiter ID to block
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Recruiter blocked successfully
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Invalid recruiter ID or failed to block recruiter
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Block a recruiter
+      tags:
+      - Admin User Management
+  /admin/recruiters/details:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve details of a recruiter based on the provided ID
+      parameters:
+      - description: Recruiter ID to retrieve details
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved recruiter details
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Invalid recruiter ID or failed to retrieve details
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Get recruiter details
+      tags:
+      - Admin User Management
+  /jobseeker/appliedjobs:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the jobs that a job seeker has applied for
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved applied jobs
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: 'Failed to retrieve applied jobs: missing or incorrect parameters'
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: 'Internal server error: failed to retrieve applied jobs'
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Get applied jobs
+      tags:
+      - Job Seeker
+  /jobseeker/apply:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Apply for a job as a job seeker
+      parameters:
+      - description: ID of the job to apply for
+        in: formData
+        name: job_id
+        required: true
+        type: integer
+      - description: Cover letter for the job application
+        in: formData
+        name: cover_letter
+        required: true
+        type: string
+      - description: Resume for the job application
+        in: formData
+        name: resume
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Job applied successfully
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: 'Failed to apply for the job: missing or incorrect parameters'
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: 'Internal server error: failed to apply for the job'
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Apply for a job
+      tags:
+      - Job Seeker
+  /jobseeker/job:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the details of a job by its ID for job seekers
+      parameters:
+      - description: ID of the job to retrieve
+        in: query
+        name: job_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved job
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: 'Failed to retrieve job: job_id parameter is required or conversion
+            failed'
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: 'Internal server error: failed to fetch job'
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Get job by ID for job seeker
+      tags:
+      - Job Seeker
+  /jobseeker/jobs:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve all jobs matching the provided keyword for job seekers
+      parameters:
+      - description: Keyword to search for jobs
+        in: query
+        name: Keyword
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved jobs
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: 'Failed to retrieve jobs: keyword parameter is required'
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: 'Internal server error: failed to fetch jobs'
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Get all jobs for job seeker
+      tags:
+      - Job Seeker
+  /jobseeker/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate a job seeker
+      parameters:
+      - description: Job seeker credentials for login
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.JobSeekerLogin'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Job seeker login successful
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Incorrect request format or missing required fields
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: 'Internal server error: failed to authenticate job seeker'
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Job seeker login
+      tags:
+      - Job Seeker
+  /jobseeker/policies:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve all policies applicable to job seekers
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved all policies
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Failed to retrieve policies
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Get all policies
+      tags:
+      - Policy
+  /jobseeker/policies/{policy_id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve details of a specific policy based on its ID
+      parameters:
+      - description: Policy ID to retrieve
+        in: query
+        name: policy_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved the policy details
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Failed to retrieve policy details
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Get one policy
+      tags:
+      - Policy
+  /jobseeker/post:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a single post by its ID
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: ID of the post to retrieve
+        in: query
+        name: post_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Post retrieved successfully
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: 'Failed to get post: missing or incorrect parameters'
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: 'Internal server error: failed to get post'
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Get a post by ID
+      tags:
+      - Jobseeker
+    post:
+      consumes:
+      - application/json
+      description: Create a new post by a jobseeker
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Title of the post
+        in: formData
+        name: title
+        required: true
+        type: string
+      - description: Content of the post
+        in: formData
+        name: content
+        required: true
+        type: string
+      - description: Image file for the post
+        in: formData
+        name: image
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Post created successfully
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: 'Failed to create post: missing or incorrect parameters'
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: 'Internal server error: failed to create post'
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Create a post
+      tags:
+      - Jobseeker
+  /jobseeker/posts:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve all posts
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Posts retrieved successfully
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: 'Internal server error: failed to get posts'
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Get all posts
+      tags:
+      - Jobseeker
+  /jobseeker/posts/comment:
+    post:
+      consumes:
+      - application/json
+      description: Create a comment on a post by providing post ID and comment content
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Comment request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateCommentPost'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Comment created successfully
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: 'Bad request: incorrect format'
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: 'Internal server error: failed to create comment'
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Create a comment on a post
+      tags:
+      - Jobseeker
+  /jobseeker/posts/comment/delete:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a comment on a post by providing post ID and comment ID
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Post ID
+        in: path
+        name: post_id
+        required: true
+        type: integer
+      - description: Comment ID
+        in: path
+        name: comment_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Comment deleted successfully
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: 'Bad request: incorrect format'
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: 'Internal server error: failed to delete comment'
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Delete a comment on a post
+      tags:
+      - Jobseeker
+  /jobseeker/posts/comment/update:
+    put:
+      consumes:
+      - application/json
+      description: Update a comment on a post by providing comment ID, post ID, and
+        updated comment content
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Comment ID
+        in: path
+        name: comment_id
+        required: true
+        type: integer
+      - description: Post ID
+        in: path
+        name: post_id
+        required: true
+        type: integer
+      - description: Comment request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateCommentPost'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Comment updated successfully
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: 'Bad request: incorrect format'
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: 'Internal server error: failed to update comment'
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Update a comment on a post
+      tags:
+      - Jobseeker
+  /jobseeker/posts/delete:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a post by providing post ID
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Post ID
+        in: query
+        name: post_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Post deleted successfully
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: 'Bad request: failed to convert post ID'
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: 'Internal server error: failed to delete post'
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Delete a post
+      tags:
+      - Jobseeker
+  /jobseeker/posts/like:
+    post:
+      consumes:
+      - application/json
+      description: Add a like to a post by providing post ID
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Post ID
+        in: query
+        name: post_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Like added successfully
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: 'Bad request: incorrect format of post ID'
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: 'Internal server error: failed to add like to post'
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Add a like to a post
+      tags:
+      - Jobseeker
+  /jobseeker/posts/like/remove:
+    delete:
+      consumes:
+      - application/json
+      description: Remove a like from a post by providing post ID
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Post ID
+        in: query
+        name: post_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Like removed successfully
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: 'Bad request: incorrect format of post ID'
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: 'Internal server error: failed to remove like from post'
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Remove a like from a post
+      tags:
+      - Jobseeker
+  /jobseeker/posts/update:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Update a post by providing post ID, title, content, and image
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Post ID
+        in: formData
+        name: post_id
+        required: true
+        type: string
+      - description: Post title
+        in: formData
+        name: title
+        required: true
+        type: string
+      - description: Post content
+        in: formData
+        name: content
+        required: true
+        type: string
+      - description: Post image
+        in: formData
+        name: image
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Post updated successfully
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: 'Bad request: failed to convert post ID'
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: 'Internal server error: failed to update post'
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Update a post
+      tags:
+      - Jobseeker
+  /jobseeker/profile:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the profile of a job seeker
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved job seeker profile
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Failed to retrieve job seeker profile
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Get job seeker profile
+      tags:
+      - Job Seeker
+    put:
+      consumes:
+      - application/json
+      description: Edit the profile of a job seeker
+      parameters:
+      - description: Job seeker profile data for editing
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.JobSeekerProfile'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Job seeker profile edited successfully
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Incorrect request format or missing required fields
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: 'Internal server error: failed to edit job seeker profile'
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Edit job seeker profile
+      tags:
+      - Job Seeker
+  /jobseeker/signup:
+    post:
+      consumes:
+      - application/json
+      description: Register a new job seeker
+      parameters:
+      - description: Job seeker data for signup
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.JobSeekerSignUp'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Job seeker signup successful
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Incorrect request format or missing required fields
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: 'Internal server error: failed to signup job seeker'
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Job seeker signup
+      tags:
+      - Job Seeker
+  /recruiter/job:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a job posted by a recruiter
+      parameters:
+      - description: ID of the job to delete
+        in: query
+        name: job_id
+        required: true
+        type: integer
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Job successfully deleted
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: 'Failed to delete job: missing or incorrect parameters'
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: 'Internal server error: failed to delete job'
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Delete a job
+      tags:
+      - Recruiter
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the details of a single job posted by a recruiter
+      parameters:
+      - description: ID of the job to retrieve
+        in: query
+        name: job_id
+        required: true
+        type: integer
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved job
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: 'Failed to retrieve job: missing or incorrect parameters'
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: 'Internal server error: failed to retrieve job'
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Get one job
+      tags:
+      - Recruiter
+    put:
+      consumes:
+      - application/json
+      description: Update a job posted by a recruiter
+      parameters:
+      - description: ID of the job to update
+        in: query
+        name: job_id
+        required: true
+        type: integer
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Updated job details
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.JobOpening'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Job successfully updated
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: 'Failed to update job: missing or incorrect parameters'
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: 'Internal server error: failed to update job'
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Update a job
+      tags:
+      - Recruiter
+  /recruiter/job/applied-candidates:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves the candidates who applied for a job posted by a recruiter
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Applied candidates retrieved successfully
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: 'Failed to get applied candidates: missing or incorrect parameters'
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: 'Internal server error: failed to get applied candidates'
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Get applied candidates for a job
+      tags:
+      - Recruiter
+  /recruiter/job/schedule-interview:
+    post:
+      consumes:
+      - application/json
+      description: Schedule an interview by a recruiter for a job applicant
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Schedule details
+        in: body
+        name: jobSchedule
+        required: true
+        schema:
+          $ref: '#/definitions/models.ScheduleReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Interview scheduled successfully
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: 'Failed to schedule interview: missing or incorrect parameters'
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: 'Internal server error: failed to schedule interview'
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Schedule interview
+      tags:
+      - Recruiter
+  /recruiter/jobs:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve all jobs posted by a recruiter
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved jobs
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: 'Failed to retrieve jobs: missing or incorrect parameters'
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: 'Internal server error: failed to retrieve jobs'
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Get all jobs
+      tags:
+      - Recruiter
+    post:
+      consumes:
+      - application/json
+      description: Create a new job posting by a recruiter
+      parameters:
+      - description: Job opening data for posting
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.JobOpening'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Job posted successfully
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: 'Failed to post job: missing or incorrect parameters'
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: 'Internal server error: failed to post job'
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Create job posting
+      tags:
+      - Recruiter
+  /recruiter/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate a recruiter
+      parameters:
+      - description: Recruiter credentials for login
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.RecruiterLogin'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Recruiter login successful
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Incorrect request format or missing required fields
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: 'Internal server error: failed to authenticate recruiter'
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Recruiter login
+      tags:
+      - Recruiter
+  /recruiter/policies:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve all policies applicable to recruiters
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved all policies
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Failed to retrieve policies
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Get all policies
+      tags:
+      - Policy
+  /recruiter/policies/{policy_id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve details of a specific policy based on its ID
+      parameters:
+      - description: Policy ID to retrieve
+        in: query
+        name: policy_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved the policy details
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Failed to retrieve policy details
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Get one policy
+      tags:
+      - Policy
+  /recruiter/profile:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the profile of a recruiter
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved recruiter profile
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Failed to retrieve recruiter profile
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Get recruiter profile
+      tags:
+      - Recruiter
+    put:
+      consumes:
+      - application/json
+      description: Edit the profile of a recruiter
+      parameters:
+      - description: Recruiter profile data for editing
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.RecruiterProfile'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Recruiter profile edited successfully
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Incorrect request format or missing required fields
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: 'Internal server error: failed to edit recruiter profile'
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Edit recruiter profile
+      tags:
+      - Recruiter
+  /recruiter/signup:
+    post:
+      consumes:
+      - application/json
+      description: Register a new recruiter
+      parameters:
+      - description: Recruiter signup data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.RecruiterSignUp'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Recruiter signup successful
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Incorrect request format or missing required fields
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: 'Internal server error: failed to signup recruiter'
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Recruiter signup
+      tags:
+      - Recruiter
 securityDefinitions:
   BearerTokenAuth:
     in: header
