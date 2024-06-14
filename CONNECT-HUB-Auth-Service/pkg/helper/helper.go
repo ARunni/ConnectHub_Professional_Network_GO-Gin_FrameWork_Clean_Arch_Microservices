@@ -1,8 +1,12 @@
 package helper
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"errors"
 	"regexp"
+	"strconv"
+	"time"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -29,4 +33,13 @@ func ValidatePhoneNumber(phone string) bool {
 	regex := regexp.MustCompile(pattern)
 	value := regex.MatchString(phoneNumber)
 	return value
+}
+
+func GenerateVideoCallKey(userID, oppositeUser int) (string, error) {
+	currentTime := strconv.FormatInt(time.Now().UnixNano(), 10)
+	key := strconv.Itoa(userID) + "_" + strconv.Itoa(oppositeUser) + "_" + currentTime
+	hash := md5.Sum([]byte(key))
+	keyString := hex.EncodeToString(hash[:])
+
+	return keyString, nil
 }

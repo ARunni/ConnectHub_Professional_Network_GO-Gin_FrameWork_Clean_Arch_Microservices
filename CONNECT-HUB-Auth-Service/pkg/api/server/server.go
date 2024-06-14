@@ -11,6 +11,7 @@ import (
 	jobseekerPb "github.com/ARunni/ConnetHub_auth/pkg/pb/auth/jobseeker"
 	recruiterPb "github.com/ARunni/ConnetHub_auth/pkg/pb/auth/recruiter"
 	jobAuthPb "github.com/ARunni/ConnetHub_auth/pkg/pb/job/auth"
+	authPb "github.com/ARunni/ConnetHub_auth/pkg/pb/auth/auth"
 	"fmt"
 	"net"
 
@@ -26,7 +27,7 @@ type Server struct {
 	LogFile  *os.File
 }
 
-func NewGRPCServer(cfg config.Config, adminServer adminPb.AdminServer, recruiterServer recruiterPb.RecruiterServer, jobseekerServer jobseekerPb.JobseekerServer, jobAuthServer jobAuthPb.JobAuthServer) (*Server, error) {
+func NewGRPCServer(cfg config.Config, adminServer adminPb.AdminServer, recruiterServer recruiterPb.RecruiterServer, jobseekerServer jobseekerPb.JobseekerServer, jobAuthServer jobAuthPb.JobAuthServer, authServer authPb.AuthServiceServer) (*Server, error) {
 	logger, logFile := logging.InitLogrusLogger("./Logging/connectHub_Auth.log")
 	lis, err := net.Listen("tcp", cfg.Port)
 	if err != nil {
@@ -38,6 +39,7 @@ func NewGRPCServer(cfg config.Config, adminServer adminPb.AdminServer, recruiter
 	recruiterPb.RegisterRecruiterServer(newServer, recruiterServer)
 	jobseekerPb.RegisterJobseekerServer(newServer, jobseekerServer)
 	jobAuthPb.RegisterJobAuthServer(newServer, jobAuthServer)
+	authPb.RegisterAuthServiceServer(newServer, authServer)
 
 	return &Server{
 		server:   newServer,

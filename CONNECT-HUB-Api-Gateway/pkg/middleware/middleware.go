@@ -1,12 +1,13 @@
 package middleware
 
 import (
-	"github.com/ARunni/connectHub_gateway/pkg/helper"
-	"github.com/ARunni/connectHub_gateway/pkg/utils/response"
 	"errors"
 	"fmt"
 	"net/http"
 	"strings"
+
+	"github.com/ARunni/connectHub_gateway/pkg/helper"
+	"github.com/ARunni/connectHub_gateway/pkg/utils/response"
 
 	msg "github.com/ARunni/Error_Message"
 	"github.com/gin-gonic/gin"
@@ -73,6 +74,7 @@ func AuthMiddleware(c *gin.Context) {
 		}
 
 		c.Set("id", int(tokenclaims.ID))
+		c.Set("role", string(tokenclaims.Role))
 		c.Next()
 
 	case "Recruiter":
@@ -91,6 +93,7 @@ func AuthMiddleware(c *gin.Context) {
 			return
 		}
 		c.Set("id", int(tokenclaims.ID))
+		c.Set("role", string(tokenclaims.Role))
 		c.Next()
 
 	default:

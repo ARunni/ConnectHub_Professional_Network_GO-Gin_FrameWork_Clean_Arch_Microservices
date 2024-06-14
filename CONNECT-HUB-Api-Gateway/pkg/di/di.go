@@ -38,6 +38,8 @@ func InitializeAPI(cfg config.Config) (*server.ServerHTTP, error) {
 	jobseekerPostHandler := postHandler.NewJobseekerPostHandler(jobseekerPostClient)
 
 	VideoHandler := videoHandler.NewVideoCallHandler()
+	authclient := authClient.NewAuthClient(cfg)
+	authHandlerr := authHandler.NewAuthHandler(authclient)
 
 	chatClient := chatClient.NewChatClient(cfg)
 	chatHandler := chatHandler.NewChatHandler(chatClient, helper.NewHelper(&cfg))
@@ -46,7 +48,7 @@ func InitializeAPI(cfg config.Config) (*server.ServerHTTP, error) {
 		adminAuthHandler, jobseekerAuthHandler,
 		recruiterAuthHandler, recruiterJobHandler,
 		JobseekerJobhandler, jobseekerPostHandler,
-		chatHandler, VideoHandler)
+		chatHandler, VideoHandler, authHandlerr)
 
 	return serverHTTP, nil
 }
