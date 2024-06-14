@@ -1,15 +1,17 @@
 package client
 
 import (
+	"os"
+
 	logging "github.com/ARunni/connectHub_gateway/Logging"
 	interfaces "github.com/ARunni/connectHub_gateway/pkg/client/job/interface"
 	"github.com/ARunni/connectHub_gateway/pkg/config"
-	"os"
+
+	"context"
+	"fmt"
 
 	jobseekerPb "github.com/ARunni/connectHub_gateway/pkg/pb/job/jobseeker"
 	"github.com/ARunni/connectHub_gateway/pkg/utils/models"
-	"context"
-	"fmt"
 
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
@@ -38,10 +40,12 @@ func NewJobseekerJobClient(cfg config.Config) interfaces.JobseekerJobClient {
 }
 
 func (jc *jobseekerJobClient) JobSeekerGetAllJobs(keyword string) ([]models.JobSeekerGetAllJobs, error) {
+	jc.Logger.Info("JobSeekerGetAllJobs at client started")
 	resp, err := jc.Client.JobSeekerGetAllJobs(context.Background(), &jobseekerPb.JobSeekerGetAllJobsRequest{
 		Title: keyword,
 	})
 	if err != nil {
+		jc.Logger.Error("Error in JobSeekerGetAllJobs at client: ", err)
 		return nil, fmt.Errorf("failed to get job: %v", err)
 	}
 
@@ -52,16 +56,19 @@ func (jc *jobseekerJobClient) JobSeekerGetAllJobs(keyword string) ([]models.JobS
 			Title: job.Title,
 		})
 	}
+	jc.Logger.Info("JobSeekerGetAllJobs at client success")
 
 	return jobs, nil
 }
 
 func (jc *jobseekerJobClient) JobSeekerGetJobByID(id int) (models.JobOpeningData, error) {
+	jc.Logger.Info("JobSeekerGetJobByID at client started")
 	var job models.JobOpeningData
 	resp, err := jc.Client.JobSeekerGetJobByID(context.Background(), &jobseekerPb.JobSeekerGetJobByIDRequest{
 		Id: uint64(id),
 	})
 	if err != nil {
+		jc.Logger.Error("Error in JobSeekerGetJobByID at client: ", err)
 		return models.JobOpeningData{}, fmt.Errorf("failed to get job: %v", err)
 	}
 
@@ -77,10 +84,13 @@ func (jc *jobseekerJobClient) JobSeekerGetJobByID(id int) (models.JobOpeningData
 	job.EducationLevel = resp.Job.EducationLevel
 	job.ApplicationDeadline = resp.Job.ApplicationDeadline.AsTime()
 
+	jc.Logger.Info("JobSeekerGetJobByID at client success")
+
 	return job, nil
 }
 
 func (jc *jobseekerJobClient) JobSeekerApplyJob(data models.ApplyJobReq) (models.ApplyJob, error) {
+	jc.Logger.Info("JobSeekerApplyJob at client started")
 
 	resp, err := jc.Client.JobSeekerApplyJob(context.Background(), &jobseekerPb.JobSeekerApplyJobRequest{
 		JobId:       uint64(data.JobID),
@@ -89,8 +99,12 @@ func (jc *jobseekerJobClient) JobSeekerApplyJob(data models.ApplyJobReq) (models
 		Resume:      data.Resume,
 	})
 	if err != nil {
+		jc.Logger.Error("Error in JobSeekerApplyJob at client: ", err)
 		return models.ApplyJob{}, fmt.Errorf("failed to apply job: %v", err)
 	}
+
+	jc.Logger.Info("JobSeekerApplyJob at client success")
+
 
 	return models.ApplyJob{
 		ID:          uint(resp.Job.Id),
@@ -104,11 +118,14 @@ func (jc *jobseekerJobClient) JobSeekerApplyJob(data models.ApplyJobReq) (models
 }
 
 func (jc *jobseekerJobClient) GetAppliedJobs(user_id int) (models.AppliedJobsJ, error) {
+	jc.Logger.Info("GetAppliedJobs at client started")
+
 
 	resp, err := jc.Client.GetAppliedJobs(context.Background(), &jobseekerPb.JobSeekerGetAppliedJobsRequest{
 		UserId: int64(user_id),
 	})
 	if err != nil {
+		jc.Logger.Error("Error in GetAppliedJobs at client: ", err)
 		return models.AppliedJobsJ{}, fmt.Errorf("failed to apply job: %v", err)
 	}
 	var jobs []models.ApplyJob
@@ -123,5 +140,6 @@ func (jc *jobseekerJobClient) GetAppliedJobs(user_id int) (models.AppliedJobsJ, 
 			ResumeUrl:   job.ResumeUrl,
 		})
 	}
+	jc.Logger.Info("GetAppliedJobs at client success")
 	return models.AppliedJobsJ{Jobs: jobs}, nil
 }

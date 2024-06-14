@@ -1,15 +1,16 @@
 package client
 
 import (
+	"context"
+	"fmt"
+	"os"
+	"strconv"
+
 	logging "github.com/ARunni/connectHub_gateway/Logging"
 	interfaces "github.com/ARunni/connectHub_gateway/pkg/client/job/interface"
 	"github.com/ARunni/connectHub_gateway/pkg/config"
 	recruiterPb "github.com/ARunni/connectHub_gateway/pkg/pb/job/recruiter"
 	"github.com/ARunni/connectHub_gateway/pkg/utils/models"
-	"context"
-	"fmt"
-	"os"
-	"strconv"
 
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
@@ -23,6 +24,7 @@ type recruiterJobClient struct {
 }
 
 func NewRecruiterJobClient(cfg config.Config) interfaces.RecruiterJobClient {
+
 	logger, logFile := logging.InitLogrusLogger("./Logging/connectHub_gateway.log")
 	grpcConnection, err := grpc.Dial(cfg.ConnetHubJob, grpc.WithInsecure())
 
@@ -38,6 +40,7 @@ func NewRecruiterJobClient(cfg config.Config) interfaces.RecruiterJobClient {
 
 }
 func (jc *recruiterJobClient) PostJob(data models.JobOpening) (models.JobOpeningData, error) {
+	jc.Logger.Info("PostJob at client started")
 	applicationDeadline := timestamppb.New(data.ApplicationDeadline)
 	job, err := jc.Client.PostJob(context.Background(), &recruiterPb.JobOpeningRequest{
 		Title:               data.Title,
@@ -53,6 +56,7 @@ func (jc *recruiterJobClient) PostJob(data models.JobOpening) (models.JobOpening
 		ApplicationDeadline: applicationDeadline,
 	})
 	if err != nil {
+		jc.Logger.Error("Error posting job: ", err)
 		return models.JobOpeningData{}, err
 	}
 	postedOnTime := job.PostedOn.AsTime()
@@ -62,6 +66,8 @@ func (jc *recruiterJobClient) PostJob(data models.JobOpening) (models.JobOpening
 	if err != nil {
 		return models.JobOpeningData{}, err
 	}
+
+	jc.Logger.Info("PostJob at client success")
 	return models.JobOpeningData{
 		ID:                  uint(job.Id),
 		Title:               job.Title,
@@ -81,8 +87,10 @@ func (jc *recruiterJobClient) PostJob(data models.JobOpening) (models.JobOpening
 
 func (jc *recruiterJobClient) GetAllJobs(recruiterID int32) ([]models.AllJob, error) {
 
+	jc.Logger.Info("GetAllJobs at client started")
 	resp, err := jc.Client.GetAllJobs(context.Background(), &recruiterPb.GetAllJobsRequest{EmployerIDInt: recruiterID})
 	if err != nil {
+		jc.Logger.Error("Error getting all jobs: ", err)
 		return nil, fmt.Errorf("failed to get all jobs: %v", err)
 	}
 
@@ -98,26 +106,30 @@ func (jc *recruiterJobClient) GetAllJobs(recruiterID int32) ([]models.AllJob, er
 			EmployerID:          recruiterID,
 		})
 	}
+	jc.Logger.Info("GetAllJobs at client success")
 
 	return allJobs, nil
 }
 
 func (jc *recruiterJobClient) GetOneJob(recruiterID, jobId int32) (models.JobOpeningData, error) {
 
+	jc.Logger.Info("GetOneJob at client started")
+
 	resp, err := jc.Client.GetOneJob(context.Background(), &recruiterPb.GetAJobRequest{
 		EmployerIDInt: recruiterID,
 		JobId:         jobId,
 	})
 	if err != nil {
+		jc.Logger.Error("Error getting one job: ", err)
 		return models.JobOpeningData{}, fmt.Errorf("failed to get job: %v", err)
 	}
 
 	postedOnTime := resp.PostedOn.AsTime()
 	applicationDeadlineTime := resp.ApplicationDeadline.AsTime()
 	salary, _ := strconv.Atoi(resp.Salary)
-	// if err != nil {
-	// 	return models.JobOpeningData{}, fmt.Errorf("failed to convert salary to int: %v", err)
-	// }
+
+	jc.Logger.Info("GetOneJob at client success")
+
 	return models.JobOpeningData{
 		ID:                  uint(resp.Id),
 		Title:               resp.Title,
@@ -136,15 +148,19 @@ func (jc *recruiterJobClient) GetOneJob(recruiterID, jobId int32) (models.JobOpe
 }
 
 func (jc *recruiterJobClient) DeleteAJob(employerIDInt, jobID int32) error {
+	jc.Logger.Info("DeleteAJob at client success")
 	_, err := jc.Client.DeleteAJob(context.Background(), &recruiterPb.DeleteAJobRequest{EmployerIDInt: employerIDInt, JobId: jobID})
 	if err != nil {
+		jc.Logger.Error("Error deleting job: ", err)
 		return fmt.Errorf("failed to delete job: %v", err)
 	}
+	jc.Logger.Info("DeleteAJob at client success")
 	return nil
 }
 
 func (jc *recruiterJobClient) UpdateAJob(employerIDInt int32, jobID int32, jobDetails models.JobOpening) (models.JobOpeningData, error) {
 
+	jc.Logger.Info("UpdateAJob at client started")
 	applicationDeadline := timestamppb.New(jobDetails.ApplicationDeadline)
 
 	job, err := jc.Client.UpdateAJob(context.Background(), &recruiterPb.UpdateAJobRequest{
@@ -162,12 +178,15 @@ func (jc *recruiterJobClient) UpdateAJob(employerIDInt int32, jobID int32, jobDe
 		JobId:               jobID,
 	})
 	if err != nil {
+		jc.Logger.Error("Error updating job: ", err)
 		return models.JobOpeningData{}, fmt.Errorf("failed to post job opening: %v", err)
 	}
 
 	postedOnTime := job.PostedOn.AsTime()
 	applicationDeadlineTime := job.ApplicationDeadline.AsTime()
 	salary, _ := strconv.Atoi(job.Salary)
+
+	jc.Logger.Info("UpdateAJob at client succees")
 	return models.JobOpeningData{
 		ID:                  uint(job.Id),
 		Title:               job.Title,
@@ -187,11 +206,12 @@ func (jc *recruiterJobClient) UpdateAJob(employerIDInt int32, jobID int32, jobDe
 }
 
 func (jc *recruiterJobClient) GetJobAppliedCandidates(recruiter_id int) (models.AppliedJobs, error) {
-
+	jc.Logger.Info("GetJobAppliedCandidates at client started")
 	job, err := jc.Client.GetJobAppliedCandidates(context.Background(), &recruiterPb.GetAppliedJobsRequest{
 		UserId: int64(recruiter_id),
 	})
 	if err != nil {
+		jc.Logger.Error("Error getting job applied candidates: ", err)
 		return models.AppliedJobs{}, fmt.Errorf("failed to apply job: %v", err)
 	}
 	var jobs []models.ApplyJobRes
@@ -207,12 +227,14 @@ func (jc *recruiterJobClient) GetJobAppliedCandidates(recruiter_id int) (models.
 			JobseekerName: job.JobseekerName,
 			JoseekerEmail: job.JobseekerEmail,
 		})
-		fmt.Println("hjhjhjhjhjjhhjk", job.JobseekerEmail)
 	}
+	jc.Logger.Info("GetJobAppliedCandidates at client succees")
 	return models.AppliedJobs{Jobs: jobs}, nil
 }
 
 func (jc *recruiterJobClient) ScheduleInterview(data models.ScheduleReq) (models.Interview, error) {
+
+	jc.Logger.Info("ScheduleInterview at client started")
 
 	job, err := jc.Client.ScheduleInterview(context.Background(), &recruiterPb.ScheduleInterviewRequest{
 		ApplicationId: int64(data.ApplicationId),
@@ -222,8 +244,10 @@ func (jc *recruiterJobClient) ScheduleInterview(data models.ScheduleReq) (models
 		Link:          data.Link,
 	})
 	if err != nil {
+		jc.Logger.Error("Error scheduling interview: ", err)
 		return models.Interview{}, fmt.Errorf("failed to apply job: %v", err)
 	}
+	jc.Logger.Info("ScheduleInterview at client succees")
 
 	return models.Interview{
 		ID:            uint(job.Id),
