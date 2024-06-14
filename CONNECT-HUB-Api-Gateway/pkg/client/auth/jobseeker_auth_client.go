@@ -39,6 +39,7 @@ func NewJobSeekerAuthClient(cfg config.Config) interfaces.JobSeekerAuthClient {
 }
 
 func (jc *jobseekerClient) JobSeekerSignup(jobseekerData models.JobSeekerSignUp) (models.TokenJobSeeker, error) {
+	jc.Logger.Info("JobSeekerSignup at client started")
 	jobseeker, err := jc.Client.JobSeekerSignup(context.Background(), &pb.JobSeekerSignupRequest{
 		Firstname:       jobseekerData.FirstName,
 		Lastname:        jobseekerData.LastName,
@@ -50,8 +51,10 @@ func (jc *jobseekerClient) JobSeekerSignup(jobseekerData models.JobSeekerSignUp)
 		ConfirmPassword: jobseekerData.ConfirmPassword,
 	})
 	if err != nil {
+		jc.Logger.Error("Error in JobSeekerSignup at client:", err)
 		return models.TokenJobSeeker{}, err
 	}
+	jc.Logger.Info("JobSeekerSignup at client success")
 	return models.TokenJobSeeker{
 		JobSeeker: models.JobSeekerDetailsResponse{
 			ID:          uint(jobseeker.JobSeekerDetails.Id),
@@ -66,13 +69,16 @@ func (jc *jobseekerClient) JobSeekerSignup(jobseekerData models.JobSeekerSignUp)
 }
 
 func (jc *jobseekerClient) JobSeekerLogin(jobseekerData models.JobSeekerLogin) (models.TokenJobSeeker, error) {
+	jc.Logger.Info("JobSeekerLogin at client started")
 	jobseeker, err := jc.Client.JobSeekerLogin(context.Background(), &pb.JobSeekerLoginRequest{
 		Email:    jobseekerData.Email,
 		Password: jobseekerData.Password,
 	})
 	if err != nil {
+		jc.Logger.Error("Error in JobSeekerLogin at client:", err)
 		return models.TokenJobSeeker{}, err
 	}
+	jc.Logger.Info("JobSeekerLogin at client success")
 
 	return models.TokenJobSeeker{
 		JobSeeker: models.JobSeekerDetailsResponse{
@@ -90,12 +96,15 @@ func (jc *jobseekerClient) JobSeekerLogin(jobseekerData models.JobSeekerLogin) (
 }
 
 func (jc *jobseekerClient) JobSeekerGetProfile(id int) (models.JobSeekerProfile, error) {
+	jc.Logger.Info("JobSeekerGetProfile at client started")
 	profile, err := jc.Client.JobSeekerGetProfile(context.Background(), &pb.GetProfileRequest{
 		Id: int32(id),
 	})
 	if err != nil {
+		jc.Logger.Error("Error in JobSeekerGetProfile at client:", err)
 		return models.JobSeekerProfile{}, err
 	}
+	jc.Logger.Info("JobSeekerGetProfile at client success")
 
 	return models.JobSeekerProfile{
 		ID:          uint(profile.Profile.Id),
@@ -110,6 +119,7 @@ func (jc *jobseekerClient) JobSeekerGetProfile(id int) (models.JobSeekerProfile,
 }
 
 func (jc *jobseekerClient) JobSeekerEditProfile(profile models.JobSeekerProfile) (models.JobSeekerProfile, error) {
+	jc.Logger.Info("JobSeekerEditProfile at client started")
 	profileData, err := jc.Client.JobSeekerEditProfile(context.Background(), &pb.JobSeekerEditProfileRequest{
 		Profile: &pb.JobSeekerProfile{
 			Id:          uint64(profile.ID),
@@ -122,8 +132,10 @@ func (jc *jobseekerClient) JobSeekerEditProfile(profile models.JobSeekerProfile)
 		},
 	})
 	if err != nil {
+		jc.Logger.Error("Error in JobSeekerEditProfile at client:", err)
 		return models.JobSeekerProfile{}, err
 	}
+	jc.Logger.Info("JobSeekerEditProfile at client success")
 
 	return models.JobSeekerProfile{
 		ID:          uint(profileData.Profile.Id),
@@ -138,9 +150,10 @@ func (jc *jobseekerClient) JobSeekerEditProfile(profile models.JobSeekerProfile)
 }
 
 func (jc *jobseekerClient) GetAllPolicies() (models.GetAllPolicyRes, error) {
-
+	jc.Logger.Info("GetAllPolicies at client started")
 	Data, err := jc.Client.GetAllPolicies(context.Background(), &pb.GetAllPoliciesRequest{})
 	if err != nil {
+		jc.Logger.Error("Error in GetAllPolicies at client:", err)
 		return models.GetAllPolicyRes{}, err
 	}
 
@@ -155,6 +168,7 @@ func (jc *jobseekerClient) GetAllPolicies() (models.GetAllPolicyRes, error) {
 		})
 
 	}
+	jc.Logger.Info("GetAllPolicies at client success")
 	return models.GetAllPolicyRes{
 		Policies: policies,
 	}, nil
@@ -162,11 +176,13 @@ func (jc *jobseekerClient) GetAllPolicies() (models.GetAllPolicyRes, error) {
 }
 
 func (jc *jobseekerClient) GetOnePolicy(policy_id int) (models.CreatePolicyRes, error) {
-
+	jc.Logger.Info("GetOnePolicy at client started")
 	Data, err := jc.Client.GetOnePolicy(context.Background(), &pb.GetOnePolicyRequest{Id: int64(policy_id)})
 	if err != nil {
+		jc.Logger.Error("Error in GetOnePolicy at client:", err)
 		return models.CreatePolicyRes{}, err
 	}
+	jc.Logger.Info("GetOnePolicy at client success")
 
 	return models.CreatePolicyRes{
 		Policies: models.Policy{

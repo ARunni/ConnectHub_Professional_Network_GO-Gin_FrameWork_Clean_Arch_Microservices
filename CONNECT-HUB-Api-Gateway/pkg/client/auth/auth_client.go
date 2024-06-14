@@ -38,12 +38,15 @@ func NewAuthClient(cfg config.Config) interfaces.AuthClient {
 }
 
 func (au *authClient) VideoCallKey(userID, oppositeUser int) (string, error) {
+	au.Logger.Info("videocallkey on client started")
 	key, err := au.Client.VideoCallKey(context.Background(), &pb.VideoCallRequest{
 		UserID:       int64(userID),
 		OppositeUser: int64(oppositeUser),
 	})
 	if err != nil {
+		au.Logger.Errorf("Error in getting videocallkey: %v", err)
 		return "", err
 	}
+	au.Logger.Info("videocallkey on client success")
 	return key.Key, nil
 }

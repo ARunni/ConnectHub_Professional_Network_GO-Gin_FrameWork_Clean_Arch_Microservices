@@ -1,15 +1,16 @@
 package client
 
 import (
+	"context"
+	"fmt"
+	"os"
+
 	logging "github.com/ARunni/connectHub_gateway/Logging"
 	interfaces "github.com/ARunni/connectHub_gateway/pkg/client/auth/interface"
 	"github.com/ARunni/connectHub_gateway/pkg/config"
 	"github.com/ARunni/connectHub_gateway/pkg/helper"
 	pb "github.com/ARunni/connectHub_gateway/pkg/pb/auth/recruiter"
 	"github.com/ARunni/connectHub_gateway/pkg/utils/models"
-	"context"
-	"fmt"
-	"os"
 
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
@@ -38,6 +39,7 @@ func NewRecruiterAuthClient(cfg config.Config) interfaces.RecruiterAuthClient {
 }
 
 func (rc *recruiterClient) RecruiterSignup(recruiterData models.RecruiterSignUp) (models.TokenRecruiter, error) {
+	rc.Logger.Info("RecruiterSignup at client started")
 	recruiter, err := rc.Client.RecruiterSignup(context.Background(), &pb.RecruiterSignupRequest{
 		CompanyName:         recruiterData.Company_name,
 		Email:               recruiterData.Contact_email,
@@ -51,8 +53,10 @@ func (rc *recruiterClient) RecruiterSignup(recruiterData models.RecruiterSignUp)
 		ConfirmPassword:     recruiterData.ConfirmPassword,
 	})
 	if err != nil {
+		rc.Logger.Error("Error in RecruiterSignup at client: ", err)
 		return models.TokenRecruiter{}, err
 	}
+	rc.Logger.Info("RecruiterSignup at client success")
 	return models.TokenRecruiter{
 		Recruiter: models.RecruiterDetailsResponse{
 			ID:                   uint(recruiter.RecruiterDetails.Id),
@@ -70,13 +74,16 @@ func (rc *recruiterClient) RecruiterSignup(recruiterData models.RecruiterSignUp)
 }
 
 func (rc *recruiterClient) RecruiterLogin(recruiterData models.RecruiterLogin) (models.TokenRecruiter, error) {
+	rc.Logger.Info("RecruiterLogin at client started")
 	recruiter, err := rc.Client.RecruiterLogin(context.Background(), &pb.RecruiterLoginInRequest{
 		Email:    recruiterData.Email,
 		Password: recruiterData.Password,
 	})
 	if err != nil {
+		rc.Logger.Error("Error in RecruiterLogin at client: ", err)
 		return models.TokenRecruiter{}, err
 	}
+	rc.Logger.Info("RecruiterLogin at client success")
 	return models.TokenRecruiter{
 		Recruiter: models.RecruiterDetailsResponse{
 			ID:                   uint(recruiter.RecruiterDetails.Id),
@@ -94,12 +101,15 @@ func (rc *recruiterClient) RecruiterLogin(recruiterData models.RecruiterLogin) (
 }
 
 func (rc *recruiterClient) RecruiterGetProfile(id int) (models.RecruiterProfile, error) {
+	rc.Logger.Info("RecruiterGetProfile at client started")
 	data, err := rc.Client.RecruiterGetProfile(context.Background(), &pb.GetProfileRequest{
 		RecruiterId: int32(id),
 	})
 	if err != nil {
+		rc.Logger.Error("Error in RecruiterGetProfile at client: ", err)
 		return models.RecruiterProfile{}, err
 	}
+	rc.Logger.Info("RecruiterGetProfile at client success")
 	return models.RecruiterProfile{
 		ID:                   uint(data.Id),
 		Company_name:         data.CompanyName,
@@ -114,6 +124,7 @@ func (rc *recruiterClient) RecruiterGetProfile(id int) (models.RecruiterProfile,
 }
 
 func (rc *recruiterClient) RecruiterEditProfile(data models.RecruiterProfile) (models.RecruiterProfile, error) {
+	rc.Logger.Info("RecruiterEditProfile at client started")
 	profiledata, err := rc.Client.RecruiterEditProfile(context.Background(), &pb.RecruiterEditProfileRequest{
 		Profile: &pb.RecruiterDetails{
 			Id:                  uint64(data.ID),
@@ -128,8 +139,10 @@ func (rc *recruiterClient) RecruiterEditProfile(data models.RecruiterProfile) (m
 		},
 	})
 	if err != nil {
+		rc.Logger.Error("Error in RecruiterEditProfile at client: ", err)
 		return models.RecruiterProfile{}, err
 	}
+	rc.Logger.Info("RecruiterEditProfile at client success")
 	return models.RecruiterProfile{
 		ID:                   uint(profiledata.Profile.Id),
 		Company_name:         profiledata.Profile.CompanyName,
@@ -144,8 +157,10 @@ func (rc *recruiterClient) RecruiterEditProfile(data models.RecruiterProfile) (m
 }
 
 func (rc *recruiterClient) GetAllPolicies() (models.GetAllPolicyRes, error) {
+	rc.Logger.Info("GetAllPolicies at client started")
 	data, err := rc.Client.GetAllPolicies(context.Background(), &pb.GetAllPoliciesRequest{})
 	if err != nil {
+		rc.Logger.Error("Error in GetAllPolicies at client: ", err)
 		return models.GetAllPolicyRes{}, err
 	}
 	var policies []models.Policy
@@ -159,16 +174,20 @@ func (rc *recruiterClient) GetAllPolicies() (models.GetAllPolicyRes, error) {
 		})
 
 	}
+	rc.Logger.Info("GetAllPolicies at client success")
 	return models.GetAllPolicyRes{
 		Policies: policies,
 	}, nil
 }
 
 func (rc *recruiterClient) GetOnePolicy(policy_id int) (models.CreatePolicyRes, error) {
+	rc.Logger.Info("GetOnePolicy at client started")
 	data, err := rc.Client.GetOnePolicy(context.Background(), &pb.GetOnePolicyRequest{Id: int64(policy_id)})
 	if err != nil {
+		rc.Logger.Error("Error in GetOnePolicy at client: ", err)
 		return models.CreatePolicyRes{}, err
 	}
+	rc.Logger.Info("GetOnePolicy at client success")
 
 	return models.CreatePolicyRes{
 		Policies: models.Policy{
