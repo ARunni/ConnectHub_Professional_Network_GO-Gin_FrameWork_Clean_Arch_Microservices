@@ -26,22 +26,26 @@ func NewVideoCallRepository(DB *gorm.DB) interfaces.VideoCallRepository {
 }
 
 func (jr *videoCallRepository) IsJobseekerExist(userId int) (bool, error) {
+	jr.Logger.Info("repo IsJobseekerExist started ")
 	var count int
 	querry := ` select count(*) from job_seekers where id = ?`
 	result := jr.DB.Raw(querry, userId).Scan(&count)
 	if result.Error != nil {
-		jr.Logger.Error("Error during database operations",result.Error)
+		jr.Logger.Error("repo IsJobseekerExist error ", result.Error)
 		return false, result.Error
 	}
+	jr.Logger.Info("repo IsJobseekerExist success ")
 	return count > 0, nil
 }
 func (jr *videoCallRepository) IsRecruiterExist(userId int) (bool, error) {
+	jr.Logger.Info("repo IsRecruiterExist started ")
 	var count int
 	querry := ` select count(*) from recruiters where id = ?`
 	result := jr.DB.Raw(querry, userId).Scan(&count)
 	if result.Error != nil {
-		jr.Logger.Error("Error during database operations",result.Error)
+		jr.Logger.Error("repo IsRecruiterExist error ", result.Error)
 		return false, result.Error
 	}
+	jr.Logger.Info("repo IsRecruiterExist success ")
 	return count > 0, nil
 }

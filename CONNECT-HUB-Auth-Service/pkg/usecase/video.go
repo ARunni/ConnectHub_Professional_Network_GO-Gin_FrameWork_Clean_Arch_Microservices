@@ -29,26 +29,32 @@ func NewVideoCallUseCase(repo repo.VideoCallRepository) usecase.VideoCallUsecase
 
 func (ur *videoCallUseCase) VideoCallKey(userID, oppositeUser int) (string, error) {
 
+	ur.Logger.Info("usecase VideoCallKey function started")
 	userExist, err := ur.videoCallRepository.IsRecruiterExist(userID)
 	if err != nil {
+		ur.Logger.Error("error from repo", err)
 		return "", err
 	}
 	if !userExist {
+		ur.Logger.Error("error from repo", errors.New("recruiter doesn't exist"))
 		return "", errors.New("recruiter doesn't exist")
 	}
 
 	JobseekerExist, err := ur.videoCallRepository.IsJobseekerExist(oppositeUser)
 	if err != nil {
+		ur.Logger.Error("error from repo", err)
 		return "", err
 	}
 	if !JobseekerExist {
+		ur.Logger.Error("error from repo", errors.New("jobseeker doesn't exist"))
 		return "", errors.New("user not found")
 	}
 
 	key, err := helper.GenerateVideoCallKey(userID, oppositeUser)
 	if err != nil {
+		ur.Logger.Error("error from helper", err)
 		return "", err
 	}
-
+	ur.Logger.Info("usecase VideoCallKey function scuccess")
 	return key, nil
 }
