@@ -29,6 +29,7 @@ func NewJobSeekerServer(useCase interfaces.JobSeekerUseCase) pb.JobseekerServer 
 }
 
 func (js *JobSeekerServer) JobSeekerSignup(ctx context.Context, Req *pb.JobSeekerSignupRequest) (*pb.JobSeekerSignupResponse, error) {
+	js.Logger.Info("JobSeekerSignup at JobSeekerServer started")
 	jobseekerSignup := req.JobSeekerSignUp{
 		Email:           Req.Email,
 		Password:        Req.Password,
@@ -40,10 +41,14 @@ func (js *JobSeekerServer) JobSeekerSignup(ctx context.Context, Req *pb.JobSeeke
 		Gender:          Req.Gender,
 	}
 
+js.Logger.Info("JobSeekerSignup at jobseekerUsecase started")
 	jobseekerData, err := js.jobseekerUsecase.JobSeekerSignup(jobseekerSignup)
 	if err != nil {
+		js.Logger.Error("Error at jobseekerUsecase",err)
 		return nil, err
 	}
+	js.Logger.Info("JobSeekerSignup at jobseekerUsecase success")
+	js.Logger.Info("JobSeekerSignup at JobSeekerServer success")
 	return &pb.JobSeekerSignupResponse{
 		Status: 200,
 		JobSeekerDetails: &pb.JobSeekerDetails{
@@ -61,14 +66,19 @@ func (js *JobSeekerServer) JobSeekerSignup(ctx context.Context, Req *pb.JobSeeke
 }
 
 func (js *JobSeekerServer) JobSeekerLogin(ctx context.Context, Req *pb.JobSeekerLoginRequest) (*pb.JobSeekerLoginResponse, error) {
+	js.Logger.Info("JobSeekerLogin at JobSeekerServer started")
 	jobseekerLogin := req.JobSeekerLogin{
 		Email:    Req.Email,
 		Password: Req.Password,
 	}
+	js.Logger.Info("JobSeekerLogin at jobseekerUsecase started")
 	jobseekerData, err := js.jobseekerUsecase.JobSeekerLogin(jobseekerLogin)
 	if err != nil {
+		js.Logger.Error("Error at jobseekerUsecase",err)
 		return nil, err
 	}
+	js.Logger.Info("JobSeekerLogin at jobseekerUsecase success")
+	js.Logger.Info("JobSeekerLogin at JobSeekerServer success")
 	return &pb.JobSeekerLoginResponse{
 		Status: 200,
 		JobSeekerDetails: &pb.JobSeekerDetails{
@@ -84,11 +94,16 @@ func (js *JobSeekerServer) JobSeekerLogin(ctx context.Context, Req *pb.JobSeeker
 }
 
 func (js *JobSeekerServer) JobSeekerGetProfile(ctx context.Context, Req *pb.GetProfileRequest) (*pb.GetProfileResponse, error) {
+	js.Logger.Info("JobSeekerGetProfile at JobSeekerServer started")
 	jobseekerId := Req.Id
+	js.Logger.Info("JobSeekerGetProfile at jobseekerUsecase started")
 	jobseekerData, err := js.jobseekerUsecase.JobSeekerGetProfile(int(jobseekerId))
 	if err != nil {
+		js.Logger.Error("Error at jobseekerUsecase",err)
 		return nil, err
 	}
+	js.Logger.Info("JobSeekerGetProfile at jobseekerUsecase success")
+	js.Logger.Info("JobSeekerGetProfile at JobSeekerServer success")
 	return &pb.GetProfileResponse{
 		Status: 200,
 		Profile: &pb.JobSeekerProfile{
@@ -104,6 +119,7 @@ func (js *JobSeekerServer) JobSeekerGetProfile(ctx context.Context, Req *pb.GetP
 }
 
 func (js *JobSeekerServer) JobSeekerEditProfile(ctx context.Context, Req *pb.JobSeekerEditProfileRequest) (*pb.JobSeekerEditProfileResponse, error) {
+	js.Logger.Info("JobSeekerGetProfile at JobSeekerServer started")
 	jobseekerReq := req.JobSeekerProfile{
 		ID:          uint(Req.Profile.Id),
 		FirstName:   Req.Profile.FirstName,
@@ -113,11 +129,15 @@ func (js *JobSeekerServer) JobSeekerEditProfile(ctx context.Context, Req *pb.Job
 		PhoneNumber: Req.Profile.Phone,
 		DateOfBirth: Req.Profile.DateOfBirth,
 	}
+	js.Logger.Info("JobSeekerEditProfile at jobseekerUsecase started")
 
 	jobseekerData, err := js.jobseekerUsecase.JobSeekerEditProfile(jobseekerReq)
 	if err != nil {
+		js.Logger.Error("Error at jobseekerUsecase",err)
 		return nil, err
 	}
+	js.Logger.Info("JobSeekerEditProfile at jobseekerUsecase success")
+	js.Logger.Info("JobSeekerEditProfile at JobSeekerServer success")
 	return &pb.JobSeekerEditProfileResponse{
 
 		Profile: &pb.JobSeekerProfile{
@@ -133,11 +153,15 @@ func (js *JobSeekerServer) JobSeekerEditProfile(ctx context.Context, Req *pb.Job
 }
 
 func (js *JobSeekerServer) GetAllPolicies(ctx context.Context, Req *pb.GetAllPoliciesRequest) (*pb.GetAllPoliciesResponse, error) {
+	js.Logger.Info("GetAllPolicies at JobSeekerServer started")
 
+	js.Logger.Info("GetAllPolicies at jobseekerUsecase started")
 	jobseekerData, err := js.jobseekerUsecase.GetAllPolicies()
 	if err != nil {
+		js.Logger.Error("Error at jobseekerUsecase",err)
 		return nil, err
 	}
+	js.Logger.Info("GetAllPolicies at jobseekerUsecase success")
 	var policies []*pb.Policy
 
 	for _, p := range jobseekerData.Policies {
@@ -151,6 +175,8 @@ func (js *JobSeekerServer) GetAllPolicies(ctx context.Context, Req *pb.GetAllPol
 
 		policies = append(policies, policy)
 	}
+	
+	js.Logger.Info("GetAllPolicies at JobSeekerServer success")
 
 	return &pb.GetAllPoliciesResponse{
 		Policies: policies,
@@ -159,11 +185,17 @@ func (js *JobSeekerServer) GetAllPolicies(ctx context.Context, Req *pb.GetAllPol
 
 func (js *JobSeekerServer) GetOnePolicy(ctx context.Context, Req *pb.GetOnePolicyRequest) (*pb.GetOnePolicyResponse, error) {
 
+	js.Logger.Info("GetOnePolicy at JobSeekerServer started")
+
 	policy_id := Req.Id
+	js.Logger.Info("GetOnePolicy at jobseekerUsecase started")
 	jobseekerData, err := js.jobseekerUsecase.GetOnePolicy(int(policy_id))
 	if err != nil {
+		js.Logger.Error("Error at jobseekerUsecase",err)
 		return nil, err
 	}
+	js.Logger.Info("GetOnePolicy at jobseekerUsecase success")
+	js.Logger.Info("GetOnePolicy at JobSeekerServer success")
 	return &pb.GetOnePolicyResponse{
 		Policy: &pb.Policy{
 			Id:        int64(jobseekerData.Policies.ID),

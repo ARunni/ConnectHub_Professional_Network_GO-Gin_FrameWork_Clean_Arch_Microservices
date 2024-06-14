@@ -29,6 +29,7 @@ func NewRecruiterServer(useCase interfaces.RecruiterUseCase) pb.RecruiterServer 
 }
 
 func (rs *RecruiterServer) RecruiterSignup(ctx context.Context, Req *pb.RecruiterSignupRequest) (*pb.RecruiterSignupResponse, error) {
+	rs.Logger.Info("RecruiterSignup at RecruiterServer started")
 	recruiterSignup := req.RecruiterSignUp{
 		Company_name:         Req.CompanyName,
 		Industry:             Req.Industry,
@@ -42,10 +43,15 @@ func (rs *RecruiterServer) RecruiterSignup(ctx context.Context, Req *pb.Recruite
 		ConfirmPassword:      Req.ConfirmPassword,
 	}
 
+rs.Logger.Info("RecruiterSignup at recruiterUseCase started")
 	recruiter, err := rs.recruiterUseCase.RecruiterSignup(recruiterSignup)
 	if err != nil {
+		rs.Logger.Error("Error at recruiterUseCase",err)
 		return nil, err
 	}
+	rs.Logger.Info("RecruiterSignup at recruiterUseCase success")
+	rs.Logger.Info("RecruiterSignup at RecruiterServer success")
+
 	return &pb.RecruiterSignupResponse{
 		Status: 200,
 		RecruiterDetails: &pb.RecruiterDetails{
@@ -64,14 +70,19 @@ func (rs *RecruiterServer) RecruiterSignup(ctx context.Context, Req *pb.Recruite
 }
 
 func (rs *RecruiterServer) RecruiterLogin(ctx context.Context, Req *pb.RecruiterLoginInRequest) (*pb.RecruiterLoginResponse, error) {
+	rs.Logger.Info("RecruiterLogin at RecruiterServer started")
 	recruiterLogin := req.RecruiterLogin{
 		Email:    Req.Email,
 		Password: Req.Password,
 	}
+	rs.Logger.Info("RecruiterLogin at recruiterUseCase started")
 	recruiterdata, err := rs.recruiterUseCase.RecruiterLogin(recruiterLogin)
 	if err != nil {
+		rs.Logger.Error("Error at recruiterUseCase",err)
 		return nil, err
 	}
+	rs.Logger.Info("RecruiterLogin at recruiterUseCase success")
+	rs.Logger.Info("RecruiterLogin at RecruiterServer success")
 	return &pb.RecruiterLoginResponse{
 		Status: 200,
 		RecruiterDetails: &pb.RecruiterDetails{
@@ -91,11 +102,16 @@ func (rs *RecruiterServer) RecruiterLogin(ctx context.Context, Req *pb.Recruiter
 }
 
 func (rs *RecruiterServer) RecruiterGetProfile(ctx context.Context, Req *pb.GetProfileRequest) (*pb.RecruiterDetailsResponse, error) {
+	rs.Logger.Info("RecruiterGetProfile at RecruiterServer started")
 	recruiterId := Req.RecruiterId
+	rs.Logger.Info("RecruiterGetProfile at recruiterUseCase started")
 	recruiterdata, err := rs.recruiterUseCase.RecruiterGetProfile(int(recruiterId))
 	if err != nil {
+		rs.Logger.Error("Error at recruiterUseCase",err)
 		return nil, err
 	}
+	rs.Logger.Info("RecruiterGetProfile at recruiterUseCase success")
+	rs.Logger.Info("RecruiterGetProfile at RecruiterServer success")
 	return &pb.RecruiterDetailsResponse{
 		Id:                  uint64(recruiterdata.ID),
 		CompanyName:         recruiterdata.Company_name,
@@ -111,6 +127,7 @@ func (rs *RecruiterServer) RecruiterGetProfile(ctx context.Context, Req *pb.GetP
 }
 
 func (rs *RecruiterServer) RecruiterEditProfile(ctx context.Context, Req *pb.RecruiterEditProfileRequest) (*pb.RecruiterEditProfileResponse, error) {
+	rs.Logger.Info("RecruiterEditProfile at RecruiterServer started")
 	recruiterProfile := req.RecruiterProfile{
 		ID:                   uint(Req.Profile.Id),
 		Company_name:         Req.Profile.CompanyName,
@@ -122,10 +139,14 @@ func (rs *RecruiterServer) RecruiterEditProfile(ctx context.Context, Req *pb.Rec
 		Contact_email:        Req.Profile.Email,
 		Contact_phone_number: uint(Req.Profile.PhoneNumber),
 	}
+	rs.Logger.Info("RecruiterEditProfile at recruiterUseCase started")
 	recruiterdata, err := rs.recruiterUseCase.RecruiterEditProfile(recruiterProfile)
 	if err != nil {
+		rs.Logger.Error("Error at recruiterUseCase",err)
 		return nil, err
 	}
+	rs.Logger.Info("RecruiterEditProfile at recruiterUseCase success")
+	rs.Logger.Info("RecruiterEditProfile at RecruiterServer success")
 	return &pb.RecruiterEditProfileResponse{
 		Profile: &pb.RecruiterDetails{
 			Id:                  uint64(recruiterdata.ID),
@@ -143,9 +164,13 @@ func (rs *RecruiterServer) RecruiterEditProfile(ctx context.Context, Req *pb.Rec
 }
 
 func (rs *RecruiterServer) GetAllPolicies(ctx context.Context, Req *pb.GetAllPoliciesRequest) (*pb.GetAllPoliciesResponse, error) {
+	rs.Logger.Info("GetAllPolicies at RecruiterServer started")
+	rs.Logger.Info("GetAllPolicies at recruiterUseCase started")
+
 
 	recruiterdata, err := rs.recruiterUseCase.GetAllPolicies()
 	if err != nil {
+		rs.Logger.Error("Error at recruiterUseCase",err)
 		return nil, err
 	}
 	var policies []*pb.Policy
@@ -161,6 +186,8 @@ func (rs *RecruiterServer) GetAllPolicies(ctx context.Context, Req *pb.GetAllPol
 
 		policies = append(policies, policy)
 	}
+	rs.Logger.Info("GetAllPolicies at recruiterUseCase success")
+	rs.Logger.Info("GetAllPolicies at RecruiterServer success")
 
 	return &pb.GetAllPoliciesResponse{
 		Policies: policies,
@@ -169,11 +196,17 @@ func (rs *RecruiterServer) GetAllPolicies(ctx context.Context, Req *pb.GetAllPol
 }
 
 func (rs *RecruiterServer) GetOnePolicy(ctx context.Context, Req *pb.GetOnePolicyRequest) (*pb.GetOnePolicyResponse, error) {
+	rs.Logger.Info("GetOnePolicy at RecruiterServer started")
 	policy_id := Req.Id
+	rs.Logger.Info("GetOnePolicy at recruiterUseCase started")
 	recruiterdata, err := rs.recruiterUseCase.GetOnePolicy(int(policy_id))
 	if err != nil {
+		rs.Logger.Error("Error at recruiterUseCase",err)
 		return nil, err
 	}
+	rs.Logger.Info("GetOnePolicy at recruiterUseCase success")
+	rs.Logger.Info("GetOnePolicy at RecruiterServer success")
+
 	return &pb.GetOnePolicyResponse{
 		Policy: &pb.Policy{
 			Id:        int64(recruiterdata.Policies.ID),

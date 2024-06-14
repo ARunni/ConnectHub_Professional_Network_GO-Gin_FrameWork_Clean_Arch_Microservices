@@ -29,8 +29,10 @@ type Server struct {
 
 func NewGRPCServer(cfg config.Config, adminServer adminPb.AdminServer, recruiterServer recruiterPb.RecruiterServer, jobseekerServer jobseekerPb.JobseekerServer, jobAuthServer jobAuthPb.JobAuthServer, authServer authPb.AuthServiceServer) (*Server, error) {
 	logger, logFile := logging.InitLogrusLogger("./Logging/connectHub_Auth.log")
+	logger.Info("NewGRPCServer started")
 	lis, err := net.Listen("tcp", cfg.Port)
 	if err != nil {
+		logger.Error("Failed to listen: ", err)
 		return nil, err
 	}
 
@@ -41,6 +43,7 @@ func NewGRPCServer(cfg config.Config, adminServer adminPb.AdminServer, recruiter
 	jobAuthPb.RegisterJobAuthServer(newServer, jobAuthServer)
 	authPb.RegisterAuthServiceServer(newServer, authServer)
 
+	logger.Info("NewGRPCServer success")
 	return &Server{
 		server:   newServer,
 		listener: lis,
@@ -50,13 +53,13 @@ func NewGRPCServer(cfg config.Config, adminServer adminPb.AdminServer, recruiter
 }
 
 func (s *Server) Start() error {
+	s.Logger.Info("grpc server listening on port :7001")
 	fmt.Println("grpc server listening on port :7001")
 	return s.server.Serve(s.listener)
 }
 
 func grpcInterceptor(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (interface{}, error) {
 	log.Printf(color.GreenString("Received gRPC request: %s"), info.FullMethod)
-	// Call the handler function to process the request
 	resp, err := handler(ctx, req)
 	if err != nil {
 		log.Printf(color.RedString("gRPC request failed: %v"), err)
