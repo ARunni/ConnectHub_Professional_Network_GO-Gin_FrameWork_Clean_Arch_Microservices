@@ -37,6 +37,7 @@ func NewChatClient(cfg config.Config) *ChatClient {
 }
 
 func (c *ChatClient) GetChat(userID string, req models.ChatRequest) ([]models.TempMessage, error) {
+	c.Logger.Info("GetChat at client started")
 	data, err := c.Client.GetFriendChat(context.Background(), &pb.GetFriendChatRequest{
 		UserID:   userID,
 		FriendID: req.FriendID,
@@ -44,6 +45,7 @@ func (c *ChatClient) GetChat(userID string, req models.ChatRequest) ([]models.Te
 		Limit:    req.Limit,
 	})
 	if err != nil {
+		c.Logger.Error("GetChat at client failed: ", err)
 		return []models.TempMessage{}, err
 	}
 	var response []models.TempMessage
@@ -57,5 +59,6 @@ func (c *ChatClient) GetChat(userID string, req models.ChatRequest) ([]models.Te
 		response = append(response, chatResponse)
 
 	}
+	c.Logger.Info("GetChat at client finished")
 	return response, nil
 }
