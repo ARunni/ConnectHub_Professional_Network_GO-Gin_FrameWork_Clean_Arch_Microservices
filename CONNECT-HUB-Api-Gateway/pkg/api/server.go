@@ -1,13 +1,15 @@
 package server
 
 import (
+	"log"
+
+	videoHandler "github.com/ARunni/connectHub_gateway/pkg/api/handler/Video_Call"
 	authHandler "github.com/ARunni/connectHub_gateway/pkg/api/handler/auth"
 	chatHandler "github.com/ARunni/connectHub_gateway/pkg/api/handler/chat"
 	jobHandler "github.com/ARunni/connectHub_gateway/pkg/api/handler/job"
 	postHandler "github.com/ARunni/connectHub_gateway/pkg/api/handler/post"
 	"github.com/ARunni/connectHub_gateway/pkg/config"
 	"github.com/ARunni/connectHub_gateway/pkg/middleware"
-	"log"
 
 	"github.com/gin-gonic/gin"
 
@@ -26,7 +28,7 @@ func NewServerHTTP(
 	RecruiterJobHandler *jobHandler.RecruiterJobHandler,
 	JobseekerJobhandler *jobHandler.JobseekerJobHandler,
 	jobseekerPostHandler *postHandler.JobseekerPostHandler,
-	chatHandler *chatHandler.ChatHandler,
+	chatHandler *chatHandler.ChatHandler, videocallHandler *videoHandler.VideoCallHandler,
 
 ) *ServerHTTP {
 
@@ -36,6 +38,12 @@ func NewServerHTTP(
 
 	// router.LoadHTMLGlob("pkg/templates/index.html")
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	router.Static("/static", "./static")
+	router.LoadHTMLGlob("template/*")
+
+	router.GET("/exit", videocallHandler.ExitPage)
+	router.GET("/error", videocallHandler.ErrorPage)
+	router.GET("/index", videocallHandler.IndexedPage)
 
 	// Router Group
 	adminRoute := router.Group("/admin")

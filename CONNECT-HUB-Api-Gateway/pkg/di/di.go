@@ -2,6 +2,7 @@ package di
 
 import (
 	server "github.com/ARunni/connectHub_gateway/pkg/api"
+	videoHandler "github.com/ARunni/connectHub_gateway/pkg/api/handler/Video_Call"
 	authHandler "github.com/ARunni/connectHub_gateway/pkg/api/handler/auth"
 	chatHandler "github.com/ARunni/connectHub_gateway/pkg/api/handler/chat"
 	jobHandler "github.com/ARunni/connectHub_gateway/pkg/api/handler/job"
@@ -36,15 +37,16 @@ func InitializeAPI(cfg config.Config) (*server.ServerHTTP, error) {
 	jobseekerPostClient := postClient.NewJobseekerPostClient(cfg)
 	jobseekerPostHandler := postHandler.NewJobseekerPostHandler(jobseekerPostClient)
 
+	VideoHandler := videoHandler.NewVideoCallHandler()
 
 	chatClient := chatClient.NewChatClient(cfg)
-	chatHandler := chatHandler.NewChatHandler(chatClient,helper.NewHelper(&cfg))
+	chatHandler := chatHandler.NewChatHandler(chatClient, helper.NewHelper(&cfg))
 
 	serverHTTP := server.NewServerHTTP(
 		adminAuthHandler, jobseekerAuthHandler,
 		recruiterAuthHandler, recruiterJobHandler,
-		JobseekerJobhandler,jobseekerPostHandler,
-		chatHandler)
+		JobseekerJobhandler, jobseekerPostHandler,
+		chatHandler, VideoHandler)
 
 	return serverHTTP, nil
 }

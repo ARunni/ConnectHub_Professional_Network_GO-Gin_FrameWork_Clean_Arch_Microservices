@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package user;
+
+
+
+option go_package = "./pkg/pb/auth/auth";
+
+service AuthService {
+    rpc VideoCallKey (VideoCallRequest) returns (VideoCallResponse){}
+}
+
+
+
+message VideoCallRequest{
+    int64 userID = 1;
+    int64 OppositeUser = 2;
+}
+
+message VideoCallResponse {
+    string Key = 1;
+}
