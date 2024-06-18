@@ -1,7 +1,7 @@
 run:
 	go run cmd/main.go
 
-dep:
+deps:
 	go mod tidy
 
 proto:

@@ -1,4 +1,4 @@
-dep:
+deps:
 	go mod tidy
 
 run:
