@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_chat.log")
+	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_Chat.log")
 	defer logrusLogFile.Close()
 	logrusLogger.Info("connectHub_chat main file started")
 	logrusLogger.Info("Loading config started")

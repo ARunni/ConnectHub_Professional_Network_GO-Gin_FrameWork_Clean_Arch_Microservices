@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_job.log")
+	logrusLogger, logrusLogFile := logging.InitLogrusLogger("./Logging/connectHub_Job.log")
 	defer logrusLogFile.Close()
 
 	logrusLogger.Info("connectHub_job main file started")

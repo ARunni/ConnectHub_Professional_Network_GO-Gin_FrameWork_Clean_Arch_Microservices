@@ -4,4 +4,11 @@ CONNECT-HUB-Auth-Service/.env
 CONNECT-HUB-Chat-Service/.env
 CONNECT-HUB-Job-Service/.env
 CONNECT-HUB-Post-Service/.env
-CONNECT-HUB-Video-Service/.env
+
+# Logging Files
+
+CONNECT-HUB-Api-Gateway/Logging/connectHub_gateway.log
+CONNECT-HUB-Auth-Service/Logging/connectHub_Auth.log
+CONNECT-HUB-Chat-Service/Logging/connectHub_Chat.log
+CONNECT-HUB-Job-Service/Logging/connectHub_Job.log
+CONNECT-HUB-Post-Service/Logging/connectHub_Post.log
