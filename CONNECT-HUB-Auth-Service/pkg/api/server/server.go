@@ -1,19 +1,22 @@
 package server
 
 import (
-	logging "github.com/ARunni/ConnetHub_auth/Logging"
-	"github.com/ARunni/ConnetHub_auth/pkg/config"
-	adminPb "github.com/ARunni/ConnetHub_auth/pkg/pb/auth/admin"
 	"context"
 	"log"
 	"os"
 
+	logging "github.com/ARunni/ConnetHub_auth/Logging"
+	"github.com/ARunni/ConnetHub_auth/pkg/config"
+	adminPb "github.com/ARunni/ConnetHub_auth/pkg/pb/auth/admin"
+
+	"fmt"
+	"net"
+
+	authPb "github.com/ARunni/ConnetHub_auth/pkg/pb/auth/auth"
 	jobseekerPb "github.com/ARunni/ConnetHub_auth/pkg/pb/auth/jobseeker"
 	recruiterPb "github.com/ARunni/ConnetHub_auth/pkg/pb/auth/recruiter"
 	jobAuthPb "github.com/ARunni/ConnetHub_auth/pkg/pb/job/auth"
-	authPb "github.com/ARunni/ConnetHub_auth/pkg/pb/auth/auth"
-	"fmt"
-	"net"
+	notificationauthPb "github.com/ARunni/ConnetHub_auth/pkg/pb/notification/auth"
 
 	"github.com/fatih/color"
 	"github.com/sirupsen/logrus"
@@ -27,7 +30,12 @@ type Server struct {
 	LogFile  *os.File
 }
 
-func NewGRPCServer(cfg config.Config, adminServer adminPb.AdminServer, recruiterServer recruiterPb.RecruiterServer, jobseekerServer jobseekerPb.JobseekerServer, jobAuthServer jobAuthPb.JobAuthServer, authServer authPb.AuthServiceServer) (*Server, error) {
+func NewGRPCServer(cfg config.Config, adminServer adminPb.AdminServer,
+	recruiterServer recruiterPb.RecruiterServer,
+	jobseekerServer jobseekerPb.JobseekerServer,
+	jobAuthServer jobAuthPb.JobAuthServer, authServer authPb.AuthServiceServer,
+	notificationAuthserver notificationauthPb.NotificationAuthServiceServer) (*Server, error) {
+
 	logger, logFile := logging.InitLogrusLogger("./Logging/connectHub_Auth.log")
 	logger.Info("NewGRPCServer started")
 	lis, err := net.Listen("tcp", cfg.Port)
@@ -42,6 +50,7 @@ func NewGRPCServer(cfg config.Config, adminServer adminPb.AdminServer, recruiter
 	jobseekerPb.RegisterJobseekerServer(newServer, jobseekerServer)
 	jobAuthPb.RegisterJobAuthServer(newServer, jobAuthServer)
 	authPb.RegisterAuthServiceServer(newServer, authServer)
+	notificationauthPb.RegisterNotificationAuthServiceServer(newServer, notificationAuthserver)
 
 	logger.Info("NewGRPCServer success")
 	return &Server{

@@ -10,5 +10,6 @@ proto:
 	protoc --go_out=. --go-grpc_out=. ./pkg/pb/auth/recruiter/recruiter.proto
 	protoc --go_out=. --go-grpc_out=. ./pkg/pb/job/auth/auth.proto
 	protoc --go_out=. --go-grpc_out=. ./pkg/pb/auth/auth/auth.proto
+	protoc --go_out=. --go-grpc_out=. ./pkg/pb/notification/auth/auth.proto
 
 	

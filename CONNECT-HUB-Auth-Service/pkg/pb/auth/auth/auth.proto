@@ -8,6 +8,7 @@ option go_package = "./pkg/pb/auth/auth";
 
 service AuthService {
     rpc VideoCallKey (VideoCallRequest) returns (VideoCallResponse){}
+  
 }
 
 
@@ -21,3 +22,4 @@ message VideoCallRequest{
 message VideoCallResponse {
     string Key = 1;
 }
+

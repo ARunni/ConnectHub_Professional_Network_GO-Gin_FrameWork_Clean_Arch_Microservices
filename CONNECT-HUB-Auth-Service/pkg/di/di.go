@@ -31,6 +31,10 @@ func InitializeAPI(cfg config.Config) (*server.Server, error) {
 	authVideoUseCase := usecase.NewVideoCallUseCase(authVideoRepository)
 	authVideoServiceServer := service.NewauthServer(authVideoUseCase)
 
+	notificationRepository := repository.NewNotificationRepository(gormDB)
+	notificationUseCase := usecase.NewNotificationUseCase(notificationRepository)
+	notificationServiceServer := service.NewNotificationServer(notificationUseCase)
+
 	jobAuthServiceServer := service.NewJobauthServer(recruiterUseCase)
 
 	grpcServer, err := server.NewGRPCServer(
@@ -39,7 +43,8 @@ func InitializeAPI(cfg config.Config) (*server.Server, error) {
 		recruiterServiceServer,
 		jobseekerServiceServer,
 		jobAuthServiceServer,
-		authVideoServiceServer)
+		authVideoServiceServer,
+		notificationServiceServer)
 
 	if err != nil {
 		return &server.Server{}, err

@@ -4,6 +4,7 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"errors"
+	"math/rand"
 	"regexp"
 	"strconv"
 	"time"
@@ -42,4 +43,10 @@ func GenerateVideoCallKey(userID, oppositeUser int) (string, error) {
 	keyString := hex.EncodeToString(hash[:])
 
 	return keyString, nil
+}
+
+func RandomNumber() int {
+	r := rand.New(rand.NewSource(time.Now().UnixNano())) // Create a new random number generator
+	randomInt := r.Intn(9000) + 1000
+	return randomInt
 }
