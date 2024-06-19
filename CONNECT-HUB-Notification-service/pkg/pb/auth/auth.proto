@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package notification_auth;
+
+option go_package = "./pkg/pb/auth";
+
+service NotificationAuthService {
+    rpc UserData (UserDataRequest) returns (UserDataResponse){}
+}
+message UserDataRequest{
+    int64 userid=1;
+}
+message UserDataResponse{
+    int64 userid =1;
+    string username=2;
+    string profile=3;
+}

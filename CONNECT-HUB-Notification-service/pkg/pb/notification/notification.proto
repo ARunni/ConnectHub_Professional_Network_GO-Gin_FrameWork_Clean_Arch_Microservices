@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+
+package notification;
+
+option go_package = "./pkg/pb/notification";
+
+service NotificationService {
+    rpc GetNotification (GetNotificationRequest) returns (GetNotificationResponse){}
+}
+
+message GetNotificationRequest{
+    int64 userID = 1;
+    int64 limit =2;
+    int64 offset =3;
+}
+
+message Message{
+    int64 userId=1;
+    string username=2;
+    string profile=3;
+    string message=4;
+    string time=5;
+}
+
+message GetNotificationResponse{
+    repeated Message notification=1;
+}
