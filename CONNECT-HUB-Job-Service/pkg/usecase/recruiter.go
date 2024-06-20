@@ -36,7 +36,7 @@ func NewRecruiterJobUseCase(repo repo.RecruiterJobRepository, client interfaces.
 }
 
 func (ju *recruiterJobUseCase) PostJob(data models.JobOpening) (models.JobOpeningData, error) {
-	fmt.Println("recruiter id ", data.EmployerID)
+
 	if data.EmployerID <= 0 {
 		return models.JobOpeningData{}, errors.New(msg.ErrDataNegative)
 	}
@@ -209,7 +209,6 @@ func (ju *recruiterJobUseCase) GetJobAppliedCandidates(recruiter_id int) (models
 		jobDatas = append(jobDatas, datas)
 
 	}
-	fmt.Println("qasdfggtreefgffgsgg", jobData)
 
 	return models.AppliedJobs{Jobs: jobDatas}, nil
 }
@@ -301,4 +300,61 @@ func (ju *recruiterJobUseCase) ScheduleInterview(data models.ScheduleReq) (model
 	}, []byte(msg))
 
 	return jobData, nil
+}
+
+func (ju *recruiterJobUseCase) CancelScheduledInterview(appId, userId int) (bool, error) {
+	if appId <= 0 {
+		return false, errors.New("application id not valid")
+	}
+
+	okA, err := ju.jobRepository.ISApplicationExist(appId, userId)
+	if err != nil {
+		return false, fmt.Errorf("failed to check if application exists: %v", err)
+	}
+	if !okA {
+		return false, fmt.Errorf("application with ID %d does not exist or not belongs to you", appId)
+	}
+
+	okI, err := ju.jobRepository.ISApplicationScheduled(appId)
+	if err != nil {
+		return false, fmt.Errorf("failed to check if application is scheduled: %v", err)
+	}
+	if !okI {
+		return false, fmt.Errorf("application with ID %d is not scheduled", appId)
+	}
+	okS, err := ju.jobRepository.CancelScheduledApplication(appId)
+	if err != nil {
+		return false, fmt.Errorf("failed to Cancel scheduled interview: %v", err)
+	}
+	if !okS {
+		return false, fmt.Errorf("failed to Cancel scheduled interview : %d", appId)
+	}
+
+	okR, err := ju.jobRepository.ChangeApplicationStatusToCancel(appId)
+	if err != nil {
+		return false, fmt.Errorf("failed to change status: %v", err)
+	}
+	if !okR {
+		return false, fmt.Errorf("failed to cancel scheduled interview")
+	}
+
+	// notification purpose
+
+	appData, err := ju.jobRepository.GetApplicationDetails(appId)
+	if err != nil {
+		return false, fmt.Errorf("failed to get application details: %v", err)
+	}
+	_, recname, err := ju.Client.GetDetailsByIdRecuiter(int(userId))
+	if err != nil {
+		return false, fmt.Errorf("failed to initialize notification")
+	}
+	msg := fmt.Sprintf("%s is canceled Scheduled Interview for Your Application Id %d", recname, appId)
+	helper.SendNotification(models.Notification{
+		UserID:     int(appData.JobseekerID),
+		SenderID:   int(userId),
+		PostID:     appId,
+		SenderName: recname,
+	}, []byte(msg))
+
+	return true, nil
 }

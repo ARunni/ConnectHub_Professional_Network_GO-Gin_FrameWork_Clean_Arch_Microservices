@@ -1,14 +1,15 @@
 package repository
 
 import (
-	logging "github.com/ARunni/ConnetHub_job/Logging"
-	interfaces "github.com/ARunni/ConnetHub_job/pkg/repository/interface"
-	"github.com/ARunni/ConnetHub_job/pkg/utils/models"
 	"errors"
 	"fmt"
 	"os"
 	"strconv"
 	"time"
+
+	logging "github.com/ARunni/ConnetHub_job/Logging"
+	interfaces "github.com/ARunni/ConnetHub_job/pkg/repository/interface"
+	"github.com/ARunni/ConnetHub_job/pkg/utils/models"
 
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
@@ -187,4 +188,26 @@ func (jr *recruiterJobRepository) ChangeApplicationStatusToRejected(appId int) (
 	}
 
 	return true, nil
+}
+
+func (jr *recruiterJobRepository) CancelScheduledApplication(appId int) (bool, error) {
+
+	if err := jr.DB.Exec("delete from interviews  where application_id = ?", appId).Error; err != nil {
+		fmt.Println(err)
+		return false, fmt.Errorf("failed to query jobs: %v", err)
+	}
+
+	return true, nil
+
+}
+
+func (jr *recruiterJobRepository) ChangeApplicationStatusToCancel(appId int) (bool, error) {
+
+	if err := jr.DB.Exec("update apply_jobs set status = ? where id = ?", "interview canceled", appId).Error; err != nil {
+		fmt.Println(err)
+		return false, fmt.Errorf("failed to query jobs: %v", err)
+	}
+
+	return true, nil
+
 }

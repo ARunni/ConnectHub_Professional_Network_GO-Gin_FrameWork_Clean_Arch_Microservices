@@ -361,3 +361,40 @@ func (jh *RecruiterJobHandler) ScheduleInterview(c *gin.Context) {
 	response := response.ClientResponse(http.StatusOK, "interview scheduled successfully", job, nil)
 	c.JSON(http.StatusOK, response)
 }
+
+func (jh *RecruiterJobHandler) CancelScheduledInterview(c *gin.Context) {
+
+	userIdAny, ok := c.Get("id")
+	if !ok {
+		jh.Logger.Error("Failed to Get Data: ", errors.New("getting user id failed"))
+		errs := response.ClientResponse(http.StatusBadRequest, "getting user id failed", nil, nil)
+		c.JSON(http.StatusBadRequest, errs)
+		return
+	}
+	userId, ok := userIdAny.(int)
+	if !ok {
+		jh.Logger.Error("Failed to Get Data: ", errors.New("converting user id failed"))
+		errs := response.ClientResponse(http.StatusBadRequest, "converting user id failed", nil, nil)
+		c.JSON(http.StatusBadRequest, errs)
+		return
+	}
+	appIdStr := c.Query("app_id")
+	appId, err := strconv.Atoi(appIdStr)
+	if err != nil {
+		jh.Logger.Error("Failed to get data conversion error : ", err)
+		errs := response.ClientResponse(http.StatusInternalServerError, "Failed to cancel interview schedule", nil, err.Error())
+		c.JSON(http.StatusInternalServerError, errs)
+		return
+	}
+
+	job, err := jh.GRPC_Client.CancelScheduledInterview(appId, userId)
+	if err != nil {
+		jh.Logger.Error("error from grpc call CancelScheduledInterview : ", err)
+		errs := response.ClientResponse(http.StatusInternalServerError, "Failed to cancel interview schedule", nil, err.Error())
+		c.JSON(http.StatusInternalServerError, errs)
+		return
+	}
+	jh.Logger.Info("cancel Schedule Interview Successful")
+	response := response.ClientResponse(http.StatusOK, "interview schedule canceled successfully", job, nil)
+	c.JSON(http.StatusOK, response)
+}

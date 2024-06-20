@@ -138,6 +138,7 @@ func NewServerHTTP(
 		recruiterAuthRoute.DELETE("/job", RecruiterJobHandler.DeleteAJob)
 		recruiterAuthRoute.GET("/appliedjobs", RecruiterJobHandler.GetJobAppliedCandidates)
 		recruiterAuthRoute.POST("/appliedjob", RecruiterJobHandler.ScheduleInterview)
+		recruiterAuthRoute.DELETE("/interview", RecruiterJobHandler.CancelScheduledInterview)
 
 		recruiterAuthRoute.GET("/policy", RecruiterHandler.GetOnePolicy)
 		recruiterAuthRoute.GET("/policies", RecruiterHandler.GetAllPolicies)

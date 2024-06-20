@@ -1,14 +1,14 @@
 package service
 
 import (
+	"context"
+	"os"
+	"strconv"
+
 	logging "github.com/ARunni/ConnetHub_job/Logging"
 	jobpb "github.com/ARunni/ConnetHub_job/pkg/pb/job/recruiter"
 	interfaces "github.com/ARunni/ConnetHub_job/pkg/usecase/interface"
 	"github.com/ARunni/ConnetHub_job/pkg/utils/models"
-	"context"
-	"fmt"
-	"os"
-	"strconv"
 
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc/codes"
@@ -35,7 +35,7 @@ func NewRecruiterJobServer(useCase interfaces.RecruiterJobUsecase) jobpb.Recruit
 
 func (js *RecruiterJobServer) PostJob(ctx context.Context, Req *jobpb.JobOpeningRequest) (*jobpb.JobOpeningResponse, error) {
 	applicationDeadlineTime := Req.ApplicationDeadline.AsTime()
-	fmt.Println("refdssd id ", Req.EmployerId)
+
 	recruiterJob := models.JobOpening{
 		EmployerID:          int(Req.EmployerId),
 		Title:               Req.Title,
@@ -151,8 +151,6 @@ func (js *RecruiterJobServer) UpdateAJob(ctx context.Context, req *jobpb.UpdateA
 		ApplicationDeadline: req.ApplicationDeadline.AsTime(),
 	}
 
-	fmt.Println("service", jobDetails)
-
 	res, err := js.jobUseCase.UpdateAJob(employerID, jobID, jobDetails)
 	if err != nil {
 		return nil, err
@@ -198,7 +196,7 @@ func (js *RecruiterJobServer) GetJobAppliedCandidates(ctx context.Context, req *
 			JobseekerName:  job.JobseekerName,
 			JobseekerEmail: job.JoseekerEmail,
 		})
-		fmt.Println("jb service name ", job.JobseekerName)
+
 	}
 	response := &jobpb.GetAppliedJobsResponse{
 		Jobs: jobs,
@@ -231,5 +229,18 @@ func (js *RecruiterJobServer) ScheduleInterview(ctx context.Context, req *jobpb.
 		Link:          res.Link,
 		Status:        res.Status,
 		ApplicationId: int64(res.ApplicationId),
+	}, nil
+}
+
+func (js *RecruiterJobServer) CancelScheduledInterview(ctx context.Context, req *jobpb.CancelScheduledInterviewRequest) (*jobpb.CancelScheduledIntervieResponse, error) {
+	appId, userId := req.AppId, req.UserId
+
+	res, err := js.jobUseCase.CancelScheduledInterview(int(appId), int(userId))
+	if err != nil {
+		return nil, err
+	}
+
+	return &jobpb.CancelScheduledIntervieResponse{
+		Success: res,
 	}, nil
 }

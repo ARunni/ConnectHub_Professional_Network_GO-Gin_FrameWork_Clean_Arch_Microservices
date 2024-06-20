@@ -17,4 +17,7 @@ type RecruiterJobRepository interface {
 	ISApplicationScheduled(appId int) (bool, error)
 	ChangeApplicationStatusToScheduled(appId int) (bool, error)
 	ChangeApplicationStatusToRejected(appId int) (bool, error)
+	ChangeApplicationStatusToCancel(appId int) (bool, error)
+	CancelScheduledApplication(appId int) (bool,error)
+	
 }

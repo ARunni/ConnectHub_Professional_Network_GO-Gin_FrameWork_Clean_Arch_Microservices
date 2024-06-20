@@ -16,6 +16,16 @@ service RecruiterJob {
     rpc UpdateAJob(UpdateAJobRequest) returns (UpdateAJobResponse) {};
     rpc GetJobAppliedCandidates(GetAppliedJobsRequest) returns (GetAppliedJobsResponse) {};
     rpc ScheduleInterview (ScheduleInterviewRequest) returns (ScheduleInterviewResponse);
+    rpc CancelScheduledInterview (CancelScheduledInterviewRequest) returns (CancelScheduledIntervieResponse){};
+}
+
+message CancelScheduledInterviewRequest {
+    int64 appId =1;
+    int64 userId =2;
+}
+
+message CancelScheduledIntervieResponse {
+    bool success =1;
 }
 
 message ScheduleInterviewRequest {

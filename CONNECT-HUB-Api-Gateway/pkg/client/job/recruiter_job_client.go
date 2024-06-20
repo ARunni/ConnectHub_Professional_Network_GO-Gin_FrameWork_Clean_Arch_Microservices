@@ -261,3 +261,20 @@ func (jc *recruiterJobClient) ScheduleInterview(data models.ScheduleReq) (models
 		ApplicationId: uint(job.ApplicationId),
 	}, nil
 }
+
+func (jc *recruiterJobClient) CancelScheduledInterview(appId, userId int) (bool,error) {
+
+	jc.Logger.Info("CancelScheduledInterview at client started")
+
+	job, err := jc.Client.CancelScheduledInterview(context.Background(), &recruiterPb.CancelScheduledInterviewRequest{
+		AppId: int64(appId),
+		UserId: int64(userId),
+	})
+	if err != nil {
+		jc.Logger.Error("Error from grpc call: ", err)
+		return false, fmt.Errorf("failed to CancelScheduledInterview: %v", err)
+	}
+	jc.Logger.Info("CancelScheduledInterview at client succees")
+
+	return job.Success, nil
+}

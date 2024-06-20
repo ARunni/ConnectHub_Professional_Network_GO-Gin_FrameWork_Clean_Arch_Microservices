@@ -20,13 +20,14 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	RecruiterJob_PostJob_FullMethodName                 = "/job_recruiter.RecruiterJob/PostJob"
-	RecruiterJob_GetAllJobs_FullMethodName              = "/job_recruiter.RecruiterJob/GetAllJobs"
-	RecruiterJob_GetOneJob_FullMethodName               = "/job_recruiter.RecruiterJob/GetOneJob"
-	RecruiterJob_DeleteAJob_FullMethodName              = "/job_recruiter.RecruiterJob/DeleteAJob"
-	RecruiterJob_UpdateAJob_FullMethodName              = "/job_recruiter.RecruiterJob/UpdateAJob"
-	RecruiterJob_GetJobAppliedCandidates_FullMethodName = "/job_recruiter.RecruiterJob/GetJobAppliedCandidates"
-	RecruiterJob_ScheduleInterview_FullMethodName       = "/job_recruiter.RecruiterJob/ScheduleInterview"
+	RecruiterJob_PostJob_FullMethodName                  = "/job_recruiter.RecruiterJob/PostJob"
+	RecruiterJob_GetAllJobs_FullMethodName               = "/job_recruiter.RecruiterJob/GetAllJobs"
+	RecruiterJob_GetOneJob_FullMethodName                = "/job_recruiter.RecruiterJob/GetOneJob"
+	RecruiterJob_DeleteAJob_FullMethodName               = "/job_recruiter.RecruiterJob/DeleteAJob"
+	RecruiterJob_UpdateAJob_FullMethodName               = "/job_recruiter.RecruiterJob/UpdateAJob"
+	RecruiterJob_GetJobAppliedCandidates_FullMethodName  = "/job_recruiter.RecruiterJob/GetJobAppliedCandidates"
+	RecruiterJob_ScheduleInterview_FullMethodName        = "/job_recruiter.RecruiterJob/ScheduleInterview"
+	RecruiterJob_CancelScheduledInterview_FullMethodName = "/job_recruiter.RecruiterJob/CancelScheduledInterview"
 )
 
 // RecruiterJobClient is the client API for RecruiterJob service.
@@ -40,6 +41,7 @@ type RecruiterJobClient interface {
 	UpdateAJob(ctx context.Context, in *UpdateAJobRequest, opts ...grpc.CallOption) (*UpdateAJobResponse, error)
 	GetJobAppliedCandidates(ctx context.Context, in *GetAppliedJobsRequest, opts ...grpc.CallOption) (*GetAppliedJobsResponse, error)
 	ScheduleInterview(ctx context.Context, in *ScheduleInterviewRequest, opts ...grpc.CallOption) (*ScheduleInterviewResponse, error)
+	CancelScheduledInterview(ctx context.Context, in *CancelScheduledInterviewRequest, opts ...grpc.CallOption) (*CancelScheduledIntervieResponse, error)
 }
 
 type recruiterJobClient struct {
@@ -113,6 +115,15 @@ func (c *recruiterJobClient) ScheduleInterview(ctx context.Context, in *Schedule
 	return out, nil
 }
 
+func (c *recruiterJobClient) CancelScheduledInterview(ctx context.Context, in *CancelScheduledInterviewRequest, opts ...grpc.CallOption) (*CancelScheduledIntervieResponse, error) {
+	out := new(CancelScheduledIntervieResponse)
+	err := c.cc.Invoke(ctx, RecruiterJob_CancelScheduledInterview_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // RecruiterJobServer is the server API for RecruiterJob service.
 // All implementations must embed UnimplementedRecruiterJobServer
 // for forward compatibility
@@ -124,6 +135,7 @@ type RecruiterJobServer interface {
 	UpdateAJob(context.Context, *UpdateAJobRequest) (*UpdateAJobResponse, error)
 	GetJobAppliedCandidates(context.Context, *GetAppliedJobsRequest) (*GetAppliedJobsResponse, error)
 	ScheduleInterview(context.Context, *ScheduleInterviewRequest) (*ScheduleInterviewResponse, error)
+	CancelScheduledInterview(context.Context, *CancelScheduledInterviewRequest) (*CancelScheduledIntervieResponse, error)
 	mustEmbedUnimplementedRecruiterJobServer()
 }
 
@@ -151,6 +163,9 @@ func (UnimplementedRecruiterJobServer) GetJobAppliedCandidates(context.Context, 
 }
 func (UnimplementedRecruiterJobServer) ScheduleInterview(context.Context, *ScheduleInterviewRequest) (*ScheduleInterviewResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ScheduleInterview not implemented")
+}
+func (UnimplementedRecruiterJobServer) CancelScheduledInterview(context.Context, *CancelScheduledInterviewRequest) (*CancelScheduledIntervieResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CancelScheduledInterview not implemented")
 }
 func (UnimplementedRecruiterJobServer) mustEmbedUnimplementedRecruiterJobServer() {}
 
@@ -291,6 +306,24 @@ func _RecruiterJob_ScheduleInterview_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _RecruiterJob_CancelScheduledInterview_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CancelScheduledInterviewRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RecruiterJobServer).CancelScheduledInterview(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: RecruiterJob_CancelScheduledInterview_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RecruiterJobServer).CancelScheduledInterview(ctx, req.(*CancelScheduledInterviewRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // RecruiterJob_ServiceDesc is the grpc.ServiceDesc for RecruiterJob service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -325,6 +358,10 @@ var RecruiterJob_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ScheduleInterview",
 			Handler:    _RecruiterJob_ScheduleInterview_Handler,
+		},
+		{
+			MethodName: "CancelScheduledInterview",
+			Handler:    _RecruiterJob_CancelScheduledInterview_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

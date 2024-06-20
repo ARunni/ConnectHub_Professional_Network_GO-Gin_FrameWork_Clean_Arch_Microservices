@@ -11,6 +11,7 @@ type RecruiterJobUsecase interface {
 	GetJobAppliedCandidates(recruiter_id int)(models.AppliedJobs, error)
 
 	ScheduleInterview(data models.ScheduleReq) (models.Interview,error)
+	CancelScheduledInterview(appId, userId int) (bool,error)
 	ChangeApplicationStatusToRejected(appId,recruiterID int) (bool,error)
 
 }
