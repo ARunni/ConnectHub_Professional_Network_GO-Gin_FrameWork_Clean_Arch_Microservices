@@ -5,9 +5,11 @@ import (
 
 	videoHandler "github.com/ARunni/connectHub_gateway/pkg/api/handler/Video_Call"
 	authHandler "github.com/ARunni/connectHub_gateway/pkg/api/handler/auth"
+
 	// AuthHandler "github.com/ARunni/connectHub_gateway/pkg/api/handler/auth"
 	chatHandler "github.com/ARunni/connectHub_gateway/pkg/api/handler/chat"
 	jobHandler "github.com/ARunni/connectHub_gateway/pkg/api/handler/job"
+	notificationHandler "github.com/ARunni/connectHub_gateway/pkg/api/handler/notification"
 	postHandler "github.com/ARunni/connectHub_gateway/pkg/api/handler/post"
 	"github.com/ARunni/connectHub_gateway/pkg/config"
 	"github.com/ARunni/connectHub_gateway/pkg/middleware"
@@ -20,7 +22,6 @@ import (
 
 type ServerHTTP struct {
 	engine *gin.Engine
-	
 }
 
 func NewServerHTTP(
@@ -31,7 +32,7 @@ func NewServerHTTP(
 	JobseekerJobhandler *jobHandler.JobseekerJobHandler,
 	jobseekerPostHandler *postHandler.JobseekerPostHandler,
 	chatHandler *chatHandler.ChatHandler, videocallHandler *videoHandler.VideoCallHandler,
-	AuthHandler *authHandler.AuthHandler,
+	AuthHandler *authHandler.AuthHandler, notificationHandler *notificationHandler.NotificationHandler,
 
 ) *ServerHTTP {
 
@@ -147,10 +148,16 @@ func NewServerHTTP(
 
 			chat.GET("/message", chatHandler.GetChat)
 		}
-
+		// videoCall
 		videoCall := router.Group("/videocall")
 		{
 			videoCall.GET("/key", AuthHandler.VideoCallKey)
+		}
+		// Notification
+		notification := router.Group("/notifications")
+		{
+			notification.GET("", notificationHandler.GetNotification)
+			notification.PATCH("", notificationHandler.ReadNotification)
 		}
 
 	}

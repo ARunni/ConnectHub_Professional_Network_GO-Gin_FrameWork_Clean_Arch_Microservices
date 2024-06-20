@@ -18,13 +18,13 @@ func InitializeApi(cfg config.Config) (*server.Server, error) {
 
 	notiRepository := repository.NewNotificationRepository(gormDB)
 	noticlient := client.NewAuthClient(&cfg)
-	noriUseCase := usecase.NewNotificationUsecase(notiRepository, noticlient)
-	notiServiceServer := service.NewNotificationServer(noriUseCase)
+	notiUseCase := usecase.NewNotificationUsecase(notiRepository, noticlient)
+	notiServiceServer := service.NewNotificationServer(notiUseCase)
 	grpcserver, err := server.NewGRPCServer(cfg, notiServiceServer)
 
 	if err != nil {
 		return &server.Server{}, err
 	}
-	go noriUseCase.ConsumeNotification()
+	go notiUseCase.ConsumeNotification()
 	return grpcserver, nil
 }

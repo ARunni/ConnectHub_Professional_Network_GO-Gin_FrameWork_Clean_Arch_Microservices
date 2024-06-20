@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"os"
 	"time"
@@ -97,20 +98,84 @@ func (c *notificationUsecase) GetNotification(userid int, mod models.Pagination)
 		return []models.NotificationResponse{}, err
 	}
 	var response []models.NotificationResponse
-	fmt.Println("dddddddd", data)
 	for _, v := range data {
-		userdata, err := c.authclient.UserData(v.SenderID)
-		if err != nil {
-			fmt.Println("heloooooooooooo")
-			return nil, err
-		}
+		// userdata, err := c.authclient.UserData(v.SenderID)
+		// if err != nil {
+		// 	return nil, err
+		// }
 		response = append(response, models.NotificationResponse{
-			UserID:    int(userdata.UserId),
-			Username:  userdata.Username,
-			Profile:   userdata.Profile,
+			ID:        v.ID,
+			UserID:    v.SenderID,
+			Username:  v.SenderName,
+			PostID:    v.PostID,
 			Message:   v.Message,
 			CreatedAt: v.CreatedAt.String(),
 		})
 	}
 	return response, nil
+}
+
+func (c *notificationUsecase) ReadNotification(id, user_id int) (bool, error) {
+	c.Logger.Info("ReadNotification at notificationUsecase started")
+	if id <= 0 {
+		c.Logger.Error("Error at notificationUsecase : ", errors.New("invalid notification id"))
+		return false, errors.New("invalid notification id")
+	}
+
+	c.Logger.Info("IsNotificationExistOnUser at notiRepository started")
+	ok, err := c.notiRepository.IsNotificationExistOnUser(id, user_id)
+	if err != nil {
+		c.Logger.Error("Error at IsNotificationExistOnUser at notiRepository: ", err)
+		return false, err
+	}
+	if !ok {
+		c.Logger.Error("Error at notificationUsecase : ", errors.New("notification not found"))
+		return false, errors.New("notification not found")
+	}
+	c.Logger.Info("ReadNotification at notiRepository finished")
+	c.Logger.Info("ReadNotification at notiRepository started")
+
+	Ok, err := c.notiRepository.ReadNotification(id)
+
+	if err != nil {
+		c.Logger.Error("Error at ReadNotification at notiRepository: ", err)
+		c.Logger.Error("Error at ReadNotification at notiRepository: ", err)
+		return false, err
+	}
+
+	c.Logger.Info("ReadNotification at notiRepository finished")
+	c.Logger.Info("ReadNotification at notificationUsecase finished")
+
+	return Ok, nil
+
+}
+
+func (c *notificationUsecase) MarkAllAsRead(userId int) (bool, error) {
+	c.Logger.Info("MarkAllAsRead at notificationUsecase started")
+
+	c.Logger.Info("UnreadedNotificationExist at notiRepository started")
+	ok, err := c.notiRepository.UnreadedNotificationExist(userId)
+	if err != nil {
+		c.Logger.Error("Error at UnreadedNotificationExist at notiRepository: ", err)
+		return false, err
+	}
+	if !ok {
+		c.Logger.Error("Error at notificationUsecase : ", errors.New("notification not found"))
+		return false, errors.New("notifications not found")
+	}
+	c.Logger.Info("UnreadedNotificationExist at notiRepository finished")
+	c.Logger.Info("MarkAllAsRead at notiRepository started")
+
+	Ok, err := c.notiRepository.MarkAllAsRead(userId)
+
+	if err != nil {
+		c.Logger.Error("Error at MarkAllAsRead at notiRepository: ", err)
+		return false, err
+	}
+
+	c.Logger.Info("MarkAllAsRead at notiRepository finished")
+	c.Logger.Info("MarkAllAsRead at notificationUsecase finished")
+
+	return Ok, nil
+
 }

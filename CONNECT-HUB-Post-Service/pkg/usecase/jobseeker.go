@@ -1,30 +1,35 @@
 package usecase
 
 import (
+	"errors"
+	"fmt"
+	"os"
+
 	logging "github.com/ARunni/ConnetHub_post/Logging"
+	auth "github.com/ARunni/ConnetHub_post/pkg/client/auth/interfaces"
 	"github.com/ARunni/ConnetHub_post/pkg/config"
 	"github.com/ARunni/ConnetHub_post/pkg/helper"
 	repo "github.com/ARunni/ConnetHub_post/pkg/repository/interfaces"
-	"github.com/ARunni/ConnetHub_post/pkg/usecase/interfaces"
+	usecase "github.com/ARunni/ConnetHub_post/pkg/usecase/interfaces"
 	"github.com/ARunni/ConnetHub_post/pkg/utils/models"
-	"errors"
-	"os"
 
 	"github.com/sirupsen/logrus"
 )
 
 type jobseekerJobUseCase struct {
 	postRepository repo.JobseekerPostRepository
+	authClient     auth.Newauthclient
 	Logger         *logrus.Logger
 	LogFile        *os.File
 }
 
-func NewJobseekerpostUseCase(repo repo.JobseekerPostRepository) interfaces.JobseekerPostUsecase {
+func NewJobseekerpostUseCase(repo repo.JobseekerPostRepository, client auth.Newauthclient) usecase.JobseekerPostUsecase {
 	logger, logFile := logging.InitLogrusLogger("./Logging/connectHub_Post.log")
 	return &jobseekerJobUseCase{
 		postRepository: repo,
 		Logger:         logger,
 		LogFile:        logFile,
+		authClient:     client,
 	}
 }
 
@@ -298,25 +303,53 @@ func (ju *jobseekerJobUseCase) DeleteCommentPost(postId, userId, commentId int) 
 }
 
 func (ju *jobseekerJobUseCase) AddLikePost(postId, userId int) (bool, error) {
+	ju.Logger.Info("AddLikePost at jobseekerJobUseCase started")
+	if postId <= 0 {
+		ju.Logger.Error("error postId is required")
+		return false, errors.New("postId is required")
+	}
 	okP, err := ju.postRepository.IsPostExistByPostId(postId)
 
 	if err != nil {
+		ju.Logger.Error("error from postRepository", err)
 		return false, err
 	}
 	if !okP {
+		ju.Logger.Error("error postId does not exist")
 		return false, errors.New("post does not exist")
 	}
 	okL, err := ju.postRepository.IsLikeExist(postId, userId)
 	if err != nil {
+		ju.Logger.Error("error from postRepository", err)
 		return false, err
 	}
 	if okL {
+		ju.Logger.Error("error you already like this post")
 		return false, errors.New("you already like this post")
 	}
-	ok, err := ju.postRepository.AddLikePost(postId, userId)
+	senderData, err := ju.authClient.UserData(userId)
 	if err != nil {
+		ju.Logger.Error("error from postRepository", err)
 		return false, err
 	}
+
+	ok, err := ju.postRepository.AddLikePost(postId, userId)
+	if err != nil {
+		ju.Logger.Error("error from postRepository", err)
+		return false, err
+	}
+	postUser, err := ju.postRepository.GetOnePost(postId)
+	if err != nil {
+		ju.Logger.Error("error from postRepository", err)
+		return false, err
+	}
+	msg := fmt.Sprintf("%s Liked Your PostID %d", senderData.Username, postId)
+	helper.SendNotification(models.Notification{
+		UserID:     postUser.JobseekerId,
+		SenderID:   senderData.UserId,
+		PostID:     postId,
+		SenderName: senderData.Username,
+	}, []byte(msg))
 	return ok, nil
 }
 

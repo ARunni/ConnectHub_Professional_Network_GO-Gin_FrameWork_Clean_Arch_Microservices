@@ -19,6 +19,8 @@ type Config struct {
 	AWSAccesskeyID     string `mapstructure:"AWSAccesskeyID"`
 	AWSSecretaccesskey string `mapstructure:"AWSSecretaccesskey"`
 	BucketName         string `mapstructure:"BucketName"`
+	KafkaBrokers       string `mapstructure:"KAFKA_BROKERS"`
+	KafkaTopic         string `mapstructure:"KAFKA_TOPIC"`
 }
 
 var envs = []string{
@@ -27,7 +29,8 @@ var envs = []string{
 	"Connect_Hub_Auth", "Connect_Hub_Post",
 	"Connect_Hub_Chat", "AWSRegion",
 	"AWSAccesskeyID", "AWSSecretaccesskey",
-	"BucketName",
+	"BucketName","KAFKA_BROKERS",
+	"KAFKA_TOPIC",
 }
 
 func LoadConfig() (Config, error) {

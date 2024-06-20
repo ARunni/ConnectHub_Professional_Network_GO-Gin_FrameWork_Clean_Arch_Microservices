@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.3.0
 // - protoc             v3.21.12
-// source: pkg/pb/notification/auth/auth.proto
+// source: pkg/pb/auth/auth.proto
 
 package auth
 
@@ -143,5 +143,5 @@ var NotificationAuthService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "pkg/pb/notification/auth/auth.proto",
+	Metadata: "pkg/pb/auth/auth.proto",
 }

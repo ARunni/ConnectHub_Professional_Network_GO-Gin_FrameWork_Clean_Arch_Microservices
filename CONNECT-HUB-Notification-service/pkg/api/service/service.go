@@ -43,13 +43,32 @@ func (ad *NotificationServer) GetNotification(ctx context.Context, req *pb.GetNo
 		final = append(final, &pb.Message{
 			UserId:   int64(v.UserID),
 			Username: v.Username,
-			Profile:  v.Profile,
+			Id:       int64(v.ID),
 			Message:  v.Message,
 			Time:     v.CreatedAt,
+			PostId:   int64(v.PostID),
 		})
 	}
 	ad.Logger.Info("GetNotification at NotificationServer success")
 	return &pb.GetNotificationResponse{
 		Notification: final,
+	}, nil
+}
+
+func (ad *NotificationServer) ReadNotification(ctx context.Context, req *pb.ReadNotificationRequest) (*pb.ReadNotificationResponse, error) {
+	ad.Logger.Info("ReadNotification at NotificationServer started")
+	userid := req.UserId
+	id := req.Id
+
+	result, err := ad.notificationUsecase.ReadNotification(int(id), int(userid))
+	if err != nil {
+		ad.Logger.Error("error from notificationUsecase", err)
+		return nil, err
+	}
+	ad.Logger.Info("ReadNotification at notificationUsecase success")
+
+	ad.Logger.Info("GetNotification at NotificationServer success")
+	return &pb.ReadNotificationResponse{
+		Success: result,
 	}, nil
 }

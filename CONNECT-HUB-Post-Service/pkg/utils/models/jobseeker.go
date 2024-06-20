@@ -61,3 +61,7 @@ type EditPostRes struct {
 	UpdatedAt   time.Time `gorm:"autoUpdateTime" json:"updated_at"`
 }
 
+type UserData struct {
+	UserId   int    `json:"user_id"`
+	Username string `json:"username"`
+}

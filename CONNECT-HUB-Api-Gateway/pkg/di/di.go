@@ -6,12 +6,14 @@ import (
 	authHandler "github.com/ARunni/connectHub_gateway/pkg/api/handler/auth"
 	chatHandler "github.com/ARunni/connectHub_gateway/pkg/api/handler/chat"
 	jobHandler "github.com/ARunni/connectHub_gateway/pkg/api/handler/job"
+	notificationHandler "github.com/ARunni/connectHub_gateway/pkg/api/handler/notification"
 	postHandler "github.com/ARunni/connectHub_gateway/pkg/api/handler/post"
 	"github.com/ARunni/connectHub_gateway/pkg/helper"
 
 	authClient "github.com/ARunni/connectHub_gateway/pkg/client/auth"
 	chatClient "github.com/ARunni/connectHub_gateway/pkg/client/chat"
 	jobClient "github.com/ARunni/connectHub_gateway/pkg/client/job"
+	notificationClient "github.com/ARunni/connectHub_gateway/pkg/client/notification"
 	postClient "github.com/ARunni/connectHub_gateway/pkg/client/post"
 
 	"github.com/ARunni/connectHub_gateway/pkg/config"
@@ -37,9 +39,12 @@ func InitializeAPI(cfg config.Config) (*server.ServerHTTP, error) {
 	jobseekerPostClient := postClient.NewJobseekerPostClient(cfg)
 	jobseekerPostHandler := postHandler.NewJobseekerPostHandler(jobseekerPostClient)
 
+	notificationClient := notificationClient.NewNotificationClient(cfg)
+	notificationHandler := notificationHandler.NewNotificationHandler(notificationClient)
+
 	VideoHandler := videoHandler.NewVideoCallHandler()
 	authclient := authClient.NewAuthClient(cfg)
-	authHandlerr := authHandler.NewAuthHandler(authclient)
+	authHandler := authHandler.NewAuthHandler(authclient)
 
 	chatClient := chatClient.NewChatClient(cfg)
 	chatHandler := chatHandler.NewChatHandler(chatClient, helper.NewHelper(&cfg))
@@ -48,7 +53,7 @@ func InitializeAPI(cfg config.Config) (*server.ServerHTTP, error) {
 		adminAuthHandler, jobseekerAuthHandler,
 		recruiterAuthHandler, recruiterJobHandler,
 		JobseekerJobhandler, jobseekerPostHandler,
-		chatHandler, VideoHandler, authHandlerr)
+		chatHandler, VideoHandler, authHandler, notificationHandler)
 
 	return serverHTTP, nil
 }

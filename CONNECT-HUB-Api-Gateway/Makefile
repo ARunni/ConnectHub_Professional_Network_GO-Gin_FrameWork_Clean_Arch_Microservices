@@ -13,5 +13,6 @@ proto:
 	protoc --go_out=. --go-grpc_out=. ./pkg/pb/post/jobseeker/post.proto
 	protoc --go_out=. --go-grpc_out=. ./pkg/pb/chat/chat.proto
 	protoc --go_out=. --go-grpc_out=. ./pkg/pb/auth/auth/auth.proto
+	protoc --go_out=. --go-grpc_out=. ./pkg/pb/notification/notification.proto
 swag :
 	swag init -g cmd/main.go -o ./cmd/docs

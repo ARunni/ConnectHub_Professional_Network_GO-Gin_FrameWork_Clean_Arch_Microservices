@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package notification_auth;
 
-option go_package = "./pkg/pb/notification/auth";
+option go_package = "./pkg/pb/auth";
 
 service NotificationAuthService {
     rpc CheckUserAvalilabilityWithUserID (CheckUserAvalilabilityWithUserIDRequest) returns (CheckUserAvalilabilityWithUserIDResponse){}

@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/ARunni/ConnetHub_Notification/pkg/config"
-	"github.com/ARunni/ConnetHub_Notification/pkg/domain"
+	"github.com/ARunni/ConnetHub_Notification/pkg/utils/models"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -21,7 +21,7 @@ func ConnectDatabase(cfg config.Config) (*gorm.DB, error) {
 	}
 
 	var modelsToMigrate = []interface{}{
-		&domain.Notification{},
+		&models.Notification{},
 	}
 
 	for _, model := range modelsToMigrate {

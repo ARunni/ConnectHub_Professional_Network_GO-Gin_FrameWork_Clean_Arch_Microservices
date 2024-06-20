@@ -18,12 +18,10 @@ int64 userId =1;
 message MarkAllAsReadResponse {
 bool success =1;
 }
-
 message ReadNotificationRequest {
     int64 user_id = 1;
     int64 id = 2;
 }
-
 message ReadNotificationResponse {
      bool success = 1;
 }

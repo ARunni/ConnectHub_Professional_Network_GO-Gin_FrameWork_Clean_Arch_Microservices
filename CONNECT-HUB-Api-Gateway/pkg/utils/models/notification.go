@@ -11,11 +11,6 @@ type NotificationReq struct {
 	CreatedAt  time.Time `json:"created_at"`
 }
 
-type Pagination struct {
-	Limit  int `json:"limit"`
-	Offset int `json:"offset"`
-}
-
 type NotificationResponse struct {
 	ID        int    `json:"id"`
 	UserID    int    `json:"user_id" gorm:"column:sender_id"`
@@ -33,9 +28,4 @@ type Notification struct {
 	Message    string    `json:"message"`
 	Read       bool      `json:"read" gorm:"default:false"`
 	CreatedAt  time.Time `json:"created_at"`
-}
-
-type UserData struct {
-	UserId   int    `json:"user_id"`
-	Username string `json:"username"`
 }

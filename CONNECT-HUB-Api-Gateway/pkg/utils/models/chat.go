@@ -40,3 +40,8 @@ type Pagination struct {
 	Limit  string
 	OffSet string
 }
+
+type NotificationPagination struct {
+	Limit  int `json:"limit"`
+	Offset int `json:"offset"`
+}
