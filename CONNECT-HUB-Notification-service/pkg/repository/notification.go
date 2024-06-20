@@ -140,3 +140,23 @@ func (c *notificationRepository) UnreadedNotificationExist(userId int) (bool, er
 	c.Logger.Info("UnreadedNotificationExist at notificationRepository completed successfully")
 	return count > 0, nil
 }
+
+func (c *notificationRepository) GetAllNotifications(userId int) ([]models.AllNotificationResponse, error) {
+	c.Logger.Info("GetAllNotifications at notificationRepository started")
+	var data []models.AllNotificationResponse
+	querry := `
+	SELECT id,
+	sender_id, message, created_at, 
+	sender_name as username, post_id,read
+	FROM notifications 
+	WHERE user_id = ? 
+	ORDER BY created_at DESC
+	`
+	err := c.DB.Raw(querry, userId).Scan(&data).Error
+	if err != nil {
+		c.Logger.Error("Error while reading notifications: ", err)
+		return nil, err
+	}
+	c.Logger.Info("GetAllNotifications at notificationRepository completed successfully")
+	return data, nil
+}

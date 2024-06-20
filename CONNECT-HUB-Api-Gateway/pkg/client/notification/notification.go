@@ -100,3 +100,31 @@ func (nc *notificationClient) MarkAllAsRead(userId int) (bool, error) {
 	nc.Logger.Info("MarkAllAsRead at client finished")
 	return ok.Success, nil
 }
+
+func (nc *notificationClient) GetAllNotifications(userId int) ([]models.AllNotificationResponse, error) {
+	nc.Logger.Info("GetAllNotifications at notificationClient started")
+	nc.Logger.Info("GetAllNotifications at client started")
+	data, err := nc.Client.GetAllNotifications(context.Background(), &Pb.GetAllNotificationsRequest{
+		UserId: int64(userId),
+	})
+	if err != nil {
+		nc.Logger.Error("error from GRPC call", err)
+		return nil, err
+	}
+	nc.Logger.Info("GetAllNotifications at notificationClient finished")
+	var response []models.AllNotificationResponse
+	for _, v := range data.Notification {
+		notificationResponse := models.AllNotificationResponse{
+			ID:        int(v.Id),
+			UserID:    int(v.UserId),
+			Username:  v.Username,
+			PostID:    int(v.PostId),
+			Message:   v.Message,
+			CreatedAt: v.Time,
+			Read:      v.Read,
+		}
+		response = append(response, notificationResponse)
+	}
+	nc.Logger.Info("GetAllNotifications at client finished")
+	return response, nil
+}

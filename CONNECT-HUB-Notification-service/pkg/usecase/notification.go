@@ -179,3 +179,22 @@ func (c *notificationUsecase) MarkAllAsRead(userId int) (bool, error) {
 	return Ok, nil
 
 }
+
+func (c *notificationUsecase) GetAllNotifications(userId int) ([]models.AllNotificationResponse, error) {
+	c.Logger.Info("GetAllNotifications at notificationUsecase started")
+
+	c.Logger.Info("GetAllNotifications at notiRepository started")
+
+	data, err := c.notiRepository.GetAllNotifications(userId)
+
+	if err != nil {
+		c.Logger.Error("Error at MarkAllAsRead at notiRepository: ", err)
+		return nil, err
+	}
+
+	c.Logger.Info("GetAllNotifications at notiRepository finished")
+	c.Logger.Info("GetAllNotifications at notificationUsecase finished")
+
+	return data, nil
+
+}

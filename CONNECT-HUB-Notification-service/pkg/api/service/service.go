@@ -89,3 +89,32 @@ func (ad *NotificationServer) MarkAllAsRead(ctx context.Context, req *pb.MarkAll
 		Success: result,
 	}, nil
 }
+
+func (ad *NotificationServer) GetAllNotifications(ctx context.Context, req *pb.GetAllNotificationsRequest) (*pb.GetAllNotificationsResponse, error) {
+	ad.Logger.Info("GetAllNotifications at NotificationServer started")
+	userid := req.UserId
+
+	result, err := ad.notificationUsecase.GetAllNotifications(int(userid))
+	if err != nil {
+		ad.Logger.Error("error from notificationUsecase", err)
+		return nil, err
+	}
+	ad.Logger.Info("GetAllNotifications at notificationUsecase success")
+	var final []*pb.AllMessage
+
+	for _, v := range result {
+		final = append(final, &pb.AllMessage{
+			UserId:   int64(v.UserID),
+			Username: v.Username,
+			Id:       int64(v.ID),
+			Message:  v.Message,
+			Time:     v.CreatedAt,
+			PostId:   int64(v.PostID),
+			Read:     v.Read,
+		})
+	}
+	ad.Logger.Info("GetAllNotifications at NotificationServer success")
+	return &pb.GetAllNotificationsResponse{
+		Notification: final,
+	}, nil
+}

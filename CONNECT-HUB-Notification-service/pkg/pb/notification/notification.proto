@@ -8,7 +8,16 @@ option go_package = "./pkg/pb/notification";
 service NotificationService {
     rpc GetNotification (GetNotificationRequest) returns (GetNotificationResponse){}
     rpc ReadNotification (ReadNotificationRequest) returns (ReadNotificationResponse){}
-    rpc MarkAllAsRead (MarkAllAsReadRequest) returns (MarkAllAsReadResponse);
+    rpc MarkAllAsRead (MarkAllAsReadRequest) returns (MarkAllAsReadResponse){}
+    rpc GetAllNotifications (GetAllNotificationsRequest) returns (GetAllNotificationsResponse);
+}
+
+message GetAllNotificationsRequest {
+    int64 userId =1;
+}
+
+message GetAllNotificationsResponse {
+    repeated AllMessage notification=1;
 }
 
 message MarkAllAsReadRequest {
@@ -41,6 +50,15 @@ message Message{
     string message=4;
     string time=5;
     int64 postId=6;
+}
+message AllMessage{
+    int64 userId=1;
+    string username=2;
+    int64 id=3;
+    string message=4;
+    string time=5;
+    int64 postId=6;
+    bool read =7;
 }
 
 message GetNotificationResponse{

@@ -9,4 +9,5 @@ type NotificationRepository interface {
 	IsNotificationExistOnUser(id,userId int) (bool,error)
 	MarkAllAsRead(userId int) (bool,error)
 	UnreadedNotificationExist(userId int) (bool,error)
+	GetAllNotifications(userId int) ([]models.AllNotificationResponse,error)
 }

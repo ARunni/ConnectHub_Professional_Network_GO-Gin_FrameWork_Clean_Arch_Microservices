@@ -159,6 +159,7 @@ func NewServerHTTP(
 			notification.GET("", notificationHandler.GetNotification)
 			notification.PATCH("", notificationHandler.ReadNotification)
 			notification.PATCH("/all", notificationHandler.MarkAllAsRead)
+			notification.GET("/all", notificationHandler.GetAllNotifications)
 		}
 
 	}
