@@ -19,7 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	JobAuth_GetDetailsById_FullMethodName = "/job_auth.jobAuth/GetDetailsById"
+	JobAuth_GetDetailsById_FullMethodName         = "/job_auth.jobAuth/GetDetailsById"
+	JobAuth_GetDetailsByIdRecuiter_FullMethodName = "/job_auth.jobAuth/GetDetailsByIdRecuiter"
 )
 
 // JobAuthClient is the client API for JobAuth service.
@@ -27,6 +28,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type JobAuthClient interface {
 	GetDetailsById(ctx context.Context, in *GetDetailsByIdRequest, opts ...grpc.CallOption) (*GetDetailsByIdResponse, error)
+	GetDetailsByIdRecuiter(ctx context.Context, in *GetDetailsByIdRequest, opts ...grpc.CallOption) (*GetDetailsByIdResponse, error)
 }
 
 type jobAuthClient struct {
@@ -46,11 +48,21 @@ func (c *jobAuthClient) GetDetailsById(ctx context.Context, in *GetDetailsByIdRe
 	return out, nil
 }
 
+func (c *jobAuthClient) GetDetailsByIdRecuiter(ctx context.Context, in *GetDetailsByIdRequest, opts ...grpc.CallOption) (*GetDetailsByIdResponse, error) {
+	out := new(GetDetailsByIdResponse)
+	err := c.cc.Invoke(ctx, JobAuth_GetDetailsByIdRecuiter_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // JobAuthServer is the server API for JobAuth service.
 // All implementations must embed UnimplementedJobAuthServer
 // for forward compatibility
 type JobAuthServer interface {
 	GetDetailsById(context.Context, *GetDetailsByIdRequest) (*GetDetailsByIdResponse, error)
+	GetDetailsByIdRecuiter(context.Context, *GetDetailsByIdRequest) (*GetDetailsByIdResponse, error)
 	mustEmbedUnimplementedJobAuthServer()
 }
 
@@ -60,6 +72,9 @@ type UnimplementedJobAuthServer struct {
 
 func (UnimplementedJobAuthServer) GetDetailsById(context.Context, *GetDetailsByIdRequest) (*GetDetailsByIdResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetDetailsById not implemented")
+}
+func (UnimplementedJobAuthServer) GetDetailsByIdRecuiter(context.Context, *GetDetailsByIdRequest) (*GetDetailsByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDetailsByIdRecuiter not implemented")
 }
 func (UnimplementedJobAuthServer) mustEmbedUnimplementedJobAuthServer() {}
 
@@ -92,6 +107,24 @@ func _JobAuth_GetDetailsById_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _JobAuth_GetDetailsByIdRecuiter_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDetailsByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JobAuthServer).GetDetailsByIdRecuiter(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: JobAuth_GetDetailsByIdRecuiter_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JobAuthServer).GetDetailsByIdRecuiter(ctx, req.(*GetDetailsByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // JobAuth_ServiceDesc is the grpc.ServiceDesc for JobAuth service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -102,6 +135,10 @@ var JobAuth_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetDetailsById",
 			Handler:    _JobAuth_GetDetailsById_Handler,
+		},
+		{
+			MethodName: "GetDetailsByIdRecuiter",
+			Handler:    _JobAuth_GetDetailsByIdRecuiter_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

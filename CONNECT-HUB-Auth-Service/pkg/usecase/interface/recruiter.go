@@ -12,4 +12,5 @@ type RecruiterUseCase interface {
 	GetOnePolicy(policy_id int) (req.CreatePolicyRes,error)
 
 	GetDetailsById(userId int) (string, string, error)
+	GetDetailsByIdRecuiter(userId int) (string, string, error)
 }

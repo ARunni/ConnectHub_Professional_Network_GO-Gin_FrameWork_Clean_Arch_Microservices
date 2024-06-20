@@ -16,4 +16,5 @@ type RecruiterRepository interface {
 	IsPolicyExist(policy_id int) (bool, error)
 
 	GetDetailsById(userId int) (string, string, error)
+	GetDetailsByIdRecuiter(userId int) (string, string, error)
 }

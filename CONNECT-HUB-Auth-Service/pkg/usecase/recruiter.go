@@ -1,13 +1,14 @@
 package usecase
 
 import (
+	"errors"
+	"os"
+
 	logging "github.com/ARunni/ConnetHub_auth/Logging"
 	"github.com/ARunni/ConnetHub_auth/pkg/helper"
 	repo "github.com/ARunni/ConnetHub_auth/pkg/repository/interface"
 	usecase "github.com/ARunni/ConnetHub_auth/pkg/usecase/interface"
 	req "github.com/ARunni/ConnetHub_auth/pkg/utils/reqAndResponse"
-	"errors"
-	"os"
 
 	msg "github.com/ARunni/Error_Message"
 	"github.com/sirupsen/logrus"
@@ -224,6 +225,18 @@ func (ru *recruiterUseCase) GetDetailsById(userId int) (string, string, error) {
 		return "", "", errors.New(msg.ErrDataZero)
 	}
 	email, name, err := ru.recruiterRepository.GetDetailsById(userId)
+	if err != nil {
+		return "", "", err
+	}
+	return email, name, nil
+}
+
+func (ru *recruiterUseCase) GetDetailsByIdRecuiter(userId int) (string, string, error) {
+
+	if userId <= 0 {
+		return "", "", errors.New(msg.ErrDataZero)
+	}
+	email, name, err := ru.recruiterRepository.GetDetailsByIdRecuiter(userId)
 	if err != nil {
 		return "", "", err
 	}

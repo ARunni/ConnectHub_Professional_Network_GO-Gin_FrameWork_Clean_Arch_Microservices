@@ -15,6 +15,6 @@ type Recruiter struct {
 }
 
 type UserData struct {
-    Email     string
-    FirstName string
+	Email     string `json:"email"`
+	FirstName string `json:"first_name"`
 }

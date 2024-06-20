@@ -43,3 +43,20 @@ func (js *JobAuthServer) GetDetailsById(ctx context.Context, Req *pb.GetDetailsB
 		Email:    email,
 	}, nil
 }
+
+func (js *JobAuthServer) GetDetailsByIdRecuiter(ctx context.Context, Req *pb.GetDetailsByIdRequest) (*pb.GetDetailsByIdResponse, error) {
+	js.Logger.Info("GetDetailsByIdRecuiter at JobAuthServer is started")
+	js.Logger.Info("GetDetailsByIdRecuiter at recruiterUsecase is started")
+	email, name, err := js.recruiterUsecase.GetDetailsByIdRecuiter(int(Req.Userid))
+	if err != nil {
+		js.Logger.Error("Error at recruiterUsecase", err)
+		return nil, err
+	}
+	js.Logger.Info("GetDetailsByIdRecuiter at recruiterUsecase is success")
+	js.Logger.Info("GetDetailsByIdRecuiter at JobAuthServer is success")
+
+	return &pb.GetDetailsByIdResponse{
+		Username: name,
+		Email:    email,
+	}, nil
+}

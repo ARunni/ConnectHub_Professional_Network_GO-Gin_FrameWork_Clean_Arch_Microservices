@@ -6,6 +6,7 @@ option go_package = "./pkg/pb/job/auth";
 
 service jobAuth {
     rpc GetDetailsById(GetDetailsByIdRequest) returns (GetDetailsByIdResponse) {};
+    rpc GetDetailsByIdRecuiter(GetDetailsByIdRequest) returns (GetDetailsByIdResponse) {};
     
 
 }

@@ -1,16 +1,18 @@
 package usecase
 
 import (
-	logging "github.com/ARunni/ConnetHub_job/Logging"
-	"github.com/ARunni/ConnetHub_job/pkg/client/auth/interfaces"
-	repo "github.com/ARunni/ConnetHub_job/pkg/repository/interface"
-	usecase "github.com/ARunni/ConnetHub_job/pkg/usecase/interface"
-	"github.com/ARunni/ConnetHub_job/pkg/utils/models"
 	"errors"
 	"fmt"
 	"os"
 	"strconv"
 	"time"
+
+	logging "github.com/ARunni/ConnetHub_job/Logging"
+	"github.com/ARunni/ConnetHub_job/pkg/client/auth/interfaces"
+	"github.com/ARunni/ConnetHub_job/pkg/helper"
+	repo "github.com/ARunni/ConnetHub_job/pkg/repository/interface"
+	usecase "github.com/ARunni/ConnetHub_job/pkg/usecase/interface"
+	"github.com/ARunni/ConnetHub_job/pkg/utils/models"
 
 	msg "github.com/ARunni/Error_Message"
 	"github.com/sirupsen/logrus"
@@ -284,6 +286,19 @@ func (ju *recruiterJobUseCase) ScheduleInterview(data models.ScheduleReq) (model
 		return models.Interview{}, fmt.Errorf("failed to schedule interview")
 	}
 	jobData.ApplicationId = uint(data.ApplicationId)
-	fmt.Println("hgdsfjhsdsdhkjgdsjkh", jobData.ApplicationId)
+
+	// notification purpose
+	_, recname, err := ju.Client.GetDetailsByIdRecuiter(int(data.RecruiterID))
+	if err != nil {
+		return models.Interview{}, fmt.Errorf("failed to initialize notification")
+	}
+	msg := fmt.Sprintf("%s Scheduled an Interview for Your Application Id %d", recname, data.ApplicationId)
+	helper.SendNotification(models.Notification{
+		UserID:     int(appData.JobseekerID),
+		SenderID:   int(data.RecruiterID),
+		PostID:     data.ApplicationId,
+		SenderName: recname,
+	}, []byte(msg))
+
 	return jobData, nil
 }

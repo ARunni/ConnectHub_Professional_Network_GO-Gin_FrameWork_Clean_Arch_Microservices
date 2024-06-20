@@ -37,12 +37,31 @@ func NewJobAuthClient(cfg config.Config) interfaces.JobAuthClient {
 }
 
 func (jc *JobAuthClient) GetDetailsById(userId int) (string, string, error) {
-	fmt.Println("herre client job Auth", userId)
+	jc.Logger.Info("GetDetailsById at JobAuthClient started")
+	jc.Logger.Info("GetDetailsById at Client started")
 	data, err := jc.Client.GetDetailsById(context.Background(), &pb.GetDetailsByIdRequest{
 		Userid: int64(userId),
 	})
 	if err != nil {
+		jc.Logger.Error("error from grpc call GetDetailsById",err)
 		return "", "", err
 	}
+	jc.Logger.Info("GetDetailsById at JobAuthClient success")
+	jc.Logger.Info("GetDetailsById at Client success")
+	return data.Email, data.Username, nil
+}
+
+func (jc *JobAuthClient) GetDetailsByIdRecuiter(userId int) (string, string, error) {
+	jc.Logger.Info("GetDetailsByIdRecuiter at JobAuthClient started")
+	jc.Logger.Info("GetDetailsByIdRecuiter at Client started")
+	data, err := jc.Client.GetDetailsByIdRecuiter(context.Background(), &pb.GetDetailsByIdRequest{
+		Userid: int64(userId),
+	})
+	if err != nil {
+		jc.Logger.Error("error from grpc call GetDetailsByIdRecuiter",err)
+		return "", "", err
+	}
+	jc.Logger.Info("GetDetailsByIdRecuiter at JobAuthClient success")
+	jc.Logger.Info("GetDetailsByIdRecuiter at Client success")
 	return data.Email, data.Username, nil
 }
