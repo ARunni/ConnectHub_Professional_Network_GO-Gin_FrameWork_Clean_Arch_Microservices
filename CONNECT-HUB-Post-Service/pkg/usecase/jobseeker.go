@@ -236,7 +236,7 @@ func (ju *jobseekerJobUseCase) CreateCommentPost(postId, userId int, comment str
 		return false, err
 	}
 
-	// 
+	//
 
 	senderData, err := ju.authClient.UserData(userId)
 	if err != nil {
@@ -290,6 +290,25 @@ func (ju *jobseekerJobUseCase) UpdateCommentPost(commentId, postId, userId int, 
 	if err != nil {
 		return false, err
 	}
+
+	senderData, err := ju.authClient.UserData(userId)
+	if err != nil {
+		ju.Logger.Error("error from authClient", err)
+		return false, err
+	}
+	postUser, err := ju.postRepository.GetOnePost(postId)
+	if err != nil {
+		ju.Logger.Error("error from postRepository", err)
+		return false, err
+	}
+	msg := fmt.Sprintf("%s comment edited on Your PostID %d", senderData.Username, postId)
+	helper.SendNotification(models.Notification{
+		UserID:     postUser.JobseekerId,
+		SenderID:   senderData.UserId,
+		PostID:     postId,
+		SenderName: senderData.Username,
+	}, []byte(msg))
+
 	return ok, nil
 
 }
