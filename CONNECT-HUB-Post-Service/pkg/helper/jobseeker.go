@@ -31,6 +31,7 @@ func NewHelper(cfg cfg.Config) *Helper {
 }
 
 func (h *Helper) AddImageToAwsS3(file []byte) (string, error) {
+	
 
 	fileUID := uuid.New()
 	fileName := fileUID.String()
@@ -40,11 +41,7 @@ func (h *Helper) AddImageToAwsS3(file []byte) (string, error) {
 		return "", err
 	}
 
-	// fmt.Println("pppppppp", config.DBHost)
-
-	// fmt.Println("print1", config.AWSRegion)
-	// fmt.Println("print2", config.AWSAccesskeyID)
-	// fmt.Println("print3", config.AWSSecretaccesskey)
+	
 	sess, err := session.NewSession(&aws.Config{
 		Region: aws.String(config.AWSRegion),
 		Credentials: credentials.NewStaticCredentials(
