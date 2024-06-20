@@ -78,7 +78,25 @@ func (nc *notificationClient) ReadNotification(id, user_id int) (bool, error) {
 		Id:     int64(id),
 	})
 	if err != nil {
+		nc.Logger.Error("error from GRPC call", err)
 		return false, err
 	}
+	nc.Logger.Info("ReadNotification at notificationClient finished")
+	nc.Logger.Info("ReadNotification at client finished")
+	return ok.Success, nil
+}
+
+func (nc *notificationClient) MarkAllAsRead(userId int) (bool, error) {
+	nc.Logger.Info("MarkAllAsRead at notificationClient started")
+	nc.Logger.Info("MarkAllAsRead at client started")
+	ok, err := nc.Client.MarkAllAsRead(context.Background(), &Pb.MarkAllAsReadRequest{
+		UserId: int64(userId),
+	})
+	if err != nil {
+		nc.Logger.Error("error from GRPC call", err)
+		return false, err
+	}
+	nc.Logger.Info("MarkAllAsRead at notificationClient finished")
+	nc.Logger.Info("MarkAllAsRead at client finished")
 	return ok.Success, nil
 }

@@ -72,3 +72,20 @@ func (ad *NotificationServer) ReadNotification(ctx context.Context, req *pb.Read
 		Success: result,
 	}, nil
 }
+
+func (ad *NotificationServer) MarkAllAsRead(ctx context.Context, req *pb.MarkAllAsReadRequest) (*pb.MarkAllAsReadResponse, error) {
+	ad.Logger.Info("MarkAllAsRead at NotificationServer started")
+	userid := req.UserId
+
+	result, err := ad.notificationUsecase.MarkAllAsRead(int(userid))
+	if err != nil {
+		ad.Logger.Error("error from notificationUsecase", err)
+		return nil, err
+	}
+	ad.Logger.Info("MarkAllAsRead at notificationUsecase success")
+
+	ad.Logger.Info("MarkAllAsRead at NotificationServer success")
+	return &pb.MarkAllAsReadResponse{
+		Success: result,
+	}, nil
+}

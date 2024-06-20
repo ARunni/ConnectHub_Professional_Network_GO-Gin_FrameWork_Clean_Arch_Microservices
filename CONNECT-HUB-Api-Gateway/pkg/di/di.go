@@ -1,13 +1,13 @@
 package di
 
 import (
-	server "github.com/ARunni/connectHub_gateway/pkg/api"
 	videoHandler "github.com/ARunni/connectHub_gateway/pkg/api/handler/Video_Call"
 	authHandler "github.com/ARunni/connectHub_gateway/pkg/api/handler/auth"
 	chatHandler "github.com/ARunni/connectHub_gateway/pkg/api/handler/chat"
 	jobHandler "github.com/ARunni/connectHub_gateway/pkg/api/handler/job"
 	notificationHandler "github.com/ARunni/connectHub_gateway/pkg/api/handler/notification"
 	postHandler "github.com/ARunni/connectHub_gateway/pkg/api/handler/post"
+	server "github.com/ARunni/connectHub_gateway/pkg/api/server"
 	"github.com/ARunni/connectHub_gateway/pkg/helper"
 
 	authClient "github.com/ARunni/connectHub_gateway/pkg/client/auth"

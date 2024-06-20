@@ -105,3 +105,29 @@ func (n *NotificationHandler) ReadNotification(c *gin.Context) {
 	c.JSON(http.StatusOK, res)
 
 }
+
+func (n *NotificationHandler) MarkAllAsRead(c *gin.Context) {
+	n.Logger.Info("MarkAllAsRead at NotificationHandler started")
+
+	userId, ok := c.Get("id")
+	if !ok {
+		n.Logger.Error("User ID not found in JWT claims")
+		errs := response.ClientResponse(http.StatusBadRequest, "User ID not found in JWT claims", nil, "")
+		c.JSON(http.StatusBadRequest, errs)
+		return
+	}
+	UserID, _ := userId.(int)
+	n.Logger.Info("MarkAllAsRead at client rpc  started")
+	result, err := n.GRPC_Client.MarkAllAsRead(UserID)
+	if err != nil {
+		n.Logger.Error("Error during ReadNotification rpc call", err)
+		errs := response.ClientResponse(http.StatusBadRequest, "Failed to read notification ", nil, err.Error())
+		c.JSON(http.StatusBadRequest, errs)
+		return
+	}
+	n.Logger.Info("MarkAllAsRead at client rpc  finished")
+	n.Logger.Info(" Notifications Successfully marked as read")
+	res := response.ClientResponse(http.StatusOK, "Notification Successfully marked as read", result, nil)
+	c.JSON(http.StatusOK, res)
+
+}
