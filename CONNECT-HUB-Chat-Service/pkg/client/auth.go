@@ -1,10 +1,11 @@
 package client
 
 import (
+	"os"
+
 	logging "github.com/ARunni/ConnetHub_chat/Logging"
 	"github.com/ARunni/ConnetHub_chat/pkg/config"
 	"github.com/ARunni/ConnetHub_chat/pkg/utils/models"
-	"os"
 
 	"context"
 	"fmt"
@@ -26,6 +27,7 @@ func NewAuthClient(c *config.Config) *clientAuth {
 	cc, err := grpc.Dial(c.Connect_Hub_Auth, grpc.WithInsecure())
 
 	if err != nil {
+		logger.Error("Could not connect grpc")
 		fmt.Println("Could not connect:", err)
 	}
 
@@ -39,19 +41,28 @@ func NewAuthClient(c *config.Config) *clientAuth {
 }
 
 func (c *clientAuth) CheckUserAvalilabilityWithUserID(userID int) bool {
+	c.Logger.Info("CheckUserAvalilabilityWithUserID at clientAuth started")
+	c.Logger.Info("CheckUserAvalilabilityWithUserID at Client started")
 	ok, _ := c.Client.CheckUserAvalilabilityWithUserID(context.Background(), &pb.CheckUserAvalilabilityWithUserIDRequest{
 		Id: int64(userID),
 	})
+	c.Logger.Info("CheckUserAvalilabilityWithUserID at Client finished")
+	c.Logger.Info("CheckUserAvalilabilityWithUserID at clientAuth finished")
 	return ok.Valid
 }
 
 func (c *clientAuth) UserData(userID int) (models.UserData, error) {
+	c.Logger.Info("UserData at clientAuth started")
+	c.Logger.Info("UserData at Client started")
 	data, err := c.Client.UserData(context.Background(), &pb.UserDataRequest{
 		Id: int64(userID),
 	})
 	if err != nil {
+		c.Logger.Error("error from client", err)
 		return models.UserData{}, err
 	}
+	c.Logger.Info("UserData at Client finished")
+	c.Logger.Info("UserData at clientAuth finished")
 	return models.UserData{
 		UserId:   uint(data.Id),
 		Username: data.Username,
