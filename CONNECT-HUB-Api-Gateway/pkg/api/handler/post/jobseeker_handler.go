@@ -36,7 +36,7 @@ func NewJobseekerPostHandler(grpc_client interfaces.JobseekerPostClient) *Jobsee
 // CreatePost creates a new post by a jobseeker.
 // @Summary Create a post
 // @Description Create a new post by a jobseeker
-// @Tags Jobseeker post Management
+// @Tags Jobseeker Post Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
@@ -106,9 +106,9 @@ func (jph *JobseekerPostHandler) CreatePost(c *gin.Context) {
 }
 
 // GetOnePost retrieves a single post by its ID.
-// @Summary Get a post by ID
+// @Summary Get a Post by ID
 // @Description Retrieve a single post by its ID
-// @Tags Jobseeker post Management
+// @Tags Jobseeker Post Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth

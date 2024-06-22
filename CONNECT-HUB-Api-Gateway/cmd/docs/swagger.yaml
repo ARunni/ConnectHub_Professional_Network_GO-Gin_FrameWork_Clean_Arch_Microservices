@@ -924,9 +924,9 @@ paths:
             $ref: '#/definitions/response.Response'
       security:
       - BearerTokenAuth: []
-      summary: Get a post by ID
+      summary: Get a Post by ID
       tags:
-      - Jobseeker post Management
+      - Jobseeker Post Management
     patch:
       consumes:
       - multipart/form-data
@@ -1021,7 +1021,7 @@ paths:
       - BearerTokenAuth: []
       summary: Create a post
       tags:
-      - Jobseeker post Management
+      - Jobseeker Post Management
   /jobseeker/post/comment:
     delete:
       consumes:

@@ -1012,9 +1012,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Jobseeker post Management"
+                    "Jobseeker Post Management"
                 ],
-                "summary": "Get a post by ID",
+                "summary": "Get a Post by ID",
                 "parameters": [
                     {
                         "type": "string",
@@ -1066,7 +1066,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Jobseeker post Management"
+                    "Jobseeker Post Management"
                 ],
                 "summary": "Create a post",
                 "parameters": [
