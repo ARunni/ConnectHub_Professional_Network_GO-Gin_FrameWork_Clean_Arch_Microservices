@@ -134,6 +134,18 @@ func (ch *ChatHandler) SendMessage(c *gin.Context) {
 
 }
 
+// GetChat handles the endpoint for retrieving chat details.
+// @Summary Get Chat Details
+// @Description Retrieves chat details based on the provided request.
+// @Tags Jobseeker Chat Management
+// @Accept json
+// @Produce json
+// @Security BearerTokenAuth
+// @Param id header integer true "User ID"
+// @Param chatRequest body models.ChatRequest true "Chat Request Data"
+// @Success 200 {object} response.Response "Chat details retrieved successfully"
+// @Failure 400 {object} response.Response "Failed to retrieve chat details or incorrect data format"
+// @Router /chat [post]
 func (ch *ChatHandler) GetChat(c *gin.Context) {
 
 	var chatRequest models.ChatRequest

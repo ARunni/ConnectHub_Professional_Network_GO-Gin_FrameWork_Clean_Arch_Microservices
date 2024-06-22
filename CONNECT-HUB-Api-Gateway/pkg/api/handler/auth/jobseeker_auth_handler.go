@@ -32,16 +32,17 @@ func NewJobSeekerAuthHandler(grpc_client interfaces.JobSeekerAuthClient) *JobSee
 	}
 }
 
-// JobSeekerSignup handles the signup operation for a job seeker.
-// @Summary Job seeker signup
-// @Description Register a new job seeker
-// @Tags Job Seeker
+
+// JobSeekerSignup handles the endpoint for job seeker signup.
+// @Summary Job Seeker Signup
+// @Description Allows a job seeker to sign up by providing necessary information.
+// @Tags Jobseeker Authentication Management
 // @Accept json
 // @Produce json
-// @Param body body models.JobSeekerSignUp true "Job seeker data for signup"
-// @Success 200 {object} response.Response "Job seeker signup successful"
-// @Failure 400 {object} response.Response "Incorrect request format or missing required fields"
-// @Failure 500 {object} response.Response "Internal server error: failed to signup job seeker"
+// @Param jobseekerData body models.JobSeekerSignUp true "Job Seeker Sign Up Data"
+// @Success 200 {object} response.Response "Jobseeker signup successful"
+// @Failure 400 {object} response.Response "Incorrect data format"
+// @Failure 500 {object} response.Response "Internal server error"
 // @Router /jobseeker/signup [post]
 func (jh *JobSeekerHandler) JobSeekerSignup(c *gin.Context) {
 
@@ -70,16 +71,16 @@ func (jh *JobSeekerHandler) JobSeekerSignup(c *gin.Context) {
 
 }
 
-// JobSeekerLogin handles the login operation for a job seeker.
-// @Summary Job seeker login
-// @Description Authenticate a job seeker
-// @Tags Job Seeker
+// JobSeekerLogin handles the endpoint for job seeker login.
+// @Summary Job Seeker Login
+// @Description Allows a job seeker to log in by providing necessary credentials.
+// @Tags Jobseeker Authentication Management
 // @Accept json
 // @Produce json
-// @Param body body models.JobSeekerLogin true "Job seeker credentials for login"
-// @Success 200 {object} response.Response "Job seeker login successful"
-// @Failure 400 {object} response.Response "Incorrect request format or missing required fields"
-// @Failure 500 {object} response.Response "Internal server error: failed to authenticate job seeker"
+// @Param jobseekerData body models.JobSeekerLogin true "Job Seeker Login Data"
+// @Success 200 {object} response.Response "Jobseeker authenticated successfully"
+// @Failure 400 {object} response.Response "Incorrect data format"
+// @Failure 500 {object} response.Response "Internal server error"
 // @Router /jobseeker/login [post]
 func (jh *JobSeekerHandler) JobSeekerLogin(c *gin.Context) {
 
@@ -108,15 +109,15 @@ func (jh *JobSeekerHandler) JobSeekerLogin(c *gin.Context) {
 
 }
 
-// JobSeekerGetProfile retrieves the profile of a job seeker.
-// @Summary Get job seeker profile
-// @Description Retrieve the profile of a job seeker
-// @Tags Job Seeker
+// JobSeekerGetProfile handles the endpoint for retrieving a job seeker's profile.
+// @Summary Get Job Seeker Profile
+// @Description Retrieves the profile of the logged-in job seeker.
+// @Tags Jobseeker Profile Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
-// @Success 200 {object} response.Response "Successfully retrieved job seeker profile"
-// @Failure 400 {object} response.Response "Failed to retrieve job seeker profile"
+// @Success 200 {object} response.Response "Profile retrieved successfully"
+// @Failure 400 {object} response.Response "Incorrect data format or failed to retrieve profile"
 // @Router /jobseeker/profile [get]
 func (jh *JobSeekerHandler) JobSeekerGetProfile(c *gin.Context) {
 
@@ -145,18 +146,17 @@ func (jh *JobSeekerHandler) JobSeekerGetProfile(c *gin.Context) {
 
 }
 
-// JobSeekerEditProfile handles the profile editing operation for a job seeker.
-// @Summary Edit job seeker profile
-// @Description Edit the profile of a job seeker
-// @Tags Job Seeker
+// JobSeekerEditProfile handles the endpoint for editing a job seeker's profile.
+// @Summary Edit Job Seeker Profile
+// @Description Allows a job seeker to edit their profile by providing necessary information.
+// @Tags Jobseeker Profile Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
-// @Param body body models.JobSeekerProfile true "Job seeker profile data for editing"
-// @Success 200 {object} response.Response "Job seeker profile edited successfully"
-// @Failure 400 {object} response.Response "Incorrect request format or missing required fields"
-// @Failure 500 {object} response.Response "Internal server error: failed to edit job seeker profile"
-// @Router /jobseeker/profile [put]
+// @Param jobseekerData body models.JobSeekerProfile true "Job Seeker Profile Data"
+// @Success 200 {object} response.Response "Profile edited successfully"
+// @Failure 400 {object} response.Response "Incorrect data format or failed to edit profile"
+// @Router /jobseeker/profile [patch]
 func (jh *JobSeekerHandler) JobSeekerEditProfile(c *gin.Context) {
 
 	userIdstring, _ := c.Get("id")
@@ -194,14 +194,14 @@ func (jh *JobSeekerHandler) JobSeekerEditProfile(c *gin.Context) {
 
 }
 
-// GetAllPolicies retrieves all policies applicable to job seekers.
-// @Summary Get all policies
-// @Description Retrieve all policies applicable to job seekers
-// @Tags Policy
+// GetAllPolicies handles the endpoint for retrieving all policies.
+// @Summary Get All Policies
+// @Description Retrieves a list of all policies.
+// @Tags Jobseeker Policies Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
-// @Success 200 {object} response.Response "Successfully retrieved all policies"
+// @Success 200 {object} response.Response "Policies retrieved successfully"
 // @Failure 400 {object} response.Response "Failed to retrieve policies"
 // @Router /jobseeker/policies [get]
 func (jh *JobSeekerHandler) GetAllPolicies(c *gin.Context) {
@@ -222,17 +222,17 @@ func (jh *JobSeekerHandler) GetAllPolicies(c *gin.Context) {
 
 }
 
-// GetOnePolicy retrieves details of a specific policy based on its ID.
-// @Summary Get one policy
-// @Description Retrieve details of a specific policy based on its ID
-// @Tags Policy
+// GetOnePolicy handles the endpoint for retrieving a specific policy.
+// @Summary Get One Policy
+// @Description Retrieves a specific policy by its ID.
+// @Tags Jobseeker Policies Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
-// @Param policy_id query int true "Policy ID to retrieve"
-// @Success 200 {object} response.Response "Successfully retrieved the policy details"
-// @Failure 400 {object} response.Response "Failed to retrieve policy details"
-// @Router /jobseeker/policies/{policy_id} [get]
+// @Param policy_id query int true "Policy ID"
+// @Success 200 {object} response.Response "Policy retrieved successfully"
+// @Failure 400 {object} response.Response "Failed to retrieve policy"
+// @Router /jobseeker/policy [get]
 func (jh *JobSeekerHandler) GetOnePolicy(c *gin.Context) {
 
 	idStr := c.Query("policy_id")

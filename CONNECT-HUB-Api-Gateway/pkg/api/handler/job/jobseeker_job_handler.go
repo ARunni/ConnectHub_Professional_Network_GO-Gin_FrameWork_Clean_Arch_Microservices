@@ -33,7 +33,7 @@ func NewJobseekerJobHandler(grpc_client interfaces.JobseekerJobClient) *Jobseeke
 // JobSeekerGetAllJobs retrieves all jobs matching the provided keyword.
 // @Summary Get all jobs for job seeker
 // @Description Retrieve all jobs matching the provided keyword for job seekers
-// @Tags Job Seeker
+// @Tags Jobseeker Job Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
@@ -82,7 +82,7 @@ func (jh *JobseekerJobHandler) JobSeekerGetAllJobs(c *gin.Context) {
 // JobSeekerGetJobByID retrieves the details of a job by its ID for job seekers.
 // @Summary Get job by ID for job seeker
 // @Description Retrieve the details of a job by its ID for job seekers
-// @Tags Job Seeker
+// @Tags Jobseeker Job Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
@@ -127,7 +127,7 @@ func (jh *JobseekerJobHandler) JobSeekerGetJobByID(c *gin.Context) {
 // JobSeekerApplyJob handles the job application operation for a job seeker.
 // @Summary Apply for a job
 // @Description Apply for a job as a job seeker
-// @Tags Job Seeker
+// @Tags Jobseeker Job Management
 // @Accept multipart/form-data
 // @Produce json
 // @Security BearerTokenAuth
@@ -137,7 +137,7 @@ func (jh *JobseekerJobHandler) JobSeekerGetJobByID(c *gin.Context) {
 // @Success 200 {object} response.Response "Job applied successfully"
 // @Failure 400 {object} response.Response "Failed to apply for the job: missing or incorrect parameters"
 // @Failure 500 {object} response.Response "Internal server error: failed to apply for the job"
-// @Router /jobseeker/apply [post]
+// @Router /jobseeker/job [post]
 func (jh *JobseekerJobHandler) JobSeekerApplyJob(c *gin.Context) {
 
 	userIdAny, ok := c.Get("id")
@@ -217,7 +217,7 @@ func (jh *JobseekerJobHandler) JobSeekerApplyJob(c *gin.Context) {
 // GetAppliedJobs retrieves the jobs that a job seeker has applied for.
 // @Summary Get applied jobs
 // @Description Retrieve the jobs that a job seeker has applied for
-// @Tags Job Seeker
+// @Tags Jobseeker Job Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth

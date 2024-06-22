@@ -36,7 +36,7 @@ func NewJobseekerPostHandler(grpc_client interfaces.JobseekerPostClient) *Jobsee
 // CreatePost creates a new post by a jobseeker.
 // @Summary Create a post
 // @Description Create a new post by a jobseeker
-// @Tags Jobseeker
+// @Tags Jobseeker post Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
@@ -108,7 +108,7 @@ func (jph *JobseekerPostHandler) CreatePost(c *gin.Context) {
 // GetOnePost retrieves a single post by its ID.
 // @Summary Get a post by ID
 // @Description Retrieve a single post by its ID
-// @Tags Jobseeker
+// @Tags Jobseeker post Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
@@ -137,16 +137,17 @@ func (jph *JobseekerPostHandler) GetOnePost(c *gin.Context) {
 
 }
 
-// GetAllPost retrieves all posts.
+
+// GetAllPost retrieves all posts for jobseekers.
 // @Summary Get all posts
-// @Description Retrieve all posts
-// @Tags Jobseeker
+// @Description Retrieves all posts for jobseekers
+// @Tags Jobseeker Post Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
 // @Param Authorization header string true "Bearer token"
-// @Success 200 {object} response.Response "Posts retrieved successfully"
-// @Failure 500 {object} response.Response "Internal server error: failed to get posts"
+// @Success 200 {object} response.Response "Successfully retrieved all posts"
+// @Failure 500 {object} response.Response "Internal server error: failed to retrieve posts"
 // @Router /jobseeker/posts [get]
 func (jph *JobseekerPostHandler) GetAllPost(c *gin.Context) {
 
@@ -161,22 +162,23 @@ func (jph *JobseekerPostHandler) GetAllPost(c *gin.Context) {
 
 }
 
-// UpdatePost updates a post.
-// @Summary Update a post
-// @Description Update a post by providing post ID, title, content, and image
-// @Tags Jobseeker
+
+// UpdatePost updates an existing post for a jobseeker.
+// @Summary Update post
+// @Description Updates an existing post for a jobseeker
+// @Tags Jobseeker Post Management
 // @Accept multipart/form-data
 // @Produce json
 // @Security BearerTokenAuth
 // @Param Authorization header string true "Bearer token"
-// @Param post_id formData string true "Post ID"
-// @Param title formData string true "Post title"
-// @Param content formData string true "Post content"
-// @Param image formData file true "Post image"
-// @Success 200 {object} response.Response "Post updated successfully"
-// @Failure 400 {object} response.Response "Bad request: failed to convert post ID"
+// @Param post_id formData int true "ID of the post to update"
+// @Param title formData string true "Title of the post"
+// @Param content formData string true "Content of the post"
+// @Param image formData file true "Image for the post"
+// @Success 200 {object} response.Response "Successfully updated the post"
+// @Failure 400 {object} response.Response "Bad request: invalid input parameters"
 // @Failure 500 {object} response.Response "Internal server error: failed to update post"
-// @Router /jobseeker/posts/update [post]
+// @Router /jobseeker/post [patch]
 func (jph *JobseekerPostHandler) UpdatePost(c *gin.Context) {
 	var post models.EditPostReq
 
@@ -235,19 +237,19 @@ func (jph *JobseekerPostHandler) UpdatePost(c *gin.Context) {
 
 }
 
-// DeletePost deletes a post.
-// @Summary Delete a post
-// @Description Delete a post by providing post ID
-// @Tags Jobseeker
+// DeletePost deletes an existing post for a jobseeker.
+// @Summary Delete post
+// @Description Deletes an existing post for a jobseeker
+// @Tags Jobseeker Post Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
 // @Param Authorization header string true "Bearer token"
-// @Param post_id query string true "Post ID"
-// @Success 200 {object} response.Response "Post deleted successfully"
-// @Failure 400 {object} response.Response "Bad request: failed to convert post ID"
+// @Param post_id query int true "ID of the post to delete"
+// @Success 200 {object} response.Response "Successfully deleted the post"
+// @Failure 400 {object} response.Response "Bad request: invalid input parameters"
 // @Failure 500 {object} response.Response "Internal server error: failed to delete post"
-// @Router /jobseeker/posts/delete [delete]
+// @Router /jobseeker/post [delete]
 func (jph *JobseekerPostHandler) DeletePost(c *gin.Context) {
 	postIdstr := c.Query("post_id")
 	postId, err := strconv.Atoi(postIdstr)
@@ -275,19 +277,20 @@ func (jph *JobseekerPostHandler) DeletePost(c *gin.Context) {
 
 }
 
-// CreateCommentPost creates a comment on a post.
-// @Summary Create a comment on a post
-// @Description Create a comment on a post by providing post ID and comment content
-// @Tags Jobseeker
+
+// CreateCommentPost adds a comment to an existing post for a jobseeker.
+// @Summary Create comment on post
+// @Description Adds a comment to an existing post for a jobseeker
+// @Tags Jobseeker Post Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
 // @Param Authorization header string true "Bearer token"
-// @Param request body models.CreateCommentPost true "Comment request body"
-// @Success 200 {object} response.Response "Comment created successfully"
-// @Failure 400 {object} response.Response "Bad request: incorrect format"
-// @Failure 500 {object} response.Response "Internal server error: failed to create comment"
-// @Router /jobseeker/posts/comment [post]
+// @Param comment body models.CreateCommentPost true "Comment details"
+// @Success 200 {object} response.Response "Successfully added comment to the post"
+// @Failure 400 {object} response.Response "Bad request: invalid input parameters"
+// @Failure 500 {object} response.Response "Internal server error: failed to add comment to the post"
+// @Router /jobseeker/post/comment [post]
 func (jph *JobseekerPostHandler) CreateCommentPost(c *gin.Context) {
 	userIdany, ok := c.Get("id")
 	if !ok {
@@ -316,21 +319,19 @@ func (jph *JobseekerPostHandler) CreateCommentPost(c *gin.Context) {
 
 }
 
-// UpdateCommentPost updates a comment on a post.
-// @Summary Update a comment on a post
-// @Description Update a comment on a post by providing comment ID, post ID, and updated comment content
-// @Tags Jobseeker
+// UpdateCommentPost updates a comment on an existing post for a jobseeker.
+// @Summary Update comment on post
+// @Description Updates a comment on an existing post for a jobseeker
+// @Tags Jobseeker Post Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
 // @Param Authorization header string true "Bearer token"
-// @Param comment_id path int true "Comment ID"
-// @Param post_id path int true "Post ID"
-// @Param request body models.UpdateCommentPost true "Comment request body"
-// @Success 200 {object} response.Response "Comment updated successfully"
-// @Failure 400 {object} response.Response "Bad request: incorrect format"
-// @Failure 500 {object} response.Response "Internal server error: failed to update comment"
-// @Router /jobseeker/posts/comment/update [put]
+// @Param comment body models.UpdateCommentPost true "Updated comment details"
+// @Success 200 {object} response.Response "Successfully updated comment on the post"
+// @Failure 400 {object} response.Response "Bad request: invalid input parameters"
+// @Failure 500 {object} response.Response "Internal server error: failed to update comment on the post"
+// @Router /jobseeker/post/comment [put]
 func (jph *JobseekerPostHandler) UpdateCommentPost(c *gin.Context) {
 	userIdany, ok := c.Get("id")
 	if !ok {
@@ -359,20 +360,20 @@ func (jph *JobseekerPostHandler) UpdateCommentPost(c *gin.Context) {
 
 }
 
-// DeleteCommentPost deletes a comment on a post.
-// @Summary Delete a comment on a post
-// @Description Delete a comment on a post by providing post ID and comment ID
-// @Tags Jobseeker
+
+// DeleteCommentPost deletes a comment on an existing post for a jobseeker.
+// @Summary Delete comment on post
+// @Description Deletes a comment on an existing post for a jobseeker
+// @Tags Jobseeker Post Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
 // @Param Authorization header string true "Bearer token"
-// @Param post_id path int true "Post ID"
-// @Param comment_id path int true "Comment ID"
-// @Success 200 {object} response.Response "Comment deleted successfully"
-// @Failure 400 {object} response.Response "Bad request: incorrect format"
-// @Failure 500 {object} response.Response "Internal server error: failed to delete comment"
-// @Router /jobseeker/posts/comment/delete [delete]
+// @Param comment body models.DeleteCommentPost true "Comment deletion details"
+// @Success 200 {object} response.Response "Successfully deleted comment from the post"
+// @Failure 400 {object} response.Response "Bad request: invalid input parameters"
+// @Failure 500 {object} response.Response "Internal server error: failed to delete comment from the post"
+// @Router /jobseeker/post/comment [delete]
 func (jph *JobseekerPostHandler) DeleteCommentPost(c *gin.Context) {
 	userIdany, ok := c.Get("id")
 	if !ok {
@@ -401,19 +402,20 @@ func (jph *JobseekerPostHandler) DeleteCommentPost(c *gin.Context) {
 
 }
 
-// AddLikePost adds a like to a post.
-// @Summary Add a like to a post
-// @Description Add a like to a post by providing post ID
-// @Tags Jobseeker
+
+// AddLikePost adds a like to a post for a jobseeker.
+// @Summary Add like to post
+// @Description Adds a like to a post for a jobseeker
+// @Tags Jobseeker Post Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
 // @Param Authorization header string true "Bearer token"
-// @Param post_id query string true "Post ID"
-// @Success 200 {object} response.Response "Like added successfully"
-// @Failure 400 {object} response.Response "Bad request: incorrect format of post ID"
-// @Failure 500 {object} response.Response "Internal server error: failed to add like to post"
-// @Router /jobseeker/posts/like [post]
+// @Param post_id query int true "ID of the post to like"
+// @Success 200 {object} response.Response "Successfully added like to the post"
+// @Failure 400 {object} response.Response "Bad request: invalid input parameters"
+// @Failure 500 {object} response.Response "Internal server error: failed to add like to the post"
+// @Router /jobseeker/post/like [post]
 func (jph *JobseekerPostHandler) AddLikePost(c *gin.Context) {
 	userIdany, ok := c.Get("id")
 	if !ok {
@@ -443,19 +445,20 @@ func (jph *JobseekerPostHandler) AddLikePost(c *gin.Context) {
 
 }
 
-// RemoveLikePost removes a like from a post.
-// @Summary Remove a like from a post
-// @Description Remove a like from a post by providing post ID
-// @Tags Jobseeker
+
+// RemoveLikePost removes a like from a post for a jobseeker.
+// @Summary Remove like from post
+// @Description Removes a like from a post for a jobseeker
+// @Tags Jobseeker Post Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
 // @Param Authorization header string true "Bearer token"
-// @Param post_id query string true "Post ID"
-// @Success 200 {object} response.Response "Like removed successfully"
-// @Failure 400 {object} response.Response "Bad request: incorrect format of post ID"
-// @Failure 500 {object} response.Response "Internal server error: failed to remove like from post"
-// @Router /jobseeker/posts/like/remove [delete]
+// @Param post_id query int true "ID of the post to remove like"
+// @Success 200 {object} response.Response "Successfully removed like from the post"
+// @Failure 400 {object} response.Response "Bad request: invalid input parameters"
+// @Failure 500 {object} response.Response "Internal server error: failed to remove like from the post"
+// @Router /jobseeker/post/like [delete]
 func (jph *JobseekerPostHandler) RemoveLikePost(c *gin.Context) {
 	userIdany, ok := c.Get("id")
 	if !ok {

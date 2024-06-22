@@ -17,7 +17,50 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/admin/jobseekers": {
+        "/admin/jobseeker": {
+            "get": {
+                "security": [
+                    {
+                        "BearerTokenAuth": []
+                    }
+                ],
+                "description": "Retrieve the details of a jobseeker based on the provided ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin Jobseeker Management"
+                ],
+                "summary": "Get jobseeker details",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Jobseeker ID to get details",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Jobseeker details retrieved successfully",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid jobseeker ID or failed to retrieve jobseeker details",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/jobseeker/all": {
             "get": {
                 "security": [
                     {
@@ -32,7 +75,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Admin Jobseeker Management"
                 ],
                 "summary": "Get jobseekers",
                 "parameters": [
@@ -66,7 +109,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin/jobseekers/block": {
+        "/admin/jobseeker/block": {
             "patch": {
                 "security": [
                     {
@@ -81,7 +124,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin User Management"
+                    "Admin Jobseeker Management"
                 ],
                 "summary": "Block a jobseeker",
                 "parameters": [
@@ -109,50 +152,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin/jobseekers/details": {
-            "get": {
-                "security": [
-                    {
-                        "BearerTokenAuth": []
-                    }
-                ],
-                "description": "Retrieve details of a jobseeker based on the provided ID",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Admin User Management"
-                ],
-                "summary": "Get jobseeker details",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Jobseeker ID to retrieve details",
-                        "name": "id",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successfully retrieved jobseeker details",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid jobseeker ID or failed to retrieve details",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/admin/jobseekers/unblock": {
+        "/admin/jobseeker/unblock": {
             "patch": {
                 "security": [
                     {
@@ -167,7 +167,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin User Management"
+                    "Admin Jobseeker Management"
                 ],
                 "summary": "Unblock a jobseeker",
                 "parameters": [
@@ -205,7 +205,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Admin Authentication Management"
                 ],
                 "summary": "Admin login",
                 "parameters": [
@@ -248,7 +248,7 @@ const docTemplate = `{
                         "BearerTokenAuth": []
                     }
                 ],
-                "description": "Retrieve all policies",
+                "description": "Retrieves all existing policies",
                 "consumes": [
                     "application/json"
                 ],
@@ -258,10 +258,10 @@ const docTemplate = `{
                 "tags": [
                     "Admin Policy Management"
                 ],
-                "summary": "Get all policies",
+                "summary": "Retrieve all policies",
                 "responses": {
                     "200": {
-                        "description": "Successfully retrieved all policies",
+                        "description": "Policies retrieved successfully",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }
@@ -275,14 +275,14 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin/policies/{policy_id}": {
+        "/admin/policy": {
             "get": {
                 "security": [
                     {
                         "BearerTokenAuth": []
                     }
                 ],
-                "description": "Retrieve a single policy based on the provided ID",
+                "description": "Retrieves a policy based on the provided ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -292,7 +292,7 @@ const docTemplate = `{
                 "tags": [
                     "Admin Policy Management"
                 ],
-                "summary": "Get one policy",
+                "summary": "Retrieve a policy",
                 "parameters": [
                     {
                         "type": "integer",
@@ -304,7 +304,7 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successfully retrieved the policy",
+                        "description": "Policy retrieved successfully",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }
@@ -316,16 +316,14 @@ const docTemplate = `{
                         }
                     }
                 }
-            }
-        },
-        "/admin/policy": {
+            },
             "put": {
                 "security": [
                     {
                         "BearerTokenAuth": []
                     }
                 ],
-                "description": "Update a policy with the provided data",
+                "description": "Update an existing policy based on the provided data",
                 "consumes": [
                     "application/json"
                 ],
@@ -335,11 +333,11 @@ const docTemplate = `{
                 "tags": [
                     "Admin Policy Management"
                 ],
-                "summary": "Update policy",
+                "summary": "Update an existing policy",
                 "parameters": [
                     {
-                        "description": "Policy data to update",
-                        "name": "body",
+                        "description": "Updated policy data",
+                        "name": "policy",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -355,7 +353,91 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Invalid request data or failed to update policy",
+                        "description": "Invalid policy data or failed to update policy",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerTokenAuth": []
+                    }
+                ],
+                "description": "Create a new policy based on the provided data",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin Policy Management"
+                ],
+                "summary": "Create a new policy",
+                "parameters": [
+                    {
+                        "description": "Policy data",
+                        "name": "policy",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.CreatePolicyReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Policy created successfully",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid policy data or failed to create policy",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerTokenAuth": []
+                    }
+                ],
+                "description": "Delete a policy based on the provided ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin Policy Management"
+                ],
+                "summary": "Delete a policy",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Policy ID to delete",
+                        "name": "policy_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Policy deleted successfully",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid policy ID or failed to delete policy",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }
@@ -363,7 +445,50 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin/recruiters": {
+        "/admin/recruiter": {
+            "get": {
+                "security": [
+                    {
+                        "BearerTokenAuth": []
+                    }
+                ],
+                "description": "Retrieve the details of a recruiter based on the provided ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin Recruiter Management"
+                ],
+                "summary": "Get recruiter details",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Recruiter ID to get details",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Recruiter details retrieved successfully",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid recruiter ID or failed to retrieve recruiter details",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/recruiter/all": {
             "get": {
                 "security": [
                     {
@@ -378,7 +503,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Admin Recruiter Management"
                 ],
                 "summary": "Get recruiters",
                 "parameters": [
@@ -412,7 +537,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin/recruiters/block": {
+        "/admin/recruiter/block": {
             "patch": {
                 "security": [
                     {
@@ -427,7 +552,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin User Management"
+                    "Admin Recruiter Management"
                 ],
                 "summary": "Block a recruiter",
                 "parameters": [
@@ -455,14 +580,14 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin/recruiters/details": {
-            "get": {
+        "/admin/recruiter/unblock": {
+            "patch": {
                 "security": [
                     {
                         "BearerTokenAuth": []
                     }
                 ],
-                "description": "Retrieve details of a recruiter based on the provided ID",
+                "description": "Unblock a recruiter based on the provided ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -470,13 +595,13 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin User Management"
+                    "Admin Recruiter Management"
                 ],
-                "summary": "Get recruiter details",
+                "summary": "Unblock a recruiter",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Recruiter ID to retrieve details",
+                        "description": "Recruiter ID to unblock",
                         "name": "id",
                         "in": "query",
                         "required": true
@@ -484,13 +609,65 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successfully retrieved recruiter details",
+                        "description": "Recruiter unblocked successfully",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }
                     },
                     "400": {
-                        "description": "Invalid recruiter ID or failed to retrieve details",
+                        "description": "Invalid recruiter ID or failed to unblock recruiter",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/chat": {
+            "post": {
+                "security": [
+                    {
+                        "BearerTokenAuth": []
+                    }
+                ],
+                "description": "Retrieves chat details based on the provided request.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Jobseeker Chat Management"
+                ],
+                "summary": "Get Chat Details",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Chat Request Data",
+                        "name": "chatRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.ChatRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Chat details retrieved successfully",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed to retrieve chat details or incorrect data format",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }
@@ -701,7 +878,7 @@ const docTemplate = `{
         },
         "/jobseeker/login": {
             "post": {
-                "description": "Authenticate a job seeker",
+                "description": "Allows a job seeker to log in by providing necessary credentials.",
                 "consumes": [
                     "application/json"
                 ],
@@ -709,13 +886,13 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Job Seeker"
+                    "Jobseeker Authentication Management"
                 ],
-                "summary": "Job seeker login",
+                "summary": "Job Seeker Login",
                 "parameters": [
                     {
-                        "description": "Job seeker credentials for login",
-                        "name": "body",
+                        "description": "Job Seeker Login Data",
+                        "name": "jobseekerData",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -725,19 +902,19 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Job seeker login successful",
+                        "description": "Jobseeker authenticated successfully",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }
                     },
                     "400": {
-                        "description": "Incorrect request format or missing required fields",
+                        "description": "Incorrect data format",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }
                     },
                     "500": {
-                        "description": "Internal server error: failed to authenticate job seeker",
+                        "description": "Internal server error",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }
@@ -752,7 +929,7 @@ const docTemplate = `{
                         "BearerTokenAuth": []
                     }
                 ],
-                "description": "Retrieve all policies applicable to job seekers",
+                "description": "Retrieves a list of all policies.",
                 "consumes": [
                     "application/json"
                 ],
@@ -760,12 +937,12 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Policy"
+                    "Jobseeker Policies Management"
                 ],
-                "summary": "Get all policies",
+                "summary": "Get All Policies",
                 "responses": {
                     "200": {
-                        "description": "Successfully retrieved all policies",
+                        "description": "Policies retrieved successfully",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }
@@ -779,14 +956,14 @@ const docTemplate = `{
                 }
             }
         },
-        "/jobseeker/policies/{policy_id}": {
+        "/jobseeker/policy": {
             "get": {
                 "security": [
                     {
                         "BearerTokenAuth": []
                     }
                 ],
-                "description": "Retrieve details of a specific policy based on its ID",
+                "description": "Retrieves a specific policy by its ID.",
                 "consumes": [
                     "application/json"
                 ],
@@ -794,13 +971,13 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Policy"
+                    "Jobseeker Policies Management"
                 ],
-                "summary": "Get one policy",
+                "summary": "Get One Policy",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Policy ID to retrieve",
+                        "description": "Policy ID",
                         "name": "policy_id",
                         "in": "query",
                         "required": true
@@ -808,13 +985,13 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successfully retrieved the policy details",
+                        "description": "Policy retrieved successfully",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }
                     },
                     "400": {
-                        "description": "Failed to retrieve policy details",
+                        "description": "Failed to retrieve policy",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }
@@ -1434,7 +1611,7 @@ const docTemplate = `{
                         "BearerTokenAuth": []
                     }
                 ],
-                "description": "Retrieve the profile of a job seeker",
+                "description": "Retrieves the profile of the logged-in job seeker.",
                 "consumes": [
                     "application/json"
                 ],
@@ -1442,31 +1619,31 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Job Seeker"
+                    "Jobseeker Profile Management"
                 ],
-                "summary": "Get job seeker profile",
+                "summary": "Get Job Seeker Profile",
                 "responses": {
                     "200": {
-                        "description": "Successfully retrieved job seeker profile",
+                        "description": "Profile retrieved successfully",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }
                     },
                     "400": {
-                        "description": "Failed to retrieve job seeker profile",
+                        "description": "Incorrect data format or failed to retrieve profile",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }
                     }
                 }
             },
-            "put": {
+            "patch": {
                 "security": [
                     {
                         "BearerTokenAuth": []
                     }
                 ],
-                "description": "Edit the profile of a job seeker",
+                "description": "Allows a job seeker to edit their profile by providing necessary information.",
                 "consumes": [
                     "application/json"
                 ],
@@ -1474,13 +1651,13 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Job Seeker"
+                    "Jobseeker Profile Management"
                 ],
-                "summary": "Edit job seeker profile",
+                "summary": "Edit Job Seeker Profile",
                 "parameters": [
                     {
-                        "description": "Job seeker profile data for editing",
-                        "name": "body",
+                        "description": "Job Seeker Profile Data",
+                        "name": "jobseekerData",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -1490,19 +1667,13 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Job seeker profile edited successfully",
+                        "description": "Profile edited successfully",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }
                     },
                     "400": {
-                        "description": "Incorrect request format or missing required fields",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error: failed to edit job seeker profile",
+                        "description": "Incorrect data format or failed to edit profile",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }
@@ -1512,7 +1683,7 @@ const docTemplate = `{
         },
         "/jobseeker/signup": {
             "post": {
-                "description": "Register a new job seeker",
+                "description": "Allows a job seeker to sign up by providing necessary information.",
                 "consumes": [
                     "application/json"
                 ],
@@ -1520,13 +1691,13 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Job Seeker"
+                    "Jobseeker Authentication Management"
                 ],
-                "summary": "Job seeker signup",
+                "summary": "Job Seeker Signup",
                 "parameters": [
                     {
-                        "description": "Job seeker data for signup",
-                        "name": "body",
+                        "description": "Job Seeker Sign Up Data",
+                        "name": "jobseekerData",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -1536,19 +1707,19 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Job seeker signup successful",
+                        "description": "Jobseeker signup successful",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }
                     },
                     "400": {
-                        "description": "Incorrect request format or missing required fields",
+                        "description": "Incorrect data format",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }
                     },
                     "500": {
-                        "description": "Internal server error: failed to signup job seeker",
+                        "description": "Internal server error",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }
@@ -1944,7 +2115,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Recruiter"
+                    "Recruiter Authentication Management"
                 ],
                 "summary": "Recruiter login",
                 "parameters": [
@@ -1987,7 +2158,7 @@ const docTemplate = `{
                         "BearerTokenAuth": []
                     }
                 ],
-                "description": "Retrieve all policies applicable to recruiters",
+                "description": "Retrieves all policies from the system.",
                 "consumes": [
                     "application/json"
                 ],
@@ -1995,12 +2166,12 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Policy"
+                    "Recruiter Policy Management"
                 ],
-                "summary": "Get all policies",
+                "summary": "Get All Policies",
                 "responses": {
                     "200": {
-                        "description": "Successfully retrieved all policies",
+                        "description": "All policies retrieved successfully",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }
@@ -2014,14 +2185,14 @@ const docTemplate = `{
                 }
             }
         },
-        "/recruiter/policies/{policy_id}": {
+        "/recruiter/policy": {
             "get": {
                 "security": [
                     {
                         "BearerTokenAuth": []
                     }
                 ],
-                "description": "Retrieve details of a specific policy based on its ID",
+                "description": "Retrieves a single policy based on the provided policy ID.",
                 "consumes": [
                     "application/json"
                 ],
@@ -2029,13 +2200,13 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Policy"
+                    "Recruiter Policy Management"
                 ],
-                "summary": "Get one policy",
+                "summary": "Get One Policy",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Policy ID to retrieve",
+                        "description": "Policy ID",
                         "name": "policy_id",
                         "in": "query",
                         "required": true
@@ -2043,13 +2214,13 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successfully retrieved the policy details",
+                        "description": "Policy retrieved successfully",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }
                     },
                     "400": {
-                        "description": "Failed to retrieve policy details",
+                        "description": "Failed to retrieve policy or incorrect data format",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }
@@ -2064,7 +2235,7 @@ const docTemplate = `{
                         "BearerTokenAuth": []
                     }
                 ],
-                "description": "Retrieve the profile of a recruiter",
+                "description": "Retrieves the profile of the logged-in recruiter.",
                 "consumes": [
                     "application/json"
                 ],
@@ -2072,31 +2243,31 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Recruiter"
+                    "Recruiter Profile Management"
                 ],
-                "summary": "Get recruiter profile",
+                "summary": "Get Recruiter Profile",
                 "responses": {
                     "200": {
-                        "description": "Successfully retrieved recruiter profile",
+                        "description": "Profile retrieved successfully",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }
                     },
                     "400": {
-                        "description": "Failed to retrieve recruiter profile",
+                        "description": "Failed to retrieve profile",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }
                     }
                 }
             },
-            "put": {
+            "patch": {
                 "security": [
                     {
                         "BearerTokenAuth": []
                     }
                 ],
-                "description": "Edit the profile of a recruiter",
+                "description": "Allows a recruiter to edit their profile information.",
                 "consumes": [
                     "application/json"
                 ],
@@ -2104,13 +2275,20 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Recruiter"
+                    "Recruiter Profile Management"
                 ],
-                "summary": "Edit recruiter profile",
+                "summary": "Edit Recruiter Profile",
                 "parameters": [
                     {
-                        "description": "Recruiter profile data for editing",
-                        "name": "body",
+                        "type": "integer",
+                        "description": "Recruiter ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Recruiter Profile Data",
+                        "name": "recruiterData",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -2120,19 +2298,13 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Recruiter profile edited successfully",
+                        "description": "Recruiter profile updated successfully",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }
                     },
                     "400": {
-                        "description": "Incorrect request format or missing required fields",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error: failed to edit recruiter profile",
+                        "description": "Failed to update profile",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }
@@ -2150,7 +2322,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Recruiter"
+                    "Recruiter Authentication Management"
                 ],
                 "summary": "Recruiter signup",
                 "parameters": [
@@ -2185,6 +2357,61 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/recruiter/video-call/key": {
+            "get": {
+                "security": [
+                    {
+                        "BearerTokenAuth": []
+                    }
+                ],
+                "description": "Generate a video call key and private link for interview.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Recruiter Videocall Management"
+                ],
+                "summary": "Generate Video Call Key",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID of the jobseeker ",
+                        "name": "user",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved video call key and private link",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid user ID format or role mismatch",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized: Only recruiters can access this endpoint",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error: Failed to generate video call key",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -2205,6 +2432,25 @@ const docTemplate = `{
                 }
             }
         },
+        "models.ChatRequest": {
+            "type": "object",
+            "required": [
+                "friendID",
+                "limit",
+                "offset"
+            ],
+            "properties": {
+                "friendID": {
+                    "type": "string"
+                },
+                "limit": {
+                    "type": "string"
+                },
+                "offset": {
+                    "type": "string"
+                }
+            }
+        },
         "models.CreateCommentPost": {
             "type": "object",
             "properties": {
@@ -2216,6 +2462,17 @@ const docTemplate = `{
                 },
                 "user_id": {
                     "type": "integer"
+                }
+            }
+        },
+        "models.CreatePolicyReq": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
                 }
             }
         },
@@ -2489,6 +2746,7 @@ const docTemplate = `{
     },
     "securityDefinitions": {
         "BearerTokenAuth": {
+            "description": "For accessing the API, you need to include \"Jobseeker\",\"Admin\" or \"Recruiter\" before your token in the Authorization header. Example: \"Authorization: Admin \u003cyour_token\u003e\"",
             "type": "apiKey",
             "name": "Authorization",
             "in": "header"

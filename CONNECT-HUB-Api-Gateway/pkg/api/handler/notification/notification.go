@@ -29,6 +29,21 @@ func NewNotificationHandler(grpc_client interfaces.NotificationClient) *Notifica
 	}
 }
 
+
+// GetNotification retrieves notifications for a user with pagination support.
+// @Summary Get notifications
+// @Description Retrieves notifications for a user with pagination support
+// @Tags Jobseeker Notification Management
+// @Accept json
+// @Produce json
+// @Security BearerTokenAuth
+// @Param Authorization header string true "Bearer token"
+// @Param limit query int false "Number of notifications to retrieve (default: 1)"
+// @Param offset query int false "Offset for pagination (default: 10)"
+// @Success 200 {object} response.Response "Successfully retrieved notifications"
+// @Failure 400 {object} response.Response "Failed to retrieve notifications: missing or incorrect parameters"
+// @Failure 500 {object} response.Response "Internal server error: failed to retrieve notifications"
+// @Router /notifications [get]
 func (n *NotificationHandler) GetNotification(c *gin.Context) {
 	n.Logger.Info("GetNotification at NotificationHandler started")
 
@@ -75,6 +90,20 @@ func (n *NotificationHandler) GetNotification(c *gin.Context) {
 	c.JSON(http.StatusOK, res)
 }
 
+
+// ReadNotification marks a notification as read.
+// @Summary Read notification
+// @Description Marks a notification as read
+// @Tags Jobseeker Notification Management
+// @Accept json
+// @Produce json
+// @Security BearerTokenAuth
+// @Param Authorization header string true "Bearer token"
+// @Param notification_id query string true "Notification ID"
+// @Success 200 {object} response.Response "Notification successfully marked as read"
+// @Failure 400 {object} response.Response "Failed to mark notification as read: missing or incorrect parameters"
+// @Failure 500 {object} response.Response "Internal server error: failed to mark notification as read"
+// @Router /notifications [patch]
 func (n *NotificationHandler) ReadNotification(c *gin.Context) {
 	noificationIdStr := c.Query("notification_id")
 	noificationId, err := strconv.Atoi(noificationIdStr)
@@ -106,6 +135,19 @@ func (n *NotificationHandler) ReadNotification(c *gin.Context) {
 
 }
 
+
+// MarkAllAsRead marks all notifications as read for a user.
+// @Summary Mark all notifications as read
+// @Description Marks all notifications as read for a user
+// @Tags Jobseeker Notification Management
+// @Accept json
+// @Produce json
+// @Security BearerTokenAuth
+// @Param Authorization header string true "Bearer token"
+// @Success 200 {object} response.Response "Notifications successfully marked as read"
+// @Failure 400 {object} response.Response "Failed to mark notifications as read: User ID not found or incorrect parameters"
+// @Failure 500 {object} response.Response "Internal server error: failed to mark notifications as read"
+// @Router /notifications/all [patch]
 func (n *NotificationHandler) MarkAllAsRead(c *gin.Context) {
 	n.Logger.Info("MarkAllAsRead at NotificationHandler started")
 
@@ -132,6 +174,21 @@ func (n *NotificationHandler) MarkAllAsRead(c *gin.Context) {
 
 }
 
+
+
+
+// GetAllNotifications retrieves all notifications for a user.
+// @Summary Get all notifications
+// @Description Retrieves all notifications for a user
+// @Tags Jobseeker Notification Management
+// @Accept json
+// @Produce json
+// @Security BearerTokenAuth
+// @Param Authorization header string true "Bearer token"
+// @Success 200 {object} response.Response "Successfully retrieved all notifications"
+// @Failure 400 {object} response.Response "Failed to retrieve notifications: User ID not found or incorrect parameters"
+// @Failure 500 {object} response.Response "Internal server error: failed to retrieve notifications"
+// @Router /notifications/all [get]
 func (n *NotificationHandler) GetAllNotifications(c *gin.Context) {
 	n.Logger.Info("GetAllNotifications at NotificationHandler started")
 

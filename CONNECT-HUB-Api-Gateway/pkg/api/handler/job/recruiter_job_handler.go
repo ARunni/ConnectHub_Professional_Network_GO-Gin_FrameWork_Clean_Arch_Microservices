@@ -34,7 +34,7 @@ func NewRecruiterJobHandler(grpc_client interfaces.RecruiterJobClient) *Recruite
 // PostJob creates a new job posting by a recruiter.
 // @Summary Create job posting
 // @Description Create a new job posting by a recruiter
-// @Tags Recruiter
+// @Tags Recruiter Job Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
@@ -42,7 +42,7 @@ func NewRecruiterJobHandler(grpc_client interfaces.RecruiterJobClient) *Recruite
 // @Success 200 {object} response.Response "Job posted successfully"
 // @Failure 400 {object} response.Response "Failed to post job: missing or incorrect parameters"
 // @Failure 500 {object} response.Response "Internal server error: failed to post job"
-// @Router /recruiter/jobs [post]
+// @Router /recruiter/job [post]
 func (jh *RecruiterJobHandler) PostJob(c *gin.Context) {
 
 	recruiterID, ok := c.Get("id")
@@ -85,7 +85,7 @@ func (jh *RecruiterJobHandler) PostJob(c *gin.Context) {
 // GetAllJobs retrieves all jobs posted by a recruiter.
 // @Summary Get all jobs
 // @Description Retrieve all jobs posted by a recruiter
-// @Tags Recruiter
+// @Tags Recruiter Job Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
@@ -121,7 +121,7 @@ func (jh *RecruiterJobHandler) GetAllJobs(c *gin.Context) {
 // GetOneJob retrieves the details of a single job posted by a recruiter.
 // @Summary Get one job
 // @Description Retrieve the details of a single job posted by a recruiter
-// @Tags Recruiter
+// @Tags Recruiter Job Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
@@ -169,7 +169,7 @@ func (jh *RecruiterJobHandler) GetOneJob(c *gin.Context) {
 // DeleteAJob deletes a job posted by a recruiter.
 // @Summary Delete a job
 // @Description Delete a job posted by a recruiter
-// @Tags Recruiter
+// @Tags Recruiter Job Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
@@ -218,7 +218,7 @@ func (jh *RecruiterJobHandler) DeleteAJob(c *gin.Context) {
 // UpdateAJob updates a job posted by a recruiter.
 // @Summary Update a job
 // @Description Update a job posted by a recruiter
-// @Tags Recruiter
+// @Tags Recruiter Job Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
@@ -274,7 +274,7 @@ func (jh *RecruiterJobHandler) UpdateAJob(c *gin.Context) {
 // GetJobAppliedCandidates retrieves the candidates who applied for a job posted by a recruiter.
 // @Summary Get applied candidates for a job
 // @Description Retrieves the candidates who applied for a job posted by a recruiter
-// @Tags Recruiter
+// @Tags Recruiter Job Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
@@ -282,7 +282,7 @@ func (jh *RecruiterJobHandler) UpdateAJob(c *gin.Context) {
 // @Success 200 {object} response.Response "Applied candidates retrieved successfully"
 // @Failure 400 {object} response.Response "Failed to get applied candidates: missing or incorrect parameters"
 // @Failure 500 {object} response.Response "Internal server error: failed to get applied candidates"
-// @Router /recruiter/job/applied-candidates [get]
+// @Router /recruiter/appliedjobs [get]
 func (jh *RecruiterJobHandler) GetJobAppliedCandidates(c *gin.Context) {
 
 	userIdAny, ok := c.Get("id")
@@ -315,7 +315,7 @@ func (jh *RecruiterJobHandler) GetJobAppliedCandidates(c *gin.Context) {
 // ScheduleInterview schedules an interview by a recruiter for a job applicant.
 // @Summary Schedule interview
 // @Description Schedule an interview by a recruiter for a job applicant
-// @Tags Recruiter
+// @Tags Recruiter Job Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
@@ -324,7 +324,7 @@ func (jh *RecruiterJobHandler) GetJobAppliedCandidates(c *gin.Context) {
 // @Success 200 {object} response.Response "Interview scheduled successfully"
 // @Failure 400 {object} response.Response "Failed to schedule interview: missing or incorrect parameters"
 // @Failure 500 {object} response.Response "Internal server error: failed to schedule interview"
-// @Router /recruiter/job/schedule-interview [post]
+// @Router /recruiter/appliedjob [post]
 func (jh *RecruiterJobHandler) ScheduleInterview(c *gin.Context) {
 
 	userIdAny, ok := c.Get("id")
@@ -362,6 +362,19 @@ func (jh *RecruiterJobHandler) ScheduleInterview(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// CancelScheduledInterview cancels a scheduled interview by a recruiter.
+// @Summary Cancel scheduled interview
+// @Description Cancel a scheduled interview by a recruiter
+// @Tags Recruiter Job Management
+// @Accept json
+// @Produce json
+// @Security BearerTokenAuth
+// @Param Authorization header string true "Bearer token"
+// @Param app_id query string true "Application ID"
+// @Success 200 {object} response.Response "Interview schedule canceled successfully"
+// @Failure 400 {object} response.Response "Failed to cancel interview schedule: missing or incorrect parameters"
+// @Failure 500 {object} response.Response "Internal server error: failed to cancel interview schedule"
+// @Router /recruiter/interview [delete]
 func (jh *RecruiterJobHandler) CancelScheduledInterview(c *gin.Context) {
 
 	userIdAny, ok := c.Get("id")

@@ -11,6 +11,19 @@ definitions:
     - email
     - password
     type: object
+  models.ChatRequest:
+    properties:
+      friendID:
+        type: string
+      limit:
+        type: string
+      offset:
+        type: string
+    required:
+    - friendID
+    - limit
+    - offset
+    type: object
   models.CreateCommentPost:
     properties:
       comment:
@@ -19,6 +32,13 @@ definitions:
         type: integer
       user_id:
         type: integer
+    type: object
+  models.CreatePolicyReq:
+    properties:
+      content:
+        type: string
+      title:
+        type: string
     type: object
   models.JobOpening:
     properties:
@@ -206,7 +226,34 @@ info:
   title: Go + Gin professional networking platform API Connect Hub
   version: 1.0.0
 paths:
-  /admin/jobseekers:
+  /admin/jobseeker:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the details of a jobseeker based on the provided ID
+      parameters:
+      - description: Jobseeker ID to get details
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Jobseeker details retrieved successfully
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Invalid jobseeker ID or failed to retrieve jobseeker details
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Get jobseeker details
+      tags:
+      - Admin Jobseeker Management
+  /admin/jobseeker/all:
     get:
       consumes:
       - application/json
@@ -236,8 +283,8 @@ paths:
       - BearerTokenAuth: []
       summary: Get jobseekers
       tags:
-      - Admin
-  /admin/jobseekers/block:
+      - Admin Jobseeker Management
+  /admin/jobseeker/block:
     patch:
       consumes:
       - application/json
@@ -263,35 +310,8 @@ paths:
       - BearerTokenAuth: []
       summary: Block a jobseeker
       tags:
-      - Admin User Management
-  /admin/jobseekers/details:
-    get:
-      consumes:
-      - application/json
-      description: Retrieve details of a jobseeker based on the provided ID
-      parameters:
-      - description: Jobseeker ID to retrieve details
-        in: query
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Successfully retrieved jobseeker details
-          schema:
-            $ref: '#/definitions/response.Response'
-        "400":
-          description: Invalid jobseeker ID or failed to retrieve details
-          schema:
-            $ref: '#/definitions/response.Response'
-      security:
-      - BearerTokenAuth: []
-      summary: Get jobseeker details
-      tags:
-      - Admin User Management
-  /admin/jobseekers/unblock:
+      - Admin Jobseeker Management
+  /admin/jobseeker/unblock:
     patch:
       consumes:
       - application/json
@@ -317,7 +337,7 @@ paths:
       - BearerTokenAuth: []
       summary: Unblock a jobseeker
       tags:
-      - Admin User Management
+      - Admin Jobseeker Management
   /admin/login:
     post:
       consumes:
@@ -347,17 +367,17 @@ paths:
             $ref: '#/definitions/response.Response'
       summary: Admin login
       tags:
-      - Admin
+      - Admin Authentication Management
   /admin/policies:
     get:
       consumes:
       - application/json
-      description: Retrieve all policies
+      description: Retrieves all existing policies
       produces:
       - application/json
       responses:
         "200":
-          description: Successfully retrieved all policies
+          description: Policies retrieved successfully
           schema:
             $ref: '#/definitions/response.Response'
         "400":
@@ -366,14 +386,40 @@ paths:
             $ref: '#/definitions/response.Response'
       security:
       - BearerTokenAuth: []
-      summary: Get all policies
+      summary: Retrieve all policies
       tags:
       - Admin Policy Management
-  /admin/policies/{policy_id}:
+  /admin/policy:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a policy based on the provided ID
+      parameters:
+      - description: Policy ID to delete
+        in: query
+        name: policy_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Policy deleted successfully
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Invalid policy ID or failed to delete policy
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Delete a policy
+      tags:
+      - Admin Policy Management
     get:
       consumes:
       - application/json
-      description: Retrieve a single policy based on the provided ID
+      description: Retrieves a policy based on the provided ID
       parameters:
       - description: Policy ID to retrieve
         in: query
@@ -384,7 +430,7 @@ paths:
       - application/json
       responses:
         "200":
-          description: Successfully retrieved the policy
+          description: Policy retrieved successfully
           schema:
             $ref: '#/definitions/response.Response'
         "400":
@@ -393,18 +439,44 @@ paths:
             $ref: '#/definitions/response.Response'
       security:
       - BearerTokenAuth: []
-      summary: Get one policy
+      summary: Retrieve a policy
       tags:
       - Admin Policy Management
-  /admin/policy:
+    post:
+      consumes:
+      - application/json
+      description: Create a new policy based on the provided data
+      parameters:
+      - description: Policy data
+        in: body
+        name: policy
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreatePolicyReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Policy created successfully
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Invalid policy data or failed to create policy
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Create a new policy
+      tags:
+      - Admin Policy Management
     put:
       consumes:
       - application/json
-      description: Update a policy with the provided data
+      description: Update an existing policy based on the provided data
       parameters:
-      - description: Policy data to update
+      - description: Updated policy data
         in: body
-        name: body
+        name: policy
         required: true
         schema:
           $ref: '#/definitions/models.UpdatePolicyReq'
@@ -416,15 +488,42 @@ paths:
           schema:
             $ref: '#/definitions/response.Response'
         "400":
-          description: Invalid request data or failed to update policy
+          description: Invalid policy data or failed to update policy
           schema:
             $ref: '#/definitions/response.Response'
       security:
       - BearerTokenAuth: []
-      summary: Update policy
+      summary: Update an existing policy
       tags:
       - Admin Policy Management
-  /admin/recruiters:
+  /admin/recruiter:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the details of a recruiter based on the provided ID
+      parameters:
+      - description: Recruiter ID to get details
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Recruiter details retrieved successfully
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Invalid recruiter ID or failed to retrieve recruiter details
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Get recruiter details
+      tags:
+      - Admin Recruiter Management
+  /admin/recruiter/all:
     get:
       consumes:
       - application/json
@@ -454,8 +553,8 @@ paths:
       - BearerTokenAuth: []
       summary: Get recruiters
       tags:
-      - Admin
-  /admin/recruiters/block:
+      - Admin Recruiter Management
+  /admin/recruiter/block:
     patch:
       consumes:
       - application/json
@@ -481,14 +580,14 @@ paths:
       - BearerTokenAuth: []
       summary: Block a recruiter
       tags:
-      - Admin User Management
-  /admin/recruiters/details:
-    get:
+      - Admin Recruiter Management
+  /admin/recruiter/unblock:
+    patch:
       consumes:
       - application/json
-      description: Retrieve details of a recruiter based on the provided ID
+      description: Unblock a recruiter based on the provided ID
       parameters:
-      - description: Recruiter ID to retrieve details
+      - description: Recruiter ID to unblock
         in: query
         name: id
         required: true
@@ -497,18 +596,51 @@ paths:
       - application/json
       responses:
         "200":
-          description: Successfully retrieved recruiter details
+          description: Recruiter unblocked successfully
           schema:
             $ref: '#/definitions/response.Response'
         "400":
-          description: Invalid recruiter ID or failed to retrieve details
+          description: Invalid recruiter ID or failed to unblock recruiter
           schema:
             $ref: '#/definitions/response.Response'
       security:
       - BearerTokenAuth: []
-      summary: Get recruiter details
+      summary: Unblock a recruiter
       tags:
-      - Admin User Management
+      - Admin Recruiter Management
+  /chat:
+    post:
+      consumes:
+      - application/json
+      description: Retrieves chat details based on the provided request.
+      parameters:
+      - description: User ID
+        in: header
+        name: id
+        required: true
+        type: integer
+      - description: Chat Request Data
+        in: body
+        name: chatRequest
+        required: true
+        schema:
+          $ref: '#/definitions/models.ChatRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Chat details retrieved successfully
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Failed to retrieve chat details or incorrect data format
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Get Chat Details
+      tags:
+      - Jobseeker Chat Management
   /jobseeker/appliedjobs:
     get:
       consumes:
@@ -642,11 +774,11 @@ paths:
     post:
       consumes:
       - application/json
-      description: Authenticate a job seeker
+      description: Allows a job seeker to log in by providing necessary credentials.
       parameters:
-      - description: Job seeker credentials for login
+      - description: Job Seeker Login Data
         in: body
-        name: body
+        name: jobseekerData
         required: true
         schema:
           $ref: '#/definitions/models.JobSeekerLogin'
@@ -654,30 +786,30 @@ paths:
       - application/json
       responses:
         "200":
-          description: Job seeker login successful
+          description: Jobseeker authenticated successfully
           schema:
             $ref: '#/definitions/response.Response'
         "400":
-          description: Incorrect request format or missing required fields
+          description: Incorrect data format
           schema:
             $ref: '#/definitions/response.Response'
         "500":
-          description: 'Internal server error: failed to authenticate job seeker'
+          description: Internal server error
           schema:
             $ref: '#/definitions/response.Response'
-      summary: Job seeker login
+      summary: Job Seeker Login
       tags:
-      - Job Seeker
+      - Jobseeker Authentication Management
   /jobseeker/policies:
     get:
       consumes:
       - application/json
-      description: Retrieve all policies applicable to job seekers
+      description: Retrieves a list of all policies.
       produces:
       - application/json
       responses:
         "200":
-          description: Successfully retrieved all policies
+          description: Policies retrieved successfully
           schema:
             $ref: '#/definitions/response.Response'
         "400":
@@ -686,16 +818,16 @@ paths:
             $ref: '#/definitions/response.Response'
       security:
       - BearerTokenAuth: []
-      summary: Get all policies
+      summary: Get All Policies
       tags:
-      - Policy
-  /jobseeker/policies/{policy_id}:
+      - Jobseeker Policies Management
+  /jobseeker/policy:
     get:
       consumes:
       - application/json
-      description: Retrieve details of a specific policy based on its ID
+      description: Retrieves a specific policy by its ID.
       parameters:
-      - description: Policy ID to retrieve
+      - description: Policy ID
         in: query
         name: policy_id
         required: true
@@ -704,18 +836,18 @@ paths:
       - application/json
       responses:
         "200":
-          description: Successfully retrieved the policy details
+          description: Policy retrieved successfully
           schema:
             $ref: '#/definitions/response.Response'
         "400":
-          description: Failed to retrieve policy details
+          description: Failed to retrieve policy
           schema:
             $ref: '#/definitions/response.Response'
       security:
       - BearerTokenAuth: []
-      summary: Get one policy
+      summary: Get One Policy
       tags:
-      - Policy
+      - Jobseeker Policies Management
   /jobseeker/post:
     get:
       consumes:
@@ -1113,31 +1245,32 @@ paths:
     get:
       consumes:
       - application/json
-      description: Retrieve the profile of a job seeker
+      description: Retrieves the profile of the logged-in job seeker.
       produces:
       - application/json
       responses:
         "200":
-          description: Successfully retrieved job seeker profile
+          description: Profile retrieved successfully
           schema:
             $ref: '#/definitions/response.Response'
         "400":
-          description: Failed to retrieve job seeker profile
+          description: Incorrect data format or failed to retrieve profile
           schema:
             $ref: '#/definitions/response.Response'
       security:
       - BearerTokenAuth: []
-      summary: Get job seeker profile
+      summary: Get Job Seeker Profile
       tags:
-      - Job Seeker
-    put:
+      - Jobseeker Profile Management
+    patch:
       consumes:
       - application/json
-      description: Edit the profile of a job seeker
+      description: Allows a job seeker to edit their profile by providing necessary
+        information.
       parameters:
-      - description: Job seeker profile data for editing
+      - description: Job Seeker Profile Data
         in: body
-        name: body
+        name: jobseekerData
         required: true
         schema:
           $ref: '#/definitions/models.JobSeekerProfile'
@@ -1145,31 +1278,27 @@ paths:
       - application/json
       responses:
         "200":
-          description: Job seeker profile edited successfully
+          description: Profile edited successfully
           schema:
             $ref: '#/definitions/response.Response'
         "400":
-          description: Incorrect request format or missing required fields
-          schema:
-            $ref: '#/definitions/response.Response'
-        "500":
-          description: 'Internal server error: failed to edit job seeker profile'
+          description: Incorrect data format or failed to edit profile
           schema:
             $ref: '#/definitions/response.Response'
       security:
       - BearerTokenAuth: []
-      summary: Edit job seeker profile
+      summary: Edit Job Seeker Profile
       tags:
-      - Job Seeker
+      - Jobseeker Profile Management
   /jobseeker/signup:
     post:
       consumes:
       - application/json
-      description: Register a new job seeker
+      description: Allows a job seeker to sign up by providing necessary information.
       parameters:
-      - description: Job seeker data for signup
+      - description: Job Seeker Sign Up Data
         in: body
-        name: body
+        name: jobseekerData
         required: true
         schema:
           $ref: '#/definitions/models.JobSeekerSignUp'
@@ -1177,20 +1306,20 @@ paths:
       - application/json
       responses:
         "200":
-          description: Job seeker signup successful
+          description: Jobseeker signup successful
           schema:
             $ref: '#/definitions/response.Response'
         "400":
-          description: Incorrect request format or missing required fields
+          description: Incorrect data format
           schema:
             $ref: '#/definitions/response.Response'
         "500":
-          description: 'Internal server error: failed to signup job seeker'
+          description: Internal server error
           schema:
             $ref: '#/definitions/response.Response'
-      summary: Job seeker signup
+      summary: Job Seeker Signup
       tags:
-      - Job Seeker
+      - Jobseeker Authentication Management
   /recruiter/job:
     delete:
       consumes:
@@ -1462,17 +1591,17 @@ paths:
             $ref: '#/definitions/response.Response'
       summary: Recruiter login
       tags:
-      - Recruiter
+      - Recruiter Authentication Management
   /recruiter/policies:
     get:
       consumes:
       - application/json
-      description: Retrieve all policies applicable to recruiters
+      description: Retrieves all policies from the system.
       produces:
       - application/json
       responses:
         "200":
-          description: Successfully retrieved all policies
+          description: All policies retrieved successfully
           schema:
             $ref: '#/definitions/response.Response'
         "400":
@@ -1481,16 +1610,16 @@ paths:
             $ref: '#/definitions/response.Response'
       security:
       - BearerTokenAuth: []
-      summary: Get all policies
+      summary: Get All Policies
       tags:
-      - Policy
-  /recruiter/policies/{policy_id}:
+      - Recruiter Policy Management
+  /recruiter/policy:
     get:
       consumes:
       - application/json
-      description: Retrieve details of a specific policy based on its ID
+      description: Retrieves a single policy based on the provided policy ID.
       parameters:
-      - description: Policy ID to retrieve
+      - description: Policy ID
         in: query
         name: policy_id
         required: true
@@ -1499,47 +1628,52 @@ paths:
       - application/json
       responses:
         "200":
-          description: Successfully retrieved the policy details
+          description: Policy retrieved successfully
           schema:
             $ref: '#/definitions/response.Response'
         "400":
-          description: Failed to retrieve policy details
+          description: Failed to retrieve policy or incorrect data format
           schema:
             $ref: '#/definitions/response.Response'
       security:
       - BearerTokenAuth: []
-      summary: Get one policy
+      summary: Get One Policy
       tags:
-      - Policy
+      - Recruiter Policy Management
   /recruiter/profile:
     get:
       consumes:
       - application/json
-      description: Retrieve the profile of a recruiter
+      description: Retrieves the profile of the logged-in recruiter.
       produces:
       - application/json
       responses:
         "200":
-          description: Successfully retrieved recruiter profile
+          description: Profile retrieved successfully
           schema:
             $ref: '#/definitions/response.Response'
         "400":
-          description: Failed to retrieve recruiter profile
+          description: Failed to retrieve profile
           schema:
             $ref: '#/definitions/response.Response'
       security:
       - BearerTokenAuth: []
-      summary: Get recruiter profile
+      summary: Get Recruiter Profile
       tags:
-      - Recruiter
-    put:
+      - Recruiter Profile Management
+    patch:
       consumes:
       - application/json
-      description: Edit the profile of a recruiter
+      description: Allows a recruiter to edit their profile information.
       parameters:
-      - description: Recruiter profile data for editing
+      - description: Recruiter ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Recruiter Profile Data
         in: body
-        name: body
+        name: recruiterData
         required: true
         schema:
           $ref: '#/definitions/models.RecruiterProfile'
@@ -1547,22 +1681,18 @@ paths:
       - application/json
       responses:
         "200":
-          description: Recruiter profile edited successfully
+          description: Recruiter profile updated successfully
           schema:
             $ref: '#/definitions/response.Response'
         "400":
-          description: Incorrect request format or missing required fields
-          schema:
-            $ref: '#/definitions/response.Response'
-        "500":
-          description: 'Internal server error: failed to edit recruiter profile'
+          description: Failed to update profile
           schema:
             $ref: '#/definitions/response.Response'
       security:
       - BearerTokenAuth: []
-      summary: Edit recruiter profile
+      summary: Edit Recruiter Profile
       tags:
-      - Recruiter
+      - Recruiter Profile Management
   /recruiter/signup:
     post:
       consumes:
@@ -1592,9 +1722,47 @@ paths:
             $ref: '#/definitions/response.Response'
       summary: Recruiter signup
       tags:
-      - Recruiter
+      - Recruiter Authentication Management
+  /recruiter/video-call/key:
+    get:
+      consumes:
+      - application/json
+      description: Generate a video call key and private link for interview.
+      parameters:
+      - description: 'User ID of the jobseeker '
+        in: query
+        name: user
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved video call key and private link
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Invalid user ID format or role mismatch
+          schema:
+            $ref: '#/definitions/response.Response'
+        "401":
+          description: 'Unauthorized: Only recruiters can access this endpoint'
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: 'Internal Server Error: Failed to generate video call key'
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Generate Video Call Key
+      tags:
+      - Recruiter Videocall Management
 securityDefinitions:
   BearerTokenAuth:
+    description: 'For accessing the API, you need to include "Jobseeker","Admin" or
+      "Recruiter" before your token in the Authorization header. Example: "Authorization:
+      Admin <your_token>"'
     in: header
     name: Authorization
     type: apiKey

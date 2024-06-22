@@ -20,6 +20,7 @@ import (
 // @securityDefinitions.apikey BearerTokenAuth
 // @in header
 // @name Authorization
+// @description For accessing the API, you need to include "Jobseeker","Admin" or "Recruiter" before your token in the Authorization header. Example: "Authorization: Admin <your_token>"
 // @host localhost:7000
 // @BasePath /
 // @query.collection.format multi

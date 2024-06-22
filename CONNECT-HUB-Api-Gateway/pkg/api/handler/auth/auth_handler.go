@@ -30,13 +30,26 @@ func NewAuthHandler(grpc_client interfaces.AuthClient) *AuthHandler {
 	}
 }
 
+// VideoCallKey handles the endpoint for retrieving a video call key and private link.
+// It is accessible only to recruiters.
+// @Summary Generate Video Call Key
+// @Description Generate a video call key and private link for interview.
+// @Tags Recruiter Videocall Management
+// @Accept json
+// @Produce json
+// @Security BearerTokenAuth
+// @Param user query int true "User ID of the jobseeker "
+// @Success 200 {object} response.Response "Successfully retrieved video call key and private link"
+// @Failure 400 {object} response.Response "Invalid user ID format or role mismatch"
+// @Failure 401 {object} response.Response "Unauthorized: Only recruiters can access this endpoint"
+// @Failure 500 {object} response.Response "Internal Server Error: Failed to generate video call key"
+// @Router /recruiter/video-call/key [get]
 func (au *AuthHandler) VideoCallKey(c *gin.Context) {
 
 	au.Logger.Info("Processing VideoCallKey")
 	userID, _ := c.Get("id")
 	userType, _ := c.Get("role")
 	role, ok := userType.(string)
-	fmt.Println("roleeeeeeeeeeee", role)
 	if !ok {
 		au.Logger.Error("Role is not a string", errors.New("invalid role type"))
 		errs := response.ClientResponse(http.StatusBadRequest, "Invalid role type", nil, errors.New("invalid role type"))

@@ -34,7 +34,7 @@ func NewRecruiterAuthHandler(grpc_client interfaces.RecruiterAuthClient) *Recrui
 // RecruiterSignup handles the signup operation for a recruiter.
 // @Summary Recruiter signup
 // @Description Register a new recruiter
-// @Tags Recruiter
+// @Tags Recruiter Authentication Management
 // @Accept json
 // @Produce json
 // @Param body body models.RecruiterSignUp true "Recruiter signup data"
@@ -72,7 +72,7 @@ func (jh *RecruiterHandler) RecruiterSignup(c *gin.Context) {
 // RecruiterLogin handles the login operation for a recruiter.
 // @Summary Recruiter login
 // @Description Authenticate a recruiter
-// @Tags Recruiter
+// @Tags Recruiter Authentication Management
 // @Accept json
 // @Produce json
 // @Param body body models.RecruiterLogin true "Recruiter credentials for login"
@@ -106,15 +106,15 @@ func (jh *RecruiterHandler) RecruiterLogin(c *gin.Context) {
 
 }
 
-// RecruiterGetProfile retrieves the profile of a recruiter.
-// @Summary Get recruiter profile
-// @Description Retrieve the profile of a recruiter
-// @Tags Recruiter
+// RecruiterGetProfile handles the endpoint for retrieving a recruiter's profile.
+// @Summary Get Recruiter Profile
+// @Description Retrieves the profile of the logged-in recruiter.
+// @Tags Recruiter Profile Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
-// @Success 200 {object} response.Response "Successfully retrieved recruiter profile"
-// @Failure 400 {object} response.Response "Failed to retrieve recruiter profile"
+// @Success 200 {object} response.Response "Profile retrieved successfully"
+// @Failure 400 {object} response.Response "Failed to retrieve profile"
 // @Router /recruiter/profile [get]
 func (jh *RecruiterHandler) RecruiterGetProfile(c *gin.Context) {
 
@@ -152,18 +152,18 @@ func (jh *RecruiterHandler) RecruiterGetProfile(c *gin.Context) {
 
 }
 
-// RecruiterEditProfile handles the profile editing operation for a recruiter.
-// @Summary Edit recruiter profile
-// @Description Edit the profile of a recruiter
-// @Tags Recruiter
+// RecruiterEditProfile handles the endpoint for editing a recruiter's profile.
+// @Summary Edit Recruiter Profile
+// @Description Allows a recruiter to edit their profile information.
+// @Tags Recruiter Profile Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
-// @Param body body models.RecruiterProfile true "Recruiter profile data for editing"
-// @Success 200 {object} response.Response "Recruiter profile edited successfully"
-// @Failure 400 {object} response.Response "Incorrect request format or missing required fields"
-// @Failure 500 {object} response.Response "Internal server error: failed to edit recruiter profile"
-// @Router /recruiter/profile [put]
+// @Param id path int true "Recruiter ID"
+// @Param recruiterData body models.RecruiterProfile true "Recruiter Profile Data"
+// @Success 200 {object} response.Response "Recruiter profile updated successfully"
+// @Failure 400 {object} response.Response "Failed to update profile"
+// @Router /recruiter/profile [patch]
 func (jh *RecruiterHandler) RecruiterEditProfile(c *gin.Context) {
 
 	userIdstring, _ := c.Get("id")
@@ -199,14 +199,14 @@ func (jh *RecruiterHandler) RecruiterEditProfile(c *gin.Context) {
 
 }
 
-// GetAllPolicies retrieves all policies applicable to recruiters.
-// @Summary Get all policies
-// @Description Retrieve all policies applicable to recruiters
-// @Tags Policy
+// GetAllPolicies handles the endpoint for retrieving all policies.
+// @Summary Get All Policies
+// @Description Retrieves all policies from the system.
+// @Tags Recruiter Policy Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
-// @Success 200 {object} response.Response "Successfully retrieved all policies"
+// @Success 200 {object} response.Response "All policies retrieved successfully"
 // @Failure 400 {object} response.Response "Failed to retrieve policies"
 // @Router /recruiter/policies [get]
 func (jh *RecruiterHandler) GetAllPolicies(c *gin.Context) {
@@ -227,17 +227,17 @@ func (jh *RecruiterHandler) GetAllPolicies(c *gin.Context) {
 
 }
 
-// GetOnePolicy retrieves details of a specific policy based on its ID.
-// @Summary Get one policy
-// @Description Retrieve details of a specific policy based on its ID
-// @Tags Policy
+// GetOnePolicy handles the endpoint for retrieving a single policy by ID.
+// @Summary Get One Policy
+// @Description Retrieves a single policy based on the provided policy ID.
+// @Tags Recruiter Policy Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
-// @Param policy_id query int true "Policy ID to retrieve"
-// @Success 200 {object} response.Response "Successfully retrieved the policy details"
-// @Failure 400 {object} response.Response "Failed to retrieve policy details"
-// @Router /recruiter/policies/{policy_id} [get]
+// @Param policy_id query integer true "Policy ID"
+// @Success 200 {object} response.Response "Policy retrieved successfully"
+// @Failure 400 {object} response.Response "Failed to retrieve policy or incorrect data format"
+// @Router /recruiter/policy [get]
 func (jh *RecruiterHandler) GetOnePolicy(c *gin.Context) {
 
 	idStr := c.Query("policy_id")

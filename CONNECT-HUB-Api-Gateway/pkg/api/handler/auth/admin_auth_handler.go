@@ -1,13 +1,14 @@
 package handler
 
 import (
+	"net/http"
+	"os"
+	"strconv"
+
 	logging "github.com/ARunni/connectHub_gateway/Logging"
 	interfaces "github.com/ARunni/connectHub_gateway/pkg/client/auth/interface"
 	"github.com/ARunni/connectHub_gateway/pkg/utils/models"
 	"github.com/ARunni/connectHub_gateway/pkg/utils/response"
-	"net/http"
-	"os"
-	"strconv"
 
 	msg "github.com/ARunni/Error_Message"
 	"github.com/gin-gonic/gin"
@@ -32,7 +33,7 @@ func NewAdminAuthHandler(grpc_client interfaces.AdminAuthClient) *AdminHandler {
 // LoginHandler handles the login operation for an admin.
 // @Summary Admin login
 // @Description Authenticate an admin and get access token
-// @Tags Admin
+// @Tags Admin Authentication Management
 // @Accept json
 // @Produce json
 // @Param body body models.AdminLogin true "Admin credentials for login"
@@ -66,7 +67,7 @@ func (ah *AdminHandler) AdminLogin(c *gin.Context) {
 // GetJobseekers handles fetching a paginated list of jobseekers.
 // @Summary Get jobseekers
 // @Description Retrieve a paginated list of jobseekers
-// @Tags Admin
+// @Tags Admin Jobseeker Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
@@ -74,7 +75,7 @@ func (ah *AdminHandler) AdminLogin(c *gin.Context) {
 // @Success 200 {object} response.Response "Successfully retrieved jobseekers"
 // @Failure 400 {object} response.Response "Invalid page number or constraints not satisfied"
 // @Failure 500 {object} response.Response "Failed to retrieve jobseekers due to internal error"
-// @Router /admin/jobseekers [get]
+// @Router /admin/jobseeker/all [get]
 func (ah *AdminHandler) GetJobseekers(c *gin.Context) {
 
 	pageStr := c.Query("page")
@@ -102,7 +103,7 @@ func (ah *AdminHandler) GetJobseekers(c *gin.Context) {
 // GetRecruiters handles fetching a paginated list of recruiters.
 // @Summary Get recruiters
 // @Description Retrieve a paginated list of recruiters
-// @Tags Admin
+// @Tags Admin Recruiter Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
@@ -110,7 +111,7 @@ func (ah *AdminHandler) GetJobseekers(c *gin.Context) {
 // @Success 200 {object} response.Response "Successfully retrieved recruiters"
 // @Failure 400 {object} response.Response "Invalid page number or constraints not satisfied"
 // @Failure 500 {object} response.Response "Failed to retrieve recruiters due to internal error"
-// @Router /admin/recruiters [get]
+// @Router /admin/recruiter/all [get]
 func (ah *AdminHandler) GetRecruiters(c *gin.Context) {
 
 	pageStr := c.Query("page")
@@ -138,14 +139,14 @@ func (ah *AdminHandler) GetRecruiters(c *gin.Context) {
 // BlockRecruiter blocks a recruiter by ID.
 // @Summary Block a recruiter
 // @Description Block a recruiter based on the provided ID
-// @Tags Admin User Management
+// @Tags Admin Recruiter Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
 // @Param id query int true "Recruiter ID to block"
 // @Success 200 {object} response.Response "Recruiter blocked successfully"
 // @Failure 400 {object} response.Response "Invalid recruiter ID or failed to block recruiter"
-// @Router /admin/recruiters/block [patch]
+// @Router /admin/recruiter/block [patch]
 func (ah *AdminHandler) BlockRecruiter(c *gin.Context) {
 
 	idStr := c.Query("id")
@@ -175,14 +176,14 @@ func (ah *AdminHandler) BlockRecruiter(c *gin.Context) {
 // BlockJobseeker blocks a jobseeker by ID.
 // @Summary Block a jobseeker
 // @Description Block a jobseeker based on the provided ID
-// @Tags Admin User Management
+// @Tags Admin Jobseeker Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
 // @Param id query int true "Jobseeker ID to block"
 // @Success 200 {object} response.Response "Jobseeker blocked successfully"
 // @Failure 400 {object} response.Response "Invalid jobseeker ID or failed to block jobseeker"
-// @Router /admin/jobseekers/block [patch]
+// @Router /admin/jobseeker/block [patch]
 func (ah *AdminHandler) BlockJobseeker(c *gin.Context) {
 
 	idStr := c.Query("id")
@@ -209,6 +210,17 @@ func (ah *AdminHandler) BlockJobseeker(c *gin.Context) {
 	c.JSON(http.StatusOK, successRes)
 }
 
+// UnBlockJobseeker unblocks a jobseeker by ID.
+// @Summary Unblock a jobseeker
+// @Description Unblock a jobseeker based on the provided ID
+// @Tags Admin Jobseeker Management
+// @Accept json
+// @Produce json
+// @Security BearerTokenAuth
+// @Param id query int true "Jobseeker ID to unblock"
+// @Success 200 {object} response.Response "Jobseeker unblocked successfully"
+// @Failure 400 {object} response.Response "Invalid jobseeker ID or failed to unblock jobseeker"
+// @Router /admin/jobseeker/unblock [patch]
 func (ah *AdminHandler) UnBlockJobseeker(c *gin.Context) {
 
 	idStr := c.Query("id")
@@ -235,17 +247,17 @@ func (ah *AdminHandler) UnBlockJobseeker(c *gin.Context) {
 	c.JSON(http.StatusOK, successRes)
 }
 
-// UnBlockJobseeker unblocks a jobseeker by ID.
-// @Summary Unblock a jobseeker
-// @Description Unblock a jobseeker based on the provided ID
-// @Tags Admin User Management
+// UnBlockRecruiter unblocks a recruiter by ID.
+// @Summary Unblock a recruiter
+// @Description Unblock a recruiter based on the provided ID
+// @Tags Admin Recruiter Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
-// @Param id query int true "Jobseeker ID to unblock"
-// @Success 200 {object} response.Response "Jobseeker unblocked successfully"
-// @Failure 400 {object} response.Response "Invalid jobseeker ID or failed to unblock jobseeker"
-// @Router /admin/jobseekers/unblock [patch]
+// @Param id query int true "Recruiter ID to unblock"
+// @Success 200 {object} response.Response "Recruiter unblocked successfully"
+// @Failure 400 {object} response.Response "Invalid recruiter ID or failed to unblock recruiter"
+// @Router /admin/recruiter/unblock [patch]
 func (ah *AdminHandler) UnBlockRecruiter(c *gin.Context) {
 
 	idStr := c.Query("id")
@@ -274,15 +286,15 @@ func (ah *AdminHandler) UnBlockRecruiter(c *gin.Context) {
 
 // GetJobseekerDetails retrieves the details of a jobseeker by ID.
 // @Summary Get jobseeker details
-// @Description Retrieve details of a jobseeker based on the provided ID
-// @Tags Admin User Management
+// @Description Retrieve the details of a jobseeker based on the provided ID
+// @Tags Admin Jobseeker Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
-// @Param id query int true "Jobseeker ID to retrieve details"
-// @Success 200 {object} response.Response "Successfully retrieved jobseeker details"
-// @Failure 400 {object} response.Response "Invalid jobseeker ID or failed to retrieve details"
-// @Router /admin/jobseekers/details [get]
+// @Param id query int true "Jobseeker ID to get details"
+// @Success 200 {object} response.Response "Jobseeker details retrieved successfully"
+// @Failure 400 {object} response.Response "Invalid jobseeker ID or failed to retrieve jobseeker details"
+// @Router /admin/jobseeker [get]
 func (ah *AdminHandler) GetJobseekerDetails(c *gin.Context) {
 
 	idStr := c.Query("id")
@@ -309,6 +321,17 @@ func (ah *AdminHandler) GetJobseekerDetails(c *gin.Context) {
 	c.JSON(http.StatusOK, successRes)
 }
 
+// GetRecruiterDetails retrieves the details of a recruiter by ID.
+// @Summary Get recruiter details
+// @Description Retrieve the details of a recruiter based on the provided ID
+// @Tags Admin Recruiter Management
+// @Accept json
+// @Produce json
+// @Security BearerTokenAuth
+// @Param id query int true "Recruiter ID to get details"
+// @Success 200 {object} response.Response "Recruiter details retrieved successfully"
+// @Failure 400 {object} response.Response "Invalid recruiter ID or failed to retrieve recruiter details"
+// @Router /admin/recruiter [get]
 func (ah *AdminHandler) GetRecruiterDetails(c *gin.Context) {
 
 	idStr := c.Query("id")
@@ -337,17 +360,17 @@ func (ah *AdminHandler) GetRecruiterDetails(c *gin.Context) {
 
 // policies
 
-// GetRecruiterDetails retrieves the details of a recruiter by ID.
-// @Summary Get recruiter details
-// @Description Retrieve details of a recruiter based on the provided ID
-// @Tags Admin User Management
+// CreatePolicy creates a new policy.
+// @Summary Create a new policy
+// @Description Create a new policy based on the provided data
+// @Tags Admin Policy Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
-// @Param id query int true "Recruiter ID to retrieve details"
-// @Success 200 {object} response.Response "Successfully retrieved recruiter details"
-// @Failure 400 {object} response.Response "Invalid recruiter ID or failed to retrieve details"
-// @Router /admin/recruiters/details [get]
+// @Param policy body models.CreatePolicyReq true "Policy data"
+// @Success 200 {object} response.Response "Policy created successfully"
+// @Failure 400 {object} response.Response "Invalid policy data or failed to create policy"
+// @Router /admin/policy [post]
 func (ah *AdminHandler) CreatePolicy(c *gin.Context) {
 
 	var policyData models.CreatePolicyReq
@@ -373,6 +396,17 @@ func (ah *AdminHandler) CreatePolicy(c *gin.Context) {
 	c.JSON(http.StatusOK, successRes)
 }
 
+// UpdatePolicy updates an existing policy.
+// @Summary Update an existing policy
+// @Description Update an existing policy based on the provided data
+// @Tags Admin Policy Management
+// @Accept json
+// @Produce json
+// @Security BearerTokenAuth
+// @Param policy body models.UpdatePolicyReq true "Updated policy data"
+// @Success 200 {object} response.Response "Policy updated successfully"
+// @Failure 400 {object} response.Response "Invalid policy data or failed to update policy"
+// @Router /admin/policy [put]
 func (ah *AdminHandler) UpdatePolicy(c *gin.Context) {
 
 	var policyData models.UpdatePolicyReq
@@ -398,17 +432,17 @@ func (ah *AdminHandler) UpdatePolicy(c *gin.Context) {
 	c.JSON(http.StatusOK, successRes)
 }
 
-// UpdatePolicy updates a policy based on the provided data.
-// @Summary Update policy
-// @Description Update a policy with the provided data
+// DeletePolicy deletes a policy by ID.
+// @Summary Delete a policy
+// @Description Delete a policy based on the provided ID
 // @Tags Admin Policy Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
-// @Param body body models.UpdatePolicyReq true "Policy data to update"
-// @Success 200 {object} response.Response "Policy updated successfully"
-// @Failure 400 {object} response.Response "Invalid request data or failed to update policy"
-// @Router /admin/policy [put]
+// @Param policy_id query int true "Policy ID to delete"
+// @Success 200 {object} response.Response "Policy deleted successfully"
+// @Failure 400 {object} response.Response "Invalid policy ID or failed to delete policy"
+// @Router /admin/policy [delete]
 func (ah *AdminHandler) DeletePolicy(c *gin.Context) {
 
 	idStr := c.Query("policy_id")
@@ -436,13 +470,13 @@ func (ah *AdminHandler) DeletePolicy(c *gin.Context) {
 }
 
 // GetAllPolicies retrieves all policies.
-// @Summary Get all policies
-// @Description Retrieve all policies
+// @Summary Retrieve all policies
+// @Description Retrieves all existing policies
 // @Tags Admin Policy Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
-// @Success 200 {object} response.Response "Successfully retrieved all policies"
+// @Success 200 {object} response.Response "Policies retrieved successfully"
 // @Failure 400 {object} response.Response "Failed to retrieve policies"
 // @Router /admin/policies [get]
 func (ah *AdminHandler) GetAllPolicies(c *gin.Context) {
@@ -461,17 +495,17 @@ func (ah *AdminHandler) GetAllPolicies(c *gin.Context) {
 	c.JSON(http.StatusOK, successRes)
 }
 
-// GetOnePolicy retrieves a single policy by ID.
-// @Summary Get one policy
-// @Description Retrieve a single policy based on the provided ID
+// GetOnePolicy retrieves a policy by ID.
+// @Summary Retrieve a policy
+// @Description Retrieves a policy based on the provided ID
 // @Tags Admin Policy Management
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
 // @Param policy_id query int true "Policy ID to retrieve"
-// @Success 200 {object} response.Response "Successfully retrieved the policy"
+// @Success 200 {object} response.Response "Policy retrieved successfully"
 // @Failure 400 {object} response.Response "Invalid policy ID or failed to retrieve policy"
-// @Router /admin/policies/{policy_id} [get]
+// @Router /admin/policy [get]
 func (ah *AdminHandler) GetOnePolicy(c *gin.Context) {
 
 	idStr := c.Query("policy_id")
