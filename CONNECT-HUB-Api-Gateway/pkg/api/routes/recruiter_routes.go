@@ -41,7 +41,7 @@ func RecruiterRoutes(engine *gin.RouterGroup,
 
 		engine.GET("chat/message", chatHandler.GetChat)
 
-		engine.GET("/key", AuthHandlerVideo.VideoCallKey)
+		engine.GET("videocall/key", AuthHandlerVideo.VideoCallKey)
 
 		notification := engine.Group("/notifications")
 		{

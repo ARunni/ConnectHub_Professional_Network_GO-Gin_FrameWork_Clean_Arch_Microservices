@@ -44,6 +44,15 @@ func JobseekerRoutes(engine *gin.RouterGroup, authhandler *authhandler.JobSeeker
 
 		engine.GET("/policy", authhandler.GetOnePolicy)
 		engine.GET("/policies", authhandler.GetAllPolicies)
+
+		engine.GET("chat/message", chatHandler.GetChat)
+
+		notification := engine.Group("/notifications")
+
+		notification.GET("", notificationHandler.GetNotification)
+		notification.PATCH("", notificationHandler.ReadNotification)
+		notification.PATCH("/all", notificationHandler.MarkAllAsRead)
+		notification.GET("/all", notificationHandler.GetAllNotifications)
 	}
 
 }

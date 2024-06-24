@@ -37,7 +37,7 @@ func AdminAuthMiddleware(c *gin.Context) {
 	tokenPart2 := splited[1]
 	tokenPart1 := splited[0]
 
-	if tokenPart1 != "admin" {
+	if tokenPart1 != "Admin" {
 		err := errors.New("role mismatch")
 		response := response.ClientResponse(http.StatusUnauthorized, "provided Role is not admin ", nil, err.Error())
 		c.JSON(http.StatusUnauthorized, response)
@@ -54,7 +54,7 @@ func AdminAuthMiddleware(c *gin.Context) {
 	}
 	if tokenclaims.Role != "admin" {
 		err := errors.New("invalid role")
-		response := response.ClientResponse(http.StatusUnauthorized, "Invalid Token admin", nil, err.Error())
+		response := response.ClientResponse(http.StatusUnauthorized, "Invalid Token Admin", nil, err.Error())
 		c.JSON(http.StatusUnauthorized, response)
 		c.Abort()
 		return

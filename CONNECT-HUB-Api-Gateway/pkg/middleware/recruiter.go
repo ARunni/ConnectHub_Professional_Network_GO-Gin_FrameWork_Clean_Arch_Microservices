@@ -37,9 +37,9 @@ func RecruiterAuthMiddleware(c *gin.Context) {
 	tokenPart2 := splited[1]
 	tokenPart1 := splited[0]
 
-	if tokenPart1 != "recruiter" {
+	if tokenPart1 != "Recruiter" {
 		err := errors.New("role mismatch")
-		response := response.ClientResponse(http.StatusUnauthorized, "provided Role is not recruiter ", nil, err.Error())
+		response := response.ClientResponse(http.StatusUnauthorized, "provided Role is not Recruiter ", nil, err.Error())
 		c.JSON(http.StatusUnauthorized, response)
 		c.Abort()
 		return

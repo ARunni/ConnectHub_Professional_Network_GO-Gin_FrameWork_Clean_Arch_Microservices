@@ -37,9 +37,9 @@ func JobseekerAuthMiddleware(c *gin.Context) {
 	tokenPart2 := splited[1]
 	tokenPart1 := splited[0]
 
-	if tokenPart1 != "jobseeker" {
+	if tokenPart1 != "Jobseeker" {
 		err := errors.New("role mismatch")
-		response := response.ClientResponse(http.StatusUnauthorized, "provided Role is not jobseeker ", nil, err.Error())
+		response := response.ClientResponse(http.StatusUnauthorized, "provided Role is not Jobseeker ", nil, err.Error())
 		c.JSON(http.StatusUnauthorized, response)
 		c.Abort()
 		return
