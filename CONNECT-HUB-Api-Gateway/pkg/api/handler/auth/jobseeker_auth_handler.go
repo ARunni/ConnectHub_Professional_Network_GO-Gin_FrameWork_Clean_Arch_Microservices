@@ -153,7 +153,7 @@ func (jh *JobSeekerHandler) JobSeekerGetProfile(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
-// @Param jobseekerData body models.JobSeekerProfile true "Job Seeker Profile Data"
+// @Param jobseekerData body models.JobSeekerProfileReq true "Job Seeker Profile Data"
 // @Success 200 {object} response.Response "Profile edited successfully"
 // @Failure 400 {object} response.Response "Incorrect data format or failed to edit profile"
 // @Router /jobseeker/profile [patch]

@@ -46,3 +46,15 @@ type RecruiterProfile struct {
 	Contact_email        string `json:"contact_email"`
 	Contact_phone_number uint   `json:"contact_phone_number"`
 }
+
+type RecruiterProfileReq struct {
+	ID                   uint   `json:"id"`
+	Company_name         string `json:"company_name"`
+	Industry             string `json:"industry"`
+	Company_size         int    `json:"company_size"`
+	Website              string `json:"website"`
+	Headquarters_address string `json:"headquarters_address"`
+	About_company        string `json:"about_company"`
+	Contact_email        string `json:"contact_email"`
+	Contact_phone_number uint   `json:"contact_phone_number"`
+}

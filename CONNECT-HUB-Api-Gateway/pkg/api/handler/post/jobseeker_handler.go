@@ -286,7 +286,7 @@ func (jph *JobseekerPostHandler) DeletePost(c *gin.Context) {
 // @Produce json
 // @Security BearerTokenAuth
 // @Param Authorization header string true "Bearer token"
-// @Param comment body models.CreateCommentPost true "Comment details"
+// @Param comment body models.CreateCommentPostReq true "Comment details"
 // @Success 200 {object} response.Response "Successfully added comment to the post"
 // @Failure 400 {object} response.Response "Bad request: invalid input parameters"
 // @Failure 500 {object} response.Response "Internal server error: failed to add comment to the post"
@@ -327,7 +327,7 @@ func (jph *JobseekerPostHandler) CreateCommentPost(c *gin.Context) {
 // @Produce json
 // @Security BearerTokenAuth
 // @Param Authorization header string true "Bearer token"
-// @Param comment body models.UpdateCommentPost true "Updated comment details"
+// @Param comment body models.UpdateCommentPostReq true "Updated comment details"
 // @Success 200 {object} response.Response "Successfully updated comment on the post"
 // @Failure 400 {object} response.Response "Bad request: invalid input parameters"
 // @Failure 500 {object} response.Response "Internal server error: failed to update comment on the post"
@@ -369,7 +369,7 @@ func (jph *JobseekerPostHandler) UpdateCommentPost(c *gin.Context) {
 // @Produce json
 // @Security BearerTokenAuth
 // @Param Authorization header string true "Bearer token"
-// @Param comment body models.DeleteCommentPost true "Comment deletion details"
+// @Param comment body models.DeleteCommentPostReq true "Comment deletion details"
 // @Success 200 {object} response.Response "Successfully deleted comment from the post"
 // @Failure 400 {object} response.Response "Bad request: invalid input parameters"
 // @Failure 500 {object} response.Response "Internal server error: failed to delete comment from the post"

@@ -38,7 +38,7 @@ func NewRecruiterJobHandler(grpc_client interfaces.RecruiterJobClient) *Recruite
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
-// @Param body body models.JobOpening true "Job opening data for posting"
+// @Param body body models.JobOpeningReq true "Job opening data for posting"
 // @Success 200 {object} response.Response "Job posted successfully"
 // @Failure 400 {object} response.Response "Failed to post job: missing or incorrect parameters"
 // @Failure 500 {object} response.Response "Internal server error: failed to post job"
@@ -224,7 +224,7 @@ func (jh *RecruiterJobHandler) DeleteAJob(c *gin.Context) {
 // @Security BearerTokenAuth
 // @Param job_id query int true "ID of the job to update"
 // @Param Authorization header string true "Bearer token"
-// @Param body body models.JobOpening true "Updated job details"
+// @Param body body models.JobOpeningReq true "Updated job details"
 // @Success 200 {object} response.Response "Job successfully updated"
 // @Failure 400 {object} response.Response "Failed to update job: missing or incorrect parameters"
 // @Failure 500 {object} response.Response "Internal server error: failed to update job"
@@ -320,7 +320,7 @@ func (jh *RecruiterJobHandler) GetJobAppliedCandidates(c *gin.Context) {
 // @Produce json
 // @Security BearerTokenAuth
 // @Param Authorization header string true "Bearer token"
-// @Param jobSchedule body models.ScheduleReq true "Schedule details"
+// @Param jobSchedule body models.ScheduleReqs true "Schedule details"
 // @Success 200 {object} response.Response "Interview scheduled successfully"
 // @Failure 400 {object} response.Response "Failed to schedule interview: missing or incorrect parameters"
 // @Failure 500 {object} response.Response "Internal server error: failed to schedule interview"

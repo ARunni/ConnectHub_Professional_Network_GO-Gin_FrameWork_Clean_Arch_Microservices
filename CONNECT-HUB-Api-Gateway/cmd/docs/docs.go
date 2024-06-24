@@ -1282,7 +1282,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.UpdateCommentPost"
+                            "$ref": "#/definitions/models.UpdateCommentPostReq"
                         }
                     }
                 ],
@@ -1338,7 +1338,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.CreateCommentPost"
+                            "$ref": "#/definitions/models.CreateCommentPostReq"
                         }
                     }
                 ],
@@ -1394,7 +1394,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.DeleteCommentPost"
+                            "$ref": "#/definitions/models.DeleteCommentPostReq"
                         }
                     }
                 ],
@@ -1630,7 +1630,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.JobSeekerProfile"
+                            "$ref": "#/definitions/models.JobSeekerProfileReq"
                         }
                     }
                 ],
@@ -1939,7 +1939,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.ScheduleReq"
+                            "$ref": "#/definitions/models.ScheduleReqs"
                         }
                     }
                 ],
@@ -2163,7 +2163,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.JobOpening"
+                            "$ref": "#/definitions/models.JobOpeningReq"
                         }
                     }
                 ],
@@ -2212,7 +2212,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.JobOpening"
+                            "$ref": "#/definitions/models.JobOpeningReq"
                         }
                     }
                 ],
@@ -2528,7 +2528,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.RecruiterProfile"
+                            "$ref": "#/definitions/models.RecruiterProfileReq"
                         }
                     }
                 ],
@@ -2687,7 +2687,7 @@ const docTemplate = `{
                 }
             }
         },
-        "models.CreateCommentPost": {
+        "models.CreateCommentPostReq": {
             "type": "object",
             "properties": {
                 "comment": {
@@ -2712,7 +2712,7 @@ const docTemplate = `{
                 }
             }
         },
-        "models.DeleteCommentPost": {
+        "models.DeleteCommentPostReq": {
             "type": "object",
             "properties": {
                 "comment_id": {
@@ -2726,7 +2726,7 @@ const docTemplate = `{
                 }
             }
         },
-        "models.JobOpening": {
+        "models.JobOpeningReq": {
             "type": "object",
             "properties": {
                 "application_deadline": {
@@ -2737,9 +2737,6 @@ const docTemplate = `{
                 },
                 "education_level": {
                     "type": "string"
-                },
-                "employer_id": {
-                    "type": "integer"
                 },
                 "employment_type": {
                     "type": "string"
@@ -2781,7 +2778,7 @@ const docTemplate = `{
                 }
             }
         },
-        "models.JobSeekerProfile": {
+        "models.JobSeekerProfileReq": {
             "type": "object",
             "properties": {
                 "date_of_birth": {
@@ -2795,9 +2792,6 @@ const docTemplate = `{
                 },
                 "gender": {
                     "type": "string"
-                },
-                "id": {
-                    "type": "integer"
                 },
                 "last_name": {
                     "type": "string"
@@ -2862,7 +2856,7 @@ const docTemplate = `{
                 }
             }
         },
-        "models.RecruiterProfile": {
+        "models.RecruiterProfileReq": {
             "type": "object",
             "properties": {
                 "about_company": {
@@ -2929,7 +2923,7 @@ const docTemplate = `{
                 }
             }
         },
-        "models.ScheduleReq": {
+        "models.ScheduleReqs": {
             "type": "object",
             "properties": {
                 "application_id": {
@@ -2943,13 +2937,10 @@ const docTemplate = `{
                 },
                 "mode": {
                     "type": "string"
-                },
-                "recruiter_id": {
-                    "type": "integer"
                 }
             }
         },
-        "models.UpdateCommentPost": {
+        "models.UpdateCommentPostReq": {
             "type": "object",
             "properties": {
                 "comment": {

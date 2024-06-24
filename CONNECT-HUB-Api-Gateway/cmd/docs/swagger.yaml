@@ -24,7 +24,7 @@ definitions:
     - limit
     - offset
     type: object
-  models.CreateCommentPost:
+  models.CreateCommentPostReq:
     properties:
       comment:
         type: string
@@ -40,7 +40,7 @@ definitions:
       title:
         type: string
     type: object
-  models.DeleteCommentPost:
+  models.DeleteCommentPostReq:
     properties:
       comment_id:
         type: integer
@@ -49,7 +49,7 @@ definitions:
       user_id:
         type: integer
     type: object
-  models.JobOpening:
+  models.JobOpeningReq:
     properties:
       application_deadline:
         type: string
@@ -57,8 +57,6 @@ definitions:
         type: string
       education_level:
         type: string
-      employer_id:
-        type: integer
       employment_type:
         type: string
       experience_level:
@@ -86,7 +84,7 @@ definitions:
     - email
     - password
     type: object
-  models.JobSeekerProfile:
+  models.JobSeekerProfileReq:
     properties:
       date_of_birth:
         type: string
@@ -96,8 +94,6 @@ definitions:
         type: string
       gender:
         type: string
-      id:
-        type: integer
       last_name:
         type: string
       phone_number:
@@ -142,7 +138,7 @@ definitions:
     - email
     - password
     type: object
-  models.RecruiterProfile:
+  models.RecruiterProfileReq:
     properties:
       about_company:
         type: string
@@ -186,7 +182,7 @@ definitions:
       website:
         type: string
     type: object
-  models.ScheduleReq:
+  models.ScheduleReqs:
     properties:
       application_id:
         type: integer
@@ -196,10 +192,8 @@ definitions:
         type: string
       mode:
         type: string
-      recruiter_id:
-        type: integer
     type: object
-  models.UpdateCommentPost:
+  models.UpdateCommentPostReq:
     properties:
       comment:
         type: string
@@ -1038,7 +1032,7 @@ paths:
         name: comment
         required: true
         schema:
-          $ref: '#/definitions/models.DeleteCommentPost'
+          $ref: '#/definitions/models.DeleteCommentPostReq'
       produces:
       - application/json
       responses:
@@ -1074,7 +1068,7 @@ paths:
         name: comment
         required: true
         schema:
-          $ref: '#/definitions/models.CreateCommentPost'
+          $ref: '#/definitions/models.CreateCommentPostReq'
       produces:
       - application/json
       responses:
@@ -1110,7 +1104,7 @@ paths:
         name: comment
         required: true
         schema:
-          $ref: '#/definitions/models.UpdateCommentPost'
+          $ref: '#/definitions/models.UpdateCommentPostReq'
       produces:
       - application/json
       responses:
@@ -1261,7 +1255,7 @@ paths:
         name: jobseekerData
         required: true
         schema:
-          $ref: '#/definitions/models.JobSeekerProfile'
+          $ref: '#/definitions/models.JobSeekerProfileReq'
       produces:
       - application/json
       responses:
@@ -1462,7 +1456,7 @@ paths:
         name: jobSchedule
         required: true
         schema:
-          $ref: '#/definitions/models.ScheduleReq'
+          $ref: '#/definitions/models.ScheduleReqs'
       produces:
       - application/json
       responses:
@@ -1632,7 +1626,7 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/models.JobOpening'
+          $ref: '#/definitions/models.JobOpeningReq'
       produces:
       - application/json
       responses:
@@ -1673,7 +1667,7 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/models.JobOpening'
+          $ref: '#/definitions/models.JobOpeningReq'
       produces:
       - application/json
       responses:
@@ -1839,7 +1833,7 @@ paths:
         name: recruiterData
         required: true
         schema:
-          $ref: '#/definitions/models.RecruiterProfile'
+          $ref: '#/definitions/models.RecruiterProfileReq'
       produces:
       - application/json
       responses:

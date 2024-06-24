@@ -16,6 +16,20 @@ type JobOpening struct {
 	ApplicationDeadline time.Time `json:"application_deadline"`
 }
 
+type JobOpeningReq struct {
+
+	Title               string    `json:"title"`
+	Description         string    `json:"description"`
+	Requirements        string    `json:"requirements"`
+	Location            string    `json:"location"`
+	EmploymentType      string    `json:"employment_type"`
+	Salary              string    `json:"salary"`
+	SkillsRequired      string    `json:"skills_required"`
+	ExperienceLevel     string    `json:"experience_level"`
+	EducationLevel      string    `json:"education_level"`
+	ApplicationDeadline time.Time `json:"application_deadline"`
+}
+
 type JobOpeningData struct {
 	ID                  uint      `json:"id"`
 	Title               string    `json:"title"`
@@ -58,6 +72,7 @@ type ApplyJobReq struct {
 	CoverLetter string `json:"cover_letter"`
 	Resume      []byte `json:"resume"`
 }
+
 type ApplyJob struct {
 	ID          uint   `gorm:"primary_key;auto_increment" json:"id"`
 	JobID       uint   `json:"job_id"`
@@ -94,6 +109,13 @@ type Interview struct {
 type ScheduleReq struct {
 	ApplicationId int       `json:"application_id"`
 	RecruiterID   uint      `json:"recruiter_id"`
+	DateAndTime   time.Time `json:"date_and_time"`
+	Mode          string    `gorm:"default:online" json:"mode"`
+	Link          string    `json:"link"`
+}
+
+type ScheduleReqs struct {
+	ApplicationId int       `json:"application_id"`
 	DateAndTime   time.Time `json:"date_and_time"`
 	Mode          string    `gorm:"default:online" json:"mode"`
 	Link          string    `json:"link"`

@@ -160,7 +160,7 @@ func (jh *RecruiterHandler) RecruiterGetProfile(c *gin.Context) {
 // @Produce json
 // @Security BearerTokenAuth
 // @Param id path int true "Recruiter ID"
-// @Param recruiterData body models.RecruiterProfile true "Recruiter Profile Data"
+// @Param recruiterData body models.RecruiterProfileReq true "Recruiter Profile Data"
 // @Success 200 {object} response.Response "Recruiter profile updated successfully"
 // @Failure 400 {object} response.Response "Failed to update profile"
 // @Router /recruiter/profile [patch]

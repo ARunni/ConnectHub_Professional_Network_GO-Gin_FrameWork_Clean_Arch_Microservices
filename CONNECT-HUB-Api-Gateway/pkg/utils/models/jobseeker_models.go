@@ -43,12 +43,22 @@ type JobSeekerProfile struct {
 	Gender      string `json:"gender"`
 }
 
+type JobSeekerProfileReq struct {
+	Email       string `json:"email"`
+	FirstName   string `json:"first_name"`
+	LastName    string `json:"last_name"`
+	PhoneNumber string `json:"phone_number"`
+	DateOfBirth string `json:"date_of_birth"`
+	Gender      string `json:"gender"`
+}
+
 type CreatePostReq struct {
 	JobseekerId int    `json:"jobseeker_id"`
 	Title       string `gorm:"size:255;not null" json:"title"`
 	Content     string `gorm:"type:text;not null" json:"content"`
 	Image       []byte `json:"image"`
 }
+
 
 type CreatePostRes struct {
 	ID          int         `json:"id"`
@@ -94,6 +104,12 @@ type CreateCommentPost struct {
 	UserId  int    `json:"user_id"`
 	Comment string `json:"comment"`
 }
+
+type CreateCommentPostReq struct {
+	PostId  int    `json:"post_id"`
+	UserId  int    `json:"user_id"`
+	Comment string `json:"comment"`
+}
 type UpdateCommentPost struct {
 	CommentId int    `json:"comment_id"`
 	Comment  string `json:"comment"`
@@ -101,7 +117,21 @@ type UpdateCommentPost struct {
 	UserId  int    `json:"user_id"`
 }
 
+type UpdateCommentPostReq struct {
+	CommentId int    `json:"comment_id"`
+	Comment  string `json:"comment"`
+	PostId  int    `json:"post_id"`
+	UserId  int    `json:"user_id"`
+}
+
 type DeleteCommentPost struct {
+	CommentId int `json:"comment_id"`
+	PostId  int `json:"post_id"`
+	UserId  int `json:"user_id"`
+
+}
+
+type DeleteCommentPostReq struct {
 	CommentId int `json:"comment_id"`
 	PostId  int `json:"post_id"`
 	UserId  int `json:"user_id"`

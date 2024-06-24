@@ -1274,7 +1274,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.UpdateCommentPost"
+                            "$ref": "#/definitions/models.UpdateCommentPostReq"
                         }
                     }
                 ],
@@ -1330,7 +1330,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.CreateCommentPost"
+                            "$ref": "#/definitions/models.CreateCommentPostReq"
                         }
                     }
                 ],
@@ -1386,7 +1386,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.DeleteCommentPost"
+                            "$ref": "#/definitions/models.DeleteCommentPostReq"
                         }
                     }
                 ],
@@ -1622,7 +1622,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.JobSeekerProfile"
+                            "$ref": "#/definitions/models.JobSeekerProfileReq"
                         }
                     }
                 ],
@@ -1931,7 +1931,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.ScheduleReq"
+                            "$ref": "#/definitions/models.ScheduleReqs"
                         }
                     }
                 ],
@@ -2155,7 +2155,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.JobOpening"
+                            "$ref": "#/definitions/models.JobOpeningReq"
                         }
                     }
                 ],
@@ -2204,7 +2204,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.JobOpening"
+                            "$ref": "#/definitions/models.JobOpeningReq"
                         }
                     }
                 ],
@@ -2520,7 +2520,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.RecruiterProfile"
+                            "$ref": "#/definitions/models.RecruiterProfileReq"
                         }
                     }
                 ],
@@ -2679,7 +2679,7 @@
                 }
             }
         },
-        "models.CreateCommentPost": {
+        "models.CreateCommentPostReq": {
             "type": "object",
             "properties": {
                 "comment": {
@@ -2704,7 +2704,7 @@
                 }
             }
         },
-        "models.DeleteCommentPost": {
+        "models.DeleteCommentPostReq": {
             "type": "object",
             "properties": {
                 "comment_id": {
@@ -2718,7 +2718,7 @@
                 }
             }
         },
-        "models.JobOpening": {
+        "models.JobOpeningReq": {
             "type": "object",
             "properties": {
                 "application_deadline": {
@@ -2729,9 +2729,6 @@
                 },
                 "education_level": {
                     "type": "string"
-                },
-                "employer_id": {
-                    "type": "integer"
                 },
                 "employment_type": {
                     "type": "string"
@@ -2773,7 +2770,7 @@
                 }
             }
         },
-        "models.JobSeekerProfile": {
+        "models.JobSeekerProfileReq": {
             "type": "object",
             "properties": {
                 "date_of_birth": {
@@ -2787,9 +2784,6 @@
                 },
                 "gender": {
                     "type": "string"
-                },
-                "id": {
-                    "type": "integer"
                 },
                 "last_name": {
                     "type": "string"
@@ -2854,7 +2848,7 @@
                 }
             }
         },
-        "models.RecruiterProfile": {
+        "models.RecruiterProfileReq": {
             "type": "object",
             "properties": {
                 "about_company": {
@@ -2921,7 +2915,7 @@
                 }
             }
         },
-        "models.ScheduleReq": {
+        "models.ScheduleReqs": {
             "type": "object",
             "properties": {
                 "application_id": {
@@ -2935,13 +2929,10 @@
                 },
                 "mode": {
                     "type": "string"
-                },
-                "recruiter_id": {
-                    "type": "integer"
                 }
             }
         },
-        "models.UpdateCommentPost": {
+        "models.UpdateCommentPostReq": {
             "type": "object",
             "properties": {
                 "comment": {
