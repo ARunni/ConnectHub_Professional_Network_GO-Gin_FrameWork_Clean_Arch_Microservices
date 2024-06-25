@@ -623,7 +623,47 @@ const docTemplate = `{
                 }
             }
         },
-        "/chat": {
+        "/jobseeker/appliedjobs": {
+            "get": {
+                "security": [
+                    {
+                        "BearerTokenAuth": []
+                    }
+                ],
+                "description": "Retrieve the jobs that a job seeker has applied for",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Jobseeker Job Management"
+                ],
+                "summary": "Get applied jobs",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved applied jobs",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed to retrieve applied jobs: missing or incorrect parameters",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error: failed to retrieve applied jobs",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/jobseeker/chat/message": {
             "post": {
                 "security": [
                     {
@@ -668,46 +708,6 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "Failed to retrieve chat details or incorrect data format",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/jobseeker/appliedjobs": {
-            "get": {
-                "security": [
-                    {
-                        "BearerTokenAuth": []
-                    }
-                ],
-                "description": "Retrieve the jobs that a job seeker has applied for",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Jobseeker Job Management"
-                ],
-                "summary": "Get applied jobs",
-                "responses": {
-                    "200": {
-                        "description": "Successfully retrieved applied jobs",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Failed to retrieve applied jobs: missing or incorrect parameters",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error: failed to retrieve applied jobs",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }
@@ -2007,6 +2007,58 @@ const docTemplate = `{
                     },
                     "500": {
                         "description": "Internal server error: failed to get applied candidates",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/recruiter/chat/message": {
+            "post": {
+                "security": [
+                    {
+                        "BearerTokenAuth": []
+                    }
+                ],
+                "description": "Retrieves chat details based on the provided request.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Recruiter Chat Management"
+                ],
+                "summary": "Get Chat Details",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Chat Request Data",
+                        "name": "chatRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.ChatRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Chat details retrieved successfully",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed to retrieve chat details or incorrect data format",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }

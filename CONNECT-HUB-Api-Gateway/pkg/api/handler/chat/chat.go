@@ -145,7 +145,7 @@ func (ch *ChatHandler) SendMessage(c *gin.Context) {
 // @Param chatRequest body models.ChatRequest true "Chat Request Data"
 // @Success 200 {object} response.Response "Chat details retrieved successfully"
 // @Failure 400 {object} response.Response "Failed to retrieve chat details or incorrect data format"
-// @Router /chat [post]
+// @Router /recruiter/chat/message [post]
 func (ch *ChatHandler) GetChatRecruiter(c *gin.Context) {
 
 	var chatRequest models.ChatRequest
@@ -192,7 +192,7 @@ func (ch *ChatHandler) GetChatRecruiter(c *gin.Context) {
 // @Param chatRequest body models.ChatRequest true "Chat Request Data"
 // @Success 200 {object} response.Response "Chat details retrieved successfully"
 // @Failure 400 {object} response.Response "Failed to retrieve chat details or incorrect data format"
-// @Router /chat [post]
+// @Router /jobseeker/chat/message [post]
 func (ch *ChatHandler) GetChatJobseeker(c *gin.Context) {
 
 	var chatRequest models.ChatRequest

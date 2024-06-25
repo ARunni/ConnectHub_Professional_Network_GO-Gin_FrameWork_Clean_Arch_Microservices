@@ -611,7 +611,32 @@ paths:
       summary: Unblock a recruiter
       tags:
       - Admin Recruiter Management
-  /chat:
+  /jobseeker/appliedjobs:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the jobs that a job seeker has applied for
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved applied jobs
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: 'Failed to retrieve applied jobs: missing or incorrect parameters'
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: 'Internal server error: failed to retrieve applied jobs'
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Get applied jobs
+      tags:
+      - Jobseeker Job Management
+  /jobseeker/chat/message:
     post:
       consumes:
       - application/json
@@ -644,31 +669,6 @@ paths:
       summary: Get Chat Details
       tags:
       - Jobseeker Chat Management
-  /jobseeker/appliedjobs:
-    get:
-      consumes:
-      - application/json
-      description: Retrieve the jobs that a job seeker has applied for
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Successfully retrieved applied jobs
-          schema:
-            $ref: '#/definitions/response.Response'
-        "400":
-          description: 'Failed to retrieve applied jobs: missing or incorrect parameters'
-          schema:
-            $ref: '#/definitions/response.Response'
-        "500":
-          description: 'Internal server error: failed to retrieve applied jobs'
-          schema:
-            $ref: '#/definitions/response.Response'
-      security:
-      - BearerTokenAuth: []
-      summary: Get applied jobs
-      tags:
-      - Jobseeker Job Management
   /jobseeker/job:
     get:
       consumes:
@@ -1508,6 +1508,39 @@ paths:
       summary: Get applied candidates for a job
       tags:
       - Recruiter Job Management
+  /recruiter/chat/message:
+    post:
+      consumes:
+      - application/json
+      description: Retrieves chat details based on the provided request.
+      parameters:
+      - description: User ID
+        in: header
+        name: id
+        required: true
+        type: integer
+      - description: Chat Request Data
+        in: body
+        name: chatRequest
+        required: true
+        schema:
+          $ref: '#/definitions/models.ChatRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Chat details retrieved successfully
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Failed to retrieve chat details or incorrect data format
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerTokenAuth: []
+      summary: Get Chat Details
+      tags:
+      - Recruiter Chat Management
   /recruiter/interview:
     delete:
       consumes:
