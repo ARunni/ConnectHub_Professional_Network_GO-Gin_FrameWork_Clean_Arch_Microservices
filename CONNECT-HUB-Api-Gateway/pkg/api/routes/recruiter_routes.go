@@ -39,7 +39,7 @@ func RecruiterRoutes(engine *gin.RouterGroup,
 		engine.GET("/policy", authhandler.GetOnePolicy)
 		engine.GET("/policies", authhandler.GetAllPolicies)
 
-		engine.GET("chat/message", chatHandler.GetChat)
+		engine.GET("chat/message", chatHandler.GetChatRecruiter)
 
 		engine.GET("videocall/key", AuthHandlerVideo.VideoCallKey)
 

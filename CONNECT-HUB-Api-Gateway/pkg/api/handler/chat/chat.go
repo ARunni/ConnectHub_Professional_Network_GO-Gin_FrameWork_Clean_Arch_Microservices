@@ -137,6 +137,53 @@ func (ch *ChatHandler) SendMessage(c *gin.Context) {
 // GetChat handles the endpoint for retrieving chat details.
 // @Summary Get Chat Details
 // @Description Retrieves chat details based on the provided request.
+// @Tags Recruiter Chat Management
+// @Accept json
+// @Produce json
+// @Security BearerTokenAuth
+// @Param id header integer true "User ID"
+// @Param chatRequest body models.ChatRequest true "Chat Request Data"
+// @Success 200 {object} response.Response "Chat details retrieved successfully"
+// @Failure 400 {object} response.Response "Failed to retrieve chat details or incorrect data format"
+// @Router /chat [post]
+func (ch *ChatHandler) GetChatRecruiter(c *gin.Context) {
+
+	var chatRequest models.ChatRequest
+	if err := c.ShouldBindJSON(&chatRequest); err != nil {
+		ch.Logger.Error("Failed to Get Data: ", err)
+
+		errs := response.ClientResponse(http.StatusBadRequest, "Details not in correct format", nil, err.Error())
+		c.JSON(http.StatusBadRequest, errs)
+		return
+	}
+
+	userIDInterface, exists := c.Get("id")
+	if !exists {
+		ch.Logger.Error("User ID not found in JWT claims: ")
+		errs := response.ClientResponse(http.StatusBadRequest, "User ID not found in JWT claims", nil, "")
+		c.JSON(http.StatusBadRequest, errs)
+		return
+	}
+	userID := strconv.Itoa(userIDInterface.(int))
+	result, err := ch.GRPC_Client.GetChat(userID, chatRequest)
+
+	if err != nil {
+		ch.Logger.Error("Failed to Get Data: ", err)
+		errs := response.ClientResponse(http.StatusBadRequest, "Failed to get chat details", nil, err.Error())
+		c.JSON(http.StatusBadRequest, errs)
+		return
+	}
+
+	ch.Logger.Info("Successfully retrieved chat details")
+
+	errs := response.ClientResponse(http.StatusOK, "Successfully retrieved chat details", result, nil)
+	c.JSON(http.StatusOK, errs)
+}
+
+
+// GetChat handles the endpoint for retrieving chat details.
+// @Summary Get Chat Details
+// @Description Retrieves chat details based on the provided request.
 // @Tags Jobseeker Chat Management
 // @Accept json
 // @Produce json
@@ -146,7 +193,7 @@ func (ch *ChatHandler) SendMessage(c *gin.Context) {
 // @Success 200 {object} response.Response "Chat details retrieved successfully"
 // @Failure 400 {object} response.Response "Failed to retrieve chat details or incorrect data format"
 // @Router /chat [post]
-func (ch *ChatHandler) GetChat(c *gin.Context) {
+func (ch *ChatHandler) GetChatJobseeker(c *gin.Context) {
 
 	var chatRequest models.ChatRequest
 	if err := c.ShouldBindJSON(&chatRequest); err != nil {
