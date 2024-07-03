@@ -40,7 +40,6 @@ func NewJobseekerPostHandler(grpc_client interfaces.JobseekerPostClient) *Jobsee
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
-// @Param Authorization header string true "Bearer token"
 // @Param title formData string true "Title of the post"
 // @Param content formData string true "Content of the post"
 // @Param image formData file true "Image file for the post"
@@ -112,7 +111,6 @@ func (jph *JobseekerPostHandler) CreatePost(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
-// @Param Authorization header string true "Bearer token"
 // @Param post_id query int true "ID of the post to retrieve"
 // @Success 200 {object} response.Response "Post retrieved successfully"
 // @Failure 400 {object} response.Response "Failed to get post: missing or incorrect parameters"
@@ -145,7 +143,6 @@ func (jph *JobseekerPostHandler) GetOnePost(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
-// @Param Authorization header string true "Bearer token"
 // @Success 200 {object} response.Response "Successfully retrieved all posts"
 // @Failure 500 {object} response.Response "Internal server error: failed to retrieve posts"
 // @Router /jobseeker/posts [get]
@@ -170,7 +167,6 @@ func (jph *JobseekerPostHandler) GetAllPost(c *gin.Context) {
 // @Accept multipart/form-data
 // @Produce json
 // @Security BearerTokenAuth
-// @Param Authorization header string true "Bearer token"
 // @Param post_id formData int true "ID of the post to update"
 // @Param title formData string true "Title of the post"
 // @Param content formData string true "Content of the post"
@@ -244,7 +240,6 @@ func (jph *JobseekerPostHandler) UpdatePost(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
-// @Param Authorization header string true "Bearer token"
 // @Param post_id query int true "ID of the post to delete"
 // @Success 200 {object} response.Response "Successfully deleted the post"
 // @Failure 400 {object} response.Response "Bad request: invalid input parameters"
@@ -285,7 +280,6 @@ func (jph *JobseekerPostHandler) DeletePost(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
-// @Param Authorization header string true "Bearer token"
 // @Param comment body models.CreateCommentPostReq true "Comment details"
 // @Success 200 {object} response.Response "Successfully added comment to the post"
 // @Failure 400 {object} response.Response "Bad request: invalid input parameters"
@@ -326,7 +320,6 @@ func (jph *JobseekerPostHandler) CreateCommentPost(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
-// @Param Authorization header string true "Bearer token"
 // @Param comment body models.UpdateCommentPostReq true "Updated comment details"
 // @Success 200 {object} response.Response "Successfully updated comment on the post"
 // @Failure 400 {object} response.Response "Bad request: invalid input parameters"
@@ -368,7 +361,6 @@ func (jph *JobseekerPostHandler) UpdateCommentPost(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
-// @Param Authorization header string true "Bearer token"
 // @Param comment body models.DeleteCommentPostReq true "Comment deletion details"
 // @Success 200 {object} response.Response "Successfully deleted comment from the post"
 // @Failure 400 {object} response.Response "Bad request: invalid input parameters"
@@ -410,7 +402,6 @@ func (jph *JobseekerPostHandler) DeleteCommentPost(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
-// @Param Authorization header string true "Bearer token"
 // @Param post_id query int true "ID of the post to like"
 // @Success 200 {object} response.Response "Successfully added like to the post"
 // @Failure 400 {object} response.Response "Bad request: invalid input parameters"
@@ -453,7 +444,6 @@ func (jph *JobseekerPostHandler) AddLikePost(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
-// @Param Authorization header string true "Bearer token"
 // @Param post_id query int true "ID of the post to remove like"
 // @Success 200 {object} response.Response "Successfully removed like from the post"
 // @Failure 400 {object} response.Response "Bad request: invalid input parameters"

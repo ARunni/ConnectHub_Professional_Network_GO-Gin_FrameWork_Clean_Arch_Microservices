@@ -37,7 +37,6 @@ func NewNotificationHandler(grpc_client interfaces.NotificationClient) *Notifica
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
-// @Param Authorization header string true "Bearer token"
 // @Param limit query int false "Number of notifications to retrieve (default: 1)"
 // @Param offset query int false "Offset for pagination (default: 10)"
 // @Success 200 {object} response.Response "Successfully retrieved notifications"
@@ -98,7 +97,6 @@ func (n *NotificationHandler) GetNotification(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
-// @Param Authorization header string true "Bearer token"
 // @Param notification_id query string true "Notification ID"
 // @Success 200 {object} response.Response "Notification successfully marked as read"
 // @Failure 400 {object} response.Response "Failed to mark notification as read: missing or incorrect parameters"
@@ -143,7 +141,6 @@ func (n *NotificationHandler) ReadNotification(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
-// @Param Authorization header string true "Bearer token"
 // @Success 200 {object} response.Response "Notifications successfully marked as read"
 // @Failure 400 {object} response.Response "Failed to mark notifications as read: User ID not found or incorrect parameters"
 // @Failure 500 {object} response.Response "Internal server error: failed to mark notifications as read"
@@ -184,7 +181,6 @@ func (n *NotificationHandler) MarkAllAsRead(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
-// @Param Authorization header string true "Bearer token"
 // @Success 200 {object} response.Response "Successfully retrieved all notifications"
 // @Failure 400 {object} response.Response "Failed to retrieve notifications: User ID not found or incorrect parameters"
 // @Failure 500 {object} response.Response "Internal server error: failed to retrieve notifications"

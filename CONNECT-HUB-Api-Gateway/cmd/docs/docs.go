@@ -1017,13 +1017,6 @@ const docTemplate = `{
                 "summary": "Get a Post by ID",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
                         "type": "integer",
                         "description": "ID of the post to retrieve",
                         "name": "post_id",
@@ -1070,13 +1063,6 @@ const docTemplate = `{
                 ],
                 "summary": "Create a post",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
                     {
                         "type": "string",
                         "description": "Title of the post",
@@ -1139,13 +1125,6 @@ const docTemplate = `{
                 "summary": "Delete post",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
                         "type": "integer",
                         "description": "ID of the post to delete",
                         "name": "post_id",
@@ -1192,13 +1171,6 @@ const docTemplate = `{
                 ],
                 "summary": "Update post",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
                     {
                         "type": "integer",
                         "description": "ID of the post to update",
@@ -1270,13 +1242,6 @@ const docTemplate = `{
                 "summary": "Update comment on post",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
                         "description": "Updated comment details",
                         "name": "comment",
                         "in": "body",
@@ -1326,13 +1291,6 @@ const docTemplate = `{
                 "summary": "Create comment on post",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
                         "description": "Comment details",
                         "name": "comment",
                         "in": "body",
@@ -1381,13 +1339,6 @@ const docTemplate = `{
                 ],
                 "summary": "Delete comment on post",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
                     {
                         "description": "Comment deletion details",
                         "name": "comment",
@@ -1440,13 +1391,6 @@ const docTemplate = `{
                 "summary": "Add like to post",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
                         "type": "integer",
                         "description": "ID of the post to like",
                         "name": "post_id",
@@ -1493,13 +1437,6 @@ const docTemplate = `{
                 ],
                 "summary": "Remove like from post",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
                     {
                         "type": "integer",
                         "description": "ID of the post to remove like",
@@ -1548,15 +1485,6 @@ const docTemplate = `{
                     "Jobseeker Post Management"
                 ],
                 "summary": "Get all posts",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "Successfully retrieved all posts",
@@ -1716,13 +1644,6 @@ const docTemplate = `{
                 "summary": "Get notifications",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
                         "type": "integer",
                         "description": "Number of notifications to retrieve (default: 1)",
                         "name": "limit",
@@ -1776,13 +1697,6 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
                         "description": "Notification ID",
                         "name": "notification_id",
                         "in": "query",
@@ -1829,15 +1743,6 @@ const docTemplate = `{
                     "Jobseeker Notification Management"
                 ],
                 "summary": "Get all notifications",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "Successfully retrieved all notifications",
@@ -1876,15 +1781,6 @@ const docTemplate = `{
                     "Jobseeker Notification Management"
                 ],
                 "summary": "Mark all notifications as read",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "Notifications successfully marked as read",

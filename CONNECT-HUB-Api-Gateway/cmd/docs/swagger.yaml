@@ -856,11 +856,6 @@ paths:
       - application/json
       description: Deletes an existing post for a jobseeker
       parameters:
-      - description: Bearer token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       - description: ID of the post to delete
         in: query
         name: post_id
@@ -891,11 +886,6 @@ paths:
       - application/json
       description: Retrieve a single post by its ID
       parameters:
-      - description: Bearer token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       - description: ID of the post to retrieve
         in: query
         name: post_id
@@ -926,11 +916,6 @@ paths:
       - multipart/form-data
       description: Updates an existing post for a jobseeker
       parameters:
-      - description: Bearer token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       - description: ID of the post to update
         in: formData
         name: post_id
@@ -976,11 +961,6 @@ paths:
       - application/json
       description: Create a new post by a jobseeker
       parameters:
-      - description: Bearer token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       - description: Title of the post
         in: formData
         name: title
@@ -1022,11 +1002,6 @@ paths:
       - application/json
       description: Deletes a comment on an existing post for a jobseeker
       parameters:
-      - description: Bearer token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       - description: Comment deletion details
         in: body
         name: comment
@@ -1058,11 +1033,6 @@ paths:
       - application/json
       description: Adds a comment to an existing post for a jobseeker
       parameters:
-      - description: Bearer token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       - description: Comment details
         in: body
         name: comment
@@ -1094,11 +1064,6 @@ paths:
       - application/json
       description: Updates a comment on an existing post for a jobseeker
       parameters:
-      - description: Bearer token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       - description: Updated comment details
         in: body
         name: comment
@@ -1131,11 +1096,6 @@ paths:
       - application/json
       description: Removes a like from a post for a jobseeker
       parameters:
-      - description: Bearer token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       - description: ID of the post to remove like
         in: query
         name: post_id
@@ -1166,11 +1126,6 @@ paths:
       - application/json
       description: Adds a like to a post for a jobseeker
       parameters:
-      - description: Bearer token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       - description: ID of the post to like
         in: query
         name: post_id
@@ -1201,12 +1156,6 @@ paths:
       consumes:
       - application/json
       description: Retrieves all posts for jobseekers
-      parameters:
-      - description: Bearer token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       produces:
       - application/json
       responses:
@@ -1308,11 +1257,6 @@ paths:
       - application/json
       description: Retrieves notifications for a user with pagination support
       parameters:
-      - description: Bearer token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       - description: 'Number of notifications to retrieve (default: 1)'
         in: query
         name: limit
@@ -1346,11 +1290,6 @@ paths:
       - application/json
       description: Marks a notification as read
       parameters:
-      - description: Bearer token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       - description: Notification ID
         in: query
         name: notification_id
@@ -1382,12 +1321,6 @@ paths:
       consumes:
       - application/json
       description: Retrieves all notifications for a user
-      parameters:
-      - description: Bearer token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       produces:
       - application/json
       responses:
@@ -1413,12 +1346,6 @@ paths:
       consumes:
       - application/json
       description: Marks all notifications as read for a user
-      parameters:
-      - description: Bearer token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       produces:
       - application/json
       responses:

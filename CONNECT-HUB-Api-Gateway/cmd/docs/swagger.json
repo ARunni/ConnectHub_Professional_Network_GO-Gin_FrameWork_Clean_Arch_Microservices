@@ -1009,13 +1009,6 @@
                 "summary": "Get a Post by ID",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
                         "type": "integer",
                         "description": "ID of the post to retrieve",
                         "name": "post_id",
@@ -1062,13 +1055,6 @@
                 ],
                 "summary": "Create a post",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
                     {
                         "type": "string",
                         "description": "Title of the post",
@@ -1131,13 +1117,6 @@
                 "summary": "Delete post",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
                         "type": "integer",
                         "description": "ID of the post to delete",
                         "name": "post_id",
@@ -1184,13 +1163,6 @@
                 ],
                 "summary": "Update post",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
                     {
                         "type": "integer",
                         "description": "ID of the post to update",
@@ -1262,13 +1234,6 @@
                 "summary": "Update comment on post",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
                         "description": "Updated comment details",
                         "name": "comment",
                         "in": "body",
@@ -1318,13 +1283,6 @@
                 "summary": "Create comment on post",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
                         "description": "Comment details",
                         "name": "comment",
                         "in": "body",
@@ -1373,13 +1331,6 @@
                 ],
                 "summary": "Delete comment on post",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
                     {
                         "description": "Comment deletion details",
                         "name": "comment",
@@ -1432,13 +1383,6 @@
                 "summary": "Add like to post",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
                         "type": "integer",
                         "description": "ID of the post to like",
                         "name": "post_id",
@@ -1485,13 +1429,6 @@
                 ],
                 "summary": "Remove like from post",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
                     {
                         "type": "integer",
                         "description": "ID of the post to remove like",
@@ -1540,15 +1477,6 @@
                     "Jobseeker Post Management"
                 ],
                 "summary": "Get all posts",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "Successfully retrieved all posts",
@@ -1708,13 +1636,6 @@
                 "summary": "Get notifications",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
                         "type": "integer",
                         "description": "Number of notifications to retrieve (default: 1)",
                         "name": "limit",
@@ -1768,13 +1689,6 @@
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
                         "description": "Notification ID",
                         "name": "notification_id",
                         "in": "query",
@@ -1821,15 +1735,6 @@
                     "Jobseeker Notification Management"
                 ],
                 "summary": "Get all notifications",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "Successfully retrieved all notifications",
@@ -1868,15 +1773,6 @@
                     "Jobseeker Notification Management"
                 ],
                 "summary": "Mark all notifications as read",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "Notifications successfully marked as read",
