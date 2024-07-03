@@ -89,7 +89,6 @@ func (jh *RecruiterJobHandler) PostJob(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
-// @Param Authorization header string true "Bearer token"
 // @Success 200 {object} response.Response "Successfully retrieved jobs"
 // @Failure 400 {object} response.Response "Failed to retrieve jobs: missing or incorrect parameters"
 // @Failure 500 {object} response.Response "Internal server error: failed to retrieve jobs"
@@ -126,7 +125,6 @@ func (jh *RecruiterJobHandler) GetAllJobs(c *gin.Context) {
 // @Produce json
 // @Security BearerTokenAuth
 // @Param job_id query int true "ID of the job to retrieve"
-// @Param Authorization header string true "Bearer token"
 // @Success 200 {object} response.Response "Successfully retrieved job"
 // @Failure 400 {object} response.Response "Failed to retrieve job: missing or incorrect parameters"
 // @Failure 500 {object} response.Response "Internal server error: failed to retrieve job"
@@ -174,7 +172,6 @@ func (jh *RecruiterJobHandler) GetOneJob(c *gin.Context) {
 // @Produce json
 // @Security BearerTokenAuth
 // @Param job_id query int true "ID of the job to delete"
-// @Param Authorization header string true "Bearer token"
 // @Success 200 {object} response.Response "Job successfully deleted"
 // @Failure 400 {object} response.Response "Failed to delete job: missing or incorrect parameters"
 // @Failure 500 {object} response.Response "Internal server error: failed to delete job"
@@ -223,7 +220,6 @@ func (jh *RecruiterJobHandler) DeleteAJob(c *gin.Context) {
 // @Produce json
 // @Security BearerTokenAuth
 // @Param job_id query int true "ID of the job to update"
-// @Param Authorization header string true "Bearer token"
 // @Param body body models.JobOpeningReq true "Updated job details"
 // @Success 200 {object} response.Response "Job successfully updated"
 // @Failure 400 {object} response.Response "Failed to update job: missing or incorrect parameters"
@@ -278,7 +274,6 @@ func (jh *RecruiterJobHandler) UpdateAJob(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
-// @Param Authorization header string true "Bearer token"
 // @Success 200 {object} response.Response "Applied candidates retrieved successfully"
 // @Failure 400 {object} response.Response "Failed to get applied candidates: missing or incorrect parameters"
 // @Failure 500 {object} response.Response "Internal server error: failed to get applied candidates"
@@ -319,7 +314,6 @@ func (jh *RecruiterJobHandler) GetJobAppliedCandidates(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
-// @Param Authorization header string true "Bearer token"
 // @Param jobSchedule body models.ScheduleReqs true "Schedule details"
 // @Success 200 {object} response.Response "Interview scheduled successfully"
 // @Failure 400 {object} response.Response "Failed to schedule interview: missing or incorrect parameters"
@@ -369,7 +363,6 @@ func (jh *RecruiterJobHandler) ScheduleInterview(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Security BearerTokenAuth
-// @Param Authorization header string true "Bearer token"
 // @Param app_id query string true "Application ID"
 // @Success 200 {object} response.Response "Interview schedule canceled successfully"
 // @Failure 400 {object} response.Response "Failed to cancel interview schedule: missing or incorrect parameters"

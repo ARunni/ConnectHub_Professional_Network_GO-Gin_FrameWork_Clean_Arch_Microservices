@@ -1373,11 +1373,6 @@ paths:
       - application/json
       description: Schedule an interview by a recruiter for a job applicant
       parameters:
-      - description: Bearer token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       - description: Schedule details
         in: body
         name: jobSchedule
@@ -1409,12 +1404,6 @@ paths:
       consumes:
       - application/json
       description: Retrieves the candidates who applied for a job posted by a recruiter
-      parameters:
-      - description: Bearer token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       produces:
       - application/json
       responses:
@@ -1474,11 +1463,6 @@ paths:
       - application/json
       description: Cancel a scheduled interview by a recruiter
       parameters:
-      - description: Bearer token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       - description: Application ID
         in: query
         name: app_id
@@ -1516,11 +1500,6 @@ paths:
         name: job_id
         required: true
         type: integer
-      - description: Bearer token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       produces:
       - application/json
       responses:
@@ -1551,11 +1530,6 @@ paths:
         name: job_id
         required: true
         type: integer
-      - description: Bearer token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       produces:
       - application/json
       responses:
@@ -1617,11 +1591,6 @@ paths:
         name: job_id
         required: true
         type: integer
-      - description: Bearer token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       - description: Updated job details
         in: body
         name: body
@@ -1653,12 +1622,6 @@ paths:
       consumes:
       - application/json
       description: Retrieve all jobs posted by a recruiter
-      parameters:
-      - description: Bearer token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       produces:
       - application/json
       responses:

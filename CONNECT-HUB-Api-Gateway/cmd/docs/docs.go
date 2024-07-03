@@ -1823,13 +1823,6 @@ const docTemplate = `{
                 "summary": "Schedule interview",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
                         "description": "Schedule details",
                         "name": "jobSchedule",
                         "in": "body",
@@ -1879,15 +1872,6 @@ const docTemplate = `{
                     "Recruiter Job Management"
                 ],
                 "summary": "Get applied candidates for a job",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "Applied candidates retrieved successfully",
@@ -1983,13 +1967,6 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
                         "description": "Application ID",
                         "name": "app_id",
                         "in": "query",
@@ -2043,13 +2020,6 @@ const docTemplate = `{
                         "name": "job_id",
                         "in": "query",
                         "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
                     }
                 ],
                 "responses": {
@@ -2096,13 +2066,6 @@ const docTemplate = `{
                         "description": "ID of the job to update",
                         "name": "job_id",
                         "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
                         "required": true
                     },
                     {
@@ -2209,13 +2172,6 @@ const docTemplate = `{
                         "name": "job_id",
                         "in": "query",
                         "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
                     }
                 ],
                 "responses": {
@@ -2258,15 +2214,6 @@ const docTemplate = `{
                     "Recruiter Job Management"
                 ],
                 "summary": "Get all jobs",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "Successfully retrieved jobs",
