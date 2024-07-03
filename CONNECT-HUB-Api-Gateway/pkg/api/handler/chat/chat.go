@@ -59,7 +59,7 @@ func (ch *ChatHandler) SendMessage(c *gin.Context) {
 		userID, err := ch.helper.ValidateTokenJobseeker(splitToken[1])
 
 		if err != nil {
-			ch.Logger.Error("Failed to Validate TokenJ obseeker: ", err)
+			ch.Logger.Error("Failed to Validate Token Jobseeker: ", err)
 			errs := response.ClientResponse(http.StatusUnauthorized, "Invalid token", nil, err.Error())
 			c.JSON(http.StatusUnauthorized, errs)
 			return
@@ -89,45 +89,45 @@ func (ch *ChatHandler) SendMessage(c *gin.Context) {
 			}
 			ch.helper.SendMessageToUser(User, msg, user)
 		}
-	} else if splitToken[0] == "Recruiter" {
-		userID, err := ch.helper.ValidateTokenRecruiter(splitToken[1])
-		fmt.Println("validate token result ", userID, err)
-		if err != nil {
-			ch.Logger.Error("Failed to Validate Token Recruiter: ", err)
-			errs := response.ClientResponse(http.StatusUnauthorized, "Invalid token", nil, err.Error())
-			c.JSON(http.StatusUnauthorized, errs)
-			return
-		}
-		fmt.Println("upgrading ")
-		conn, err := upgrade.Upgrade(c.Writer, c.Request, nil)
-		if err != nil {
-			ch.Logger.Error("Failed at upgrading: ", err)
-			errs := response.ClientResponse(http.StatusBadRequest, "Websocket Connection Issue", nil, err.Error())
-			c.JSON(http.StatusBadRequest, errs)
-			return
-		}
+	// } else if splitToken[0] == "Recruiter" {
+	// 	userID, err := ch.helper.ValidateTokenRecruiter(splitToken[1])
+	// 	fmt.Println("validate token result ", userID, err)
+	// 	if err != nil {
+	// 		ch.Logger.Error("Failed to Validate Token Recruiter: ", err)
+	// 		errs := response.ClientResponse(http.StatusUnauthorized, "Invalid token", nil, err.Error())
+	// 		c.JSON(http.StatusUnauthorized, errs)
+	// 		return
+	// 	}
+	// 	fmt.Println("upgrading ")
+	// 	conn, err := upgrade.Upgrade(c.Writer, c.Request, nil)
+	// 	if err != nil {
+	// 		ch.Logger.Error("Failed at upgrading: ", err)
+	// 		errs := response.ClientResponse(http.StatusBadRequest, "Websocket Connection Issue", nil, err.Error())
+	// 		c.JSON(http.StatusBadRequest, errs)
+	// 		return
+	// 	}
 
-		defer delete(User, strconv.Itoa(userID))
-		defer conn.Close()
-		user := strconv.Itoa(userID)
-		User[user] = conn
+	// 	defer delete(User, strconv.Itoa(userID))
+	// 	defer conn.Close()
+	// 	user := strconv.Itoa(userID)
+	// 	User[user] = conn
 
-		for {
-			fmt.Println("loop starts", userID, User)
-			_, msg, err := conn.ReadMessage()
-			if err != nil {
-				ch.Logger.Error("Failed to Read Message: ", err)
-				errs := response.ClientResponse(http.StatusBadRequest, "Details not in correct format", nil, err.Error())
-				c.JSON(http.StatusBadRequest, errs)
-				return
-			}
-			ch.helper.SendMessageToUser(User, msg, user)
-			ch.Logger.Info("Send Message To User Successful")
+	// 	for {
+	// 		fmt.Println("loop starts", userID, User)
+	// 		_, msg, err := conn.ReadMessage()
+	// 		if err != nil {
+	// 			ch.Logger.Error("Failed to Read Message: ", err)
+	// 			errs := response.ClientResponse(http.StatusBadRequest, "Details not in correct format", nil, err.Error())
+	// 			c.JSON(http.StatusBadRequest, errs)
+	// 			return
+	// 		}
+	// 		ch.helper.SendMessageToUser(User, msg, user)
+	// 		ch.Logger.Info("Send Message To User Successful")
 
-		}
+	// 	}
 	} else {
-		ch.Logger.Error("Invalid token role: ", errors.New("role is not specified"))
-		errs := response.ClientResponse(http.StatusUnauthorized, "Invalid token role", nil, errors.New("role is not specified"))
+		ch.Logger.Error("Invalid token role: ", errors.New("role is not jobseeker"))
+		errs := response.ClientResponse(http.StatusUnauthorized, "Invalid token role", nil, errors.New("role is not jobseeker"))
 		c.JSON(http.StatusUnauthorized, errs)
 		return
 	}

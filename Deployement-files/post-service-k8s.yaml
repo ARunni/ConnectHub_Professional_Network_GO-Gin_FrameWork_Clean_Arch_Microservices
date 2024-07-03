@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: connecthub-post-svc
+  namespace: connecthub
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: post_service
+  template:
+    metadata:
+      labels: 
+        app: post_service
+    spec:
+      containers:
+      - image: aruncm7/connecthub-post-service
+        name: post-svc-container
+        ports:
+        - containerPort: 7002
+        resources:
+          limits:
+            cpu: ".2"
+            memory: "250Mi"
+          requests:
+            cpu: ".1"
+            memory: "150Mi"
+        
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: connecthub
+  name: connecthub-post-service
+spec:
+  type: ClusterIP
+  ports:
+  - port: 7002
+    targetPort: 7002
+  selector:
+    app: post_service

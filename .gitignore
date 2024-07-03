@@ -18,3 +18,9 @@ CONNECT-HUB-Notification-service/Logging/connectHub_Notification.log
 # static
 
 CONNECT-HUB-Api-Gateway/static/images
+
+
+# K8's
+
+Deployement-files/connecthub-k8s-secret.yaml
+Deployement-files/cluster-issuer-cert.yaml

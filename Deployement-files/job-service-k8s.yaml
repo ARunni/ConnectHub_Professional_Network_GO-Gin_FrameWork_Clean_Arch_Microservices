@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: connecthub-job-svc
+  namespace: connecthub
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: job_service
+  template:
+    metadata:
+      labels: 
+        app: job_service
+    spec:
+      containers:
+      - image: aruncm7/connecthub-job-service
+        name: job-svc-container
+        ports:
+        - containerPort: 7004
+        resources:
+          limits:
+            cpu: ".2"
+            memory: "250Mi"
+          requests:
+            cpu: ".1"
+            memory: "150Mi"
+        
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: connecthub
+  name: connecthub-job-service
+spec:
+  type: ClusterIP
+  ports:
+  - port: 7004
+    targetPort: 7004
+  selector:
+    app: job_service

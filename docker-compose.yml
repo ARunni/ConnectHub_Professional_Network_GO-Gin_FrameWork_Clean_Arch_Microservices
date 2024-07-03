@@ -1,0 +1,136 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres
+    container_name: connecthub-postgres
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=12345
+      - POSTGRES_USER=postgres
+    networks:
+      - connecthub_network
+    volumes:
+      - connecthub_volume:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+
+  mongodb:
+    image: mongo
+    container_name: connecthub-mongodb
+    restart: on-failure
+    networks:
+      - connecthub_network
+    volumes:
+      - connecthub_volume:/data/db
+    ports:
+      - "27018:27017"
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest  
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000   
+    networks:
+      - connecthub_network
+    container_name: zookeeper
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: INTERNAL://0.0.0.0:9092,OUTSIDE://0.0.0.0:9094
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:9092,OUTSIDE://localhost:9094
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_LOG_RETENTION_HOURS: 168
+    networks:
+      - connecthub_network
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9094:9094"
+      - "9092:9092"
+      
+  api-gateway:
+    image: connecthub_api_gateway
+    build: ./CONNECT-HUB-Api-Gateway/
+    restart: always
+    depends_on:
+      - postgres
+      - kafka
+    container_name: connecthub-api-gateway
+    networks:
+      - connecthub_network
+    ports:
+      - "8080:7000"
+
+  auth-services:
+    image: connecthub_auth_service
+    build: ./CONNECT-HUB-Auth-Service/
+    restart: always
+    depends_on:
+      - postgres
+      - kafka
+    container_name: connecthub-auth-service
+    networks:
+      - connecthub_network
+    hostname: connecthub-auth-service
+
+
+  chat-service:
+    image: connecthub_chat_service
+    build: ./CONNECT-HUB-Chat-Service/
+    depends_on:
+      - mongodb
+      - kafka
+    restart: always
+    container_name: connecthub-chat-service
+    networks:
+      - connecthub_network
+    hostname: connecthub-chat-service
+
+  job-service:
+    image: connecthub_job_service
+    build: ./CONNECT-HUB-Job-Service/
+    depends_on:
+      - mongodb
+      - kafka
+    restart: always
+    container_name: connecthub-job-service
+    networks:
+      - connecthub_network
+    hostname: connecthub-job-service
+
+  notification-service:
+    image: connecthub_notification_service
+    build: ./CONNECT-HUB-Notification-service/
+    depends_on:
+      - postgres
+      - kafka
+    restart: always
+    container_name: connecthub-notification-service
+    networks:
+      - connecthub_network
+    hostname: connecthub-notification-service
+
+  post-service:
+    image: connecthub_post_service
+    build: ./CONNECT-HUB-Post-Service/
+    depends_on:
+      - postgres
+      - kafka
+    restart: always
+    container_name: connecthub-post-service
+    networks:
+      - connecthub_network
+    hostname: connecthub-post-service
+
+networks:
+  connecthub_network:
+    driver: bridge
+
+volumes:
+  connecthub_volume:

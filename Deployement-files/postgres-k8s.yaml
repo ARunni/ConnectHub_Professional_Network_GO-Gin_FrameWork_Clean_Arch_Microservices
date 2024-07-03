@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-deployment
+  namespace: connecthub
+  labels:
+    db: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      database: postgres
+  template:
+    metadata:
+      name: postgres-pod
+      labels:
+        database: postgres
+    spec:
+      containers:
+        - name: connecthub-postgres-container
+          image: postgres
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key:  postgres-password  
+            - name : POSTGRES_DB_AUTH
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: postgres-auth-svc
+            - name : POSTGRES_DB_JOB
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: postgres-job-svc
+            - name : POSTGRES_DB_NOTIFICATION
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: postgres-notification-svc
+            - name : POSTGRES_DB_POST
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: postgres-post-svc
+          volumeMounts:
+          - name: storagespace
+            mountPath: /var/lib/postgresql/data
+            subPath: postgres
+  volumeClaimTemplates:
+    - metadata:
+        name: storagespace
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 10Gi                                                                   
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: connecthub
+spec:
+  type: ClusterIP
+  selector:
+    database: postgres
+  ports:
+    - port: 5432
+      targetPort: 5432

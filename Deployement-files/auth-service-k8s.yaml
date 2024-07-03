@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: connecthub-auth-svc
+  namespace: connecthub
+spec:
+  selector:
+    matchLabels:
+      app: auth_service
+  template:
+    metadata:
+      labels:
+        app: auth_service
+    spec:
+      containers:
+        - image: aruncm7/connecthub-auth-service
+          name: auth-svc-container
+          ports:
+            - containerPort: 7001
+          resources:
+            limits:
+              memory: 212Mi
+              cpu: ".2"
+            requests:
+              memory: 150Mi
+              cpu: "0.1"
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: connecthub-auth-service
+  namespace: connecthub
+spec: 
+  type: ClusterIP
+  ports:
+    - port: 7001
+      targetPort: 7001
+  selector:
+    app: auth_service

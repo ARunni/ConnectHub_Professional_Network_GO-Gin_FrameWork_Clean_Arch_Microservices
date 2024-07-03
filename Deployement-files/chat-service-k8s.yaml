@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: connecthub-chat-svc
+  namespace: connecthub
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chat_service
+  template:
+    metadata:
+      labels: 
+        app: chat_service
+    spec:
+      containers:
+      - image: aruncm7/connecthub-chat-service
+        name: chat-svc-container
+        ports:
+        - containerPort: 7003
+        resources:
+          limits:
+            cpu: ".2"
+            memory: "250Mi"
+          requests:
+            cpu: ".1"
+            memory: "150Mi"
+        
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: connecthub
+  name: connecthub-chat-service
+spec:
+  type: ClusterIP
+  ports:
+  - port: 7003
+    targetPort: 7003
+  selector:
+    app: chat_service

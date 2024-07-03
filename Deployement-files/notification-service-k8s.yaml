@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: connecthub-notification-svc
+  namespace: connecthub
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notification_service
+  template:
+    metadata:
+      labels: 
+        app: notification_service
+    spec:
+      containers:
+      - image: aruncm7/connecthub-notification-service
+        name: notification-svc-container
+        ports:
+        - containerPort: 7006
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "150Mi"
+          limits:
+            cpu: "200m"
+            memory: "250Mi"
+        
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: connecthub
+  name: connecthub-notification-service
+spec:
+  type: ClusterIP
+  ports:
+  - port: 7006
+    targetPort: 7006
+  selector:
+    app: notification_service

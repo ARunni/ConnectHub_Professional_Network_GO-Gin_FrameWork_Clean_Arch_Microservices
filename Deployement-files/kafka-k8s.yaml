@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    service: kafka
+  name: kafka
+  namespace: connecthub
+spec:
+  serviceName: kafka
+  replicas: 1
+  selector:
+    matchLabels:
+      service: kafka
+  template:
+    metadata:
+      labels:
+        network/kafka-network: "true"
+        service: kafka
+    spec:
+      securityContext:
+        fsGroup: 1000
+      enableServiceLinks: false
+      containers:
+      - name: kafka
+        imagePullPolicy: IfNotPresent
+        image: confluentinc/cp-kafka:7.0.1
+        ports:
+          - containerPort: 29092
+          - containerPort: 9092
+        env:
+          - name: KAFKA_ADVERTISED_LISTENERS
+            value: "INTERNAL://:29092,LISTENER_EXTERNAL://:9092"
+          - name: KAFKA_AUTO_CREATE_TOPICS_ENABLE
+            value: "true"
+          - name: KAFKA_INTER_BROKER_LISTENER_NAME
+            value: "INTERNAL"
+          - name: KAFKA_LISTENERS
+            value: "INTERNAL://:29092,LISTENER_EXTERNAL://:9092"
+          - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
+            value: "INTERNAL:PLAINTEXT,LISTENER_EXTERNAL:PLAINTEXT"
+          - name: KAFKA_ZOOKEEPER_CONNECT
+            value: "zookeeper:2181"
+        resources: {}
+        volumeMounts:
+          - mountPath: /var/lib/kafka/
+            name: kafka-data
+      hostname: kafka
+      restartPolicy: Always
+  volumeClaimTemplates:
+    - metadata:
+        name: kafka-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 100Mi
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service: kafka
+  name: kafka
+  namespace: connecthub
+spec:
+  clusterIP: None
+  selector:
+    service: kafka
+  ports:
+    - name: internal
+      port: 29092
+      targetPort: 29092
+    - name: external
+      port: 9092
+      targetPort: 9092
