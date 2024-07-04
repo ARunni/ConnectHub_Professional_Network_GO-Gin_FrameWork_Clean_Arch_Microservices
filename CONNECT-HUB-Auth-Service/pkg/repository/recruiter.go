@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"fmt"
 	"os"
 
 	logging "github.com/ARunni/ConnetHub_auth/Logging"
@@ -30,7 +31,7 @@ func (rr *recruiterRepository) RecruiterSignup(data req.RecruiterSignUp) (req.Re
 	var recruiter req.RecruiterDetailsResponse
 	querry := `insert into recruiters 
 	(company_name,industry,company_size,website,headquarters_address,about_company,contact_email,contact_phone_number,password)
-	 values(?,?,?,?,?,?,?,?,?)`
+	 values(?,?,?,?,?,?,?,?,?) RETURNING *`
 	result := rr.DB.Raw(querry, data.Company_name,
 		data.Industry, data.Company_size, data.Website,
 		data.Headquarters_address, data.About_company,
@@ -39,6 +40,7 @@ func (rr *recruiterRepository) RecruiterSignup(data req.RecruiterSignUp) (req.Re
 	if result.Error != nil {
 		return req.RecruiterDetailsResponse{}, result.Error
 	}
+	fmt.Println("recroooooooooooooo", recruiter)
 	return recruiter, nil
 
 }
