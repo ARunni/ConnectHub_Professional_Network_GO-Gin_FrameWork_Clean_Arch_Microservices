@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 	"os"
 	"strconv"
 
@@ -135,9 +136,9 @@ func (js *RecruiterJobServer) DeleteAJob(ctx context.Context, req *jobpb.DeleteA
 }
 
 func (js *RecruiterJobServer) UpdateAJob(ctx context.Context, req *jobpb.UpdateAJobRequest) (*jobpb.UpdateAJobResponse, error) {
-	employerID := req.EmployerIDInt
+	employerID := req.EmployerId
 	jobID := req.JobId
-
+	fmt.Println("jjjjjjj", req.EducationLevel)
 	jobDetails := models.JobOpening{
 		Title:               req.Title,
 		Description:         req.Description,
@@ -150,6 +151,9 @@ func (js *RecruiterJobServer) UpdateAJob(ctx context.Context, req *jobpb.UpdateA
 		EducationLevel:      req.EducationLevel,
 		ApplicationDeadline: req.ApplicationDeadline.AsTime(),
 	}
+	fmt.Println("jonnnn", jobDetails.EducationLevel)
+
+	fmt.Println("job details ", jobDetails)
 
 	res, err := js.jobUseCase.UpdateAJob(employerID, jobID, jobDetails)
 	if err != nil {

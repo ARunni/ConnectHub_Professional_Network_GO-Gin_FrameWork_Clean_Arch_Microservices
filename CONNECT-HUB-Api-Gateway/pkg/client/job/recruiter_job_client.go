@@ -262,12 +262,12 @@ func (jc *recruiterJobClient) ScheduleInterview(data models.ScheduleReq) (models
 	}, nil
 }
 
-func (jc *recruiterJobClient) CancelScheduledInterview(appId, userId int) (bool,error) {
+func (jc *recruiterJobClient) CancelScheduledInterview(appId, userId int) (bool, error) {
 
 	jc.Logger.Info("CancelScheduledInterview at client started")
 
 	job, err := jc.Client.CancelScheduledInterview(context.Background(), &recruiterPb.CancelScheduledInterviewRequest{
-		AppId: int64(appId),
+		AppId:  int64(appId),
 		UserId: int64(userId),
 	})
 	if err != nil {

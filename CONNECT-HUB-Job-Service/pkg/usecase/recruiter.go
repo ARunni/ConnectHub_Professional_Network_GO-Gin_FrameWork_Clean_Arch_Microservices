@@ -130,6 +130,7 @@ func (ju *recruiterJobUseCase) DeleteAJob(employerIDInt, jobID int32) error {
 	return nil
 }
 func (ju *recruiterJobUseCase) UpdateAJob(employerID int32, jobID int32, jobDetails models.JobOpening) (models.JobOpeningData, error) {
+	fmt.Println("idddddddddddddd", employerID)
 
 	if employerID <= 0 {
 		return models.JobOpeningData{}, errors.New("recruiter id is not valid")
@@ -154,6 +155,8 @@ func (ju *recruiterJobUseCase) UpdateAJob(employerID int32, jobID int32, jobDeta
 	if jobDetails.Requirements == "" {
 		return models.JobOpeningData{}, errors.New("requirements is required")
 	}
+	fmt.Println("jobdetailssssssss", jobDetails)
+	fmt.Println("jobdetailsssseducationssss", jobDetails.EducationLevel)
 	if jobDetails.EducationLevel == "" {
 		return models.JobOpeningData{}, errors.New("educationLevel is required")
 	}

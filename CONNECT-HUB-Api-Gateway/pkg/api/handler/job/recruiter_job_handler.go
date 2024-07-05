@@ -2,6 +2,7 @@ package handler
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 	"os"
 	"strconv"
@@ -239,6 +240,8 @@ func (jh *RecruiterJobHandler) UpdateAJob(c *gin.Context) {
 	userIdstring, _ := c.Get("id")
 	userId, strErr := userIdstring.(int)
 	int32Value := int32(userId)
+	fmt.Println("iddddd", userId)
+	fmt.Println("iddddd2222", int32Value)
 	if !strErr {
 		jh.Logger.Error("Failed to Get Data: ", errors.New("details not in correct format"))
 		errResp := response.ClientResponse(http.StatusBadRequest, msg.MsgFormatErr, nil, strErr)
@@ -253,6 +256,7 @@ func (jh *RecruiterJobHandler) UpdateAJob(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, errs)
 		return
 	}
+	fmt.Println("eeeeeeeeeeeee", jobOpening)
 
 	UpdateJobOpening, err := jh.GRPC_Client.UpdateAJob(int32Value, int32(jobID), jobOpening)
 
