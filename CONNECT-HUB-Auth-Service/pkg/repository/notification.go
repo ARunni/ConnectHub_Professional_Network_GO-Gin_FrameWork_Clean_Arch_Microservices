@@ -29,7 +29,7 @@ func (nr *notificationRepository) UserData(userId int) (models.UserDatas, error)
 	nr.Logger.Info("UserData at notificationRepository started")
 	var data models.UserDatas
 	querry := `
-select first_name as username,id as user_id from job_seekers where id = ?
+select first_name as username,id as user_id from users where id = ?
 `
 	result := nr.DB.Raw(querry, userId).Scan(&data)
 	if result.Error != nil {

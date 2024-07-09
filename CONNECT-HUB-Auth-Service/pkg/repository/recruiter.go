@@ -1,7 +1,6 @@
 package repository
 
 import (
-	"fmt"
 	"os"
 
 	logging "github.com/ARunni/ConnetHub_auth/Logging"
@@ -29,7 +28,7 @@ func NewRecruiterRepository(DB *gorm.DB) interfaces.RecruiterRepository {
 }
 func (rr *recruiterRepository) RecruiterSignup(data req.RecruiterSignUp) (req.RecruiterDetailsResponse, error) {
 	var recruiter req.RecruiterDetailsResponse
-	querry := `insert into recruiters 
+	querry := `insert into users 
 	(company_name,industry,company_size,website,headquarters_address,about_company,contact_email,contact_phone_number,password)
 	 values(?,?,?,?,?,?,?,?,?) RETURNING *`
 	result := rr.DB.Raw(querry, data.Company_name,
@@ -40,24 +39,33 @@ func (rr *recruiterRepository) RecruiterSignup(data req.RecruiterSignUp) (req.Re
 	if result.Error != nil {
 		return req.RecruiterDetailsResponse{}, result.Error
 	}
-	fmt.Println("recroooooooooooooo", recruiter)
 	return recruiter, nil
 
 }
 
 func (rr *recruiterRepository) CheckRecruiterExistsByEmail(email string) (bool, error) {
 	var count int
-	querry := `select count(*) from recruiters where contact_email = ?`
-	result := rr.DB.Raw(querry, email).Scan(&count)
+	querry := `select count(*) from users where contact_email = ? and role = ?`
+	result := rr.DB.Raw(querry, email, "Recruiter").Scan(&count)
 	if result.Error != nil {
 		return false, result.Error
 	}
 	return count > 0, nil
 }
 
+// func (rr *recruiterRepository) CheckRecruiterExistsByEmail(email string) (bool, error) {
+// 	var count int
+// 	querry := `select count(*) from recruiters where contact_email = ?`
+// 	result := rr.DB.Raw(querry, email).Scan(&count)
+// 	if result.Error != nil {
+// 		return false, result.Error
+// 	}
+// 	return count > 0, nil
+// }
+
 func (rr *recruiterRepository) RecruiterLogin(data req.RecruiterLogin) (req.RecruiterDetailsResponse, error) {
 	var recruiter req.RecruiterDetailsResponse
-	querry := ` select * from recruiters where contact_email = ?`
+	querry := ` select * from users where contact_email = ?`
 	result := rr.DB.Raw(querry, data.Email).Scan(&recruiter)
 	if result.Error != nil {
 		return req.RecruiterDetailsResponse{}, result.Error
@@ -65,19 +73,38 @@ func (rr *recruiterRepository) RecruiterLogin(data req.RecruiterLogin) (req.Recr
 	return recruiter, nil
 }
 
+// func (rr *recruiterRepository) RecruiterLogin(data req.RecruiterLogin) (req.RecruiterDetailsResponse, error) {
+// 	var recruiter req.RecruiterDetailsResponse
+// 	querry := ` select * from recruiters where contact_email = ?`
+// 	result := rr.DB.Raw(querry, data.Email).Scan(&recruiter)
+// 	if result.Error != nil {
+// 		return req.RecruiterDetailsResponse{}, result.Error
+// 	}
+// 	return recruiter, nil
+// }
+
 func (rr *recruiterRepository) CheckRecruiterBlockByEmail(email string) (bool, error) {
 	var ok bool
-	err := rr.DB.Raw("select is_blocked from recruiters where contact_email = ?", email).Scan(&ok).Error
+	err := rr.DB.Raw("select is_blocked from users where contact_email = ?", email).Scan(&ok).Error
 	if err != nil {
 		return false, err
 	}
 	return ok, nil
 }
 
+// func (rr *recruiterRepository) CheckRecruiterBlockByEmail(email string) (bool, error) {
+// 	var ok bool
+// 	err := rr.DB.Raw("select is_blocked from recruiters where contact_email = ?", email).Scan(&ok).Error
+// 	if err != nil {
+// 		return false, err
+// 	}
+// 	return ok, nil
+// }
+
 func (rr *recruiterRepository) RecruiterGetProfile(id int) (req.RecruiterProfile, error) {
 	var recruiter req.RecruiterProfile
 
-	querry := `select * from recruiters where id = ?`
+	querry := `select * from users where id = ?`
 
 	result := rr.DB.Raw(querry, id).Scan(&recruiter)
 	if result.Error != nil {
@@ -86,10 +113,22 @@ func (rr *recruiterRepository) RecruiterGetProfile(id int) (req.RecruiterProfile
 	return recruiter, nil
 }
 
+// func (rr *recruiterRepository) RecruiterGetProfile(id int) (req.RecruiterProfile, error) {
+// 	var recruiter req.RecruiterProfile
+
+// 	querry := `select * from recruiters where id = ?`
+
+// 	result := rr.DB.Raw(querry, id).Scan(&recruiter)
+// 	if result.Error != nil {
+// 		return req.RecruiterProfile{}, result.Error
+// 	}
+// 	return recruiter, nil
+// }
+
 func (rr *recruiterRepository) RecruiterEditProfile(profile req.RecruiterProfile) (req.RecruiterProfile, error) {
 	p := profile
 
-	querry := `update recruiters set company_name =?,
+	querry := `update users set company_name =?,
 	industry =?,company_size =?,website=?,headquarters_address=?,
 	about_company=? ,contact_email =?,contact_phone_number = ?  where id = ?`
 
@@ -102,15 +141,41 @@ func (rr *recruiterRepository) RecruiterEditProfile(profile req.RecruiterProfile
 	return profile, nil
 }
 
+// func (rr *recruiterRepository) RecruiterEditProfile(profile req.RecruiterProfile) (req.RecruiterProfile, error) {
+// 	p := profile
+
+// 	querry := `update recruiters set company_name =?,
+// 	industry =?,company_size =?,website=?,headquarters_address=?,
+// 	about_company=? ,contact_email =?,contact_phone_number = ?  where id = ?`
+
+// 	result := rr.DB.Raw(querry, p.Company_name, p.Industry,
+// 		p.Company_size, p.Website, p.Headquarters_address,
+// 		p.About_company, p.Contact_email, p.Contact_phone_number, p.ID)
+// 	if result.Error != nil {
+// 		return req.RecruiterProfile{}, result.Error
+// 	}
+// 	return profile, nil
+// }
+
 func (rr *recruiterRepository) IsRecruiterBlocked(id int) (bool, error) {
 	var ok bool
-	qurry := `select is_blocked from recruiters where id = ?`
+	qurry := `select is_blocked from users where id = ?`
 	err := rr.DB.Raw(qurry, id).Scan(&ok).Error
 	if err != nil {
 		return false, err
 	}
 	return ok, nil
 }
+
+// func (rr *recruiterRepository) IsRecruiterBlocked(id int) (bool, error) {
+// 	var ok bool
+// 	qurry := `select is_blocked from recruiters where id = ?`
+// 	err := rr.DB.Raw(qurry, id).Scan(&ok).Error
+// 	if err != nil {
+// 		return false, err
+// 	}
+// 	return ok, nil
+// }
 
 // policies
 func (rr *recruiterRepository) GetAllPolicies() (req.GetAllPolicyRes, error) {
@@ -144,24 +209,48 @@ func (rr *recruiterRepository) IsPolicyExist(policy_id int) (bool, error) {
 }
 func (rr *recruiterRepository) GetDetailsById(userId int) (string, string, error) {
 	var data models.UserData
-	query := `SELECT email, first_name FROM job_seekers WHERE id = ?`
+	query := `SELECT email, first_name FROM users WHERE id = ? and role = ?`
 
-	err := rr.DB.Raw(query, userId).Scan(&data).Error
+	err := rr.DB.Raw(query, userId, "Jobseeker").Scan(&data).Error
 	if err != nil {
 		return "", "", err
 	}
 
 	return data.Email, data.FirstName, nil
 }
+
+// func (rr *recruiterRepository) GetDetailsById(userId int) (string, string, error) {
+// 	var data models.UserData
+// 	query := `SELECT email, first_name FROM job_seekers WHERE id = ?`
+
+// 	err := rr.DB.Raw(query, userId).Scan(&data).Error
+// 	if err != nil {
+// 		return "", "", err
+// 	}
+
+// 	return data.Email, data.FirstName, nil
+// }
 
 func (rr *recruiterRepository) GetDetailsByIdRecuiter(userId int) (string, string, error) {
 	var data models.UserData
-	query := `SELECT contact_email as email, company_name as first_name FROM recruiters WHERE id = ?`
+	query := `SELECT contact_email as email, company_name as first_name FROM users WHERE id = ? and role = ?`
 
-	err := rr.DB.Raw(query, userId).Scan(&data).Error
+	err := rr.DB.Raw(query, userId, "Recruiter").Scan(&data).Error
 	if err != nil {
 		return "", "", err
 	}
 
 	return data.Email, data.FirstName, nil
 }
+
+// func (rr *recruiterRepository) GetDetailsByIdRecuiter(userId int) (string, string, error) {
+// 	var data models.UserData
+// 	query := `SELECT contact_email as email, company_name as first_name FROM recruiters WHERE id = ?`
+
+// 	err := rr.DB.Raw(query, userId).Scan(&data).Error
+// 	if err != nil {
+// 		return "", "", err
+// 	}
+
+// 	return data.Email, data.FirstName, nil
+// }

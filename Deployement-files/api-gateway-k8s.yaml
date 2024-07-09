@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: api-gateway-container
-          image: aruncm7/connecthub-api-gateway
+          image: aruncm7/connecthub-api-gateway:v1
           ports:
             - containerPort: 7000
           resources:

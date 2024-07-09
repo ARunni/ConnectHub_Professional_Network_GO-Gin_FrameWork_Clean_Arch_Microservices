@@ -14,7 +14,7 @@ spec:
         app: notification_service
     spec:
       containers:
-      - image: aruncm7/connecthub-notification-service
+      - image: aruncm7/connecthub-notification-service:v1.1
         name: notification-svc-container
         ports:
         - containerPort: 7006

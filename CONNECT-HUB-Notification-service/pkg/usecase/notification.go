@@ -42,6 +42,7 @@ func (c *notificationUsecase) ConsumeNotification() {
 	if err != nil {
 		fmt.Println("error in load config")
 	}
+	fmt.Println("config at noti kafka", cfg)
 
 	configs := sarama.NewConfig()
 	configs.Consumer.Return.Errors = true
@@ -50,16 +51,18 @@ func (c *notificationUsecase) ConsumeNotification() {
 		fmt.Println("error creating kafka consumer", err)
 
 	}
+	fmt.Println("consumer ", consumer)
 	defer consumer.Close()
 
 	partitionConsumer, err := consumer.ConsumePartition(cfg.KafkaTopic, 0, sarama.OffsetNewest)
 	if err != nil {
-		fmt.Println("error creating partition consumer", err)
+		fmt.Println("error creating partition consumer", err, partitionConsumer)
 
 	}
 	defer partitionConsumer.Close()
 	fmt.Println("kafka consumer started")
 	for {
+		fmt.Println("started listening for new notifications")
 		select {
 		case message := <-partitionConsumer.Messages():
 			msg, err := c.UnmarshelNotification(message.Value)

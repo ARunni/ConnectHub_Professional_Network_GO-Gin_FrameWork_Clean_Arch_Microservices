@@ -1,9 +1,10 @@
 package db
 
 import (
+	"fmt"
+
 	"github.com/ARunni/ConnetHub_auth/pkg/config"
 	"github.com/ARunni/ConnetHub_auth/pkg/utils/models"
-	"fmt"
 
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/driver/postgres"
@@ -25,6 +26,7 @@ func ConnectDatabase(cfg config.Config) (*gorm.DB, error) {
 		&models.Recruiter{},
 		&models.JobSeeker{},
 		&models.Policy{},
+		&models.Users{},
 		&models.TermsAndConditions{},
 	}
 

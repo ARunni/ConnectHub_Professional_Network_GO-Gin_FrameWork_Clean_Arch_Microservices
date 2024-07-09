@@ -65,8 +65,8 @@ func (ar *adminRepository) GetRecruiters(page int) ([]req.RecruiterDetailsAtAdmi
 
 	offset := (page - 1) * 2
 
-	qurry := `select id,company_name,contact_email as contact_mail,contact_phone_number as phone,is_blocked as blocked from recruiters limit ? offset ?`
-	err := ar.DB.Raw(qurry, 5, offset).Scan(&recruiters).Error
+	qurry := `select id,company_name,contact_email as contact_mail,contact_phone_number as phone,is_blocked as blocked from users where role = ? limit ? offset ?`
+	err := ar.DB.Raw(qurry,"Recruiter", 5, offset).Scan(&recruiters).Error
 	if err != nil {
 		ar.Logger.Error("Error in GetRecruiters at adminRepository : ", err)
 		return nil, err
@@ -88,8 +88,8 @@ func (ar *adminRepository) GetJobseekers(page int) ([]req.JobseekerDetailsAtAdmi
 
 	offset := (page - 1) * 2
 
-	qurry := `select id,first_name as name,email,phone_number as phone,is_blocked as blocked  from job_seekers limit ? offset ?`
-	err := ar.DB.Raw(qurry, 5, offset).Scan(&jobseekers).Error
+	qurry := `select id,first_name as name,email,phone_number as phone,is_blocked as blocked  from users where role = ? limit ? offset ?`
+	err := ar.DB.Raw(qurry,"Jobseeker", 5, offset).Scan(&jobseekers).Error
 	if err != nil {
 		ar.Logger.Error("Error in GetJobseekers at adminRepository : ", err)
 		return nil, err
@@ -97,12 +97,34 @@ func (ar *adminRepository) GetJobseekers(page int) ([]req.JobseekerDetailsAtAdmi
 	ar.Logger.Info("GetJobseekers at adminRepository success ")
 	return jobseekers, nil
 }
+// func (ar *adminRepository) GetJobseekers(page int) ([]req.JobseekerDetailsAtAdmin, error) {
+
+// 	ar.Logger.Info("GetJobseekers at adminRepository started ")
+
+// 	var jobseekers []req.JobseekerDetailsAtAdmin
+
+// 	// pagination purpose -
+// 	if page == 0 {
+// 		page = 1
+// 	}
+
+// 	offset := (page - 1) * 2
+
+// 	qurry := `select id,first_name as name,email,phone_number as phone,is_blocked as blocked  from job_seekers limit ? offset ?`
+// 	err := ar.DB.Raw(qurry, 5, offset).Scan(&jobseekers).Error
+// 	if err != nil {
+// 		ar.Logger.Error("Error in GetJobseekers at adminRepository : ", err)
+// 		return nil, err
+// 	}
+// 	ar.Logger.Info("GetJobseekers at adminRepository success ")
+// 	return jobseekers, nil
+// }
 
 func (ar *adminRepository) BlockRecruiter(id int) error {
 	ar.Logger.Info("BlockRecruiter at adminRepository started ")
 
-	qurry := `update recruiters set is_blocked = true where id = ?`
-	err := ar.DB.Exec(qurry, id).Error
+	qurry := `update users set is_blocked = true where id = ? and role = ?`
+	err := ar.DB.Exec(qurry, id,"Recruiter").Error
 	if err != nil {
 		ar.Logger.Error("Error in BlockRecruiter at adminRepository : ", err)
 		return err
@@ -110,12 +132,24 @@ func (ar *adminRepository) BlockRecruiter(id int) error {
 	ar.Logger.Info("BlockRecruiter at adminRepository success ")
 	return nil
 }
+// func (ar *adminRepository) BlockRecruiter(id int) error {
+// 	ar.Logger.Info("BlockRecruiter at adminRepository started ")
+
+// 	qurry := `update recruiters set is_blocked = true where id = ?`
+// 	err := ar.DB.Exec(qurry, id).Error
+// 	if err != nil {
+// 		ar.Logger.Error("Error in BlockRecruiter at adminRepository : ", err)
+// 		return err
+// 	}
+// 	ar.Logger.Info("BlockRecruiter at adminRepository success ")
+// 	return nil
+// }
 
 func (ar *adminRepository) BlockJobseeker(id int) error {
 	ar.Logger.Info("BlockJobseeker at adminRepository started ")
 
-	qurry := `update job_seekers set is_blocked = true where id = ?`
-	err := ar.DB.Exec(qurry, id).Error
+	qurry := `update users set is_blocked = true where id = ? and role = ?`
+	err := ar.DB.Exec(qurry, id,"Jobseeker").Error
 	if err != nil {
 		ar.Logger.Error("Error in BlockJobseeker at adminRepository : ", err)
 		return err
@@ -123,13 +157,25 @@ func (ar *adminRepository) BlockJobseeker(id int) error {
 	ar.Logger.Info("BlockJobseeker at adminRepository success ")
 	return nil
 }
+// func (ar *adminRepository) BlockJobseeker(id int) error {
+// 	ar.Logger.Info("BlockJobseeker at adminRepository started ")
+
+// 	qurry := `update job_seekers set is_blocked = true where id = ?`
+// 	err := ar.DB.Exec(qurry, id).Error
+// 	if err != nil {
+// 		ar.Logger.Error("Error in BlockJobseeker at adminRepository : ", err)
+// 		return err
+// 	}
+// 	ar.Logger.Info("BlockJobseeker at adminRepository success ")
+// 	return nil
+// }
 
 func (ar *adminRepository) UnBlockJobseeker(id int) error {
 
 	ar.Logger.Info("UnBlockJobseeker at adminRepository started ")
 
-	qurry := `update job_seekers set is_blocked = false where id = ?`
-	err := ar.DB.Exec(qurry, id).Error
+	qurry := `update users set is_blocked = false where id = ? and role = ?`
+	err := ar.DB.Exec(qurry, id,"Jobseeker").Error
 	if err != nil {
 		ar.Logger.Error("Error in UnBlockJobseeker at adminRepository : ", err)
 		return err
@@ -137,13 +183,26 @@ func (ar *adminRepository) UnBlockJobseeker(id int) error {
 	ar.Logger.Info("UnBlockJobseeker at adminRepository success ")
 	return nil
 }
+// func (ar *adminRepository) UnBlockJobseeker(id int) error {
+
+// 	ar.Logger.Info("UnBlockJobseeker at adminRepository started ")
+
+// 	qurry := `update job_seekers set is_blocked = false where id = ?`
+// 	err := ar.DB.Exec(qurry, id).Error
+// 	if err != nil {
+// 		ar.Logger.Error("Error in UnBlockJobseeker at adminRepository : ", err)
+// 		return err
+// 	}
+// 	ar.Logger.Info("UnBlockJobseeker at adminRepository success ")
+// 	return nil
+// }
 
 func (ar *adminRepository) UnBlockRecruiter(id int) error {
 
 	ar.Logger.Info("UnBlockJobseeker at adminRepository started ")
 
-	qurry := `update recruiters set is_blocked = false where id = ?`
-	err := ar.DB.Exec(qurry, id).Error
+	qurry := `update users set is_blocked = false where id = ? and role = ?`
+	err := ar.DB.Exec(qurry, id,"Recruiter").Error
 	if err != nil {
 		ar.Logger.Error("Error in UnBlockRecruiter at adminRepository : ", err)
 		return err
@@ -151,12 +210,25 @@ func (ar *adminRepository) UnBlockRecruiter(id int) error {
 	ar.Logger.Info("UnBlockRecruiter at adminRepository success ")
 	return nil
 }
+// func (ar *adminRepository) UnBlockRecruiter(id int) error {
+
+// 	ar.Logger.Info("UnBlockJobseeker at adminRepository started ")
+
+// 	qurry := `update recruiters set is_blocked = false where id = ?`
+// 	err := ar.DB.Exec(qurry, id).Error
+// 	if err != nil {
+// 		ar.Logger.Error("Error in UnBlockRecruiter at adminRepository : ", err)
+// 		return err
+// 	}
+// 	ar.Logger.Info("UnBlockRecruiter at adminRepository success ")
+// 	return nil
+// }
 
 func (ar *adminRepository) CheckJobseekerById(id int) (bool, error) {
 	ar.Logger.Info("CheckJobseekerById at adminRepository started ")
 	var count int
-	qurry := `select count(*) from job_seekers where id = ?`
-	err := ar.DB.Raw(qurry, id).Scan(&count).Error
+	qurry := `select count(*) from users where id = ? and role = ?`
+	err := ar.DB.Raw(qurry, id,"Jobseeker").Scan(&count).Error
 	if err != nil {
 		ar.Logger.Error("Error in CheckJobseekerById at adminRepository : ", err)
 		return false, err
@@ -164,12 +236,24 @@ func (ar *adminRepository) CheckJobseekerById(id int) (bool, error) {
 	ar.Logger.Info("CheckJobseekerById at adminRepository success ")
 	return count > 0, nil
 }
+// func (ar *adminRepository) CheckJobseekerById(id int) (bool, error) {
+// 	ar.Logger.Info("CheckJobseekerById at adminRepository started ")
+// 	var count int
+// 	qurry := `select count(*) from job_seekers where id = ?`
+// 	err := ar.DB.Raw(qurry, id).Scan(&count).Error
+// 	if err != nil {
+// 		ar.Logger.Error("Error in CheckJobseekerById at adminRepository : ", err)
+// 		return false, err
+// 	}
+// 	ar.Logger.Info("CheckJobseekerById at adminRepository success ")
+// 	return count > 0, nil
+// }
 
 func (ar *adminRepository) CheckRecruiterById(id int) (bool, error) {
 	ar.Logger.Info("CheckRecruiterById at adminRepository started ")
 	var count int
-	qurry := `select count(*) from recruiters where id = ?`
-	err := ar.DB.Raw(qurry, id).Scan(&count).Error
+	qurry := `select count(*) from users where id = ? and role = ?`
+	err := ar.DB.Raw(qurry, id,"Recruiter").Scan(&count).Error
 	if err != nil {
 		ar.Logger.Error("Error in CheckRecruiterById at adminRepository : ", err)
 		return false, err
@@ -177,12 +261,24 @@ func (ar *adminRepository) CheckRecruiterById(id int) (bool, error) {
 	ar.Logger.Info("CheckRecruiterById at adminRepository success ")
 	return count > 0, nil
 }
+// func (ar *adminRepository) CheckRecruiterById(id int) (bool, error) {
+// 	ar.Logger.Info("CheckRecruiterById at adminRepository started ")
+// 	var count int
+// 	qurry := `select count(*) from recruiters where id = ?`
+// 	err := ar.DB.Raw(qurry, id).Scan(&count).Error
+// 	if err != nil {
+// 		ar.Logger.Error("Error in CheckRecruiterById at adminRepository : ", err)
+// 		return false, err
+// 	}
+// 	ar.Logger.Info("CheckRecruiterById at adminRepository success ")
+// 	return count > 0, nil
+// }
 
 func (ar *adminRepository) IsJobseekerBlocked(id int) (bool, error) {
 	ar.Logger.Info("IsJobseekerBlocked at adminRepository started ")
 	var ok bool
-	qurry := `select is_blocked from job_seekers where id = ?`
-	err := ar.DB.Raw(qurry, id).Scan(&ok).Error
+	qurry := `select is_blocked from users where id = ? and role = ?`
+	err := ar.DB.Raw(qurry, id,"Jobseeker").Scan(&ok).Error
 	if err != nil {
 		ar.Logger.Error("Error in IsJobseekerBlocked at adminRepository : ", err)
 		return false, err
@@ -190,12 +286,24 @@ func (ar *adminRepository) IsJobseekerBlocked(id int) (bool, error) {
 	ar.Logger.Info("IsJobseekerBlocked at adminRepository success ")
 	return ok, nil
 }
+// func (ar *adminRepository) IsJobseekerBlocked(id int) (bool, error) {
+// 	ar.Logger.Info("IsJobseekerBlocked at adminRepository started ")
+// 	var ok bool
+// 	qurry := `select is_blocked from job_seekers where id = ?`
+// 	err := ar.DB.Raw(qurry, id).Scan(&ok).Error
+// 	if err != nil {
+// 		ar.Logger.Error("Error in IsJobseekerBlocked at adminRepository : ", err)
+// 		return false, err
+// 	}
+// 	ar.Logger.Info("IsJobseekerBlocked at adminRepository success ")
+// 	return ok, nil
+// }
 
 func (ar *adminRepository) IsRecruiterBlocked(id int) (bool, error) {
 	ar.Logger.Info("IsRecruiterBlocked at adminRepository started ")
 	var ok bool
-	qurry := `select is_blocked from recruiters where id = ?`
-	err := ar.DB.Raw(qurry, id).Scan(&ok).Error
+	qurry := `select is_blocked from users where id = ? and role = ?`
+	err := ar.DB.Raw(qurry, id,"Recruiter").Scan(&ok).Error
 	if err != nil {
 		ar.Logger.Error("Error in IsRecruiterBlocked at adminRepository : ", err)
 		return false, err
@@ -203,12 +311,24 @@ func (ar *adminRepository) IsRecruiterBlocked(id int) (bool, error) {
 	ar.Logger.Info("IsRecruiterBlocked at adminRepository success ")
 	return ok, nil
 }
+// func (ar *adminRepository) IsRecruiterBlocked(id int) (bool, error) {
+// 	ar.Logger.Info("IsRecruiterBlocked at adminRepository started ")
+// 	var ok bool
+// 	qurry := `select is_blocked from recruiters where id = ?`
+// 	err := ar.DB.Raw(qurry, id).Scan(&ok).Error
+// 	if err != nil {
+// 		ar.Logger.Error("Error in IsRecruiterBlocked at adminRepository : ", err)
+// 		return false, err
+// 	}
+// 	ar.Logger.Info("IsRecruiterBlocked at adminRepository success ")
+// 	return ok, nil
+// }
 
 func (ar *adminRepository) GetJobseekerDetails(id int) (req.JobseekerDetailsAtAdmin, error) {
 	ar.Logger.Info("GetJobseekerDetails at adminRepository started ")
 	var data req.JobseekerDetailsAtAdmin
-	qurry := `select id,first_name as name,email,phone_number as phone,is_blocked as blocked  from job_seekers where id = ?`
-	err := ar.DB.Raw(qurry, id).Scan(&data).Error
+	qurry := `select id,first_name as name,email,phone_number as phone,is_blocked as blocked  from users where id = ? and role = ?`
+	err := ar.DB.Raw(qurry, id,"Jobseeker").Scan(&data).Error
 	if err != nil {
 		ar.Logger.Error("Error in GetJobseekerDetails at adminRepository : ", err)
 		return req.JobseekerDetailsAtAdmin{}, err
@@ -216,12 +336,24 @@ func (ar *adminRepository) GetJobseekerDetails(id int) (req.JobseekerDetailsAtAd
 	ar.Logger.Info("GetJobseekerDetails at adminRepository success ")
 	return data, nil
 }
+// func (ar *adminRepository) GetJobseekerDetails(id int) (req.JobseekerDetailsAtAdmin, error) {
+// 	ar.Logger.Info("GetJobseekerDetails at adminRepository started ")
+// 	var data req.JobseekerDetailsAtAdmin
+// 	qurry := `select id,first_name as name,email,phone_number as phone,is_blocked as blocked  from job_seekers where id = ?`
+// 	err := ar.DB.Raw(qurry, id).Scan(&data).Error
+// 	if err != nil {
+// 		ar.Logger.Error("Error in GetJobseekerDetails at adminRepository : ", err)
+// 		return req.JobseekerDetailsAtAdmin{}, err
+// 	}
+// 	ar.Logger.Info("GetJobseekerDetails at adminRepository success ")
+// 	return data, nil
+// }
 
 func (ar *adminRepository) GetRecruiterDetails(id int) (req.RecruiterDetailsAtAdmin, error) {
 	ar.Logger.Info("GetRecruiterDetails at adminRepository started ")
 	var data req.RecruiterDetailsAtAdmin
-	qurry := `select id,company_name,contact_email as contact_mail,contact_phone_number as phone,is_blocked as blocked from recruiters where id = ?`
-	err := ar.DB.Raw(qurry, id).Scan(&data).Error
+	qurry := `select id,company_name,contact_email as contact_mail,contact_phone_number as phone,is_blocked as blocked from users where id = ? and role = ?`
+	err := ar.DB.Raw(qurry, id,"Recruiter").Scan(&data).Error
 	if err != nil {
 		ar.Logger.Error("Error in GetRecruiterDetails at adminRepository : ", err)
 		return req.RecruiterDetailsAtAdmin{}, err
@@ -229,6 +361,18 @@ func (ar *adminRepository) GetRecruiterDetails(id int) (req.RecruiterDetailsAtAd
 	ar.Logger.Info("GetRecruiterDetails at adminRepository success ")
 	return data, nil
 }
+// func (ar *adminRepository) GetRecruiterDetails(id int) (req.RecruiterDetailsAtAdmin, error) {
+// 	ar.Logger.Info("GetRecruiterDetails at adminRepository started ")
+// 	var data req.RecruiterDetailsAtAdmin
+// 	qurry := `select id,company_name,contact_email as contact_mail,contact_phone_number as phone,is_blocked as blocked from recruiters where id = ?`
+// 	err := ar.DB.Raw(qurry, id).Scan(&data).Error
+// 	if err != nil {
+// 		ar.Logger.Error("Error in GetRecruiterDetails at adminRepository : ", err)
+// 		return req.RecruiterDetailsAtAdmin{}, err
+// 	}
+// 	ar.Logger.Info("GetRecruiterDetails at adminRepository success ")
+// 	return data, nil
+// }
 
 // policies
 func (ar *adminRepository) CreatePolicy(data req.CreatePolicyReq) (models.Policy, error) {
