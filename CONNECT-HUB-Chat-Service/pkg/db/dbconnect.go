@@ -23,5 +23,5 @@ func ConnectDatabase(c config.Config) (*mongo.Database, error) {
     }
     fmt.Println("mongo connection established")
 
-    return mongoClient.Database("explorite_chat"), nil
+    return mongoClient.Database("connect_hub_chat"), nil
 }
