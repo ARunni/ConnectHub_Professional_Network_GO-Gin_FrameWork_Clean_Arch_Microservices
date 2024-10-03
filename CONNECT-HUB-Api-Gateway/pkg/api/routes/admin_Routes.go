@@ -12,9 +12,6 @@ func AdminRoutes(engine *gin.RouterGroup, adminhandler *handler.AdminHandler) {
 
 	engine.Use(middleware.AdminAuthMiddleware)
 	{
-		
-		
-
 		engine.POST("/policy", adminhandler.CreatePolicy)
 		engine.PUT("/policy", adminhandler.UpdatePolicy)
 		engine.DELETE("/policy", adminhandler.DeletePolicy)
@@ -36,9 +33,5 @@ func AdminRoutes(engine *gin.RouterGroup, adminhandler *handler.AdminHandler) {
 		adminRecruiter.PATCH("/block", adminhandler.BlockRecruiter)
 		adminRecruiter.PATCH("/unblock", adminhandler.UnBlockRecruiter)
 		adminRecruiter.GET("", adminhandler.GetRecruiterDetails)
-
-
-
-
 	}
 }
